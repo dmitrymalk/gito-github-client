@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,8 +28,8 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @BindView(R.id.password) EditText mPasswordView;
     @BindView(R.id.login_progress) View mProgressView;
     @BindView(R.id.login_form) View mLoginFormView;
-    @BindView(R.id.register_link)
-    TextView mRegisterLinkView;
+    @BindView(R.id.register_link) TextView mRegisterLinkView;
+    @BindView(R.id.email_sign_in_button) Button signInView;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -42,6 +43,14 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
         // Links will be clickable
         mRegisterLinkView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        signInView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.login(mEmailView.getText().toString(),
+                        mPasswordView.getText().toString());
+            }
+        });
 
         return root;
     }

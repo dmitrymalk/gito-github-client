@@ -38,4 +38,9 @@ public class LoginPresenter implements LoginContract.Presenter {
     public void start() {
 
     }
+
+    @Override
+    public void login(String username, String password) {
+        mGithubRepository.login(username, password);
+    }
 }

@@ -23,4 +23,12 @@ public class GithubLocalDataSource implements GithubDataSource {
         checkNotNull(contentResolver);
         mContentResolver = contentResolver;
     }
+
+    @Override
+    public void login(String login, String password) {
+    }
+
+    @Override
+    public void getRepositories() {
+    }
 }

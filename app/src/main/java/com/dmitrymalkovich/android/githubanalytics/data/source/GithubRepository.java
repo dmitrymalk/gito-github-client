@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source;
 
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -32,4 +33,33 @@ public class GithubRepository implements GithubDataSource {
         return INSTANCE;
     }
 
+    @Override
+    public void login(final String username, final String password) {
+        new AsyncTask<Void, Void, Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... params) {
+                mGithubRemoteDataSource.login(username, password);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                getRepositories();
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void getRepositories() {
+        new AsyncTask<Void, Void, Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... params) {
+                mGithubRemoteDataSource.getRepositories();
+                return null;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
 }
