@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.login;
+package com.dmitrymalkovich.android.githubanalytics.basicauthorization;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
@@ -8,7 +8,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class LoginPresenter implements LoginContract.Presenter {
+public class BasicAuthorizationPresenter implements BasicAuthorizationContract.Presenter {
 
     @NonNull
     private final LoaderProvider mLoaderProvider;
@@ -20,12 +20,12 @@ public class LoginPresenter implements LoginContract.Presenter {
     private GithubRepository mGithubRepository;
 
     @NonNull
-    private LoginContract.View mLoginView;
+    private BasicAuthorizationContract.View mLoginView;
 
-    public LoginPresenter(@NonNull GithubRepository tasksRepository,
-                          @NonNull LoginContract.View addTaskView,
-                          @NonNull LoaderProvider loaderProvider,
-                          @NonNull LoaderManager loaderManager) {
+    public BasicAuthorizationPresenter(@NonNull GithubRepository tasksRepository,
+                                       @NonNull BasicAuthorizationContract.View addTaskView,
+                                       @NonNull LoaderProvider loaderProvider,
+                                       @NonNull LoaderManager loaderManager) {
         mGithubRepository = checkNotNull(tasksRepository);
         mLoginView = checkNotNull(addTaskView);
         mLoaderProvider = checkNotNull(loaderProvider);

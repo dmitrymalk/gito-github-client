@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">githubanalytics</string>
+    <string name="app_name">Analytics for Github</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -7,6 +7,8 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
+    <string name="welcome_sign_in">I trust your app, sign in</string>
+    <string name="welcome_sign_in_oauth">I don\'t trust your app, sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>

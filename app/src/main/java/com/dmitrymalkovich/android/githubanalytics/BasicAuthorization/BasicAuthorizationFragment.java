@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.login;
+package com.dmitrymalkovich.android.githubanalytics.basicauthorization;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,19 +20,17 @@ import butterknife.Unbinder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class LoginFragment extends Fragment implements LoginContract.View {
+public class BasicAuthorizationFragment extends Fragment implements BasicAuthorizationContract.View {
 
-    private LoginContract.Presenter mPresenter;
+    private BasicAuthorizationContract.Presenter mPresenter;
     private Unbinder unbinder;
     @BindView(R.id.email) AutoCompleteTextView mEmailView;
     @BindView(R.id.password) EditText mPasswordView;
-    @BindView(R.id.login_progress) View mProgressView;
-    @BindView(R.id.login_form) View mLoginFormView;
     @BindView(R.id.register_link) TextView mRegisterLinkView;
     @BindView(R.id.email_sign_in_button) Button signInView;
 
-    public static LoginFragment newInstance() {
-        return new LoginFragment();
+    public static BasicAuthorizationFragment newInstance() {
+        return new BasicAuthorizationFragment();
     }
 
     @Nullable
@@ -68,7 +66,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     }
 
     @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
+    public void setPresenter(BasicAuthorizationContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 }

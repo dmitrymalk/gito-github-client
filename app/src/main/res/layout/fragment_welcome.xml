@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.dmitrymalkovich.android.githubanalytics.basicauthorization.BasicAuthorizationActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:src="@drawable/github_logo"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/sign_in"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/material_layout_keylines_screen_edge_margin"
+            android:layout_marginRight="@dimen/material_layout_keylines_screen_edge_margin"
+            android:layout_marginTop="@dimen/material_layout_keylines_screen_edge_margin"
+            android:background="@drawable/ripple_grey"
+            android:text="@string/welcome_sign_in"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/sign_in_oauth"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
+            android:background="@drawable/ripple_green"
+            android:text="@string/welcome_sign_in_oauth"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</FrameLayout>

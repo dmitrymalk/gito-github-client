@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
                 android:theme="@style/Button.Green"
-                android:background="@drawable/ripple"
+                android:background="@drawable/ripple_green"
                 android:textColor="@color/material_light_white"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />

@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.login;
+package com.dmitrymalkovich.android.githubanalytics.basicauthorization;
 
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,7 +13,7 @@ import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class BasicAuthorizationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +24,18 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager()
+        BasicAuthorizationFragment basicAuthorizationFragment = (BasicAuthorizationFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
-        if (loginFragment == null) {
-            loginFragment = LoginFragment.newInstance();
+        if (basicAuthorizationFragment == null) {
+            basicAuthorizationFragment = BasicAuthorizationFragment.newInstance();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    loginFragment, R.id.contentFrame);
+                    basicAuthorizationFragment, R.id.contentFrame);
         }
 
-        new LoginPresenter(
+        new BasicAuthorizationPresenter(
                 Injection.provideTasksRepository(this),
-                loginFragment,
+                basicAuthorizationFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());
     }

@@ -1,9 +1,9 @@
-package com.dmitrymalkovich.android.githubanalytics.login;
+package com.dmitrymalkovich.android.githubanalytics.basicauthorization;
 
 import com.dmitrymalkovich.android.githubanalytics.BasePresenter;
 import com.dmitrymalkovich.android.githubanalytics.BaseView;
 
-public class LoginContract {
+public class BasicAuthorizationContract {
 
     interface View extends BaseView<Presenter> {
     }
