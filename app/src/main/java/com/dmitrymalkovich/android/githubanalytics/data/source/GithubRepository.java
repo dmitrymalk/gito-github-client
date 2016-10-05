@@ -2,11 +2,14 @@ package com.dmitrymalkovich.android.githubanalytics.data.source;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import java.io.IOException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class GithubRepository implements GithubDataSource {
-
+    public static final String LOG_TAG = GithubRepository.class.getSimpleName();
     private static GithubRepository INSTANCE = null;
 
     private final GithubDataSource mGithubRemoteDataSource;
@@ -59,6 +62,30 @@ public class GithubRepository implements GithubDataSource {
             protected Void doInBackground(Void... params) {
                 mGithubRemoteDataSource.getRepositories();
                 return null;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void requestTokenFromCode(final String code) throws IOException {
+        new AsyncTask<Void, Void, Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    mGithubRemoteDataSource.requestTokenFromCode(code);
+                }
+                catch (IOException e)
+                {
+                    Log.e(LOG_TAG, e.getMessage(), e);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                getRepositories();
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

@@ -59,7 +59,7 @@ public class WelcomePresenter implements WelcomeContract.Presenter {
 
     @Override
     public void oauthSignIn() {
-        Uri uri = Uri.parse(GithubServiceGenerator.API_BASE_URL
+        Uri uri = Uri.parse(GithubServiceGenerator.API_URL_AUTH
                 + "?client_id=" + OAuthConstants.clientId
                 + "&redirect_uri=" + OAuthConstants.redirectUri);
         mWelcomeView.startOAuthIntent(uri);
@@ -70,23 +70,12 @@ public class WelcomePresenter implements WelcomeContract.Presenter {
         try {
             Uri uri = intent.getData();
             if (uri != null && uri.toString().startsWith(OAuthConstants.redirectUri)) {
-                // Use the parameter your API exposes for the code (mostly it's "code")
                 String code = uri.getQueryParameter("code");
                 if (code != null) {
-                    // Get access token
-                    GithubLoginService loginService =
-                            GithubServiceGenerator.createService(GithubLoginService.class,
-                                    OAuthConstants.clientId, OAuthConstants.clientSecret);
-                    Call<AccessToken> call = loginService.getAccessToken(code, "authorization_code");
-                    AccessToken accessToken = call.execute().body();
-                    Log.d(LOG_TAG, "accessToken=" + accessToken.getAccessToken());
-                    // TODO : Save token
+                    mGithubRepository.requestTokenFromCode(code);
                 }
-                // TODO : Else if (uri.getQueryParameter("error") != null) Show an error message here
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
         }
     }

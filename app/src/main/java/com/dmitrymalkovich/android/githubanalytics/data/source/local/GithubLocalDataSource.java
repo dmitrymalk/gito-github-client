@@ -31,4 +31,8 @@ public class GithubLocalDataSource implements GithubDataSource {
     @Override
     public void getRepositories() {
     }
+
+    @Override
+    public void requestTokenFromCode(String code) {
+    }
 }

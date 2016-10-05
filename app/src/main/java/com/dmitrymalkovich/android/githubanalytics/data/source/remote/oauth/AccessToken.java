@@ -1,5 +1,7 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Credit to https://futurestud.io/tutorials/oauth-2-on-android-with-retrofit
  *
@@ -7,7 +9,9 @@ package com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth;
  */
 public class AccessToken {
 
+    @SerializedName("access_token")
     private String accessToken;
+    @SerializedName("token_type")
     private String tokenType;
 
     public String getAccessToken() {
@@ -15,14 +19,6 @@ public class AccessToken {
     }
 
     public String getTokenType() {
-        // OAuth requires uppercase Authorization HTTP header value for token type
-        if ( ! Character.isUpperCase(tokenType.charAt(0))) {
-            tokenType =
-                    Character
-                            .toString(tokenType.charAt(0))
-                            .toUpperCase() + tokenType.substring(1);
-        }
-
         return tokenType;
     }
 }

@@ -12,8 +12,9 @@ import retrofit2.http.POST;
  */
 public interface GithubLoginService {
     @FormUrlEncoded
-    @POST("/token")
+    @POST("/login/oauth//access_token")
     Call<AccessToken> getAccessToken(
             @Field("code") String code,
-            @Field("token_type") String grantType);
+            @Field("client_id") String clientId,
+            @Field("client_secret") String clientSecret);
 }

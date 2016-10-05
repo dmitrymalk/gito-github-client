@@ -3,11 +3,17 @@ package com.dmitrymalkovich.android.githubanalytics.data.source.remote;
 import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.AccessToken;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.GithubLoginService;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.GithubServiceGenerator;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.OAuthConstants;
 
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.service.RepositoryService;
 
 import java.io.IOException;
+
+import retrofit2.Call;
 
 public class GithubRemoteDataSource implements GithubDataSource {
     private static String LOG_TAG = GithubRemoteDataSource.class.getSimpleName();
@@ -46,5 +52,14 @@ public class GithubRemoteDataSource implements GithubDataSource {
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
         }
+    }
+
+    @Override
+    public void requestTokenFromCode(String code) throws IOException {
+        GithubLoginService loginService = GithubServiceGenerator.createService(GithubLoginService.class);
+        Call<AccessToken> call = loginService.getAccessToken(code,
+                OAuthConstants.clientId, OAuthConstants.clientSecret);
+        AccessToken accessToken = call.execute().body();
+        Log.d(LOG_TAG, "accessToken=" + accessToken.getAccessToken());
     }
 }

@@ -42,4 +42,5 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     compile files('libs/org.eclipse.egit.github.core-2.1.5.jar')
     compile 'com.google.code.gson:gson:2.7'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 }
