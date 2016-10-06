@@ -10,10 +10,15 @@ import retrofit2.http.POST;
  *
  * OAuth GitHub API: https://developer.github.com/v3/oauth/
  */
-public interface GithubLoginService {
+public interface GithubService {
+
+    public static final String clientId = "e0bcea9f880637cd0e7a";
+    public static final String clientSecret = "3ab8f9e3db083ca80211a48ef13e870b8e6fb78b";
+    public static final String redirectUri = "githubanalytics://auth";
+
     @FormUrlEncoded
     @POST("/login/oauth//access_token")
-    Call<AccessToken> getAccessToken(
+    Call<ResponseAccessToken> getAccessToken(
             @Field("code") String code,
             @Field("client_id") String clientId,
             @Field("client_secret") String clientSecret);

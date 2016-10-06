@@ -8,14 +8,10 @@ import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.AccessToken;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.GithubLoginService;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.GithubService;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.GithubServiceGenerator;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.OAuthConstants;
 
 import java.io.IOException;
-
-import retrofit2.Call;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -60,8 +56,8 @@ public class WelcomePresenter implements WelcomeContract.Presenter {
     @Override
     public void oauthSignIn() {
         Uri uri = Uri.parse(GithubServiceGenerator.API_URL_AUTH
-                + "?client_id=" + OAuthConstants.clientId
-                + "&redirect_uri=" + OAuthConstants.redirectUri);
+                + "?client_id=" + GithubService.clientId
+                + "&redirect_uri=" + GithubService.redirectUri);
         mWelcomeView.startOAuthIntent(uri);
     }
 
@@ -69,7 +65,7 @@ public class WelcomePresenter implements WelcomeContract.Presenter {
     public void handleIntent(Intent intent) {
         try {
             Uri uri = intent.getData();
-            if (uri != null && uri.toString().startsWith(OAuthConstants.redirectUri)) {
+            if (uri != null && uri.toString().startsWith(GithubService.redirectUri)) {
                 String code = uri.getQueryParameter("code");
                 if (code != null) {
                     mGithubRepository.requestTokenFromCode(code);
