@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.basicauthorization;
+package com.dmitrymalkovich.android.githubanalytics.dashboard;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
@@ -8,7 +8,9 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-class BasicAuthorizationPresenter implements BasicAuthorizationContract.Presenter {
+public class DashboardPresenter implements DashboardContract.Presenter {
+
+    private static String LOG_TAG = DashboardPresenter.class.getSimpleName();
 
     @NonNull
     private final LoaderProvider mLoaderProvider;
@@ -20,27 +22,21 @@ class BasicAuthorizationPresenter implements BasicAuthorizationContract.Presente
     private GithubRepository mGithubRepository;
 
     @NonNull
-    private BasicAuthorizationContract.View mLoginView;
+    private DashboardContract.View mWelcomeView;
 
-    BasicAuthorizationPresenter(@NonNull GithubRepository githubRepository,
-                                       @NonNull BasicAuthorizationContract.View view,
-                                       @NonNull LoaderProvider loaderProvider,
-                                       @NonNull LoaderManager loaderManager) {
+    public DashboardPresenter(@NonNull GithubRepository githubRepository,
+                       @NonNull DashboardContract.View view,
+                       @NonNull LoaderProvider loaderProvider,
+                       @NonNull LoaderManager loaderManager) {
         mGithubRepository = checkNotNull(githubRepository);
-        mLoginView = checkNotNull(view);
+        mWelcomeView = checkNotNull(view);
         mLoaderProvider = checkNotNull(loaderProvider);
         mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
 
-        mLoginView.setPresenter(this);
+        mWelcomeView.setPresenter(this);
     }
 
     @Override
     public void start() {
-
-    }
-
-    @Override
-    public void login(String username, String password) {
-        mGithubRepository.login(username, password);
     }
 }

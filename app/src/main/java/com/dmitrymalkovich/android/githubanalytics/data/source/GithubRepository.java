@@ -2,14 +2,11 @@ package com.dmitrymalkovich.android.githubanalytics.data.source;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.util.Log;
-
-import java.io.IOException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class GithubRepository implements GithubDataSource {
-    public static final String LOG_TAG = GithubRepository.class.getSimpleName();
+    private static final String LOG_TAG = GithubRepository.class.getSimpleName();
     private static GithubRepository INSTANCE = null;
 
     private final GithubDataSource mGithubRemoteDataSource;
@@ -28,7 +25,7 @@ public class GithubRepository implements GithubDataSource {
      * @param githubLocalDataSource  the device storage data source
      * @return the {@link GithubRepository} instance
      */
-    public static GithubRepository getInstance(GithubDataSource githubRemoteDataSource,
+    static GithubRepository getInstance(GithubDataSource githubRemoteDataSource,
                                               GithubDataSource githubLocalDataSource) {
         if (INSTANCE == null) {
             INSTANCE = new GithubRepository(githubRemoteDataSource, githubLocalDataSource);
@@ -67,26 +64,29 @@ public class GithubRepository implements GithubDataSource {
     }
 
     @Override
-    public void requestTokenFromCode(final String code) throws IOException {
-        new AsyncTask<Void, Void, Void>()
-        {
+    public void requestTokenFromCode(final String code, final RequestTokenFromCodeCallback callback) {
+        mGithubRemoteDataSource.requestTokenFromCode(code, new RequestTokenFromCodeCallback() {
             @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    mGithubRemoteDataSource.requestTokenFromCode(code);
-                }
-                catch (IOException e)
-                {
-                    Log.e(LOG_TAG, e.getMessage(), e);
-                }
-                return null;
+            public void onTokenLoaded(String token) {
+                mGithubLocalDataSource.saveToken(token);
+                callback.onTokenLoaded(token);
             }
 
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                getRepositories();
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        });
+    }
+
+    @Override
+    public void saveToken(String token) {
+        mGithubLocalDataSource.saveToken(token);
+    }
+
+    @Override
+    public String getToken() {
+        String token = mGithubLocalDataSource.getToken();
+        return token != null && !token.isEmpty() ? token : null;
     }
 }

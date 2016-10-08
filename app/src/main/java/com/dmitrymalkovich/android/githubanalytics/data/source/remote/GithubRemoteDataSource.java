@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source.remote;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
@@ -54,11 +55,44 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @Override
-    public void requestTokenFromCode(String code) throws IOException {
-        GithubService loginService = GithubServiceGenerator.createService(GithubService.class);
-        Call<ResponseAccessToken> call = loginService.getAccessToken(code,
-                GithubService.clientId, GithubService.clientSecret);
-        ResponseAccessToken accessToken = call.execute().body();
-        Log.d(LOG_TAG, "accessToken=" + accessToken.getAccessToken());
+    public void requestTokenFromCode(final String code, final RequestTokenFromCodeCallback callback) {
+        new AsyncTask<Void, Void, String>()
+        {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    GithubService loginService = GithubServiceGenerator.createService(
+                            GithubService.class);
+                    Call<ResponseAccessToken> call = loginService.getAccessToken(code,
+                            GithubService.clientId, GithubService.clientSecret);
+                    ResponseAccessToken accessToken = call.execute().body();
+                    return accessToken.getAccessToken();
+                }
+                catch (IOException e)
+                {
+                    Log.e(LOG_TAG, e.getMessage(), e);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String token) {
+                if (token != null && !token.isEmpty()) {
+                    callback.onTokenLoaded(token);
+                }
+                else {
+                    callback.onDataNotAvailable();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void saveToken(String token) {
+    }
+
+    @Override
+    public String getToken() {
+        return null;
     }
 }

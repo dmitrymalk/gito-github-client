@@ -22,6 +22,9 @@ public class WelcomeActivity extends AppCompatActivity {
         // Set up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         WelcomeFragment welcomeFragment = (WelcomeFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
@@ -33,7 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         new WelcomePresenter(
-                Injection.provideTasksRepository(this),
+                Injection.provideGithubRepository(this),
                 welcomeFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());

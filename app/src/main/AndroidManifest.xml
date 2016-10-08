@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dmitrymalkovich.android.githubanalytics">
+
     <!-- OAuth -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -21,6 +22,7 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -36,12 +38,17 @@
         </activity>
         <activity
             android:name=".basicauthorization.BasicAuthorizationActivity"
-            android:label="@string/title_activity_login"/>
+            android:label="@string/title_activity_login" />
 
         <provider
             android:name=".data.source.local.RepositoryProvider"
             android:authorities="com.dmitrymalkovich.android.githubanalytics"
             android:exported="false" />
+
+        <activity
+            android:name=".navigation.NavigationViewActivity"
+            android:label="@string/title_activity_navigation_view"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -10,13 +10,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Injection {
 
-    public static GithubRepository provideTasksRepository(@NonNull Context context) {
+    public static GithubRepository provideGithubRepository(@NonNull Context context) {
         checkNotNull(context);
         return GithubRepository.getInstance(GithubRemoteDataSource.getInstance(), provideLocalDataSource(context));
     }
 
-    public static GithubLocalDataSource provideLocalDataSource(@NonNull Context context) {
+    private static GithubLocalDataSource provideLocalDataSource(@NonNull Context context) {
         checkNotNull(context);
-        return GithubLocalDataSource.getInstance(context.getContentResolver());
+        return GithubLocalDataSource.getInstance(context.getContentResolver(),
+                context.getSharedPreferences("GITHUB_ANALYTICS_PREFERENCES", Context.MODE_PRIVATE));
     }
 }

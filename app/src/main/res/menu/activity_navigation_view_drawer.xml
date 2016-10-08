@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:checked="true"
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:title="@string/dashboard" />
+        <item
+            android:id="@+id/nav_repositories"
+            android:icon="@drawable/ic_public_black_24dp"
+            android:title="@string/Repositories" />
+        <item
+            android:id="@+id/nav_trending"
+            android:icon="@drawable/ic_trending_up_black_24dp"
+            android:title="@string/trending" />
+    </group>
+
+    <group>
+        <item
+            android:id="@+id/nav_feedback"
+            android:icon="@drawable/ic_help_outline_black_24dp"
+            android:title="@string/feedback" />
+        <item
+            android:id="@+id/nav_sign_out"
+            android:icon="@drawable/ic_person_outline_black_24dp"
+            android:title="@string/sign_out" />ing/ </group>
+
+</menu>

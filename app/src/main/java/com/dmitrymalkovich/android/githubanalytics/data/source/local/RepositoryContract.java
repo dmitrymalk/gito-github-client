@@ -27,6 +27,12 @@ class RepositoryContract {
         static final String TABLE_NAME = "repository";
         static final String COLUMN_REPOSITORY_ID = "repository_id";
         static final String COLUMN_REPOSITORY_NAME = "repository_name";
+        static final String COLUMN_REPOSITORY_FULL_NAME = "repository_full_name";
+        static final String COLUMN_REPOSITORY_DESCRIPTION = "repository_description";
+        static final String COLUMN_REPOSITORY_PRIVATE = "repository_private";
+        static final String COLUMN_REPOSITORY_FORK = "repository_fork";
+        static final String COLUMN_REPOSITORY_URL = "repository_url";
+        static final String COLUMN_REPOSITORY_HTML_URL = "repository_html_url";
 
         static Uri buildRepositoryUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -39,5 +45,11 @@ class RepositoryContract {
 
         public static final int COL_REPOSITORY_ID = 0;
         public static final int COL_REPOSITORY_NAME = 1;
+        public static final int COL_REPOSITORY_FULL_NAME = 2;
+        public static final int COL_REPOSITORY_DESCRIPTION = 3;
+        public static final int COL_REPOSITORY_PRIVATE = 4;
+        public static final int COL_REPOSITORY_FORK = 5;
+        public static final int COL_REPOSITORY_URL = 6;
+        public static final int COL_REPOSITORY_HTML_URL = 7;
     }
 }

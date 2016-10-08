@@ -34,7 +34,7 @@ public class BasicAuthorizationActivity extends AppCompatActivity {
         }
 
         new BasicAuthorizationPresenter(
-                Injection.provideTasksRepository(this),
+                Injection.provideGithubRepository(this),
                 basicAuthorizationFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());

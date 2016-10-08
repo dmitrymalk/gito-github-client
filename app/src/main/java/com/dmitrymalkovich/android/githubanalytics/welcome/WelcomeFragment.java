@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.dmitrymalkovich.android.githubanalytics.basicauthorization.BasicAuthorizationActivity;
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.navigation.NavigationViewActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +27,7 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
     private Unbinder unbinder;
     @BindView(R.id.sign_in) Button mBasicSignIn;
     @BindView(R.id.sign_in_oauth) Button mOauthSignIn;
+    @BindView(R.id.login_progress) ProgressBar mProgressBar;
 
     public static WelcomeFragment newInstance() {
         return new WelcomeFragment();
@@ -54,9 +57,14 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPresenter.start();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
         mPresenter.handleIntent(getActivity().getIntent());
     }
 
@@ -81,6 +89,28 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
     public void startOAuthIntent(Uri uri) {
         Intent intent = new Intent(
                 Intent.ACTION_VIEW, uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
+        getActivity().finish();
+    }
+
+    @Override
+    public void startDashboard() {
+        Intent intent = new Intent(getContext(), NavigationViewActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
+    @Override
+    public void setLoadingIndicator(boolean active) {
+        mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void authorizationFailed() {
+
     }
 }

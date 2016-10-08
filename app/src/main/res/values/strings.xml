@@ -18,5 +18,14 @@
     </string>
     <string name="registration_link">New to GitHub?<a href="https://github.com/join?source=login"> Create an account</a>.</string>
     <string name="powered_by">Official GitHub API is used.</string>
+    <string name="title_activity_navigation_view">Overview</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="Repositories">Repositories</string>
+    <string name="trending">Trending</string>
+    <string name="sign_out">Sign out</string>
+    <string name="feedback">Feedback</string>
 
 </resources>

@@ -6,12 +6,18 @@ import android.net.Uri;
 import com.dmitrymalkovich.android.githubanalytics.BasePresenter;
 import com.dmitrymalkovich.android.githubanalytics.BaseView;
 
-public class WelcomeContract {
+class WelcomeContract {
 
     interface View extends BaseView<Presenter> {
         void startBasicAuthorizationActivity();
 
         void startOAuthIntent(Uri uri);
+
+        void startDashboard();
+
+        void setLoadingIndicator(boolean active);
+
+        void authorizationFailed();
     }
 
     interface Presenter extends BasePresenter {

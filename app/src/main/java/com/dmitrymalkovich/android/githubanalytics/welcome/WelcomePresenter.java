@@ -4,20 +4,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
-import android.util.Log;
 
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.GithubService;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.GithubServiceGenerator;
 
-import java.io.IOException;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class WelcomePresenter implements WelcomeContract.Presenter {
+class WelcomePresenter implements WelcomeContract.Presenter {
 
-    public static String LOG_TAG = WelcomePresenter.class.getSimpleName();
+    private static String LOG_TAG = WelcomePresenter.class.getSimpleName();
 
     @NonNull
     private final LoaderProvider mLoaderProvider;
@@ -31,12 +29,12 @@ public class WelcomePresenter implements WelcomeContract.Presenter {
     @NonNull
     private WelcomeContract.View mWelcomeView;
 
-    public WelcomePresenter(@NonNull GithubRepository tasksRepository,
-                            @NonNull WelcomeContract.View addTaskView,
-                            @NonNull LoaderProvider loaderProvider,
-                            @NonNull LoaderManager loaderManager) {
-        mGithubRepository = checkNotNull(tasksRepository);
-        mWelcomeView = checkNotNull(addTaskView);
+    WelcomePresenter(@NonNull GithubRepository githubRepository,
+                     @NonNull WelcomeContract.View view,
+                     @NonNull LoaderProvider loaderProvider,
+                     @NonNull LoaderManager loaderManager) {
+        mGithubRepository = checkNotNull(githubRepository);
+        mWelcomeView = checkNotNull(view);
         mLoaderProvider = checkNotNull(loaderProvider);
         mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
 
@@ -45,7 +43,9 @@ public class WelcomePresenter implements WelcomeContract.Presenter {
 
     @Override
     public void start() {
-
+        if (mGithubRepository.getToken() != null) {
+            mWelcomeView.startDashboard();
+        }
     }
 
     @Override
@@ -63,16 +63,30 @@ public class WelcomePresenter implements WelcomeContract.Presenter {
 
     @Override
     public void handleIntent(Intent intent) {
-        try {
-            Uri uri = intent.getData();
-            if (uri != null && uri.toString().startsWith(GithubService.redirectUri)) {
-                String code = uri.getQueryParameter("code");
-                if (code != null) {
-                    mGithubRepository.requestTokenFromCode(code);
-                }
+        Uri uri = intent.getData();
+        if (uri != null && uri.toString().startsWith(GithubService.redirectUri)) {
+            String code = uri.getQueryParameter("code");
+            if (code != null) {
+                mWelcomeView.setLoadingIndicator(true);
+                mGithubRepository.requestTokenFromCode(code, new GithubDataSource.RequestTokenFromCodeCallback() {
+                    @Override
+                    public void onTokenLoaded(String token) {
+                        mWelcomeView.setLoadingIndicator(false);
+                        mWelcomeView.startDashboard();
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+                        mWelcomeView.setLoadingIndicator(false);
+                        mWelcomeView.authorizationFailed();
+                    }
+                });
+            } else {
+                mWelcomeView.authorizationFailed();
             }
-        } catch (IOException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
+        } else {
+            mWelcomeView.authorizationFailed();
         }
+
     }
 }
