@@ -71,7 +71,6 @@ class WelcomePresenter implements WelcomeContract.Presenter {
                 mGithubRepository.requestTokenFromCode(code, new GithubDataSource.RequestTokenFromCodeCallback() {
                     @Override
                     public void onTokenLoaded(String token) {
-                        mWelcomeView.setLoadingIndicator(false);
                         mWelcomeView.startDashboard();
                     }
 

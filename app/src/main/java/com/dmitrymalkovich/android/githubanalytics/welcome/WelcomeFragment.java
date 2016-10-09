@@ -28,6 +28,7 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
     @BindView(R.id.sign_in) Button mBasicSignIn;
     @BindView(R.id.sign_in_oauth) Button mOauthSignIn;
     @BindView(R.id.login_progress) ProgressBar mProgressBar;
+    @BindView(R.id.content) View mContent;
 
     public static WelcomeFragment newInstance() {
         return new WelcomeFragment();
@@ -106,6 +107,7 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
 
     @Override
     public void setLoadingIndicator(boolean active) {
+        mContent.setVisibility(!active ? View.VISIBLE : View.GONE);
         mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
     }
 

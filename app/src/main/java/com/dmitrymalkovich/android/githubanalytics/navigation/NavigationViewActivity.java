@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.navigation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +14,12 @@ import android.view.MenuItem;
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardFragment;
 import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardPresenter;
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
 import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
+import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 
 public class NavigationViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,6 +75,7 @@ public class NavigationViewActivity extends AppCompatActivity
         } else if (id == R.id.nav_trending) {
         } else if (id == R.id.nav_feedback) {
         } else if (id == R.id.nav_sign_out) {
+            signOut();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -92,5 +97,16 @@ public class NavigationViewActivity extends AppCompatActivity
                 dashboardFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());
+    }
+
+    private void signOut()
+    {
+        Injection.provideGithubRepository(this).saveToken(null);
+
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
+        finish();
     }
 }

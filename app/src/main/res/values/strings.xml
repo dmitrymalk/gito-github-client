@@ -2,13 +2,12 @@
     <string name="app_name">Analytics for Github</string>
     <string name="title_activity_login">Sign in</string>
 
-    <!-- Strings related to login -->
     <string name="welcome_message">Sign in to GitHub</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
-    <string name="welcome_sign_in">I trust your app, sign in</string>
-    <string name="welcome_sign_in_oauth">I don\'t trust your app, sign in</string>
+    <string name="welcome_sign_in">Sign in</string>
+    <string name="welcome_sign_in_oauth">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -27,5 +26,7 @@
     <string name="trending">Trending</string>
     <string name="sign_out">Sign out</string>
     <string name="feedback">Feedback</string>
+    <string name="title_for_empty_view_dashboard">No public repositories</string>
+    <string name="text_for_empty_view_dashboard" />
 
 </resources>
