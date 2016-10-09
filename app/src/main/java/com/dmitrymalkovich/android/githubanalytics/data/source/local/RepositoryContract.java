@@ -37,11 +37,12 @@ public class RepositoryContract {
         public static final String COLUMN_REPOSITORY_WATCHERS = "repository_watchers";
         public static final String COLUMN_REPOSITORY_LANGUAGE = "repository_language";
 
-        static Uri buildRepositoryUri(long id) {
+        public static Uri buildRepositoryUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
         public static final String[] REPOSITORY_COLUMNS = {
+                _ID,
                 COLUMN_REPOSITORY_ID,
                 COLUMN_REPOSITORY_NAME,
                 COLUMN_REPOSITORY_FULL_NAME,
@@ -55,17 +56,18 @@ public class RepositoryContract {
                 COLUMN_REPOSITORY_LANGUAGE
         };
 
-        public static final int COL_REPOSITORY_ID = 0;
-        public static final int COL_REPOSITORY_NAME = 1;
-        public static final int COL_REPOSITORY_FULL_NAME = 2;
-        public static final int COL_REPOSITORY_DESCRIPTION = 3;
-        public static final int COL_REPOSITORY_PRIVATE = 4;
-        public static final int COL_REPOSITORY_FORK = 5;
-        public static final int COL_REPOSITORY_URL = 6;
-        public static final int COL_REPOSITORY_HTML_URL = 7;
-        public static final int COL_REPOSITORY_FORKS = 8;
-        public static final int COL_REPOSITORY_WATCHERS = 9;
-        public static final int COL_REPOSITORY_LANGUAGE = 10;
+        public static final int COL_ID = 0;
+        public static final int COL_REPOSITORY_ID = 1;
+        public static final int COL_REPOSITORY_NAME = 2;
+        public static final int COL_REPOSITORY_FULL_NAME = 3;
+        public static final int COL_REPOSITORY_DESCRIPTION = 4;
+        public static final int COL_REPOSITORY_PRIVATE = 5;
+        public static final int COL_REPOSITORY_FORK = 6;
+        public static final int COL_REPOSITORY_URL = 7;
+        public static final int COL_REPOSITORY_HTML_URL = 8;
+        public static final int COL_REPOSITORY_FORKS = 9;
+        public static final int COL_REPOSITORY_WATCHERS = 10;
+        public static final int COL_REPOSITORY_LANGUAGE = 11;
     }
 
 

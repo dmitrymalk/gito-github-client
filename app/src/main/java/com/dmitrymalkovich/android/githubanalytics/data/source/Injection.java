@@ -12,7 +12,9 @@ public class Injection {
 
     public static GithubRepository provideGithubRepository(@NonNull Context context) {
         checkNotNull(context);
-        return GithubRepository.getInstance(GithubRemoteDataSource.getInstance(), provideLocalDataSource(context));
+        return GithubRepository.getInstance(GithubRemoteDataSource.getInstance(context.getContentResolver(),
+                context.getSharedPreferences("GITHUB_ANALYTICS_PREFERENCES", Context.MODE_PRIVATE)),
+                provideLocalDataSource(context));
     }
 
     private static GithubLocalDataSource provideLocalDataSource(@NonNull Context context) {

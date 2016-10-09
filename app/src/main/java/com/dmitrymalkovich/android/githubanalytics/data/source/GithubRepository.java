@@ -1,11 +1,13 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source;
 
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class GithubRepository implements GithubDataSource {
+    @SuppressWarnings("unused")
     private static final String LOG_TAG = GithubRepository.class.getSimpleName();
     private static GithubRepository INSTANCE = null;
 
@@ -13,7 +15,7 @@ public class GithubRepository implements GithubDataSource {
     private final GithubDataSource mGithubLocalDataSource;
 
     private GithubRepository(@NonNull GithubDataSource githubRemoteDataSource,
-                            @NonNull GithubDataSource githubLocalDataSource) {
+                             @NonNull GithubDataSource githubLocalDataSource) {
         mGithubRemoteDataSource = checkNotNull(githubRemoteDataSource);
         mGithubLocalDataSource = checkNotNull(githubLocalDataSource);
     }
@@ -26,7 +28,7 @@ public class GithubRepository implements GithubDataSource {
      * @return the {@link GithubRepository} instance
      */
     static GithubRepository getInstance(GithubDataSource githubRemoteDataSource,
-                                              GithubDataSource githubLocalDataSource) {
+                                        GithubDataSource githubLocalDataSource) {
         if (INSTANCE == null) {
             INSTANCE = new GithubRepository(githubRemoteDataSource, githubLocalDataSource);
         }
@@ -35,32 +37,28 @@ public class GithubRepository implements GithubDataSource {
 
     @Override
     public void login(final String username, final String password) {
-        new AsyncTask<Void, Void, Void>()
-        {
+        new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 mGithubRemoteDataSource.login(username, password);
                 return null;
             }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                getRepositories();
-            }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
-    public void getRepositories() {
-        new AsyncTask<Void, Void, Void>()
-        {
+    public void getRepositories(final GetRepositoriesCallback callback) {
+        mGithubRemoteDataSource.getRepositories(new GetRepositoriesCallback() {
             @Override
-            protected Void doInBackground(Void... params) {
-                mGithubRemoteDataSource.getRepositories();
-                return null;
+            public void onRepositoriesLoaded() {
+                callback.onRepositoriesLoaded();
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        });
     }
 
     @Override
@@ -88,5 +86,15 @@ public class GithubRepository implements GithubDataSource {
     public String getToken() {
         String token = mGithubLocalDataSource.getToken();
         return token != null && !token.isEmpty() ? token : null;
+    }
+
+    public interface LoadDataCallback {
+        void onDataLoaded(Cursor data);
+
+        void onDataEmpty();
+
+        void onDataNotAvailable();
+
+        void onDataReset();
     }
 }

@@ -8,4 +8,5 @@
     <color name="blue">#4078c0</color>
     <color name="dark_grey">#d5d5d5</color>
     <color name="empty_view_text_color">#BDBDBD</color>
+    <color name="cards_border">#ddd</color>
 </resources>

@@ -12,6 +12,7 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     private static final String PREFERENCES_TOKEN = "PREFERENCES_TOKEN";
     private static GithubLocalDataSource INSTANCE;
+    @SuppressWarnings("unused")
     private ContentResolver mContentResolver;
     private SharedPreferences mPreferences;
 
@@ -36,7 +37,7 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
-    public void getRepositories() {
+    public void getRepositories(GetRepositoriesCallback callback) {
     }
 
     @Override

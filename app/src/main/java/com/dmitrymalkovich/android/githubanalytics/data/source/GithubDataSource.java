@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source;
 
+
 public interface GithubDataSource {
 
     interface RequestTokenFromCodeCallback {
@@ -9,9 +10,16 @@ public interface GithubDataSource {
         void onDataNotAvailable();
     }
 
+    interface GetRepositoriesCallback {
+
+        void onRepositoriesLoaded();
+
+        void onDataNotAvailable();
+    }
+
     void login(String login, String password);
 
-    void getRepositories();
+    void getRepositories(GetRepositoriesCallback callback);
 
     void requestTokenFromCode(String code, RequestTokenFromCodeCallback callback);
 
