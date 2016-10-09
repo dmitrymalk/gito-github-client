@@ -3,12 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dmitrymalkovich.android.githubanalytics">
 
-    <!-- OAuth -->
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -36,19 +34,41 @@
                     android:scheme="githubanalytics" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".basicauthorization.BasicAuthorizationActivity"
-            android:label="@string/title_activity_login" />
+        <activity android:name=".basicauthorization.BasicAuthorizationActivity" />
 
         <provider
             android:name=".data.source.local.RepositoryProvider"
-            android:authorities="com.dmitrymalkovich.android.githubanalytics"
+            android:authorities="com.dmitrymalkovich.android.githubanalytics.data"
+            android:syncable="true"
             android:exported="false" />
 
         <activity
             android:name=".navigation.NavigationViewActivity"
-            android:label="@string/title_activity_navigation_view"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+
+        <service
+            android:name=".service.SyncService"
+            android:exported="true"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+
+        <service android:name=".service.SyncAuthenticatorService"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@ import android.content.ContentResolver;
 @SuppressWarnings("unused")
 class RepositoryContract {
 
-    static final String CONTENT_AUTHORITY = "com.dmitrymalkovich.android.githubanalytics";
+    static final String CONTENT_AUTHORITY = "com.dmitrymalkovich.android.githubanalytics.data";
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     static final String PATH_REPOSITORY = "repository";
 

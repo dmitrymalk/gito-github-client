@@ -28,5 +28,7 @@
     <string name="feedback">Feedback</string>
     <string name="title_for_empty_view_dashboard">No public repositories</string>
     <string name="text_for_empty_view_dashboard" />
+    <string name="sync_account_type">com.dmitrymalkovich.android.githubanalytics</string>
+    <string name="sync_authority">com.dmitrymalkovich.android.githubanalytics.data</string>
 
 </resources>

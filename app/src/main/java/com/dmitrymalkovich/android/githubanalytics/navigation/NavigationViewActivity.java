@@ -1,5 +1,9 @@
 package com.dmitrymalkovich.android.githubanalytics.navigation;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,10 +18,9 @@ import android.view.MenuItem;
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardFragment;
 import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardPresenter;
-import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
 import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
-import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
+import com.dmitrymalkovich.android.githubanalytics.service.SyncAdapter;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 
@@ -42,6 +45,8 @@ public class NavigationViewActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         showDashboard();
+
+        SyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override

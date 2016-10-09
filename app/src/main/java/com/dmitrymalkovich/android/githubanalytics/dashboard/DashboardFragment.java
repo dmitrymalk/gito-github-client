@@ -6,8 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -17,6 +20,8 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
 
     private DashboardContract.Presenter mPresenter;
     private Unbinder unbinder;
+    @BindView(R.id.progress) ProgressBar mProgressBar;
+    @BindView(R.id.empty_state_dashboard_container) View mEmptyStateView;
 
     public static DashboardFragment newInstance() {
         return new DashboardFragment();
