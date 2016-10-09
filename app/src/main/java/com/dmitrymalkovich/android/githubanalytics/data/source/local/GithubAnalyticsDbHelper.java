@@ -25,7 +25,10 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_PRIVATE + " TEXT NOT NULL ," +
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " TEXT NOT NULL ," +
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_URL + " TEXT NOT NULL ," +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_HTML_URL + " TEXT NOT NULL" +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_HTML_URL + " TEXT NOT NULL ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORKS + " INTEGER NOT NULL ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " INTEGER NOT NULL ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_LANGUAGE + " TEXT" +
                 " );";
         sqLiteDatabase.execSQL(SQL_CREATE_REPOSITORIES_TABLE);
     }

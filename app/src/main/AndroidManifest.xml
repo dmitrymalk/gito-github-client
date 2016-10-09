@@ -39,15 +39,15 @@
         <provider
             android:name=".data.source.local.RepositoryProvider"
             android:authorities="com.dmitrymalkovich.android.githubanalytics.data"
-            android:syncable="true"
-            android:exported="false" />
+            android:exported="false"
+            android:syncable="true" />
 
         <activity
             android:name=".navigation.NavigationViewActivity"
             android:theme="@style/AppTheme" />
 
         <service
-            android:name=".service.SyncService"
+            android:name=".data.sync.SyncService"
             android:exported="true"
             tools:ignore="ExportedService">
             <intent-filter>
@@ -58,7 +58,8 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <service android:name=".service.SyncAuthenticatorService"
+        <service
+            android:name=".data.sync.SyncAuthenticatorService"
             tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />

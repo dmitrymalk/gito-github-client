@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.service;
+package com.dmitrymalkovich.android.githubanalytics.data.sync;
 
 import android.app.Service;
 import android.content.Intent;
