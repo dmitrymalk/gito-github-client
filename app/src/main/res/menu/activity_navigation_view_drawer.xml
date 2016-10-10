@@ -10,7 +10,7 @@
         <item
             android:id="@+id/nav_repositories"
             android:icon="@drawable/ic_public_black_24dp"
-            android:title="@string/Repositories" />
+            android:title="@string/repositories" />
         <item
             android:id="@+id/nav_trending"
             android:icon="@drawable/ic_trending_up_black_24dp"

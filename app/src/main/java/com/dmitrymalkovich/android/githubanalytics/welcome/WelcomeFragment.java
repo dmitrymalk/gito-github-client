@@ -107,8 +107,10 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
 
     @Override
     public void setLoadingIndicator(boolean active) {
-        mContent.setVisibility(!active ? View.VISIBLE : View.GONE);
-        mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
+        if (mProgressBar != null) {
+            mContent.setVisibility(!active ? View.VISIBLE : View.GONE);
+            mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override

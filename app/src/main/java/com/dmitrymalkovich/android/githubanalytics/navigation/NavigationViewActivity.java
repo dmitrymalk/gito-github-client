@@ -3,6 +3,7 @@ package com.dmitrymalkovich.android.githubanalytics.navigation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,6 +18,8 @@ import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardPresenter;
 import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
 import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.data.sync.SyncAdapter;
+import com.dmitrymalkovich.android.githubanalytics.publicrepositories.PublicRepositoriesFragment;
+import com.dmitrymalkovich.android.githubanalytics.publicrepositories.PublicRepositoryPresenter;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 
@@ -28,7 +31,6 @@ public class NavigationViewActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.dashboard);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -73,6 +75,7 @@ public class NavigationViewActivity extends AppCompatActivity
         if (id == R.id.nav_dashboard) {
             showDashboard();
         } else if (id == R.id.nav_repositories) {
+            showRepositories();
         } else if (id == R.id.nav_trending) {
         } else if (id == R.id.nav_feedback) {
         } else if (id == R.id.nav_sign_out) {
@@ -83,12 +86,13 @@ public class NavigationViewActivity extends AppCompatActivity
         return true;
     }
 
-    private void showDashboard()
-    {
-        DashboardFragment dashboardFragment = (DashboardFragment) getSupportFragmentManager()
+    private void showDashboard() {
+        Fragment fragment = getSupportFragmentManager()
                 .findFragmentById(R.id.content_navigation_view);
-
-        if (dashboardFragment == null) {
+        DashboardFragment dashboardFragment;
+        if (fragment instanceof DashboardFragment) {
+            dashboardFragment = (DashboardFragment) fragment;
+        } else {
             dashboardFragment = DashboardFragment.newInstance();
             ActivityUtils.replaceFragment(getSupportFragmentManager(),
                     dashboardFragment, R.id.content_navigation_view);
@@ -100,8 +104,25 @@ public class NavigationViewActivity extends AppCompatActivity
                 getSupportLoaderManager());
     }
 
-    private void signOut()
-    {
+    private void showRepositories() {
+        Fragment fragment = getSupportFragmentManager()
+                .findFragmentById(R.id.content_navigation_view);
+        PublicRepositoriesFragment publicRepositoriesFragment;
+        if (fragment instanceof PublicRepositoriesFragment) {
+            publicRepositoriesFragment = (PublicRepositoriesFragment) fragment;
+        } else {
+            publicRepositoriesFragment = PublicRepositoriesFragment.newInstance();
+            ActivityUtils.replaceFragment(getSupportFragmentManager(),
+                    publicRepositoriesFragment, R.id.content_navigation_view);
+        }
+        new PublicRepositoryPresenter(
+                Injection.provideGithubRepository(this),
+                publicRepositoriesFragment,
+                new LoaderProvider(this),
+                getSupportLoaderManager());
+    }
+
+    private void signOut() {
         Injection.provideGithubRepository(this).saveToken(null);
 
         Intent intent = new Intent(this, WelcomeActivity.class);

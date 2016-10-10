@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.dashboard;
+package com.dmitrymalkovich.android.githubanalytics.publicrepositories;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,12 +12,12 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class DashboardPresenter implements DashboardContract.Presenter,
+public class PublicRepositoryPresenter implements PublicRepositoriesContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
 
     @SuppressWarnings("unused")
-    private static String LOG_TAG = DashboardPresenter.class.getSimpleName();
-    private static final int REPOSITORIES_LOADER = 1;
+    private static String LOG_TAG = PublicRepositoryPresenter.class.getSimpleName();
+    private static final int REPOSITORIES_LOADER = 2;
 
     @SuppressWarnings("unused")
     @NonNull
@@ -30,22 +30,22 @@ public class DashboardPresenter implements DashboardContract.Presenter,
     private GithubRepository mGithubRepository;
 
     @NonNull
-    private DashboardContract.View mDashboardView;
+    private PublicRepositoriesContract.View mPublicRepositoriesView;
 
-    public DashboardPresenter(@NonNull GithubRepository githubRepository,
-                              @NonNull DashboardContract.View view,
-                              @NonNull LoaderProvider loaderProvider,
-                              @NonNull LoaderManager loaderManager) {
+    public PublicRepositoryPresenter(@NonNull GithubRepository githubRepository,
+                                     @NonNull PublicRepositoriesContract.View view,
+                                     @NonNull LoaderProvider loaderProvider,
+                                     @NonNull LoaderManager loaderManager) {
         mGithubRepository = checkNotNull(githubRepository);
-        mDashboardView = checkNotNull(view);
+        mPublicRepositoriesView = checkNotNull(view);
         mLoaderProvider = checkNotNull(loaderProvider);
         mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
-        mDashboardView.setPresenter(this);
+        mPublicRepositoriesView.setPresenter(this);
     }
 
     @Override
     public void start() {
-        mDashboardView.setLoadingIndicator(true);
+        mPublicRepositoriesView.setLoadingIndicator(true);
         showRepositories();
     }
 
@@ -54,20 +54,20 @@ public class DashboardPresenter implements DashboardContract.Presenter,
         mGithubRepository.getRepositories(new GithubDataSource.GetRepositoriesCallback() {
             @Override
             public void onRepositoriesLoaded() {
-                mDashboardView.setLoadingIndicator(false);
+                mPublicRepositoriesView.setLoadingIndicator(false);
             }
 
             @Override
             public void onDataNotAvailable() {
-                mDashboardView.setLoadingIndicator(false);
+                mPublicRepositoriesView.setLoadingIndicator(false);
             }
         });
     }
 
     @Override
     public void onDataLoaded(Cursor data) {
-        mDashboardView.setLoadingIndicator(false);
-        mDashboardView.showRepositories(data);
+        mPublicRepositoriesView.setLoadingIndicator(false);
+        mPublicRepositoriesView.showRepositories(data);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class DashboardPresenter implements DashboardContract.Presenter,
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mLoaderProvider.createPopularRepositoryLoader();
+        return mLoaderProvider.createRepositoryLoader();
     }
 
     @Override
@@ -109,6 +109,6 @@ public class DashboardPresenter implements DashboardContract.Presenter,
     private void showRepositories() {
         mLoaderManager.initLoader(REPOSITORIES_LOADER,
                 null,
-                DashboardPresenter.this);
+                PublicRepositoryPresenter.this);
     }
 }

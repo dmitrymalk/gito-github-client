@@ -19,11 +19,25 @@ public class LoaderProvider {
         mContext = checkNotNull(context, "context cannot be null");
     }
 
+    public Loader<Cursor> createPopularRepositoryLoader() {
+        return new CursorLoader(
+                mContext,
+                RepositoryContract.RepositoryEntry.CONTENT_URI,
+                RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS,
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " = ?",
+                new String[] {"0"},
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " DESC"
+        );
+    }
+
     public Loader<Cursor> createRepositoryLoader() {
         return new CursorLoader(
                 mContext,
                 RepositoryContract.RepositoryEntry.CONTENT_URI,
-                RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS, null, null, null
+                RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS,
+                null,
+                null,
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_NAME + " ASC"
         );
     }
 }

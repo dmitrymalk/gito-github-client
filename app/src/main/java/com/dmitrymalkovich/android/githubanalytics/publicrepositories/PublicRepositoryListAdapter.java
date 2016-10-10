@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.dashboard;
+package com.dmitrymalkovich.android.githubanalytics.publicrepositories;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
@@ -13,20 +13,19 @@ import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapte
 
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.RepositoryContract.RepositoryEntry.COL_REPOSITORY_LANGUAGE;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local
-        .RepositoryContract.RepositoryEntry.COL_REPOSITORY_NAME;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.RepositoryContract.RepositoryEntry.COL_REPOSITORY_NAME;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.RepositoryContract.RepositoryEntry.COL_REPOSITORY_WATCHERS;
 
-class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdapter.ViewHolder> {
+class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicRepositoryListAdapter.ViewHolder> {
 
-    RepositoryListAdapter(Cursor cursor) {
+    PublicRepositoryListAdapter(Cursor cursor) {
         super(cursor);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_popular_repository, parent, false);
+                .inflate(R.layout.list_item_repository, parent, false);
         final ViewHolder vh = new ViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,8 +42,8 @@ class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdap
         holder.watchersView.setText(cursor.getString(COL_REPOSITORY_WATCHERS));
         holder.languageView.setText(cursor.getString(COL_REPOSITORY_LANGUAGE));
         holder.languageIconView.setVisibility(holder.languageView.getText() != null
-                    && holder.languageView.getText().length() != 0
-                    ? View.VISIBLE : View.GONE);
+                && holder.languageView.getText().length() != 0
+                ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -55,9 +54,9 @@ class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdap
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView watchersView;
         private final TextView languageView;
-        private final ImageView languageIconView;
         TextView titleView;
         TextView subtitleView;
+        private final ImageView languageIconView;
 
         ViewHolder(View view) {
             super(view);

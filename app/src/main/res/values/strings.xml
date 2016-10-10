@@ -20,7 +20,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="dashboard">Dashboard</string>
-    <string name="Repositories">Repositories</string>
+    <string name="repositories">Repositories</string>
     <string name="trending">Trending</string>
     <string name="sign_out">Sign out</string>
     <string name="feedback">Feedback</string>
