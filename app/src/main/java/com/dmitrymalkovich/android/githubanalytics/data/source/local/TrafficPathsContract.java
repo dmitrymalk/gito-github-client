@@ -21,7 +21,7 @@ public class TrafficPathsContract {
         static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_TRAFFIC_PATHS;
 
-        static final String TABLE_NAME = "traffic_views";
+        static final String TABLE_NAME = "traffic_paths";
         public static final String COLUMN_REPOSITORY_KEY = "repository_id";
         public static final String COLUMN_TRAFFIC_PATHS_PATH = "path";
         public static final String COLUMN_TRAFFIC_PATHS_TITLE = "title";
