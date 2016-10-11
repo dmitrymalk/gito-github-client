@@ -17,7 +17,7 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_REPOSITORIES_TABLE = "CREATE TABLE " + RepositoryContract.RepositoryEntry.TABLE_NAME
                 + " (" +
-                RepositoryContract.RepositoryEntry._ID + " INTEGER PRIMARY KEY," +
+                RepositoryContract.RepositoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " INTEGER NOT NULL, " +
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_NAME + " TEXT NOT NULL ," +
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FULL_NAME + " TEXT NOT NULL ," +
@@ -31,11 +31,47 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_LANGUAGE + " TEXT" +
                 " );";
         sqLiteDatabase.execSQL(SQL_CREATE_REPOSITORIES_TABLE);
+        final String SQL_CREATE_TRAFFIC_VIEWS_TABLE = "CREATE TABLE " + TrafficViewsContract.TrafficViewsEntry.TABLE_NAME
+                + " (" +
+                TrafficViewsContract.TrafficViewsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                TrafficViewsContract.TrafficViewsEntry.COLUMN_REPOSITORY_KEY + " INTEGER NOT NULL, " +
+                TrafficViewsContract.TrafficViewsEntry.COLUMN_TRAFFIC_VIEWS_COUNT + " TEXT NOT NULL ," +
+                TrafficViewsContract.TrafficViewsEntry.COLUMN_TRAFFIC_VIEWS_UNIQUES + " TEXT NOT NULL ," +
+                TrafficViewsContract.TrafficViewsEntry.COLUMN_TRAFFIC_VIEWS_TIMESTAMP + " DATE NOT NULL," +
+                " FOREIGN KEY (" + TrafficViewsContract.TrafficViewsEntry.COLUMN_REPOSITORY_KEY + ") REFERENCES " +
+                RepositoryContract.RepositoryEntry.TABLE_NAME + " (" + RepositoryContract.RepositoryEntry._ID + ")" +
+                " );";
+        sqLiteDatabase.execSQL(SQL_CREATE_TRAFFIC_VIEWS_TABLE);
+        final String SQL_CREATE_TRAFFIC_CLONES_TABLE = "CREATE TABLE " + TrafficClonesContract.TrafficClonesEntry.TABLE_NAME
+                + " (" +
+                TrafficClonesContract.TrafficClonesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                TrafficClonesContract.TrafficClonesEntry.COLUMN_REPOSITORY_KEY + " INTEGER NOT NULL, " +
+                TrafficClonesContract.TrafficClonesEntry.COLUMN_TRAFFIC_CLONES_COUNT + " TEXT NOT NULL ," +
+                TrafficClonesContract.TrafficClonesEntry.COLUMN_TRAFFIC_CLONES_UNIQUES + " TEXT NOT NULL ," +
+                TrafficClonesContract.TrafficClonesEntry.COLUMN_TRAFFIC_CLONES_TIMESTAMP + " DATE NOT NULL," +
+                " FOREIGN KEY (" + TrafficClonesContract.TrafficClonesEntry.COLUMN_REPOSITORY_KEY + ") REFERENCES " +
+                RepositoryContract.RepositoryEntry.TABLE_NAME + " (" + RepositoryContract.RepositoryEntry._ID + ")" +
+                " );";
+        sqLiteDatabase.execSQL(SQL_CREATE_TRAFFIC_CLONES_TABLE);
+        final String SQL_CREATE_TRAFFIC_PATHS_TABLE = "CREATE TABLE " + TrafficPathsContract.TrafficPathsEntry.TABLE_NAME
+                + " (" +
+                TrafficPathsContract.TrafficPathsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                TrafficPathsContract.TrafficPathsEntry.COLUMN_REPOSITORY_KEY + " INTEGER NOT NULL, " +
+                TrafficPathsContract.TrafficPathsEntry.COLUMN_TRAFFIC_PATHS_PATH + " TEXT NOT NULL ," +
+                TrafficPathsContract.TrafficPathsEntry.COLUMN_TRAFFIC_PATHS_TITLE + " TEXT NOT NULL ," +
+                TrafficPathsContract.TrafficPathsEntry.COLUMN_TRAFFIC_PATHS_COUNT + " TEXT NOT NULL ," +
+                TrafficPathsContract.TrafficPathsEntry.COLUMN_TRAFFIC_PATHS_UNIQUES + " TEXT NOT NULL ," +
+                " FOREIGN KEY (" + TrafficPathsContract.TrafficPathsEntry.COLUMN_REPOSITORY_KEY + ") REFERENCES " +
+                RepositoryContract.RepositoryEntry.TABLE_NAME + " (" + RepositoryContract.RepositoryEntry._ID + ")" +
+                " );";
+        sqLiteDatabase.execSQL(SQL_CREATE_TRAFFIC_PATHS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RepositoryContract.RepositoryEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TrafficViewsContract.TrafficViewsEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TrafficPathsContract.TrafficPathsEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }
