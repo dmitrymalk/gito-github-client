@@ -10,15 +10,13 @@ import android.util.Log;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.RepositoryContract;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.ResponseAccessToken;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.GithubService;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth.GithubServiceGenerator;
 
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.service.RepositoryService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -56,34 +54,73 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @Override
     public void getRepositories(final GetRepositoriesCallback callback) {
-        new AsyncTask<Void, Void, Boolean>()
+        new AsyncTask<Void, Void, List<Repository>>()
         {
             @Override
-            protected Boolean doInBackground(Void... params) {
+            protected List<Repository> doInBackground(Void... params) {
                 try {
                     String token = getToken();
                     if (token != null)
                     {
                         RepositoryService service = new RepositoryService();
                         service.getClient().setOAuth2Token(token);
-                        return saveRepositories(service);
+                        List<Repository> repositoryList = service.getRepositories();
+                        saveRepositories(repositoryList);
+                        return repositoryList;
                     }
                     else
                     {
-                        return false;
+                        return null;
                     }
                 }
                 catch (IOException e)
                 {
                     Log.e(LOG_TAG, e.getMessage(), e);
-                    return false;
+                    return null;
                 }
             }
 
             @Override
-            protected void onPostExecute(Boolean success) {
-                if (success) {
-                    callback.onRepositoriesLoaded();
+            protected void onPostExecute(List<Repository> repositoryList) {
+                if (repositoryList != null) {
+                    callback.onRepositoriesLoaded(repositoryList);
+                }
+                else {
+                    callback.onDataNotAvailable();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void getRepositoryReferrers(final Repository repository,
+                                       final GetRepositoryReferrersCallback callback) {
+        new AsyncTask<Void, Void, List<ResponseReferrer>>()
+        {
+            @Override
+            protected List<ResponseReferrer> doInBackground(Void... params) {
+                try {
+                    ResponseAccessToken accessToken = new ResponseAccessToken();
+                    accessToken.setAccessToken(getToken());
+                    accessToken.setTokenType(getTokenType());
+
+                    GithubService loginService = GithubServiceGenerator.createService(
+                            GithubService.class, accessToken);
+                    Call<List<ResponseReferrer>> call = loginService.getTopReferrers(
+                            repository.getOwner().getLogin(), repository.getName());
+                    return call.execute().body();
+                }
+                catch (IOException e)
+                {
+                    Log.e(LOG_TAG, e.getMessage(), e);
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(List<ResponseReferrer> responseReferrerList) {
+                if (responseReferrerList != null) {
+                    callback.onRepositoryReferrersLoaded(responseReferrerList);
                 }
                 else {
                     callback.onDataNotAvailable();
@@ -94,17 +131,16 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @Override
     public void requestTokenFromCode(final String code, final RequestTokenFromCodeCallback callback) {
-        new AsyncTask<Void, Void, String>()
+        new AsyncTask<Void, Void, ResponseAccessToken>()
         {
             @Override
-            protected String doInBackground(Void... params) {
+            protected ResponseAccessToken doInBackground(Void... params) {
                 try {
                     GithubService loginService = GithubServiceGenerator.createService(
                             GithubService.class);
                     Call<ResponseAccessToken> call = loginService.getAccessToken(code,
                             GithubService.clientId, GithubService.clientSecret);
-                    ResponseAccessToken accessToken = call.execute().body();
-                    return accessToken.getAccessToken();
+                    return call.execute().body();
                 }
                 catch (IOException e)
                 {
@@ -114,9 +150,10 @@ public class GithubRemoteDataSource implements GithubDataSource {
             }
 
             @Override
-            protected void onPostExecute(String token) {
-                if (token != null && !token.isEmpty()) {
-                    callback.onTokenLoaded(token);
+            protected void onPostExecute(ResponseAccessToken accessToken) {
+                if (accessToken != null && accessToken.getAccessToken() != null
+                        && !accessToken.getAccessToken().isEmpty()) {
+                    callback.onTokenLoaded(accessToken.getAccessToken(), accessToken.getTokenType());
                 }
                 else {
                     callback.onDataNotAvailable();
@@ -126,8 +163,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @Override
-    public void saveToken(String token) {
-        GithubLocalDataSource.getInstance(mContentResolver, mPreferences).saveToken(token);
+    public void saveToken(String token, String tokenType) {
+        GithubLocalDataSource.getInstance(mContentResolver, mPreferences)
+                .saveToken(token, tokenType);
     }
 
     @Override
@@ -135,8 +173,13 @@ public class GithubRemoteDataSource implements GithubDataSource {
         return GithubLocalDataSource.getInstance(mContentResolver, mPreferences).getToken();
     }
 
-    private boolean saveRepositories(RepositoryService service) throws IOException {
-        for (Repository repo : service.getRepositories()) {
+    @Override
+    public String getTokenType() {
+        return GithubLocalDataSource.getInstance(mContentResolver, mPreferences).getTokenType();
+    }
+
+    private boolean saveRepositories(List<Repository> repositoryList) throws IOException {
+        for (Repository repo : repositoryList) {
 
             ContentValues repositoryValues = new ContentValues();
             repositoryValues.put(RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID,

@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.data.source.remote.oauth;
+package com.dmitrymalkovich.android.githubanalytics.data.source.remote;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -21,5 +21,13 @@ public class ResponseAccessToken {
 
     public String getTokenType() {
         return tokenType;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 }

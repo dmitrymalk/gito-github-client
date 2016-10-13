@@ -4,6 +4,12 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.ResponseReferrer;
+
+import org.eclipse.egit.github.core.Repository;
+
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class GithubRepository implements GithubDataSource {
@@ -50,8 +56,23 @@ public class GithubRepository implements GithubDataSource {
     public void getRepositories(final GetRepositoriesCallback callback) {
         mGithubRemoteDataSource.getRepositories(new GetRepositoriesCallback() {
             @Override
-            public void onRepositoriesLoaded() {
-                callback.onRepositoriesLoaded();
+            public void onRepositoriesLoaded(List<Repository> repositoryList) {
+                callback.onRepositoriesLoaded(repositoryList);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void getRepositoryReferrers(Repository repository, final GetRepositoryReferrersCallback callback) {
+        mGithubRemoteDataSource.getRepositoryReferrers(repository, new GetRepositoryReferrersCallback() {
+            @Override
+            public void onRepositoryReferrersLoaded(List<ResponseReferrer> responseReferrerList) {
+                callback.onRepositoryReferrersLoaded(responseReferrerList);
             }
 
             @Override
@@ -65,9 +86,9 @@ public class GithubRepository implements GithubDataSource {
     public void requestTokenFromCode(final String code, final RequestTokenFromCodeCallback callback) {
         mGithubRemoteDataSource.requestTokenFromCode(code, new RequestTokenFromCodeCallback() {
             @Override
-            public void onTokenLoaded(String token) {
-                mGithubLocalDataSource.saveToken(token);
-                callback.onTokenLoaded(token);
+            public void onTokenLoaded(String token, String tokenType) {
+                mGithubLocalDataSource.saveToken(token, tokenType);
+                callback.onTokenLoaded(token, tokenType);
             }
 
             @Override
@@ -78,14 +99,20 @@ public class GithubRepository implements GithubDataSource {
     }
 
     @Override
-    public void saveToken(String token) {
-        mGithubLocalDataSource.saveToken(token);
+    public void saveToken(String token, String tokenType) {
+        mGithubLocalDataSource.saveToken(token, tokenType);
     }
 
     @Override
     public String getToken() {
         String token = mGithubLocalDataSource.getToken();
         return token != null && !token.isEmpty() ? token : null;
+    }
+
+    @Override
+    public String getTokenType() {
+        String tokenType = mGithubLocalDataSource.getTokenType();
+        return tokenType != null && !tokenType.isEmpty() ? tokenType : null;
     }
 
     public interface LoadDataCallback {

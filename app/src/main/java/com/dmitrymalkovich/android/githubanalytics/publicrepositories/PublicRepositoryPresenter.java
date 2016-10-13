@@ -10,6 +10,10 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
 
+import org.eclipse.egit.github.core.Repository;
+
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class PublicRepositoryPresenter implements PublicRepositoriesContract.Presenter,
@@ -53,7 +57,7 @@ public class PublicRepositoryPresenter implements PublicRepositoriesContract.Pre
     public void onRefresh() {
         mGithubRepository.getRepositories(new GithubDataSource.GetRepositoriesCallback() {
             @Override
-            public void onRepositoriesLoaded() {
+            public void onRepositoriesLoaded(List<Repository> repositoryList) {
                 mPublicRepositoriesView.setLoadingIndicator(false);
             }
 

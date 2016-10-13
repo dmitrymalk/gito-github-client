@@ -19,15 +19,15 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
                 + " (" +
                 RepositoryContract.RepositoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " INTEGER NOT NULL, " +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_NAME + " TEXT NOT NULL ," +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FULL_NAME + " TEXT NOT NULL ," +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_DESCRIPTION + " TEXT NOT NULL ," +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_PRIVATE + " TEXT NOT NULL ," +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " TEXT NOT NULL ," +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_URL + " TEXT NOT NULL ," +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_HTML_URL + " TEXT NOT NULL ," +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORKS + " INTEGER NOT NULL ," +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " INTEGER NOT NULL ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_NAME + " TEXT ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FULL_NAME + " TEXT ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_DESCRIPTION + " TEXT ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_PRIVATE + " TEXT ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " TEXT ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_URL + " TEXT ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_HTML_URL + " TEXT ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORKS + " INTEGER ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " INTEGER ," +
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_LANGUAGE + " TEXT" +
                 " );";
         sqLiteDatabase.execSQL(SQL_CREATE_REPOSITORIES_TABLE);

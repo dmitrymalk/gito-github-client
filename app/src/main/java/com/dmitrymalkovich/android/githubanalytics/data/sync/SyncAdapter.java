@@ -16,6 +16,11 @@ import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.ResponseReferrer;
+
+import org.eclipse.egit.github.core.Repository;
+
+import java.util.List;
 
 /**
  * Handle the transfer of data between a server and an
@@ -74,10 +79,26 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
         Log.d(LOG_TAG, "onPerformSync");
-        GithubRepository repository = Injection.provideGithubRepository(getContext());
-        repository.getRepositories(new GithubDataSource.GetRepositoriesCallback() {
+        final GithubRepository githubRepository = Injection.provideGithubRepository(getContext());
+        githubRepository.getRepositories(new GithubDataSource.GetRepositoriesCallback() {
             @Override
-            public void onRepositoriesLoaded() {
+            public void onRepositoriesLoaded(List<Repository> repositoryList) {
+                for (Repository repository : repositoryList) {
+                    githubRepository.getRepositoryReferrers(repository,
+                            new GithubDataSource.GetRepositoryReferrersCallback() {
+                        @Override
+                        public void onRepositoryReferrersLoaded(List<ResponseReferrer> responseReferrerList) {
+                            for (ResponseReferrer responseReferrer : responseReferrerList) {
+                                Log.d(LOG_TAG, "responseReferrer=" + responseReferrer.getReferrer());
+                            }
+                        }
+
+                        @Override
+                        public void onDataNotAvailable() {
+
+                        }
+                    });
+                }
             }
 
             @Override

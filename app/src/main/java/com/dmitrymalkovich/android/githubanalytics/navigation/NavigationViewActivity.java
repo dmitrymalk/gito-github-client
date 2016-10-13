@@ -123,7 +123,7 @@ public class NavigationViewActivity extends AppCompatActivity
     }
 
     private void signOut() {
-        Injection.provideGithubRepository(this).saveToken(null);
+        Injection.provideGithubRepository(this).saveToken(null, null);
 
         Intent intent = new Intent(this, WelcomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -6,13 +6,16 @@ import android.support.annotation.NonNull;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 
+import org.eclipse.egit.github.core.Repository;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class GithubLocalDataSource implements GithubDataSource {
 
     private static final String PREFERENCES_TOKEN = "PREFERENCES_TOKEN";
+    private static final String PREFERENCES_TOKEN_TYPE = "PREFERENCES_TOKEN_TYPE";
     private static GithubLocalDataSource INSTANCE;
-    @SuppressWarnings("unused")
+    @SuppressWarnings("all")
     private ContentResolver mContentResolver;
     private SharedPreferences mPreferences;
 
@@ -41,18 +44,29 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
+    public void getRepositoryReferrers(Repository repository, GetRepositoryReferrersCallback callback) {
+
+    }
+
+    @Override
     public void requestTokenFromCode(String code, RequestTokenFromCodeCallback callback) {
     }
 
     @Override
-    public void saveToken(String token) {
+    public void saveToken(String token, String tokenType) {
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(PREFERENCES_TOKEN, token);
+        editor.putString(PREFERENCES_TOKEN_TYPE, tokenType);
         editor.apply();
     }
 
     @Override
     public String getToken() {
         return mPreferences.getString(PREFERENCES_TOKEN, null);
+    }
+
+    @Override
+    public String getTokenType() {
+        return mPreferences.getString(PREFERENCES_TOKEN_TYPE, null);
     }
 }
