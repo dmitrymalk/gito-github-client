@@ -59,7 +59,8 @@ class WelcomePresenter implements WelcomeContract.Presenter {
         Uri uri = Uri.parse(GithubServiceGenerator.API_URL_AUTH
                 + "?client_id=" + GithubService.clientId
                 + "&redirect_uri=" + GithubService.redirectUri
-                + "&scope=repo"
+                // https://developer.github.com/v3/oauth/#scopes
+                + "&scope=public_repo"
         );
         mWelcomeView.startOAuthIntent(uri);
     }
