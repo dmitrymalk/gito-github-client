@@ -11,11 +11,10 @@ import android.widget.TextView;
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
 
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.RepositoryContract.RepositoryEntry.COL_REPOSITORY_LANGUAGE;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local
-        .RepositoryContract.RepositoryEntry.COL_REPOSITORY_NAME;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.RepositoryContract.RepositoryEntry.COL_REPOSITORY_WATCHERS;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_LANGUAGE;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_NAME;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_WATCHERS;
 
 class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdapter.ViewHolder> {
 

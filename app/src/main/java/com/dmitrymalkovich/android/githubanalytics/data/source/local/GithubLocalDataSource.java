@@ -53,6 +53,14 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
+    public void getRepositoryClones(Repository repository, GetRepositoryClonesCallback callback) {
+    }
+
+    @Override
+    public void getRepositoryViews(Repository repository, GetRepositoryViewsCallback callback) {
+    }
+
+    @Override
     public void saveToken(String token, String tokenType) {
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(PREFERENCES_TOKEN, token);

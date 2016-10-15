@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    tools:context="com.dmitrymalkovich.android.githubanalytics.basicauthorization.BasicAuthorizationActivity">
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
-                android:text="Analytics"
+                android:text="@string/analytics"
                 android:textSize="@dimen/material_typography_headline" />
 
             <LinearLayout
@@ -37,35 +36,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_gravity="center"
-                    android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
-                    android:src="@drawable/ic_trending_up_black_100dp"
-                    tools:ignore="ContentDescription" />
-
-                <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
-                    android:src="@drawable/ic_equalizer_black_100dp"
-                    tools:ignore="ContentDescription" />
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/sign_in"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/material_layout_keylines_screen_edge_margin"
-                    android:layout_marginRight="@dimen/material_layout_keylines_screen_edge_margin"
-                    android:layout_marginTop="@dimen/material_layout_keylines_screen_edge_margin"
-                    android:background="@drawable/ripple_grey"
-                    android:text="@string/welcome_sign_in"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
+                        android:src="@drawable/ic_trending_up_black_50dp"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
+                        android:src="@drawable/ic_equalizer_black_50dp"
+                        tools:ignore="ContentDescription" />
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/sign_in_oauth"

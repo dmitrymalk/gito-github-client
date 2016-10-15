@@ -16,7 +16,9 @@ import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
 
 import org.eclipse.egit.github.core.Repository;
 
@@ -31,8 +33,6 @@ import java.util.List;
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static String LOG_TAG = SyncAdapter.class.getSimpleName();
-    // Interval at which to sync with the weather, in seconds.
-    // 60 seconds (1 minute) * 180 = 3 hours
     private static final int SECONDS_PER_MINUTE = 60;
     private static final int SYNC_INTERVAL_IN_MINUTES = 15;
     private static final int SYNC_INTERVAL =
@@ -48,11 +48,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      */
     SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-        Log.d(LOG_TAG, "SyncAdapter");
-        /*
-         * If your app uses a content resolver, get an instance of it
-         * from the incoming Context
-         */
         mContentResolver = context.getContentResolver();
     }
 
@@ -67,11 +62,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             boolean autoInitialize,
             boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
-        Log.d(LOG_TAG, "SyncAdapter");
-        /*
-         * If your app uses a content resolver, get an instance of it
-         * from the incoming Context
-         */
         mContentResolver = context.getContentResolver();
     }
 
@@ -79,18 +69,47 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
         Log.d(LOG_TAG, "onPerformSync");
+
         final GithubRepository githubRepository = Injection.provideGithubRepository(getContext());
+
+        // Get user's repositories and save to db
         githubRepository.getRepositories(new GithubDataSource.GetRepositoriesCallback() {
             @Override
             public void onRepositoriesLoaded(List<Repository> repositoryList) {
                 for (Repository repository : repositoryList) {
+
+                    // Get repository top referrers and save to db
                     githubRepository.getRepositoryReferrers(repository,
                             new GithubDataSource.GetRepositoryReferrersCallback() {
                         @Override
-                        public void onRepositoryReferrersLoaded(List<ResponseReferrer> responseReferrerList) {
-                            for (ResponseReferrer responseReferrer : responseReferrerList) {
-                                Log.d(LOG_TAG, "responseReferrer=" + responseReferrer.getReferrer());
-                            }
+                        public void onRepositoryReferrersLoaded(
+                                List<ResponseReferrer> responseReferrerList) {
+                        }
+
+                        @Override
+                        public void onDataNotAvailable() {
+
+                        }
+                    });
+
+                    // Get repository visitors and save to db
+                    githubRepository.getRepositoryViews(repository, new GithubDataSource.GetRepositoryViewsCallback() {
+                        @Override
+                        public void onRepositoryViewsLoaded(ResponseViews responseViews) {
+
+                        }
+
+                        @Override
+                        public void onDataNotAvailable() {
+
+                        }
+                    });
+
+                    // Get repository clones and save to db
+                    githubRepository.getRepositoryClones(repository, new GithubDataSource.GetRepositoryClonesCallback() {
+                        @Override
+                        public void onRepositoryClonesLoaded(ResponseClones responseClones) {
+
                         }
 
                         @Override

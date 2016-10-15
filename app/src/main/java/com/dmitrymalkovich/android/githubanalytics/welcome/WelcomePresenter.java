@@ -18,9 +18,11 @@ class WelcomePresenter implements WelcomeContract.Presenter {
     @SuppressWarnings("unused")
     private static String LOG_TAG = WelcomePresenter.class.getSimpleName();
 
+    @SuppressWarnings("all")
     @NonNull
     private final LoaderProvider mLoaderProvider;
 
+    @SuppressWarnings("all")
     @NonNull
     private final LoaderManager mLoaderManager;
 

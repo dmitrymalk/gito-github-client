@@ -1,5 +1,10 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source.remote;
 
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseAccessToken;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -8,6 +13,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Credit to https://futurestud.io/tutorials/oauth-2-on-android-with-retrofit
@@ -36,5 +42,27 @@ public interface GithubService {
     Call<List<ResponseReferrer>> getTopReferrers(
             @Path("owner") String owner,
             @Path("repo") String repo
+    );
+
+    /**
+     * Get the total number of views and breakdown per day or week for the last 14 days.
+     *
+     * https://developer.github.com/v3/repos/traffic/
+     */
+    @GET("/repos/{owner}/{repo}/traffic/views")
+    Call<ResponseViews> getRepositoryViews(
+            @Path("owner") String owner,
+            @Path("repo") String repo,
+            @Query("per") String per
+    );
+
+    /**
+     * Get the total number of clones and breakdown per day or week for the last 14 days.
+     */
+    @GET("/repos/{owner}/{repo}/traffic/clones")
+    Call<ResponseClones> getRepositoryClones(
+            @Path("owner") String owner,
+            @Path("repo") String repo,
+            @Query("per") String per
     );
 }

@@ -2,6 +2,8 @@ package com.dmitrymalkovich.android.githubanalytics.data.source.remote;
 
 import android.support.annotation.NonNull;
 
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseAccessToken;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -52,7 +54,7 @@ public class GithubServiceGenerator {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = httpClient
-                //.addInterceptor(interceptor)
+                .addInterceptor(interceptor)
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Interceptor.Chain chain) throws IOException {

@@ -37,7 +37,7 @@
         <activity android:name=".basicauthorization.BasicAuthorizationActivity" />
 
         <provider
-            android:name=".data.source.local.RepositoryProvider"
+            android:name=".data.source.local.GithubDataProvider"
             android:authorities="com.dmitrymalkovich.android.githubanalytics.data"
             android:exported="false"
             android:syncable="true" />

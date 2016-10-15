@@ -6,7 +6,7 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="welcome_sign_in">Sign in</string>
-    <string name="welcome_sign_in_oauth">Sign in</string>
+    <string name="welcome_sign_in_oauth">Sign in with Github</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -28,5 +28,11 @@
     <string name="text_for_empty_view_dashboard" />
     <string name="sync_account_type">com.dmitrymalkovich.android.githubanalytics</string>
     <string name="sync_authority">com.dmitrymalkovich.android.githubanalytics.data</string>
+    <string name="welcome_message_1">Secure login using OAuth</string>
+    <string name="welcome_message_2">Notifications when your repository is in Trending</string>
+    <string name="welcome_message_3">Reports about your repository views and clones</string>
+    <string name="welcome_message_4">Notification about new followers, stars, forks and pull requests
+    </string>
+    <string name="analytics">Analytics</string>
 
 </resources>

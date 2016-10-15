@@ -25,7 +25,6 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
 
     private WelcomeContract.Presenter mPresenter;
     private Unbinder unbinder;
-    @BindView(R.id.sign_in) Button mBasicSignIn;
     @BindView(R.id.sign_in_oauth) Button mOauthSignIn;
     @BindView(R.id.login_progress) ProgressBar mProgressBar;
     @BindView(R.id.content) View mContent;
@@ -39,13 +38,6 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_welcome, container, false);
         unbinder = ButterKnife.bind(this, root);
-
-        mBasicSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.signIn();
-            }
-        });
 
         mOauthSignIn.setOnClickListener(new View.OnClickListener() {
             @Override

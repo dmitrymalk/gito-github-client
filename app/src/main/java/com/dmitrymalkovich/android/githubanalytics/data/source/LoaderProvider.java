@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
-import com.dmitrymalkovich.android.githubanalytics.data.source.local.RepositoryContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

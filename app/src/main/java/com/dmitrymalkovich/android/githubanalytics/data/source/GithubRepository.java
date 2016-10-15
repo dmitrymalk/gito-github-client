@@ -4,7 +4,9 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
 
 import org.eclipse.egit.github.core.Repository;
 
@@ -73,6 +75,36 @@ public class GithubRepository implements GithubDataSource {
             @Override
             public void onRepositoryReferrersLoaded(List<ResponseReferrer> responseReferrerList) {
                 callback.onRepositoryReferrersLoaded(responseReferrerList);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void getRepositoryClones(Repository repository, final GetRepositoryClonesCallback callback) {
+        mGithubRemoteDataSource.getRepositoryClones(repository, new GetRepositoryClonesCallback() {
+            @Override
+            public void onRepositoryClonesLoaded(ResponseClones responseClones) {
+                callback.onRepositoryClonesLoaded(responseClones);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void getRepositoryViews(Repository repository, final GetRepositoryViewsCallback callback) {
+        mGithubRemoteDataSource.getRepositoryViews(repository, new GetRepositoryViewsCallback() {
+            @Override
+            public void onRepositoryViewsLoaded(ResponseViews responseViews) {
+                callback.onRepositoryViewsLoaded(responseViews);
             }
 
             @Override
