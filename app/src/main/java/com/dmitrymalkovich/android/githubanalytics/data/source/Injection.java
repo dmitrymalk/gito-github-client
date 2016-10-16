@@ -22,4 +22,10 @@ public class Injection {
         return GithubLocalDataSource.getInstance(context.getContentResolver(),
                 context.getSharedPreferences("GITHUB_ANALYTICS_PREFERENCES", Context.MODE_PRIVATE));
     }
+
+    public static GithubRemoteDataSource provideRemoteDataSource(@NonNull Context context) {
+        checkNotNull(context);
+        return GithubRemoteDataSource.getInstance(context.getContentResolver(),
+                context.getSharedPreferences("GITHUB_ANALYTICS_PREFERENCES", Context.MODE_PRIVATE));
+    }
 }

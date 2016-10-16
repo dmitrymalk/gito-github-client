@@ -13,12 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
-import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemoteDataSource;
 
 import org.eclipse.egit.github.core.Repository;
 
@@ -70,62 +66,21 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient provider, SyncResult syncResult) {
         Log.d(LOG_TAG, "onPerformSync");
 
-        final GithubRepository githubRepository = Injection.provideGithubRepository(getContext());
+        final GithubRemoteDataSource githubRepository = Injection.provideRemoteDataSource(getContext());
 
         // Get user's repositories and save to db
-        githubRepository.getRepositories(new GithubDataSource.GetRepositoriesCallback() {
-            @Override
-            public void onRepositoriesLoaded(List<Repository> repositoryList) {
-                for (Repository repository : repositoryList) {
-
-                    // Get repository top referrers and save to db
-                    githubRepository.getRepositoryReferrers(repository,
-                            new GithubDataSource.GetRepositoryReferrersCallback() {
-                        @Override
-                        public void onRepositoryReferrersLoaded(
-                                List<ResponseReferrer> responseReferrerList) {
-                        }
-
-                        @Override
-                        public void onDataNotAvailable() {
-
-                        }
-                    });
-
-                    // Get repository visitors and save to db
-                    githubRepository.getRepositoryViews(repository, new GithubDataSource.GetRepositoryViewsCallback() {
-                        @Override
-                        public void onRepositoryViewsLoaded(ResponseViews responseViews) {
-
-                        }
-
-                        @Override
-                        public void onDataNotAvailable() {
-
-                        }
-                    });
-
-                    // Get repository clones and save to db
-                    githubRepository.getRepositoryClones(repository, new GithubDataSource.GetRepositoryClonesCallback() {
-                        @Override
-                        public void onRepositoryClonesLoaded(ResponseClones responseClones) {
-
-                        }
-
-                        @Override
-                        public void onDataNotAvailable() {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-            }
-        });
+        List<Repository> repositoryList = githubRepository.getRepositoriesSync();
+        for (Repository repository : repositoryList) {
+            // Get repository top referrers and save to db
+            githubRepository.getRepositoryReferrersSync(repository);
+            // Get repository visitors and save to db
+            githubRepository.getRepositoryViewsSync(repository);
+            // Get repository clones and save to db
+            githubRepository.getRepositoryClonesSync(repository);
+        }
 
         // Get information about trending repositories
+        githubRepository.getTrendingRepositoriesSync("week", "java");
     }
 
     public static void initializeSyncAdapter(Context context) {

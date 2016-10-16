@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 
 class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
@@ -72,6 +73,19 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
                 RepositoryContract.RepositoryEntry.TABLE_NAME + " (" + RepositoryContract.RepositoryEntry._ID + ")" +
                 " );";
         sqLiteDatabase.execSQL(SQL_CREATE_TRAFFIC_REFERRER_TABLE);
+
+        final String SQL_CREATE_TRENDING_TABLE = "CREATE TABLE " + TrendingContract.TrendingEntry.TABLE_NAME
+                + " (" +
+                TrendingContract.TrendingEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                TrendingContract.TrendingEntry.COLUMN_HTML_URL + " TEXT, " +
+                TrendingContract.TrendingEntry.COLUMN_DESCRIPTION + " TEXT," +
+                TrendingContract.TrendingEntry.COLUMN_LANGUAGE + " TEXT ," +
+                TrendingContract.TrendingEntry.COLUMN_TIMESTAMP + " DATE ," +
+                TrendingContract.TrendingEntry.COLUMN_NAME + " TEXT ," +
+                TrendingContract.TrendingEntry.COLUMN_WATCHER_COUNT + " INTEGER ," +
+                TrendingContract.TrendingEntry.COLUMN_PERIOD + " TEXT" +
+                " );";
+        sqLiteDatabase.execSQL(SQL_CREATE_TRENDING_TABLE);
     }
 
     @Override
@@ -80,6 +94,7 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ViewsContract.ViewsEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ReferrerContract.ReferrerEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ClonesContract.ClonesEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TrendingContract.TrendingEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

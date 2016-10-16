@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 
 public class GithubDataProvider extends ContentProvider {
@@ -21,6 +22,7 @@ public class GithubDataProvider extends ContentProvider {
     static final int REFERRERS = 400;
     static final int CLONES = 401;
     static final int VIEWS = 402;
+    static final int TRENDING = 500;
     private GithubAnalyticsDbHelper mOpenHelper;
 
     private static UriMatcher buildUriMatcher() {
@@ -30,6 +32,7 @@ public class GithubDataProvider extends ContentProvider {
         matcher.addURI(authority, ReferrerContract.PATH_REFERRERS, REFERRERS);
         matcher.addURI(authority, ViewsContract.PATH_VIEWS, VIEWS);
         matcher.addURI(authority, ClonesContract.PATH_CLONES, CLONES);
+        matcher.addURI(authority, TrendingContract.PATH_TRENDING, TRENDING);
         return matcher;
     }
 
@@ -93,6 +96,18 @@ public class GithubDataProvider extends ContentProvider {
                 );
                 break;
             }
+            case TRENDING: {
+                cursor = mOpenHelper.getReadableDatabase().query(
+                        TrendingContract.TrendingEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -115,6 +130,8 @@ public class GithubDataProvider extends ContentProvider {
                 return ClonesContract.ClonesEntry.CONTENT_TYPE;
             case VIEWS:
                 return ViewsContract.ViewsEntry.CONTENT_TYPE;
+            case TRENDING:
+                return TrendingContract.TrendingEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -163,6 +180,15 @@ public class GithubDataProvider extends ContentProvider {
                 }
                 break;
             }
+            case TRENDING: {
+                long id = db.insert(TrendingContract.TrendingEntry.TABLE_NAME, null, values);
+                if (id > 0) {
+                    returnUri = TrendingContract.TrendingEntry.buildUri(id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -198,6 +224,10 @@ public class GithubDataProvider extends ContentProvider {
                 rowsDeleted = db.delete(
                         ViewsContract.ViewsEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case TRENDING:
+                rowsDeleted = db.delete(
+                        TrendingContract.TrendingEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -229,6 +259,10 @@ public class GithubDataProvider extends ContentProvider {
                 break;
             case VIEWS:
                 rowsUpdated = db.update(ViewsContract.ViewsEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case TRENDING:
+                rowsUpdated = db.update(TrendingContract.TrendingEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:

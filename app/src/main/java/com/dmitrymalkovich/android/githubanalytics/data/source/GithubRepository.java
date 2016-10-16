@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
 
 import org.eclipse.egit.github.core.Repository;
@@ -105,6 +106,22 @@ public class GithubRepository implements GithubDataSource {
             @Override
             public void onRepositoryViewsLoaded(ResponseViews responseViews) {
                 callback.onRepositoryViewsLoaded(responseViews);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void getTrendingRepositories(String period, String language,
+                                        final GetTrendingRepositories callback) {
+        mGithubRemoteDataSource.getTrendingRepositories(period, language, new GetTrendingRepositories() {
+            @Override
+            public void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList) {
+                callback.onTrendingRepositoriesLoaded(responseTrendingList);
             }
 
             @Override

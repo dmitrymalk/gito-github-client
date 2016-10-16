@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source.remote;
 
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseRepositorySearch;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseAccessToken;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
@@ -72,14 +73,15 @@ public interface GithubService {
      * https://developer.github.com/v3/search/
      *
      * Get list of trending github repositories by github api:
-     * TODO: http://stackoverflow.com/questions/30525330/how-to-get-list-of-trending-github-repositories-by-github-api
+     * http://stackoverflow.com/questions/30525330/how-to-get-list-of-trending-github-repositories-by-github-api
      */
     @GET("/search/repositories")
-    Call<ResponseClones> searchRepositories(
+    Call<ResponseRepositorySearch> searchRepositories(
             @Query("q") String qualifiers,
             @Query("sort") String sort,
             @Query("order") String order
     );
 
     // TODO : Get list stargazers: https://developer.github.com/v3/activity/starring/
+    // TODO : Get list forks: https://developer.github.com/v3/repos/forks/
 }
