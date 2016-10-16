@@ -60,7 +60,20 @@ public class TrendingContract {
         public static final int COL_TIMESTAMP = 6;
         public static final int COL_PERIOD = 7;
 
-        public static ContentValues buildContentValues(ResponseTrending responseTrending, String period) {
+        public static ContentValues buildContentValues(ResponseTrending responseTrending, String period,
+                                                       String java) {
+            String name = responseTrending.getName();
+            if (name != null)
+            {
+                name = name.replace("\n", "");
+                name = name.replaceAll(" ", "");
+            }
+            String description = responseTrending.getDescription();
+            if (description != null)
+            {
+                description = description.replace("\n", "");
+                description = description.trim().replaceAll(" +", " ");
+            }
             ContentValues contentValues = new ContentValues();
             contentValues.put(TrendingContract.TrendingEntry.COLUMN_HTML_URL,
                     responseTrending.getHtmlUrl());
@@ -69,9 +82,8 @@ public class TrendingContract {
             contentValues.put(TrendingContract.TrendingEntry.COLUMN_LANGUAGE,
                     responseTrending.getLanguage());
             contentValues.put(TrendingContract.TrendingEntry.COLUMN_DESCRIPTION,
-                    responseTrending.getDescription());
-            contentValues.put(TrendingContract.TrendingEntry.COLUMN_NAME,
-                    responseTrending.getName());
+                    description);
+            contentValues.put(TrendingContract.TrendingEntry.COLUMN_NAME, name);
             contentValues.put(TrendingEntry.COLUMN_PERIOD, period);
             return contentValues;
         }

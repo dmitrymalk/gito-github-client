@@ -39,6 +39,8 @@ public class NavigationViewActivity extends AppCompatActivity
     @SuppressWarnings("unused")
     private static final String LOG_TAG = NavigationViewActivity.class.getSimpleName();
     private NavigationView mNavigationView;
+    public static final String EXTRA_CURRENT_FRAGMENT = "EXTRA_CURRENT_FRAGMENT";
+    private String mCurrentFragment = DashboardFragment.class.getSimpleName();
 
     @SuppressWarnings("deprecation")
     @Override
@@ -57,7 +59,20 @@ public class NavigationViewActivity extends AppCompatActivity
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        showDashboard();
+        if (savedInstanceState == null) {
+            showDashboard();
+        }
+        else
+        {
+            mCurrentFragment = savedInstanceState.getString(EXTRA_CURRENT_FRAGMENT);
+            if (mCurrentFragment.equals(DashboardFragment.class.getSimpleName())) {
+                showDashboard();
+            } else if (mCurrentFragment.equals(PublicRepositoryFragment.class.getSimpleName())) {
+                showRepositories();
+            } else {
+                showTrendingRepositories();
+            }
+        }
 
         SyncAdapter.initializeSyncAdapter(this);
     }
@@ -86,6 +101,12 @@ public class NavigationViewActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(EXTRA_CURRENT_FRAGMENT, mCurrentFragment);
     }
 
     @Override
@@ -144,6 +165,8 @@ public class NavigationViewActivity extends AppCompatActivity
                 dashboardFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());
+
+        mCurrentFragment = DashboardFragment.class.getSimpleName();
     }
 
     private void showRepositories() {
@@ -162,6 +185,8 @@ public class NavigationViewActivity extends AppCompatActivity
                 publicRepositoriesFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());
+
+        mCurrentFragment = PublicRepositoryFragment.class.getSimpleName();
     }
 
     private void showTrendingRepositories() {
@@ -180,6 +205,8 @@ public class NavigationViewActivity extends AppCompatActivity
                 trendingRepositoryFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());
+
+        mCurrentFragment = TrendingRepositoryPresenter.class.getSimpleName();
     }
 
     private void signOut() {

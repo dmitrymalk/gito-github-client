@@ -49,8 +49,6 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
         mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
 
-        mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
-
         if (getActivity() instanceof AppCompatActivity) {
             AppCompatActivity activity = (AppCompatActivity) getActivity();
             if (activity.getSupportActionBar() != null) {
@@ -64,6 +62,7 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     public void onResume() {
         super.onResume();
         mPresenter.start();
+        mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
@@ -35,11 +34,6 @@ class TrendingRepositoryListAdapter extends CursorRecyclerViewAdapter<TrendingRe
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
         holder.titleView.setText(cursor.getString(TrendingContract.TrendingEntry.COL_NAME));
         holder.subtitleView.setText(cursor.getString(TrendingContract.TrendingEntry.COL_DESCRIPTION));
-        holder.watchersView.setText(cursor.getString(TrendingContract.TrendingEntry.COL_WATCHER_COUNT));
-        holder.languageView.setText(cursor.getString(TrendingContract.TrendingEntry.COL_LANGUAGE));
-        holder.languageIconView.setVisibility(holder.languageView.getText() != null
-                && holder.languageView.getText().length() != 0
-                ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -48,19 +42,13 @@ class TrendingRepositoryListAdapter extends CursorRecyclerViewAdapter<TrendingRe
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView watchersView;
-        private final TextView languageView;
         TextView titleView;
         TextView subtitleView;
-        private final ImageView languageIconView;
 
         ViewHolder(View view) {
             super(view);
             titleView = (TextView) view.findViewById(R.id.repository_title);
             subtitleView = (TextView) view.findViewById(R.id.repository_subtitle);
-            watchersView = (TextView) view.findViewById(R.id.repository_watchers);
-            languageView = (TextView) view.findViewById(R.id.repository_language);
-            languageIconView = (ImageView) view.findViewById(R.id.repository_language_icon);
         }
     }
 }

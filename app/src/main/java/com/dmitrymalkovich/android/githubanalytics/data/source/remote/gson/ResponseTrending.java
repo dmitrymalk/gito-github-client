@@ -2,9 +2,10 @@ package com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("all")
 public class ResponseTrending {
 
-    @SerializedName("name")
+    @SerializedName("title")
     String name;
 
     @SerializedName("description")
@@ -16,7 +17,7 @@ public class ResponseTrending {
     @SerializedName("watchers_count")
     int watchersCount;
 
-    @SerializedName("html_url")
+    @SerializedName("readme")
     String htmlUrl;
 
     public String getName() {
@@ -25,6 +26,10 @@ public class ResponseTrending {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public String getLanguage() {

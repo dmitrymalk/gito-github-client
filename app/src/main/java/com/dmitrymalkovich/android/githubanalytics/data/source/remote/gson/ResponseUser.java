@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson;
 
+@SuppressWarnings("all")
 public class ResponseUser {
 
     String login;

@@ -14,10 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/material_component_cards_space_between_cards"
-            android:paddingLeft="@dimen/material_component_cards_left_and_right_padding"
-            android:paddingRight="@dimen/material_component_cards_left_and_right_padding"
-            android:paddingTop="@dimen/material_component_cards_space_between_cards"
             android:scrollbarStyle="outsideOverlay"
             tools:ignore="PrivateResource" />
     </android.support.v4.widget.SwipeRefreshLayout>
@@ -29,7 +25,6 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
         android:layout_gravity="center"
         android:visibility="gone" />
 

@@ -60,10 +60,10 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(VH viewHolder, int position) {
         if (!mDataIsValid) {
-            throw new IllegalStateException("This should only be called when Cursor is valid");
+            return;
         }
         if (!mCursor.moveToPosition(position)) {
-            throw new IllegalStateException("Could not move Cursor to position: " + position);
+            return;
         }
 
         onBindViewHolder(viewHolder, mCursor);

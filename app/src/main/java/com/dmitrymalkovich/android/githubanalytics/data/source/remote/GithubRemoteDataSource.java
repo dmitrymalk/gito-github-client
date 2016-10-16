@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseRepositorySearch;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrendingMultipleLanguages;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseAccessToken;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
@@ -59,12 +59,10 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    public List<Repository> getRepositoriesSync()
-    {
+    public List<Repository> getRepositoriesSync() {
         try {
             String token = getToken();
-            if (token != null)
-            {
+            if (token != null) {
                 RepositoryService service = new RepositoryService();
                 service.getClient().setOAuth2Token(token);
                 List<Repository> repositoryList = service.getRepositories();
@@ -72,14 +70,10 @@ public class GithubRemoteDataSource implements GithubDataSource {
                         GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
                 localDataSource.saveRepositories(repositoryList);
                 return repositoryList;
-            }
-            else
-            {
+            } else {
                 return null;
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             return null;
         }
@@ -87,8 +81,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @Override
     public void getRepositories(final GetRepositoriesCallback callback) {
-        new AsyncTask<Void, Void, List<Repository>>()
-        {
+        new AsyncTask<Void, Void, List<Repository>>() {
             @Override
             protected List<Repository> doInBackground(Void... params) {
                 return getRepositoriesSync();
@@ -98,8 +91,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             protected void onPostExecute(List<Repository> repositoryList) {
                 if (repositoryList != null) {
                     callback.onRepositoriesLoaded(repositoryList);
-                }
-                else {
+                } else {
                     callback.onDataNotAvailable();
                 }
             }
@@ -107,8 +99,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    public ResponseClones getRepositoryClonesSync(final Repository repository)
-    {
+    public ResponseClones getRepositoryClonesSync(final Repository repository) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
@@ -128,9 +119,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             }
 
             return responseClones;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             return null;
         }
@@ -138,8 +127,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @Override
     public void getRepositoryClones(final Repository repository, final GetRepositoryClonesCallback callback) {
-        new AsyncTask<Void, Void, ResponseClones>()
-        {
+        new AsyncTask<Void, Void, ResponseClones>() {
             @Override
             protected ResponseClones doInBackground(Void... params) {
                 return getRepositoryClonesSync(repository);
@@ -149,8 +137,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             protected void onPostExecute(ResponseClones responseClones) {
                 if (responseClones != null) {
                     callback.onRepositoryClonesLoaded(responseClones);
-                }
-                else {
+                } else {
                     callback.onDataNotAvailable();
                 }
             }
@@ -158,8 +145,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    public ResponseViews getRepositoryViewsSync(final Repository repository)
-    {
+    public ResponseViews getRepositoryViewsSync(final Repository repository) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
@@ -179,9 +165,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             }
 
             return responseViews;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             return null;
         }
@@ -189,8 +173,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @Override
     public void getRepositoryViews(final Repository repository, final GetRepositoryViewsCallback callback) {
-        new AsyncTask<Void, Void, ResponseViews>()
-        {
+        new AsyncTask<Void, Void, ResponseViews>() {
             @Override
             protected ResponseViews doInBackground(Void... params) {
                 return getRepositoryViewsSync(repository);
@@ -200,8 +183,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             protected void onPostExecute(ResponseViews responseViews) {
                 if (responseViews != null) {
                     callback.onRepositoryViewsLoaded(responseViews);
-                }
-                else {
+                } else {
                     callback.onDataNotAvailable();
                 }
             }
@@ -209,35 +191,27 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    public List<ResponseTrending> getTrendingRepositoriesSync(final String period, final String language)
-    {
+    public List<ResponseTrending> getTrendingRepositoriesSync(final String period, final String language) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
             accessToken.setTokenType(getTokenType());
 
-            GithubService githubService = GithubServiceGenerator.createDebugService(
-                    GithubService.class, accessToken);
-            String qualifies = "language:" + language + " created:>2016-10-07";
-            String sort = "stars";
-            String order = "desc";
-            Call<ResponseRepositorySearch> call = githubService.searchRepositories(qualifies,
-                    sort, order);
+            GithubService githubService = GithubServiceGenerator.createThirdPartyService(
+                    GithubService.class);
+            Call<ResponseTrendingMultipleLanguages> call = githubService.getTrendingRepositories(language);
 
-            ResponseRepositorySearch responseRepositorySearch = call.execute().body();
+            ResponseTrendingMultipleLanguages responseRepositorySearch = call.execute().body();
 
             if (responseRepositorySearch != null) {
                 GithubLocalDataSource localDataSource =
                         GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                localDataSource.saveTrendingRepositories(period, language, responseRepositorySearch.getItems());
-                return responseRepositorySearch.getItems();
-            }
-            else {
+                localDataSource.saveTrendingRepositories(period, language, responseRepositorySearch.getJava());
+                return responseRepositorySearch.getJava();
+            } else {
                 return null;
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             return null;
         }
@@ -245,19 +219,17 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @Override
     public void getTrendingRepositories(final String period, final String language, final GetTrendingRepositories callback) {
-        new AsyncTask<Void, Void, List<ResponseTrending>>()
-        {
+        new AsyncTask<Void, Void, List<ResponseTrending>>() {
             @Override
             protected List<ResponseTrending> doInBackground(Void... params) {
-                return getTrendingRepositoriesSync(period, language) ;
+                return getTrendingRepositoriesSync(period, language);
             }
 
             @Override
             protected void onPostExecute(List<ResponseTrending> responseTrendingList) {
                 if (responseTrendingList != null) {
                     callback.onTrendingRepositoriesLoaded(responseTrendingList);
-                }
-                else {
+                } else {
                     callback.onDataNotAvailable();
                 }
             }
@@ -265,8 +237,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    public List<ResponseReferrer> getRepositoryReferrersSync(final Repository repository)
-    {
+    public List<ResponseReferrer> getRepositoryReferrersSync(final Repository repository) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
@@ -290,8 +261,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
     @Override
     public void getRepositoryReferrers(final Repository repository,
                                        final GetRepositoryReferrersCallback callback) {
-        new AsyncTask<Void, Void, List<ResponseReferrer>>()
-        {
+        new AsyncTask<Void, Void, List<ResponseReferrer>>() {
             @Override
             protected List<ResponseReferrer> doInBackground(Void... params) {
                 return getRepositoryReferrersSync(repository);
@@ -301,8 +271,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             protected void onPostExecute(List<ResponseReferrer> responseReferrerList) {
                 if (responseReferrerList != null) {
                     callback.onRepositoryReferrersLoaded(responseReferrerList);
-                }
-                else {
+                } else {
                     callback.onDataNotAvailable();
                 }
             }
@@ -311,8 +280,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @Override
     public void requestTokenFromCode(final String code, final RequestTokenFromCodeCallback callback) {
-        new AsyncTask<Void, Void, ResponseAccessToken>()
-        {
+        new AsyncTask<Void, Void, ResponseAccessToken>() {
             @Override
             protected ResponseAccessToken doInBackground(Void... params) {
                 try {
@@ -321,9 +289,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     Call<ResponseAccessToken> call = loginService.getAccessToken(code,
                             GithubService.clientId, GithubService.clientSecret);
                     return call.execute().body();
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     Log.e(LOG_TAG, e.getMessage(), e);
                 }
                 return null;
@@ -334,8 +300,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 if (accessToken != null && accessToken.getAccessToken() != null
                         && !accessToken.getAccessToken().isEmpty()) {
                     callback.onTokenLoaded(accessToken.getAccessToken(), accessToken.getTokenType());
-                }
-                else {
+                } else {
                     callback.onDataNotAvailable();
                 }
             }
@@ -360,8 +325,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @Override
     public void getUser(final GerUserCallback callback) {
-        new AsyncTask<Void, Void, ResponseUser>()
-        {
+        new AsyncTask<Void, Void, ResponseUser>() {
             @Override
             protected ResponseUser doInBackground(Void... params) {
                 try {
@@ -374,9 +338,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     responseUser.setLogin(user.getLogin());
                     responseUser.setAvatarUrl(user.getAvatarUrl());
                     return responseUser;
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     Log.e(LOG_TAG, e.getMessage(), e);
                 }
                 return null;
@@ -386,8 +348,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             protected void onPostExecute(ResponseUser user) {
                 if (user != null) {
                     callback.onUserLoaded(user);
-                }
-                else {
+                } else {
                     callback.onDataNotAvailable();
                 }
             }

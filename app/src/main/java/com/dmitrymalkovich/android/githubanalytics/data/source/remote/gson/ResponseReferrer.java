@@ -2,6 +2,7 @@ package com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("all")
 public class ResponseReferrer {
 
     @SerializedName("referrer")

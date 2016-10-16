@@ -216,18 +216,13 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     public void saveTrendingRepositories(String period, String language,
                                          List<ResponseTrending> responseTrendingList) {
-        String selection = TrendingContract.TrendingEntry.COLUMN_LANGUAGE + " = '"
-                + language + "' AND "
-                + TrendingContract.TrendingEntry.COLUMN_PERIOD
-                + " = '" + period + "'";
-
         mContentResolver.delete(TrendingContract.TrendingEntry.CONTENT_URI,
                 null,
                 null);
 
         for (ResponseTrending repository : responseTrendingList) {
             ContentValues contentValues = TrendingContract.TrendingEntry
-                    .buildContentValues(repository, period);
+                    .buildContentValues(repository, period, language);
             mContentResolver.insert(
                     TrendingContract.TrendingEntry.CONTENT_URI,
                     contentValues);

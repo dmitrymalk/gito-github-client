@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@SuppressWarnings("all")
 public class ResponseViews {
     @SerializedName("count")
     private String count;

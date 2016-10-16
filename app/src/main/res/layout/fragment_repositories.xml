@@ -29,7 +29,6 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
         android:layout_gravity="center"
         android:visibility="gone" />
 
