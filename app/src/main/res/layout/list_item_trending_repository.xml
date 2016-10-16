@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/material_component_cards_space_between_cards"
+    android:layout_marginTop="@dimen/material_component_cards_space_between_cards"
+    android:orientation="vertical"
+    android:padding="@dimen/material_component_cards_left_and_right_padding">
+
+    <TextView
+        android:id="@+id/repository_title"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/blue"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/repository_subtitle"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingBottom="@dimen/material_component_cards_supporting_text_bottom_padding"
+        android:paddingTop="@dimen/material_component_cards_padding_from_edge_of_screen_to_card" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_star_grey_20dp"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/repository_watchers"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="@dimen/material_component_grid_lists_padding_big"
+            android:paddingLeft="@dimen/material_component_grid_lists_padding_big"
+            android:paddingRight="@dimen/material_component_grid_lists_padding_big"
+            android:paddingStart="@dimen/material_component_grid_lists_padding_big" />
+
+        <ImageView
+            android:id="@+id/repository_language_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/material_component_grid_lists_padding_big"
+            android:layout_marginLeft="@dimen/material_layout_keylines_screen_edge_margin"
+            android:layout_marginRight="@dimen/material_component_grid_lists_padding_big"
+            android:layout_marginStart="@dimen/material_layout_keylines_screen_edge_margin"
+            android:background="@drawable/oval_blue"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/repository_language"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="@dimen/material_component_grid_lists_padding_big"
+            android:paddingLeft="@dimen/material_component_grid_lists_padding_big"
+            android:paddingRight="@dimen/material_component_grid_lists_padding_big"
+            android:paddingStart="@dimen/material_component_grid_lists_padding_big" />
+
+    </LinearLayout>
+
+</LinearLayout>

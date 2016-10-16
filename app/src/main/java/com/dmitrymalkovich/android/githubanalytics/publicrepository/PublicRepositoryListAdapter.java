@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.publicrepositories;
+package com.dmitrymalkovich.android.githubanalytics.publicrepository;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;

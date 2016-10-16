@@ -1,0 +1,118 @@
+package com.dmitrymalkovich.android.githubanalytics.publicrepository;
+
+import android.database.Cursor;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
+import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
+
+import org.eclipse.egit.github.core.Repository;
+
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public class PublicRepositoryPresenter implements PublicRepositoryContract.Presenter,
+        LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
+
+    @SuppressWarnings("unused")
+    private static String LOG_TAG = PublicRepositoryPresenter.class.getSimpleName();
+    private static final int REPOSITORIES_LOADER = 2;
+
+    @SuppressWarnings("unused")
+    @NonNull
+    private final LoaderProvider mLoaderProvider;
+
+    @NonNull
+    private final LoaderManager mLoaderManager;
+
+    @NonNull
+    private GithubRepository mGithubRepository;
+
+    @NonNull
+    private PublicRepositoryContract.View mPublicRepositoriesView;
+
+    public PublicRepositoryPresenter(@NonNull GithubRepository githubRepository,
+                                     @NonNull PublicRepositoryContract.View view,
+                                     @NonNull LoaderProvider loaderProvider,
+                                     @NonNull LoaderManager loaderManager) {
+        mGithubRepository = checkNotNull(githubRepository);
+        mPublicRepositoriesView = checkNotNull(view);
+        mLoaderProvider = checkNotNull(loaderProvider);
+        mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
+        mPublicRepositoriesView.setPresenter(this);
+    }
+
+    @Override
+    public void start() {
+        mPublicRepositoriesView.setLoadingIndicator(true);
+        showRepositories();
+    }
+
+    @Override
+    public void onRefresh() {
+        mGithubRepository.getRepositories(new GithubDataSource.GetRepositoriesCallback() {
+            @Override
+            public void onRepositoriesLoaded(List<Repository> repositoryList) {
+                mPublicRepositoriesView.setLoadingIndicator(false);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                mPublicRepositoriesView.setLoadingIndicator(false);
+            }
+        });
+    }
+
+    @Override
+    public void onDataLoaded(Cursor data) {
+        mPublicRepositoriesView.setLoadingIndicator(false);
+        mPublicRepositoriesView.showRepositories(data);
+    }
+
+    @Override
+    public void onDataEmpty() {
+    }
+
+    @Override
+    public void onDataNotAvailable() {
+
+    }
+
+    @Override
+    public void onDataReset() {
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return mLoaderProvider.createRepositoryLoader();
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null) {
+            if (data.moveToLast()) {
+                onDataLoaded(data);
+            } else {
+                onDataEmpty();
+            }
+        } else {
+            onDataNotAvailable();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        onDataReset();
+    }
+
+    private void showRepositories() {
+        mLoaderManager.initLoader(REPOSITORIES_LOADER,
+                null,
+                PublicRepositoryPresenter.this);
+    }
+}

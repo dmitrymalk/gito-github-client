@@ -7,6 +7,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -38,6 +39,17 @@ public class LoaderProvider {
                 null,
                 null,
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_NAME + " ASC"
+        );
+    }
+
+    public Loader<Cursor> createTrendingLoader() {
+        return new CursorLoader(
+                mContext,
+                TrendingContract.TrendingEntry.CONTENT_URI,
+                TrendingContract.TrendingEntry.TRENDING_COLUMNS,
+                null,
+                null,
+                null
         );
     }
 }

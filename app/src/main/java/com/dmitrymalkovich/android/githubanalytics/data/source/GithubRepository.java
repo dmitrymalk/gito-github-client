@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
 
 import org.eclipse.egit.github.core.Repository;
@@ -138,6 +139,21 @@ public class GithubRepository implements GithubDataSource {
             public void onTokenLoaded(String token, String tokenType) {
                 mGithubLocalDataSource.saveToken(token, tokenType);
                 callback.onTokenLoaded(token, tokenType);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void getUser(final GerUserCallback callback) {
+        mGithubRemoteDataSource.getUser(new GerUserCallback() {
+            @Override
+            public void onUserLoaded(ResponseUser user) {
+                callback.onUserLoaded(user);
             }
 
             @Override

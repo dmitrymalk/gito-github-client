@@ -3,6 +3,7 @@ package com.dmitrymalkovich.android.githubanalytics.data.source;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
 
 import org.eclipse.egit.github.core.Repository;
@@ -53,6 +54,12 @@ public interface GithubDataSource {
         void onDataNotAvailable();
     }
 
+    interface GerUserCallback {
+        void onUserLoaded(ResponseUser user);
+
+        void onDataNotAvailable();
+    }
+
     void login(String login, String password);
 
     void getRepositories(GetRepositoriesCallback callback);
@@ -72,4 +79,6 @@ public interface GithubDataSource {
     String getToken();
 
     String getTokenType();
+
+    void getUser(GerUserCallback callback);
 }

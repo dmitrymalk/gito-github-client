@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.publicrepositories;
+package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,12 +16,12 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class PublicRepositoryPresenter implements PublicRepositoriesContract.Presenter,
+public class TrendingRepositoryPresenter implements TrendingRepositoryContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
 
     @SuppressWarnings("unused")
-    private static String LOG_TAG = PublicRepositoryPresenter.class.getSimpleName();
-    private static final int REPOSITORIES_LOADER = 2;
+    private static String LOG_TAG = TrendingRepositoryPresenter.class.getSimpleName();
+    private static final int TRENDING_LOADER = 3;
 
     @SuppressWarnings("unused")
     @NonNull
@@ -34,22 +34,22 @@ public class PublicRepositoryPresenter implements PublicRepositoriesContract.Pre
     private GithubRepository mGithubRepository;
 
     @NonNull
-    private PublicRepositoriesContract.View mPublicRepositoriesView;
+    private TrendingRepositoryContract.View mView;
 
-    public PublicRepositoryPresenter(@NonNull GithubRepository githubRepository,
-                                     @NonNull PublicRepositoriesContract.View view,
-                                     @NonNull LoaderProvider loaderProvider,
-                                     @NonNull LoaderManager loaderManager) {
+    public TrendingRepositoryPresenter(@NonNull GithubRepository githubRepository,
+                                       @NonNull TrendingRepositoryContract.View view,
+                                       @NonNull LoaderProvider loaderProvider,
+                                       @NonNull LoaderManager loaderManager) {
         mGithubRepository = checkNotNull(githubRepository);
-        mPublicRepositoriesView = checkNotNull(view);
+        mView = checkNotNull(view);
         mLoaderProvider = checkNotNull(loaderProvider);
         mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
-        mPublicRepositoriesView.setPresenter(this);
+        mView.setPresenter(this);
     }
 
     @Override
     public void start() {
-        mPublicRepositoriesView.setLoadingIndicator(true);
+        mView.setLoadingIndicator(true);
         showRepositories();
     }
 
@@ -58,20 +58,20 @@ public class PublicRepositoryPresenter implements PublicRepositoriesContract.Pre
         mGithubRepository.getRepositories(new GithubDataSource.GetRepositoriesCallback() {
             @Override
             public void onRepositoriesLoaded(List<Repository> repositoryList) {
-                mPublicRepositoriesView.setLoadingIndicator(false);
+                mView.setLoadingIndicator(false);
             }
 
             @Override
             public void onDataNotAvailable() {
-                mPublicRepositoriesView.setLoadingIndicator(false);
+                mView.setLoadingIndicator(false);
             }
         });
     }
 
     @Override
     public void onDataLoaded(Cursor data) {
-        mPublicRepositoriesView.setLoadingIndicator(false);
-        mPublicRepositoriesView.showRepositories(data);
+        mView.setLoadingIndicator(false);
+        mView.showRepositories(data);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class PublicRepositoryPresenter implements PublicRepositoriesContract.Pre
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mLoaderProvider.createRepositoryLoader();
+        return mLoaderProvider.createTrendingLoader();
     }
 
     @Override
@@ -111,8 +111,8 @@ public class PublicRepositoryPresenter implements PublicRepositoriesContract.Pre
     }
 
     private void showRepositories() {
-        mLoaderManager.initLoader(REPOSITORIES_LOADER,
+        mLoaderManager.initLoader(TRENDING_LOADER,
                 null,
-                PublicRepositoryPresenter.this);
+                TrendingRepositoryPresenter.this);
     }
 }

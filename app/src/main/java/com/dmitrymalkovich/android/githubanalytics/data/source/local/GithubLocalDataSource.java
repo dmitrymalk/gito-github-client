@@ -79,6 +79,11 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
+    public void getUser(GerUserCallback callback) {
+
+    }
+
+    @Override
     public void saveToken(String token, String tokenType) {
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(PREFERENCES_TOKEN, token);
@@ -210,39 +215,22 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     public void saveTrendingRepositories(String period, String language,
-                                          List<ResponseTrending> responseTrendingList) {
+                                         List<ResponseTrending> responseTrendingList) {
+        String selection = TrendingContract.TrendingEntry.COLUMN_LANGUAGE + " = '"
+                + language + "' AND "
+                + TrendingContract.TrendingEntry.COLUMN_PERIOD
+                + " = '" + period + "'";
+
+        mContentResolver.delete(TrendingContract.TrendingEntry.CONTENT_URI,
+                null,
+                null);
+
         for (ResponseTrending repository : responseTrendingList) {
             ContentValues contentValues = TrendingContract.TrendingEntry
                     .buildContentValues(repository, period);
-
-            String selection = TrendingContract.TrendingEntry.COLUMN_LANGUAGE + " = '"
-                    + language + "' AND "
-                    + TrendingContract.TrendingEntry.COLUMN_PERIOD
-                    + " = '" + period + "' AND "
-                    + TrendingContract.TrendingEntry.COLUMN_HTML_URL
-                    + " = '" + repository.getHtmlUrl() + "'";
-
-            Cursor cursor = mContentResolver.query(TrendingContract.TrendingEntry.CONTENT_URI,
-                    new String[]{TrendingContract.TrendingEntry._ID},
-                    selection,
-                    null,
-                    null);
-
-            if (cursor != null && cursor.moveToFirst()) {
-                mContentResolver.update(
-                        TrendingContract.TrendingEntry.CONTENT_URI,
-                        contentValues,
-                        selection,
-                        null);
-            } else {
-                mContentResolver.insert(
-                        TrendingContract.TrendingEntry.CONTENT_URI,
-                        contentValues);
-            }
-
-            if (cursor != null) {
-                cursor.close();
-            }
+            mContentResolver.insert(
+                    TrendingContract.TrendingEntry.CONTENT_URI,
+                    contentValues);
         }
     }
 }

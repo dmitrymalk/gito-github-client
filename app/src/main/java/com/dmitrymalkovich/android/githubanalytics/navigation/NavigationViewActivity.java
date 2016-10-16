@@ -12,20 +12,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardFragment;
 import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardPresenter;
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
 import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.sync.SyncAdapter;
-import com.dmitrymalkovich.android.githubanalytics.publicrepositories.PublicRepositoriesFragment;
-import com.dmitrymalkovich.android.githubanalytics.publicrepositories.PublicRepositoryPresenter;
+import com.dmitrymalkovich.android.githubanalytics.publicrepository.PublicRepositoryFragment;
+import com.dmitrymalkovich.android.githubanalytics.publicrepository.PublicRepositoryPresenter;
+import com.dmitrymalkovich.android.githubanalytics.trendingrepository.TrendingRepositoryFragment;
+import com.dmitrymalkovich.android.githubanalytics.trendingrepository.TrendingRepositoryPresenter;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 
 public class NavigationViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @SuppressWarnings("unused")
+    private static final String LOG_TAG = NavigationViewActivity.class.getSimpleName();
+    private NavigationView mNavigationView;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -41,12 +54,38 @@ public class NavigationViewActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         showDashboard();
 
         SyncAdapter.initializeSyncAdapter(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        View headerLayout = mNavigationView.getHeaderView(0);
+        final ImageView avatarView = (ImageView) headerLayout.findViewById(R.id.avatar);
+        final TextView nameView = (TextView) headerLayout.findViewById(R.id.name);
+        final TextView usernameView = (TextView) headerLayout.findViewById(R.id.username);
+
+        GithubRepository repository = Injection.provideGithubRepository(this);
+        repository.getUser(new GithubDataSource.GerUserCallback() {
+            @Override
+            public void onUserLoaded(ResponseUser user) {
+                Glide.with(NavigationViewActivity.this)
+                        .load(user.getAvatarUrl()).into(avatarView);
+                nameView.setText(user.getName());
+                usernameView.setText(user.getLogin());
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
     }
 
     @Override
@@ -79,6 +118,7 @@ public class NavigationViewActivity extends AppCompatActivity
         } else if (id == R.id.nav_repositories) {
             showRepositories();
         } else if (id == R.id.nav_trending) {
+            showTrendingRepositories();
         } else if (id == R.id.nav_feedback) {
         } else if (id == R.id.nav_sign_out) {
             signOut();
@@ -109,17 +149,35 @@ public class NavigationViewActivity extends AppCompatActivity
     private void showRepositories() {
         Fragment fragment = getSupportFragmentManager()
                 .findFragmentById(R.id.content_navigation_view);
-        PublicRepositoriesFragment publicRepositoriesFragment;
-        if (fragment instanceof PublicRepositoriesFragment) {
-            publicRepositoriesFragment = (PublicRepositoriesFragment) fragment;
+        PublicRepositoryFragment publicRepositoriesFragment;
+        if (fragment instanceof PublicRepositoryFragment) {
+            publicRepositoriesFragment = (PublicRepositoryFragment) fragment;
         } else {
-            publicRepositoriesFragment = PublicRepositoriesFragment.newInstance();
+            publicRepositoriesFragment = PublicRepositoryFragment.newInstance();
             ActivityUtils.replaceFragment(getSupportFragmentManager(),
                     publicRepositoriesFragment, R.id.content_navigation_view);
         }
         new PublicRepositoryPresenter(
                 Injection.provideGithubRepository(this),
                 publicRepositoriesFragment,
+                new LoaderProvider(this),
+                getSupportLoaderManager());
+    }
+
+    private void showTrendingRepositories() {
+        Fragment fragment = getSupportFragmentManager()
+                .findFragmentById(R.id.content_navigation_view);
+        TrendingRepositoryFragment trendingRepositoryFragment;
+        if (fragment instanceof TrendingRepositoryFragment) {
+            trendingRepositoryFragment = (TrendingRepositoryFragment) fragment;
+        } else {
+            trendingRepositoryFragment = TrendingRepositoryFragment.newInstance();
+            ActivityUtils.replaceFragment(getSupportFragmentManager(),
+                    trendingRepositoryFragment, R.id.content_navigation_view);
+        }
+        new TrendingRepositoryPresenter(
+                Injection.provideGithubRepository(this),
+                trendingRepositoryFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());
     }

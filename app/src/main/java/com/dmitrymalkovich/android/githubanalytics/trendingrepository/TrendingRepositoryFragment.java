@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.publicrepositories;
+package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -21,24 +21,23 @@ import butterknife.Unbinder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class PublicRepositoriesFragment extends Fragment implements PublicRepositoriesContract.View {
+public class TrendingRepositoryFragment extends Fragment implements TrendingRepositoryContract.View {
 
-    private PublicRepositoriesContract.Presenter mPresenter;
+    private TrendingRepositoryContract.Presenter mPresenter;
     private Unbinder unbinder;
     @BindView(R.id.progress) ProgressBar mProgressBar;
-    @BindView(R.id.empty_state_dashboard_container) View mEmptyStateView;
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
-    private PublicRepositoryListAdapter mAdapter;
+    private TrendingRepositoryListAdapter mAdapter;
 
-    public static PublicRepositoriesFragment newInstance() {
-        return new PublicRepositoriesFragment();
+    public static TrendingRepositoryFragment newInstance() {
+        return new TrendingRepositoryFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_repositories, container, false);
+        View root = inflater.inflate(R.layout.fragment_trending, container, false);
         unbinder = ButterKnife.bind(this, root);
 
         int columnCount = getResources().getInteger(R.integer.grid_column_count);
@@ -46,21 +45,25 @@ public class PublicRepositoriesFragment extends Fragment implements PublicReposi
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        mAdapter = new PublicRepositoryListAdapter(null);
+        mAdapter = new TrendingRepositoryListAdapter(null);
         mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
 
         mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
 
-        mPresenter.start();
-
         if (getActivity() instanceof AppCompatActivity) {
             AppCompatActivity activity = (AppCompatActivity) getActivity();
             if (activity.getSupportActionBar() != null) {
-                activity.getSupportActionBar().setTitle(R.string.repositories);
+                activity.getSupportActionBar().setTitle(R.string.trending);
             }
         }
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
     }
 
     @Override
@@ -70,7 +73,7 @@ public class PublicRepositoriesFragment extends Fragment implements PublicReposi
     }
 
     @Override
-    public void setPresenter(PublicRepositoriesContract.Presenter presenter) {
+    public void setPresenter(TrendingRepositoryContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 

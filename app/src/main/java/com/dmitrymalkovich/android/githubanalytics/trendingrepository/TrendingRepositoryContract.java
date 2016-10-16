@@ -1,5 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.publicrepositories;
-
+package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
 
 import android.database.Cursor;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,7 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import com.dmitrymalkovich.android.githubanalytics.BasePresenter;
 import com.dmitrymalkovich.android.githubanalytics.BaseView;
 
-class PublicRepositoriesContract {
+class TrendingRepositoryContract {
 
     interface View extends BaseView<Presenter> {
         void setLoadingIndicator(boolean active);

@@ -40,7 +40,7 @@ public class TrendingContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static final String[] REPOSITORY_COLUMNS = {
+        public static final String[] TRENDING_COLUMNS = {
                 _ID,
                 COLUMN_HTML_URL,
                 COLUMN_WATCHER_COUNT,

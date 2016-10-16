@@ -13,10 +13,13 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.Respo
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
 
 import org.eclipse.egit.github.core.Repository;
+import org.eclipse.egit.github.core.User;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.eclipse.egit.github.core.service.UserService;
 
 import java.io.IOException;
 import java.util.List;
@@ -213,9 +216,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
             accessToken.setAccessToken(getToken());
             accessToken.setTokenType(getTokenType());
 
-            GithubService githubService = GithubServiceGenerator.createService(
+            GithubService githubService = GithubServiceGenerator.createDebugService(
                     GithubService.class, accessToken);
-            String qualifies = "language:" + language + "+created:>'date -v-7d '+%Y-%m-%d''";
+            String qualifies = "language:" + language + " created:>2016-10-07";
             String sort = "stars";
             String order = "desc";
             Call<ResponseRepositorySearch> call = githubService.searchRepositories(qualifies,
@@ -353,5 +356,41 @@ public class GithubRemoteDataSource implements GithubDataSource {
     @Override
     public String getTokenType() {
         return GithubLocalDataSource.getInstance(mContentResolver, mPreferences).getTokenType();
+    }
+
+    @Override
+    public void getUser(final GerUserCallback callback) {
+        new AsyncTask<Void, Void, ResponseUser>()
+        {
+            @Override
+            protected ResponseUser doInBackground(Void... params) {
+                try {
+                    UserService service = new UserService();
+                    service.getClient().setOAuth2Token(getToken());
+                    User user = service.getUser();
+
+                    ResponseUser responseUser = new ResponseUser();
+                    responseUser.setName(user.getName());
+                    responseUser.setLogin(user.getLogin());
+                    responseUser.setAvatarUrl(user.getAvatarUrl());
+                    return responseUser;
+                }
+                catch (IOException e)
+                {
+                    Log.e(LOG_TAG, e.getMessage(), e);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(ResponseUser user) {
+                if (user != null) {
+                    callback.onUserLoaded(user);
+                }
+                else {
+                    callback.onDataNotAvailable();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }
