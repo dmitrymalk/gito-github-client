@@ -34,7 +34,6 @@
                     android:scheme="githubanalytics" />
             </intent-filter>
         </activity>
-        <activity android:name=".basicauthorization.BasicAuthorizationActivity" />
 
         <provider
             android:name=".data.source.local.GithubDataProvider"

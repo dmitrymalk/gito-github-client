@@ -12,6 +12,7 @@
   limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/empty_state_dashboard_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -23,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_dashboard_black_100dp" />
+        android:src="@drawable/ic_dashboard_black_100dp"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:layout_width="wrap_content"

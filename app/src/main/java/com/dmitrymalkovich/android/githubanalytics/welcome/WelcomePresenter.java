@@ -52,11 +52,6 @@ class WelcomePresenter implements WelcomeContract.Presenter {
     }
 
     @Override
-    public void signIn() {
-        mWelcomeView.startBasicAuthorizationActivity();
-    }
-
-    @Override
     public void oauthSignIn() {
         Uri uri = Uri.parse(GithubServiceGenerator.API_URL_AUTH
                 + "?client_id=" + GithubService.clientId

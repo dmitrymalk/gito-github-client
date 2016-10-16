@@ -124,6 +124,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             public void onDataNotAvailable() {
             }
         });
+
+        // Get information about trending repositories
     }
 
     public static void initializeSyncAdapter(Context context) {

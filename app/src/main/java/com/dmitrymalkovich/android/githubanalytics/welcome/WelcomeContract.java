@@ -9,7 +9,6 @@ import com.dmitrymalkovich.android.githubanalytics.BaseView;
 class WelcomeContract {
 
     interface View extends BaseView<Presenter> {
-        void startBasicAuthorizationActivity();
 
         void startOAuthIntent(Uri uri);
 
@@ -21,8 +20,6 @@ class WelcomeContract {
     }
 
     interface Presenter extends BasePresenter {
-
-        void signIn();
 
         void oauthSignIn();
 

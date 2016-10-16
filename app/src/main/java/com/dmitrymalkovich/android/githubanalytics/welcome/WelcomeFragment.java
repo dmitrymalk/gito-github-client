@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.dmitrymalkovich.android.githubanalytics.basicauthorization.BasicAuthorizationActivity;
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.navigation.NavigationViewActivity;
 
@@ -70,12 +69,6 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
     @Override
     public void setPresenter(WelcomeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
-    }
-
-    @Override
-    public void startBasicAuthorizationActivity() {
-        Intent intent = new Intent(getContext(), BasicAuthorizationActivity.class);
-        startActivity(intent);
     }
 
     @Override
