@@ -70,13 +70,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         // Get user's repositories and save to db
         List<Repository> repositoryList = githubRepository.getRepositoriesSync();
-        for (Repository repository : repositoryList) {
-            // Get repository top referrers and save to db
-            githubRepository.getRepositoryReferrersSync(repository);
-            // Get repository visitors and save to db
-            githubRepository.getRepositoryViewsSync(repository);
-            // Get repository clones and save to db
-            githubRepository.getRepositoryClonesSync(repository);
+        if (repositoryList != null) {
+            for (Repository repository : repositoryList) {
+                // Get repository top referrers and save to db
+                githubRepository.getRepositoryReferrersSync(repository);
+                // Get repository visitors and save to db
+                githubRepository.getRepositoryViewsSync(repository);
+                // Get repository clones and save to db
+                githubRepository.getRepositoryClonesSync(repository);
+            }
         }
 
         // Get information about trending repositories

@@ -6,10 +6,6 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,54 +26,58 @@
                 android:text="@string/analytics"
                 android:textSize="@dimen/material_typography_headline" />
 
-            <LinearLayout
-                android:id="@+id/content"
-                android:layout_width="match_parent"
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="?attr/actionBarSize"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
+                android:visibility="gone"
+                android:src="@drawable/ic_trending_up_black_50dp"
+                tools:ignore="ContentDescription" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
-                        android:src="@drawable/ic_trending_up_black_50dp"
-                        tools:ignore="ContentDescription" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
-                        android:src="@drawable/ic_equalizer_black_50dp"
-                        tools:ignore="ContentDescription" />
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/sign_in_oauth"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
-                    android:background="@drawable/ripple_grey"
-                    android:shadowDx="1"
-                    android:shadowDy="1"
-                    android:text="@string/welcome_sign_in_oauth"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
+                android:visibility="gone"
+                android:src="@drawable/ic_equalizer_black_50dp"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
-    </ScrollView>
+        <Button
+            android:id="@+id/sign_in_oauth"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
+            android:padding="16dp"
+            android:background="@drawable/ripple_grey"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:drawableLeft="@drawable/github_mark"
+            android:drawableStart="@drawable/github_mark"
+            android:text="@string/welcome_sign_in_oauth"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/login_progress"

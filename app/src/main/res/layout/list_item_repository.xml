@@ -111,6 +111,6 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:visibility="gone"
-        android:layout_gravity="bottom|right" />
+        android:layout_gravity="bottom|end" />
 
 </android.support.v7.widget.CardView>
