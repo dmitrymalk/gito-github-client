@@ -13,27 +13,34 @@ import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapte
 
 class TrendingRepositoryListAdapter extends CursorRecyclerViewAdapter<TrendingRepositoryListAdapter.ViewHolder> {
 
-    TrendingRepositoryListAdapter(Cursor cursor) {
+    private final TrendingRepositoryContract.View mView;
+
+    TrendingRepositoryListAdapter(Cursor cursor, TrendingRepositoryContract.View view) {
         super(cursor);
+        mView = view;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_trending_repository, parent, false);
-        final ViewHolder vh = new ViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-        return vh;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
         holder.titleView.setText(cursor.getString(TrendingContract.TrendingEntry.COL_NAME));
         holder.subtitleView.setText(cursor.getString(TrendingContract.TrendingEntry.COL_DESCRIPTION));
+        final String htmlUrl = cursor.getString(TrendingContract.TrendingEntry.COL_HTML_URL);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (htmlUrl != null) {
+                    mView.openUrl(htmlUrl);
+                }
+            }
+        });
+        holder.rankView.setText("#" + String.valueOf(cursor.getPosition() + 1));
     }
 
     @Override
@@ -44,11 +51,13 @@ class TrendingRepositoryListAdapter extends CursorRecyclerViewAdapter<TrendingRe
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleView;
         TextView subtitleView;
+        TextView rankView;
 
         ViewHolder(View view) {
             super(view);
-            titleView = (TextView) view.findViewById(R.id.repository_title);
-            subtitleView = (TextView) view.findViewById(R.id.repository_subtitle);
+            titleView = (TextView) view.findViewById(R.id.title);
+            subtitleView = (TextView) view.findViewById(R.id.subtitle);
+            rankView = (TextView) view.findViewById(R.id.rank);
         }
     }
 }

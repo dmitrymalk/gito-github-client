@@ -60,8 +60,8 @@ class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdap
 
         ViewHolder(View view) {
             super(view);
-            titleView = (TextView) view.findViewById(R.id.repository_title);
-            subtitleView = (TextView) view.findViewById(R.id.repository_subtitle);
+            titleView = (TextView) view.findViewById(R.id.title);
+            subtitleView = (TextView) view.findViewById(R.id.subtitle);
             watchersView = (TextView) view.findViewById(R.id.repository_watchers);
             languageView = (TextView) view.findViewById(R.id.repository_language);
             languageIconView = (ImageView) view.findViewById(R.id.repository_language_icon);

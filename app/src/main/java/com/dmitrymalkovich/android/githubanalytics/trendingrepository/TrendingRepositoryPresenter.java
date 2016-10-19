@@ -9,8 +9,7 @@ import android.support.v4.content.Loader;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
-
-import org.eclipse.egit.github.core.Repository;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 
 import java.util.List;
 
@@ -50,20 +49,22 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     @Override
     public void start() {
         mView.setLoadingIndicator(true);
-        showRepositories();
+        showTrendingRepositories();
     }
 
     @Override
     public void onRefresh() {
-        mGithubRepository.getRepositories(new GithubDataSource.GetRepositoriesCallback() {
+        mGithubRepository.getTrendingRepositories("day", "java",
+                new GithubDataSource.GetTrendingRepositories() {
             @Override
-            public void onRepositoriesLoaded(List<Repository> repositoryList) {
+            public void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList) {
+                mView.setRefreshIndicator(false);
                 mView.setLoadingIndicator(false);
             }
 
             @Override
             public void onDataNotAvailable() {
-                mView.setLoadingIndicator(false);
+                TrendingRepositoryPresenter.this.onDataNotAvailable();
             }
         });
     }
@@ -80,7 +81,8 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
 
     @Override
     public void onDataNotAvailable() {
-
+        mView.setRefreshIndicator(false);
+        mView.setLoadingIndicator(false);
     }
 
     @Override
@@ -110,9 +112,21 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
         onDataReset();
     }
 
-    private void showRepositories() {
+    private void showTrendingRepositories() {
         mLoaderManager.initLoader(TRENDING_LOADER,
                 null,
                 TrendingRepositoryPresenter.this);
+        mGithubRepository.getTrendingRepositories("day", "java",
+                new GithubDataSource.GetTrendingRepositories() {
+                    @Override
+                    public void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList) {
+                        mView.setLoadingIndicator(false);
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+
+                    }
+                });
     }
 }

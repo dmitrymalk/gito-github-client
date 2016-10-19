@@ -79,7 +79,7 @@ public class GithubServiceGenerator {
 
     static <S> S createThirdPartyService(Class<S> serviceClass) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        // interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = httpClient.addInterceptor(interceptor)
                 .addInterceptor(new Interceptor() {
                     @Override

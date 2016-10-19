@@ -1,7 +1,10 @@
 package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -45,7 +48,7 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        mAdapter = new TrendingRepositoryListAdapter(null);
+        mAdapter = new TrendingRepositoryListAdapter(null, this);
         mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -80,6 +83,12 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     public void setLoadingIndicator(boolean active) {
         if (mProgressBar != null) {
             mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    public void setRefreshIndicator(boolean active) {
+        if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(active);
         }
     }
@@ -87,5 +96,11 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     @Override
     public void showRepositories(Cursor data) {
         this.mAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void openUrl(@NonNull String htmlUrl) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(htmlUrl));
+        getActivity().startActivity(browserIntent);
     }
 }

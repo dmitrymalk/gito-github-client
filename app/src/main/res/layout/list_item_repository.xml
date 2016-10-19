@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/repository_title"
+            android:id="@+id/title"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:maxLines="2" />
 
         <TextView
-            android:id="@+id/repository_subtitle"
+            android:id="@+id/subtitle"
             android:paddingTop="@dimen/material_component_cards_padding_from_edge_of_screen_to_card"
             android:paddingBottom="@dimen/material_component_cards_supporting_text_bottom_padding"
             style="@style/TextAppearance.AppCompat.Small"
