@@ -79,6 +79,12 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
     public void setLoadingIndicator(boolean active) {
         if (mProgressBar != null) {
             mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    public void setRefreshIndicator(boolean active) {
+        if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(active);
         }
     }

@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,7 +41,9 @@ class TrendingRepositoryListAdapter extends CursorRecyclerViewAdapter<TrendingRe
                 }
             }
         });
-        holder.rankView.setText("#" + String.valueOf(cursor.getPosition() + 1));
+        Context context = holder.titleView.getContext();
+        String rank = context.getString(R.string.rank, String.valueOf(cursor.getPosition() + 1));
+        holder.rankView.setText(rank);
     }
 
     @Override

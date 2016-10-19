@@ -59,11 +59,12 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
             @Override
             public void onRepositoriesLoaded(List<Repository> repositoryList) {
                 mPublicRepositoriesView.setLoadingIndicator(false);
+                mPublicRepositoriesView.setRefreshIndicator(false);
             }
 
             @Override
             public void onDataNotAvailable() {
-                mPublicRepositoriesView.setLoadingIndicator(false);
+                PublicRepositoryPresenter.this.onDataNotAvailable();
             }
         });
     }
@@ -71,6 +72,7 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
     @Override
     public void onDataLoaded(Cursor data) {
         mPublicRepositoriesView.setLoadingIndicator(false);
+        mPublicRepositoriesView.setRefreshIndicator(false);
         mPublicRepositoriesView.showRepositories(data);
     }
 
@@ -80,7 +82,8 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
 
     @Override
     public void onDataNotAvailable() {
-
+        mPublicRepositoriesView.setLoadingIndicator(false);
+        mPublicRepositoriesView.setRefreshIndicator(false);
     }
 
     @Override

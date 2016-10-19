@@ -12,14 +12,20 @@ import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
 
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORK;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORKS;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_HTML_URL;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_LANGUAGE;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_NAME;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_WATCHERS;
 
 class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicRepositoryListAdapter.ViewHolder> {
 
-    PublicRepositoryListAdapter(Cursor cursor) {
+    private final PublicRepositoryContract.View mView;
+
+    PublicRepositoryListAdapter(Cursor cursor, PublicRepositoryContract.View view) {
         super(cursor);
+        mView = view;
     }
 
     @Override
@@ -44,6 +50,23 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
         holder.languageIconView.setVisibility(holder.languageView.getText() != null
                 && holder.languageView.getText().length() != 0
                 ? View.VISIBLE : View.GONE);
+        final String htmlUrl = cursor.getString(COL_REPOSITORY_HTML_URL);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (htmlUrl != null) {
+                    mView.openUrl(htmlUrl);
+                }
+            }
+        });
+
+        holder.forksView.setText(cursor.getString(COL_REPOSITORY_FORKS));
+
+        String fork = cursor.getString(COL_REPOSITORY_FORK);
+        boolean forked = fork != null && fork.equals("1");
+        holder.badgeView.setVisibility(forked ? View.VISIBLE : View.GONE);
+        holder.badgeView.setText(R.string.forked);
+
     }
 
     @Override
@@ -54,6 +77,8 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView watchersView;
         private final TextView languageView;
+        private final TextView forksView;
+        private final TextView badgeView;
         TextView titleView;
         TextView subtitleView;
         private final ImageView languageIconView;
@@ -65,6 +90,8 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
             watchersView = (TextView) view.findViewById(R.id.repository_watchers);
             languageView = (TextView) view.findViewById(R.id.repository_language);
             languageIconView = (ImageView) view.findViewById(R.id.repository_language_icon);
+            forksView = (TextView) view.findViewById(R.id.forks);
+            badgeView = (TextView) view.findViewById(R.id.badge);
         }
     }
 }

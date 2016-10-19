@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_scrollFlags="scroll"
             android:background="?attr/colorPrimary"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
@@ -29,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"
+            app:layout_scrollFlags="scroll|enterAlways"
             android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
             android:src="@drawable/github_logo"
             tools:ignore="ContentDescription" />

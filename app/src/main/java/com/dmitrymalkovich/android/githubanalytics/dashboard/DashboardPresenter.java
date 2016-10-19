@@ -59,11 +59,12 @@ public class DashboardPresenter implements DashboardContract.Presenter,
             @Override
             public void onRepositoriesLoaded(List<Repository> repositoryList) {
                 mDashboardView.setLoadingIndicator(false);
+                mDashboardView.setRefreshIndicator(false);
             }
 
             @Override
             public void onDataNotAvailable() {
-                mDashboardView.setLoadingIndicator(false);
+                DashboardPresenter.this.onDataNotAvailable();
             }
         });
     }
@@ -71,6 +72,7 @@ public class DashboardPresenter implements DashboardContract.Presenter,
     @Override
     public void onDataLoaded(Cursor data) {
         mDashboardView.setLoadingIndicator(false);
+        mDashboardView.setRefreshIndicator(false);
         mDashboardView.showRepositories(data);
     }
 
@@ -80,7 +82,8 @@ public class DashboardPresenter implements DashboardContract.Presenter,
 
     @Override
     public void onDataNotAvailable() {
-
+        mDashboardView.setLoadingIndicator(false);
+        mDashboardView.setRefreshIndicator(false);
     }
 
     @Override
