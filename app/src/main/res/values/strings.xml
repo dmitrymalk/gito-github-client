@@ -21,5 +21,6 @@
     <string name="analytics">Analytics</string>
     <string name="rank">#%1$s</string>
     <string name="forked">Forked</string>
+    <string name="notifications">Notifications</string>
 
 </resources>
