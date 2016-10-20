@@ -250,7 +250,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
             List<ResponseReferrer> responseReferrerList = call.execute().body();
             GithubLocalDataSource localDataSource =
                     GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-            localDataSource.saveReferrers(repository.getId(), responseReferrerList);
+            if (responseReferrerList != null) {
+                localDataSource.saveReferrers(repository.getId(), responseReferrerList);
+            }
             return responseReferrerList;
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
