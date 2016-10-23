@@ -110,7 +110,6 @@
         android:layout_gravity="bottom|end"
         android:background="@color/blue"
         android:padding="@dimen/material_component_cards_space_between_cards"
-        android:textColor="@android:color/white"
-        android:visibility="gone" />
+        android:textColor="@android:color/white" />
 
 </android.support.v7.widget.CardView>

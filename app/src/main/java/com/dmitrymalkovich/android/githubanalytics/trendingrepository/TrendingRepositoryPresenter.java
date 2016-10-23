@@ -76,10 +76,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     @Override
     public void changeLanguage(String language) {
         mGithubRepository.setDefaultLanguageForTrending(language);
-        mView.showRepositories(null);
-        mView.setLoadingIndicator(true);
-        mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
-        showTrendingRepositories();
+        updateList();
     }
 
     @Override
@@ -98,10 +95,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
                         GithubLocalDataSource.TRENDING_PERIOD_MONTHLY);
                 break;
         }
-        mView.showRepositories(null);
-        mView.setLoadingIndicator(true);
-        mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
-        showTrendingRepositories();
+        updateList();
     }
 
     @Override
@@ -166,6 +160,13 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         onDataReset();
+    }
+
+    private void updateList() {
+        mView.showRepositories(null);
+        mView.setLoadingIndicator(true);
+        mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
+        showTrendingRepositories();
     }
 
     private void showTrendingRepositories() {

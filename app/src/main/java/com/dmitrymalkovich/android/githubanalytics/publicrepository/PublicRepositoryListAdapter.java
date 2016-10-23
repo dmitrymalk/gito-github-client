@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.publicrepository;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,6 +44,8 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
+        Context context = holder.itemView.getContext();
+
         holder.titleView.setText(cursor.getString(COL_REPOSITORY_NAME));
         holder.subtitleView.setText(cursor.getString(COL_REPOSITORY_DESCRIPTION));
         holder.watchersView.setText(cursor.getString(COL_REPOSITORY_WATCHERS));
@@ -61,11 +64,19 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
         });
 
         holder.forksView.setText(cursor.getString(COL_REPOSITORY_FORKS));
-
         String fork = cursor.getString(COL_REPOSITORY_FORK);
         boolean forked = fork != null && fork.equals("1");
-        holder.badgeView.setVisibility(forked ? View.VISIBLE : View.GONE);
-        holder.badgeView.setText(R.string.forked);
+        if (forked) {
+            holder.badgeView.setBackgroundColor(context.getResources()
+                    .getColor(R.color.blue));
+            holder.badgeView.setText(R.string.forked);
+        }
+        else
+        {
+            holder.badgeView.setBackgroundColor(context.getResources()
+                    .getColor(R.color.green));
+            holder.badgeView.setText(R.string.public_rep);
+        }
 
     }
 

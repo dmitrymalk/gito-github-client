@@ -27,4 +27,5 @@
     <string name="daily">Today</string>
     <string name="weekly">This week</string>
     <string name="monthly">This month</string>
+    <string name="public_rep">Public</string>
 </resources>
