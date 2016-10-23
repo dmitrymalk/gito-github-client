@@ -14,11 +14,23 @@ import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemoteDataSource;
 
 import org.eclipse.egit.github.core.Repository;
 
 import java.util.List;
+
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C_PLUS_PLUS;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C_SHARP;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_HTML;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_JAVA;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_JAVASCRIPT;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_OBJECTIVE_C;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_PYTHON;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_RUBY;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_SWIFT;
 
 /**
  * Handle the transfer of data between a server and an
@@ -30,7 +42,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static String LOG_TAG = SyncAdapter.class.getSimpleName();
     private static final int SECONDS_PER_MINUTE = 60;
-    private static final int SYNC_INTERVAL_IN_MINUTES = 15;
+    private static final int SYNC_INTERVAL_IN_MINUTES = 60;
     private static final int SYNC_INTERVAL =
             SYNC_INTERVAL_IN_MINUTES *
                     SECONDS_PER_MINUTE;
@@ -84,6 +96,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         // Get information about trending repositories
         githubRepository.getTrendingRepositoriesSync(githubRepository.getDefaultPeriodForTrending(),
                 githubRepository.getDefaultLanguageForTrending());
+
+        String[] languages = {TRENDING_LANGUAGE_C,
+                TRENDING_LANGUAGE_RUBY,
+                TRENDING_LANGUAGE_JAVASCRIPT,
+                TRENDING_LANGUAGE_SWIFT,
+                TRENDING_LANGUAGE_OBJECTIVE_C,
+                TRENDING_LANGUAGE_C_PLUS_PLUS,
+                TRENDING_LANGUAGE_PYTHON,
+                TRENDING_LANGUAGE_C_SHARP,
+                TRENDING_LANGUAGE_HTML};
+
+        for (String language : languages) {
+            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_DAILY,
+                    language);
+            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_WEEKLY,
+                    language);
+            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_MONTHLY,
+                    language);
+        }
     }
 
     public static void initializeSyncAdapter(Context context) {

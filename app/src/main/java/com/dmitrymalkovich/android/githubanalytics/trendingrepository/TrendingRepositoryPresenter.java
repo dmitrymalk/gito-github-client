@@ -107,6 +107,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
             public void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList) {
                 mView.setRefreshIndicator(false);
                 mView.setLoadingIndicator(false);
+                mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
             }
 
             @Override
@@ -166,25 +167,5 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
         mView.showRepositories(null);
         mView.setLoadingIndicator(true);
         mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
-        showTrendingRepositories();
-    }
-
-    private void showTrendingRepositories() {
-        mLoaderManager.initLoader(TRENDING_LOADER,
-                null,
-                TrendingRepositoryPresenter.this);
-        mGithubRepository.getTrendingRepositories(mGithubRepository.getDefaultPeriodForTrending(),
-                mGithubRepository.getDefaultLanguageForTrending(),
-                new GithubDataSource.GetTrendingRepositories() {
-                    @Override
-                    public void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList) {
-                        mView.setLoadingIndicator(false);
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-
-                    }
-                });
     }
 }
