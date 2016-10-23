@@ -28,4 +28,6 @@
     <string name="weekly">This week</string>
     <string name="monthly">This month</string>
     <string name="public_rep">Public</string>
+    <string name="username">\@%1$s</string>
+    <string name="followers">%1$s followers</string>
 </resources>

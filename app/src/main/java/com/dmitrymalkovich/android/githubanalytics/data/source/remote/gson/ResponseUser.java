@@ -6,6 +6,7 @@ public class ResponseUser {
     String login;
     String name;
     String avatarUrl;
+    String followers;
 
     public String getLogin() {
         return login;
@@ -29,5 +30,13 @@ public class ResponseUser {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(String followers) {
+        this.followers = followers;
     }
 }

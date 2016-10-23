@@ -364,6 +364,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     responseUser.setName(user.getName());
                     responseUser.setLogin(user.getLogin());
                     responseUser.setAvatarUrl(user.getAvatarUrl());
+                    responseUser.setFollowers(String.valueOf(user.getFollowers()));
                     return responseUser;
                 } catch (IOException e) {
                     Log.e(LOG_TAG, e.getMessage(), e);
