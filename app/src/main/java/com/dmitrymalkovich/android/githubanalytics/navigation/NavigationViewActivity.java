@@ -143,6 +143,7 @@ public class NavigationViewActivity extends AppCompatActivity
         } else if (id == R.id.nav_trending) {
             showTrendingRepositories();
         } else if (id == R.id.nav_feedback) {
+            ActivityUtils.openFeedback(this);
         } else if (id == R.id.nav_sign_out) {
             signOut();
         }

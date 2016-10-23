@@ -20,7 +20,6 @@
     <group android:id="@+id/group_2" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_feedback"
-            android:enabled="false"
             android:title="@string/feedback" />
         <item
             android:id="@+id/nav_sign_out"

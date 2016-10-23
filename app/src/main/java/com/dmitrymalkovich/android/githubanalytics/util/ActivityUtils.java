@@ -16,10 +16,17 @@
 
 package com.dmitrymalkovich.android.githubanalytics.util;
 
+import android.app.Activity;
+import android.app.ApplicationErrorReport;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -65,4 +72,32 @@ public class ActivityUtils {
         transaction.commit();
     }
 
+    public static void openFeedback(Activity activity) {
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            ApplicationErrorReport report = new ApplicationErrorReport();
+            report.packageName = report.processName = activity.getApplication()
+                    .getPackageName();
+            report.time = System.currentTimeMillis();
+            report.type = ApplicationErrorReport.TYPE_CRASH;
+            report.systemApp = false;
+            ApplicationErrorReport.CrashInfo crash = new ApplicationErrorReport.CrashInfo();
+            crash.exceptionClassName = e.getClass().getSimpleName();
+            crash.exceptionMessage = e.getMessage();
+            StringWriter writer = new StringWriter();
+            PrintWriter printer = new PrintWriter(writer);
+            e.printStackTrace(printer);
+            crash.stackTrace = writer.toString();
+            StackTraceElement stack = e.getStackTrace()[0];
+            crash.throwClassName = stack.getClassName();
+            crash.throwFileName = stack.getFileName();
+            crash.throwLineNumber = stack.getLineNumber();
+            crash.throwMethodName = stack.getMethodName();
+            report.crashInfo = crash;
+            Intent intent = new Intent(Intent.ACTION_APP_ERROR);
+            intent.putExtra(Intent.EXTRA_BUG_REPORT, report);
+            activity.startActivity(intent);
+        }
+    }
 }
