@@ -85,6 +85,7 @@ public class NavigationViewActivity extends AppCompatActivity
         final ImageView avatarView = (ImageView) headerLayout.findViewById(R.id.avatar);
         final TextView nameView = (TextView) headerLayout.findViewById(R.id.name);
         final TextView usernameView = (TextView) headerLayout.findViewById(R.id.username);
+        final TextView followersView = (TextView) headerLayout.findViewById(R.id.followers);
 
         GithubRepository repository = Injection.provideGithubRepository(this);
         repository.getUser(new GithubDataSource.GerUserCallback() {
@@ -93,7 +94,8 @@ public class NavigationViewActivity extends AppCompatActivity
                 Glide.with(NavigationViewActivity.this)
                         .load(user.getAvatarUrl()).into(avatarView);
                 nameView.setText(user.getName());
-                usernameView.setText(user.getLogin());
+                usernameView.setText(getString(R.string.username, user.getLogin()));
+                followersView.setText(getString(R.string.followers, user.getFollowers()));
             }
 
             @Override
