@@ -5,42 +5,45 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("all")
 public class ResponseTrending {
 
-    @SerializedName("title")
-    String name;
+    @SerializedName("avatar")
+    String avatar;
 
-    @SerializedName("description")
+    @SerializedName("repo")
+    String repo;
+
+    @SerializedName("desc")
     String description;
 
-    @SerializedName("language")
-    String language;
+    @SerializedName("owner")
+    String owner;
 
-    @SerializedName("watchers_count")
-    int watchersCount;
+    @SerializedName("stars")
+    String stars;
 
-    @SerializedName("readme")
+    @SerializedName("link")
     String htmlUrl;
 
     public String getName() {
-        return name;
+        return repo;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public String getOwner() {
+        return owner;
     }
 
-    public String getLanguage() {
-        return language;
-    }
-
-    public int getWatchersCount() {
-        return watchersCount;
+    public String getWatchersCount() {
+        return stars;
     }
 
     public String getHtmlUrl() {
         return htmlUrl;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 }

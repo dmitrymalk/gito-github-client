@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrendingMultipleLanguages;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseAccessToken;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
@@ -199,15 +198,16 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
             GithubService githubService = GithubServiceGenerator.createThirdPartyService(
                     GithubService.class);
-            Call<ResponseTrendingMultipleLanguages> call = githubService.getTrendingRepositories(language);
+            Call<List<ResponseTrending>> call = githubService.getTrendingRepositories(language,
+                    period);
 
-            ResponseTrendingMultipleLanguages responseRepositorySearch = call.execute().body();
+            List<ResponseTrending> responseTrendingList = call.execute().body();
 
-            if (responseRepositorySearch != null) {
+            if (responseTrendingList != null) {
                 GithubLocalDataSource localDataSource =
                         GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                localDataSource.saveTrendingRepositories(period, language, responseRepositorySearch.getJava());
-                return responseRepositorySearch.getJava();
+                localDataSource.saveTrendingRepositories(period, language, responseTrendingList);
+                return responseTrendingList;
             } else {
                 return null;
             }
@@ -323,6 +323,31 @@ public class GithubRemoteDataSource implements GithubDataSource {
     @Override
     public String getTokenType() {
         return GithubLocalDataSource.getInstance(mContentResolver, mPreferences).getTokenType();
+    }
+
+
+    @Override
+    public String getDefaultLanguageForTrending() {
+        return GithubLocalDataSource.getInstance(mContentResolver, mPreferences)
+                .getDefaultLanguageForTrending();
+    }
+
+    @Override
+    public void setDefaultLanguageForTrending(@GithubLocalDataSource.TrendingLanguage String language) {
+        GithubLocalDataSource.getInstance(mContentResolver, mPreferences)
+                .setDefaultLanguageForTrending(language);
+    }
+
+    @Override
+    public String getDefaultPeriodForTrending() {
+        return GithubLocalDataSource.getInstance(mContentResolver, mPreferences)
+                .getDefaultPeriodForTrending();
+    }
+
+    @Override
+    public void setDefaultPeriodForTrending(@GithubLocalDataSource.TrendingPeriod String period) {
+        GithubLocalDataSource.getInstance(mContentResolver, mPreferences)
+                .setDefaultPeriodForTrending(period);
     }
 
     @Override

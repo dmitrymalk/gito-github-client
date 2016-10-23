@@ -80,7 +80,7 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
                 TrendingContract.TrendingEntry.COLUMN_HTML_URL + " TEXT, " +
                 TrendingContract.TrendingEntry.COLUMN_DESCRIPTION + " TEXT," +
                 TrendingContract.TrendingEntry.COLUMN_LANGUAGE + " TEXT ," +
-                TrendingContract.TrendingEntry.COLUMN_TIMESTAMP + " DATE ," +
+                TrendingContract.TrendingEntry.COLUMN_AVATAR + " DATE ," +
                 TrendingContract.TrendingEntry.COLUMN_NAME + " TEXT ," +
                 TrendingContract.TrendingEntry.COLUMN_WATCHER_COUNT + " INTEGER ," +
                 TrendingContract.TrendingEntry.COLUMN_PERIOD + " TEXT" +

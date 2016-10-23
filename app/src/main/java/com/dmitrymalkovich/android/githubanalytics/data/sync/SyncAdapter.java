@@ -82,7 +82,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         // Get information about trending repositories
-        // githubRepository.getTrendingRepositoriesSync("week", "java");
+        githubRepository.getTrendingRepositoriesSync(githubRepository.getDefaultPeriodForTrending(),
+                githubRepository.getDefaultLanguageForTrending());
     }
 
     public static void initializeSyncAdapter(Context context) {

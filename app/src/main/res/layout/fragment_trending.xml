@@ -9,23 +9,14 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:scrollbarStyle="outsideOverlay"
-            tools:ignore="PrivateResource" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_for_repositories"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:scrollbarStyle="outsideOverlay"
+                tools:ignore="PrivateResource" />
+
     </android.support.v4.widget.SwipeRefreshLayout>
-
-    <include layout="@layout/empty_state_dashboard"/>
-
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
 
 </FrameLayout>

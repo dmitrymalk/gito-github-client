@@ -42,13 +42,14 @@ public class LoaderProvider {
         );
     }
 
-    public Loader<Cursor> createTrendingLoader() {
+    public Loader<Cursor> createTrendingLoader(String language, String period) {
         return new CursorLoader(
                 mContext,
                 TrendingContract.TrendingEntry.CONTENT_URI,
                 TrendingContract.TrendingEntry.TRENDING_COLUMNS,
-                null,
-                null,
+                TrendingContract.TrendingEntry.COLUMN_LANGUAGE + " = ? AND " +
+                        TrendingContract.TrendingEntry.COLUMN_PERIOD + " = ? ",
+                new String[]{language, period},
                 null
         );
     }

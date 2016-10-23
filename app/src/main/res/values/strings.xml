@@ -7,6 +7,8 @@
     <string name="dashboard">Dashboard</string>
     <string name="repositories">Repositories</string>
     <string name="trending">Trending</string>
+    <string name="trending_with_language">Trending: %1$s</string>
+    <string name="trending_info">%1$s \u2022 %2$s stars \u2022 %3$s \u2022 Built by</string>
     <string name="sign_out">Sign out</string>
     <string name="feedback">Feedback</string>
     <string name="title_for_empty_view_dashboard">No public repositories</string>
@@ -22,5 +24,7 @@
     <string name="rank">#%1$s</string>
     <string name="forked">Forked</string>
     <string name="notifications">Notifications</string>
-
+    <string name="daily">Today</string>
+    <string name="weekly">This week</string>
+    <string name="monthly">This month</string>
 </resources>

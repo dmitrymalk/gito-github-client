@@ -1,10 +1,15 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source.local;
 
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
+import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
@@ -20,14 +25,53 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.Respo
 import org.eclipse.egit.github.core.Repository;
 
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 public class GithubLocalDataSource implements GithubDataSource {
 
+    public static String LOG_TAG = GithubLocalDataSource.class.getSimpleName();
     private static final String PREFERENCES_TOKEN = "PREFERENCES_TOKEN";
     private static final String PREFERENCES_TOKEN_TYPE = "PREFERENCES_TOKEN_TYPE";
+
+    @Retention(SOURCE)
+    @StringDef({TRENDING_PERIOD_DAILY, TRENDING_PERIOD_WEEKLY, TRENDING_PERIOD_MONTHLY})
+    public @interface TrendingPeriod {}
+    public static final String TRENDING_PERIOD_DAILY = "daily";
+    public static final String TRENDING_PERIOD_WEEKLY = "weekly";
+    public static final String TRENDING_PERIOD_MONTHLY = "monthly";
+
+    private static final String PREFERENCES_TRENDING_PERIOD = "PREFERENCES_TRENDING_PERIOD";
+
+    @Retention(SOURCE)
+    @StringDef({TRENDING_LANGUAGE_JAVA,
+            TRENDING_LANGUAGE_C,
+            TRENDING_LANGUAGE_RUBY,
+            TRENDING_LANGUAGE_JAVASCRIPT,
+            TRENDING_LANGUAGE_SWIFT,
+            TRENDING_LANGUAGE_OBJECTIVE_C,
+            TRENDING_LANGUAGE_C_PLUS_PLUS,
+            TRENDING_LANGUAGE_PYTHON,
+            TRENDING_LANGUAGE_C_SHARP,
+            TRENDING_LANGUAGE_HTML})
+    public @interface TrendingLanguage {}
+    public static final String TRENDING_LANGUAGE_JAVA = "Java";
+    public static final String TRENDING_LANGUAGE_C = "C";
+    public static final String TRENDING_LANGUAGE_RUBY = "Ruby";
+    public static final String TRENDING_LANGUAGE_JAVASCRIPT = "Javascript";
+    public static final String TRENDING_LANGUAGE_SWIFT = "Swift";
+    public static final String TRENDING_LANGUAGE_OBJECTIVE_C = "Objective-C";
+    public static final String TRENDING_LANGUAGE_C_PLUS_PLUS = "C++";
+    public static final String TRENDING_LANGUAGE_PYTHON = "Python";
+    public static final String TRENDING_LANGUAGE_C_SHARP = "C#";
+    public static final String TRENDING_LANGUAGE_HTML = "Html";
+
+    private static final String PREFERENCES_TRENDING_LANGUAGE = "PREFERENCES_TRENDING_LANGUAGE";
+
     private static GithubLocalDataSource INSTANCE;
     @SuppressWarnings("all")
     private ContentResolver mContentResolver;
@@ -99,6 +143,65 @@ public class GithubLocalDataSource implements GithubDataSource {
     @Override
     public String getTokenType() {
         return mPreferences.getString(PREFERENCES_TOKEN_TYPE, null);
+    }
+
+    @Override
+    public @TrendingLanguage String getDefaultLanguageForTrending() {
+        String language = mPreferences.getString(PREFERENCES_TRENDING_LANGUAGE,
+                TRENDING_LANGUAGE_JAVA);
+        switch (language) {
+            case TRENDING_LANGUAGE_C:
+                return TRENDING_LANGUAGE_C;
+            case TRENDING_LANGUAGE_RUBY:
+                return TRENDING_LANGUAGE_RUBY;
+            case TRENDING_LANGUAGE_JAVASCRIPT:
+                return TRENDING_LANGUAGE_JAVASCRIPT;
+            case TRENDING_LANGUAGE_SWIFT:
+                return TRENDING_LANGUAGE_SWIFT;
+            case TRENDING_LANGUAGE_OBJECTIVE_C:
+                return TRENDING_LANGUAGE_OBJECTIVE_C;
+            case TRENDING_LANGUAGE_C_PLUS_PLUS:
+                return TRENDING_LANGUAGE_C_PLUS_PLUS;
+            case TRENDING_LANGUAGE_PYTHON:
+                return TRENDING_LANGUAGE_PYTHON;
+            case TRENDING_LANGUAGE_C_SHARP:
+                return TRENDING_LANGUAGE_C_SHARP;
+            case TRENDING_LANGUAGE_HTML:
+                return TRENDING_LANGUAGE_HTML;
+            default:
+            case TRENDING_LANGUAGE_JAVA:
+                return TRENDING_LANGUAGE_JAVA;
+        }
+    }
+
+    @Override
+    public void setDefaultLanguageForTrending(@TrendingLanguage String language) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(PREFERENCES_TRENDING_LANGUAGE, language);
+        editor.apply();
+    }
+
+    @Override
+    public @TrendingPeriod String getDefaultPeriodForTrending() {
+        String language = mPreferences.getString(PREFERENCES_TRENDING_PERIOD,
+                TRENDING_PERIOD_DAILY);
+        switch (language) {
+            case TRENDING_PERIOD_DAILY:
+                return TRENDING_PERIOD_DAILY;
+            case TRENDING_PERIOD_WEEKLY:
+                return TRENDING_PERIOD_WEEKLY;
+            case TRENDING_PERIOD_MONTHLY:
+                return TRENDING_PERIOD_MONTHLY;
+            default:
+                return TRENDING_PERIOD_DAILY;
+        }
+    }
+
+    @Override
+    public void setDefaultPeriodForTrending(@TrendingPeriod String period) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(PREFERENCES_TRENDING_PERIOD, period);
+        editor.apply();
     }
 
     public void saveReferrers(long repositoryId, List<ResponseReferrer> referrerList) {
@@ -216,16 +319,22 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     public void saveTrendingRepositories(String period, String language,
                                          List<ResponseTrending> responseTrendingList) {
-        mContentResolver.delete(TrendingContract.TrendingEntry.CONTENT_URI,
-                null,
-                null);
-
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+        ops.add(ContentProviderOperation.newDelete(TrendingContract.TrendingEntry.CONTENT_URI)
+                .withSelection(TrendingContract.TrendingEntry.COLUMN_LANGUAGE + " = ? AND " +
+                                TrendingContract.TrendingEntry.COLUMN_PERIOD + " = ? ",
+                        new String[]{language, period}).build());
         for (ResponseTrending repository : responseTrendingList) {
             ContentValues contentValues = TrendingContract.TrendingEntry
                     .buildContentValues(repository, period, language);
-            mContentResolver.insert(
-                    TrendingContract.TrendingEntry.CONTENT_URI,
-                    contentValues);
+            ops.add(ContentProviderOperation
+                    .newInsert(TrendingContract.TrendingEntry.CONTENT_URI)
+                    .withValues(contentValues).build());
+        }
+        try {
+            mContentResolver.applyBatch(TrendingContract.CONTENT_AUTHORITY, ops);
+        } catch (RemoteException | OperationApplicationException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
         }
     }
 }

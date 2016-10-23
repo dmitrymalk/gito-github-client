@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source;
 
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
@@ -81,4 +82,14 @@ public interface GithubDataSource {
     String getTokenType();
 
     void getUser(GerUserCallback callback);
+
+    @GithubLocalDataSource.TrendingLanguage
+    String getDefaultLanguageForTrending();
+
+    void setDefaultLanguageForTrending(@GithubLocalDataSource.TrendingLanguage String language);
+
+    @GithubLocalDataSource.TrendingPeriod
+    String getDefaultPeriodForTrending();
+
+    void setDefaultPeriodForTrending(@GithubLocalDataSource.TrendingPeriod String period);
 }

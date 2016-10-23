@@ -28,9 +28,8 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
 
     private PublicRepositoryContract.Presenter mPresenter;
     private Unbinder unbinder;
-    @BindView(R.id.progress) ProgressBar mProgressBar;
-    @BindView(R.id.empty_state_dashboard_container) View mEmptyStateView;
-    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+    ProgressBar mProgressBar;
+    @BindView(R.id.recycler_view_for_repositories) RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     private PublicRepositoryListAdapter mAdapter;
 
@@ -55,12 +54,16 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
 
         mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
 
-
         if (getActivity() instanceof AppCompatActivity) {
             AppCompatActivity activity = (AppCompatActivity) getActivity();
             if (activity.getSupportActionBar() != null) {
                 activity.getSupportActionBar().setTitle(R.string.repositories);
             }
+
+            mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
+            getActivity().findViewById(R.id.toolbar_logo).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.recycler_view_for_badges).setVisibility(View.GONE);
         }
         return root;
     }

@@ -1,9 +1,9 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source.remote;
 
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrendingMultipleLanguages;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseAccessToken;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
 
 import java.util.List;
@@ -68,28 +68,16 @@ public interface GithubService {
     );
 
     /**
-     * Search repositories
-     *
-     * https://developer.github.com/v3/search/
-     */
-    @GET("/search/repositories")
-    Call<ResponseTrendingMultipleLanguages> searchRepositories(
-            @Query("q") String qualifiers,
-            @Query("sort") String sort,
-            @Query("order") String order
-    );
-
-    /**
-     * Search repositories
-     *
-     * https://developer.github.com/v3/search/
      *
      * Get list of trending github repositories by github api:
-     * https://github.com/ricburton/trending
+     * https://github.com/mingjunli/GithubTrending
+     *
+     * Period: daily,weekly,monthly
      */
-    @GET("/trending")
-    Call<ResponseTrendingMultipleLanguages> getTrendingRepositories(
-            @Query("languages[]") String languages
+    @GET("api/github/trending/{language}")
+    Call<List<ResponseTrending>> getTrendingRepositories(
+            @Path("language") String language,
+            @Query("since") String period
     );
 
     // TODO : Get list stargazers: https://developer.github.com/v3/activity/starring/

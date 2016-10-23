@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
@@ -178,6 +179,26 @@ public class GithubRepository implements GithubDataSource {
     public String getTokenType() {
         String tokenType = mGithubLocalDataSource.getTokenType();
         return tokenType != null && !tokenType.isEmpty() ? tokenType : null;
+    }
+
+    @Override
+    public String getDefaultLanguageForTrending() {
+        return mGithubLocalDataSource.getDefaultLanguageForTrending();
+    }
+
+    @Override
+    public void setDefaultLanguageForTrending(@GithubLocalDataSource.TrendingLanguage String language) {
+        mGithubLocalDataSource.setDefaultLanguageForTrending(language);
+    }
+
+    @Override
+    public String getDefaultPeriodForTrending() {
+        return mGithubLocalDataSource.getDefaultPeriodForTrending();
+    }
+
+    @Override
+    public void setDefaultPeriodForTrending(@GithubLocalDataSource.TrendingPeriod String period) {
+        mGithubLocalDataSource.setDefaultPeriodForTrending(period);
     }
 
     public interface LoadDataCallback {

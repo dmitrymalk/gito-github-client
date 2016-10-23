@@ -19,5 +19,4 @@ package com.dmitrymalkovich.android.githubanalytics;
 public interface BasePresenter {
 
     void start();
-
 }

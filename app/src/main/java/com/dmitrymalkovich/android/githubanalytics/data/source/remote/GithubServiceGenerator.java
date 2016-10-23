@@ -24,6 +24,7 @@ public class GithubServiceGenerator {
     public static final String API_URL_AUTH = "https://github.com/login/oauth/authorize/";
     private static final String API_BASE_URL = "https://github.com/";
     private static final String API_HTTPS_BASE_URL = "https://api.github.com/";
+    private static final String THIRD_PARTY_GITHUB_API_BASE_URL = "http://anly.leanapp.cn/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
@@ -79,7 +80,7 @@ public class GithubServiceGenerator {
 
     static <S> S createThirdPartyService(Class<S> serviceClass) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        // interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        //interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = httpClient.addInterceptor(interceptor)
                 .addInterceptor(new Interceptor() {
                     @Override
@@ -94,7 +95,7 @@ public class GithubServiceGenerator {
                 })
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://githubtrending.herokuapp.com/")
+                .baseUrl(THIRD_PARTY_GITHUB_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).client(client).build();
         return retrofit.create(serviceClass);
     }

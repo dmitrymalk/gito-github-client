@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/selectableItemBackground">
 
     <TextView
@@ -14,11 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/material_component_cards_left_and_right_padding"
         android:paddingEnd="@dimen/material_component_cards_left_and_right_padding"
         android:paddingLeft="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
         android:paddingRight="@dimen/material_component_cards_left_and_right_padding"
         android:paddingStart="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
-        android:paddingBottom="@dimen/material_component_cards_left_and_right_padding"
         android:paddingTop="@dimen/material_component_cards_left_and_right_padding">
 
         <TextView
@@ -36,8 +37,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:textColor="@color/material_grey_700"
             android:maxLines="2"
             android:paddingTop="@dimen/material_component_cards_padding_from_edge_of_screen_to_card" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/material_component_cards_padding_from_edge_of_screen_to_card"
+            tools:ignore="UseCompoundDrawables">
+
+            <TextView
+                android:id="@+id/info"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/material_grey_500"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/material_component_grid_lists_padding_big"
+                android:layout_marginEnd="@dimen/material_component_grid_lists_padding_big" />
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                tools:ignore="ContentDescription" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +18,8 @@ class TrendingRepositoryContract {
         void showRepositories(Cursor data);
 
         void openUrl(@NonNull String htmlUrl);
+
+        void selectTab(int position);
     }
 
     interface Presenter extends BasePresenter, SwipeRefreshLayout.OnRefreshListener {
@@ -25,5 +28,11 @@ class TrendingRepositoryContract {
 
         @Override
         void start();
+
+        void onTabSelected(int position);
+
+        String getTitle(Context context);
+
+        void changeLanguage(String language);
     }
 }

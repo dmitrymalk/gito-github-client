@@ -5,12 +5,18 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import static java.lang.annotation.RetentionPolicy.SOURCE;
+
 /**
- * GitHub API: https://developer.github.com/v3/search/#search-repositories
- * http://stackoverflow.com/questions/754684/how-to-insert-a-sqlite-record-with-a-datetime-set-to-now-in-android-applicatio
+ * https://github.com/mingjunli/GithubTrending
  */
 @SuppressWarnings("unused")
 public class TrendingContract {
@@ -33,7 +39,7 @@ public class TrendingContract {
         public static final String COLUMN_LANGUAGE = "language";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_AVATAR = "avatar";
         public static final String COLUMN_PERIOD = "period";
 
         public static Uri buildUri(long id) {
@@ -47,7 +53,7 @@ public class TrendingContract {
                 COLUMN_LANGUAGE,
                 COLUMN_DESCRIPTION,
                 COLUMN_NAME,
-                COLUMN_TIMESTAMP,
+                COLUMN_AVATAR,
                 COLUMN_PERIOD
         };
 
@@ -57,33 +63,26 @@ public class TrendingContract {
         public static final int COL_LANGUAGE = 3;
         public static final int COL_DESCRIPTION = 4;
         public static final int COL_NAME = 5;
-        public static final int COL_TIMESTAMP = 6;
+        public static final int COL_AVATAR = 6;
         public static final int COL_PERIOD = 7;
 
         public static ContentValues buildContentValues(ResponseTrending responseTrending, String period,
-                                                       String java) {
-            String name = responseTrending.getName();
-            if (name != null)
-            {
-                name = name.replace("\n", "");
-                name = name.replaceAll(" ", "");
-            }
-            String description = responseTrending.getDescription();
-            if (description != null)
-            {
-                description = description.replace("\n", "");
-                description = description.trim().replaceAll(" +", " ");
+                                                       String language) {
+            String htmlUrl = responseTrending.getHtmlUrl();
+            if (!htmlUrl.contains("https://github.com/")) {
+                htmlUrl = htmlUrl.replace("https://github.com", "https://github.com/");
             }
             ContentValues contentValues = new ContentValues();
             contentValues.put(TrendingContract.TrendingEntry.COLUMN_HTML_URL,
-                    responseTrending.getHtmlUrl());
+                    htmlUrl);
             contentValues.put(TrendingContract.TrendingEntry.COLUMN_WATCHER_COUNT,
                     responseTrending.getWatchersCount());
-            contentValues.put(TrendingContract.TrendingEntry.COLUMN_LANGUAGE,
-                    responseTrending.getLanguage());
+            contentValues.put(TrendingContract.TrendingEntry.COLUMN_LANGUAGE, language);
             contentValues.put(TrendingContract.TrendingEntry.COLUMN_DESCRIPTION,
-                    description);
-            contentValues.put(TrendingContract.TrendingEntry.COLUMN_NAME, name);
+                    responseTrending.getDescription());
+            contentValues.put(TrendingContract.TrendingEntry.COLUMN_NAME, responseTrending.getOwner()
+                    + "/" + responseTrending.getName());
+            contentValues.put(TrendingEntry.COLUMN_AVATAR, responseTrending.getAvatar());
             contentValues.put(TrendingEntry.COLUMN_PERIOD, period);
             return contentValues;
         }

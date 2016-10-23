@@ -1,14 +1,17 @@
 package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 
+import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 
 import java.util.List;
@@ -49,12 +52,62 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     @Override
     public void start() {
         mView.setLoadingIndicator(true);
+
+        String period = mGithubRepository.getDefaultPeriodForTrending();
+        switch (period) {
+            case GithubLocalDataSource.TRENDING_PERIOD_MONTHLY:
+                mView.selectTab(2);
+                break;
+            case GithubLocalDataSource.TRENDING_PERIOD_WEEKLY:
+                mView.selectTab(1);
+                break;
+            default:
+            case GithubLocalDataSource.TRENDING_PERIOD_DAILY:
+                mView.selectTab(0);
+                break;
+        }
+    }
+
+    @Override
+    public String getTitle(Context context) {
+        return context.getString(R.string.trending);
+    }
+
+    @Override
+    public void changeLanguage(String language) {
+        mGithubRepository.setDefaultLanguageForTrending(language);
+        mView.showRepositories(null);
+        mView.setLoadingIndicator(true);
+        mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
+        showTrendingRepositories();
+    }
+
+    @Override
+    public void onTabSelected(int position) {
+        switch (position) {
+            case 0:
+                mGithubRepository.setDefaultPeriodForTrending(
+                        GithubLocalDataSource.TRENDING_PERIOD_DAILY);
+                break;
+            case 1:
+                mGithubRepository.setDefaultPeriodForTrending(
+                        GithubLocalDataSource.TRENDING_PERIOD_WEEKLY);
+                break;
+            case 2:
+                mGithubRepository.setDefaultPeriodForTrending(
+                        GithubLocalDataSource.TRENDING_PERIOD_MONTHLY);
+                break;
+        }
+        mView.showRepositories(null);
+        mView.setLoadingIndicator(true);
+        mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
         showTrendingRepositories();
     }
 
     @Override
     public void onRefresh() {
-        mGithubRepository.getTrendingRepositories("day", "java",
+        mGithubRepository.getTrendingRepositories(mGithubRepository.getDefaultPeriodForTrending(),
+                mGithubRepository.getDefaultLanguageForTrending(),
                 new GithubDataSource.GetTrendingRepositories() {
             @Override
             public void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList) {
@@ -68,6 +121,8 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
             }
         });
     }
+
+
 
     @Override
     public void onDataLoaded(Cursor data) {
@@ -91,7 +146,8 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mLoaderProvider.createTrendingLoader();
+        return mLoaderProvider.createTrendingLoader(mGithubRepository.getDefaultLanguageForTrending(),
+                mGithubRepository.getDefaultPeriodForTrending());
     }
 
     @Override
@@ -116,7 +172,8 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
         mLoaderManager.initLoader(TRENDING_LOADER,
                 null,
                 TrendingRepositoryPresenter.this);
-        mGithubRepository.getTrendingRepositories("day", "java",
+        mGithubRepository.getTrendingRepositories(mGithubRepository.getDefaultPeriodForTrending(),
+                mGithubRepository.getDefaultLanguageForTrending(),
                 new GithubDataSource.GetTrendingRepositories() {
                     @Override
                     public void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList) {

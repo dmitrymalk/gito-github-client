@@ -25,7 +25,17 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_for_badges"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:clipToPadding="false"
+            android:visibility="gone"
+            android:scrollbarStyle="outsideOverlay"
+            tools:ignore="PrivateResource" />
+
         <ImageView
+            android:id="@+id/toolbar_logo"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"

@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.dmitrymalkovich.android.githubanalytics.R;
 
 import butterknife.BindView;
@@ -28,9 +31,11 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
 
     private TrendingRepositoryContract.Presenter mPresenter;
     private Unbinder unbinder;
-    @BindView(R.id.progress) ProgressBar mProgressBar;
-    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+    ProgressBar mProgressBar;
+    @BindView(R.id.recycler_view_for_repositories) RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    AHBottomNavigation mBottomNavigation;
+
     private TrendingRepositoryListAdapter mAdapter;
 
     public static TrendingRepositoryFragment newInstance() {
@@ -55,9 +60,43 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
         if (getActivity() instanceof AppCompatActivity) {
             AppCompatActivity activity = (AppCompatActivity) getActivity();
             if (activity.getSupportActionBar() != null) {
-                activity.getSupportActionBar().setTitle(R.string.trending);
+                activity.getSupportActionBar().setTitle(mPresenter.getTitle(getContext()));
             }
+
+            mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
+            mBottomNavigation = (AHBottomNavigation) getActivity().findViewById(R.id.bottom_navigation);
+            getActivity().findViewById(R.id.toolbar_logo).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.bottom_navigation)
+                    .setVisibility(View.VISIBLE);
+
+            RecyclerView mRecyclerViewForBadges = (RecyclerView) getActivity()
+                    .findViewById(R.id.recycler_view_for_badges);
+            mRecyclerViewForBadges.setVisibility(View.VISIBLE);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            mRecyclerViewForBadges.setLayoutManager(linearLayoutManager);
+            mRecyclerViewForBadges.setAdapter(new BadgesAdapter(mPresenter));
         }
+        // Set up bottom navigation
+        AHBottomNavigationItem daily = new AHBottomNavigationItem(R.string.daily,
+                R.drawable.ic_trending_up_black_24dp, R.color.blue);
+        AHBottomNavigationItem weekly = new AHBottomNavigationItem(R.string.weekly,
+                R.drawable.ic_trending_up_black_24dp, R.color.blue);
+        AHBottomNavigationItem monthly = new AHBottomNavigationItem(R.string.monthly,
+                R.drawable.ic_trending_up_black_24dp, R.color.blue);
+        mBottomNavigation.removeAllItems();
+        mBottomNavigation.addItem(daily);
+        mBottomNavigation.addItem(weekly);
+        mBottomNavigation.addItem(monthly);
+        mBottomNavigation.setAccentColor(R.color.blue);
+        mBottomNavigation.setColored(true);
+        mBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+                mPresenter.onTabSelected(position);
+                return true;
+            }
+        });
         return root;
     }
 
@@ -77,6 +116,11 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     @Override
     public void setPresenter(TrendingRepositoryContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void selectTab(int position) {
+        mBottomNavigation.setCurrentItem(position);
     }
 
     @Override

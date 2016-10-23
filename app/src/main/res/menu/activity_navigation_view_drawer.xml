@@ -13,7 +13,6 @@
             android:title="@string/repositories" />
         <item
             android:id="@+id/nav_trending"
-            android:enabled="false"
             android:icon="@drawable/ic_trending_up_black_24dp"
             android:title="@string/trending" />
     </group>
