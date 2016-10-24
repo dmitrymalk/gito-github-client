@@ -25,7 +25,6 @@ import static com.dmitrymalkovich.android.githubanalytics.data.source.local.Gith
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C_PLUS_PLUS;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C_SHARP;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_HTML;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_JAVA;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_JAVASCRIPT;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_OBJECTIVE_C;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_PYTHON;
@@ -90,6 +89,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 githubRepository.getRepositoryViewsSync(repository);
                 // Get repository clones and save to db
                 githubRepository.getRepositoryClonesSync(repository);
+                // Get repository stargazers and save to db
+                githubRepository.getStargazersSync(repository);
             }
         }
 

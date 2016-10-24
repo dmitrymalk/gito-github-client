@@ -15,10 +15,12 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.StargazersContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
 
@@ -26,8 +28,12 @@ import org.eclipse.egit.github.core.Repository;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
@@ -116,6 +122,10 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     @Override
     public void getRepositoryViews(Repository repository, GetRepositoryViewsCallback callback) {
+    }
+
+    @Override
+    public void getStargazers(Repository repository, GetStargazersCallback callback) {
     }
 
     @Override
@@ -335,6 +345,44 @@ public class GithubLocalDataSource implements GithubDataSource {
             mContentResolver.applyBatch(TrendingContract.CONTENT_AUTHORITY, ops);
         } catch (RemoteException | OperationApplicationException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
+        }
+    }
+
+    public void saveStargazerses(Repository repository, List<ResponseStargazers>
+            responseStargazersList) {
+        for (ResponseStargazers stargazers : responseStargazersList) {
+
+            ContentValues contentValues = StargazersContract.Entry
+                    .buildContentValues(repository.getId(), stargazers);
+
+            // ISO 8601 to milliseconds
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+            long timeInMilliseconds = 0;
+            try {
+                Date date = df.parse(stargazers.getStarredAt());
+                timeInMilliseconds = date.getTime();
+            } catch (ParseException e) {
+                Log.e(LOG_TAG, e.getMessage(), e);
+            }
+
+            String selection = StargazersContract.Entry.COLUMN_REPOSITORY_KEY + " = "
+                    + repository.getId() + " AND "
+                    + StargazersContract.Entry.COLUMN_TIMESTAMP
+                    + " = " + timeInMilliseconds;
+
+            Cursor cursor = mContentResolver.query(ViewsContract.ViewsEntry.CONTENT_URI,
+                    new String[]{StargazersContract.Entry.COLUMN_REPOSITORY_KEY},
+                    selection,
+                    null,
+                    null);
+
+            if (cursor == null || !cursor.moveToFirst()) {
+                mContentResolver.insert(
+                        StargazersContract.Entry.CONTENT_URI,
+                        contentValues);
+            } else {
+                cursor.close();
+            }
         }
     }
 }

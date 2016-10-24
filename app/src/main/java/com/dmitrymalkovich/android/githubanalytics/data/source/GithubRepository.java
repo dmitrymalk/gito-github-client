@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
@@ -108,6 +109,21 @@ public class GithubRepository implements GithubDataSource {
             @Override
             public void onRepositoryViewsLoaded(ResponseViews responseViews) {
                 callback.onRepositoryViewsLoaded(responseViews);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void getStargazers(Repository repository, final GetStargazersCallback callback) {
+        mGithubRemoteDataSource.getStargazers(repository, new GetStargazersCallback() {
+            @Override
+            public void onStargazersLoaded(List<ResponseStargazers> responseStargazersList) {
+                callback.onStargazersLoaded(responseStargazersList);
             }
 
             @Override

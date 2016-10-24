@@ -3,6 +3,7 @@ package com.dmitrymalkovich.android.githubanalytics.data.source;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
@@ -61,6 +62,11 @@ public interface GithubDataSource {
         void onDataNotAvailable();
     }
 
+    interface GetStargazersCallback {
+        void onStargazersLoaded(List<ResponseStargazers> responseStargazersList);
+        void onDataNotAvailable();
+    }
+
     void login(String login, String password);
 
     void getRepositories(GetRepositoriesCallback callback);
@@ -92,4 +98,6 @@ public interface GithubDataSource {
     String getDefaultPeriodForTrending();
 
     void setDefaultPeriodForTrending(@GithubLocalDataSource.TrendingPeriod String period);
+
+    void getStargazers(Repository repository, GetStargazersCallback callback);
 }

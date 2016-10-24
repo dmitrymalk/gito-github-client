@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.StargazersContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 
@@ -86,6 +87,16 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
                 TrendingContract.TrendingEntry.COLUMN_PERIOD + " TEXT" +
                 " );";
         sqLiteDatabase.execSQL(SQL_CREATE_TRENDING_TABLE);
+
+        final String SQL_CREATE_STARGAZERS_TABLE = "CREATE TABLE " + StargazersContract.Entry.TABLE_NAME
+                + " (" +
+                StargazersContract.Entry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                StargazersContract.Entry.COLUMN_REPOSITORY_KEY + " INTEGER NOT NULL, " +
+                StargazersContract.Entry.COLUMN_TIMESTAMP + " DATE NOT NULL ," +
+                " FOREIGN KEY (" + StargazersContract.Entry.COLUMN_REPOSITORY_KEY + ") REFERENCES " +
+                RepositoryContract.RepositoryEntry.TABLE_NAME + " (" + RepositoryContract.RepositoryEntry._ID + ")" +
+                " );";
+        sqLiteDatabase.execSQL(SQL_CREATE_STARGAZERS_TABLE);
     }
 
     @Override
@@ -95,6 +106,7 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ReferrerContract.ReferrerEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ClonesContract.ClonesEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TrendingContract.TrendingEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + StargazersContract.Entry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

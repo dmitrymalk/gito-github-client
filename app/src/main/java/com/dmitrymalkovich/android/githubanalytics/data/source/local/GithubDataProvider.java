@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.StargazersContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 
@@ -23,6 +24,7 @@ public class GithubDataProvider extends ContentProvider {
     static final int CLONES = 401;
     static final int VIEWS = 402;
     static final int TRENDING = 500;
+    static final int STARGAZERS = 600;
     private GithubAnalyticsDbHelper mOpenHelper;
 
     private static UriMatcher buildUriMatcher() {
@@ -33,6 +35,7 @@ public class GithubDataProvider extends ContentProvider {
         matcher.addURI(authority, ViewsContract.PATH_VIEWS, VIEWS);
         matcher.addURI(authority, ClonesContract.PATH_CLONES, CLONES);
         matcher.addURI(authority, TrendingContract.PATH_TRENDING, TRENDING);
+        matcher.addURI(authority, StargazersContract.PATH_STARGAZERS, STARGAZERS);
         return matcher;
     }
 
@@ -108,6 +111,18 @@ public class GithubDataProvider extends ContentProvider {
                 );
                 break;
             }
+            case STARGAZERS: {
+                cursor = mOpenHelper.getReadableDatabase().query(
+                        StargazersContract.Entry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -132,6 +147,8 @@ public class GithubDataProvider extends ContentProvider {
                 return ViewsContract.ViewsEntry.CONTENT_TYPE;
             case TRENDING:
                 return TrendingContract.TrendingEntry.CONTENT_TYPE;
+            case STARGAZERS:
+                return StargazersContract.Entry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -189,6 +206,15 @@ public class GithubDataProvider extends ContentProvider {
                 }
                 break;
             }
+            case STARGAZERS: {
+                long id = db.insert(StargazersContract.Entry.TABLE_NAME, null, values);
+                if (id > 0) {
+                    returnUri = StargazersContract.Entry.buildUri(id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -228,6 +254,10 @@ public class GithubDataProvider extends ContentProvider {
                 rowsDeleted = db.delete(
                         TrendingContract.TrendingEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case STARGAZERS:
+                rowsDeleted = db.delete(
+                        StargazersContract.Entry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -263,6 +293,10 @@ public class GithubDataProvider extends ContentProvider {
                 break;
             case TRENDING:
                 rowsUpdated = db.update(TrendingContract.TrendingEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case STARGAZERS:
+                rowsUpdated = db.update(StargazersContract.Entry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:

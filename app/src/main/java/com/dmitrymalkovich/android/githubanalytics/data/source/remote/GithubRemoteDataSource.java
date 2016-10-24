@@ -11,6 +11,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocal
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseAccessToken;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
@@ -381,5 +382,51 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void getStargazers(final Repository repository, final GetStargazersCallback callback) {
+        new AsyncTask<Void, Void, List<ResponseStargazers>>() {
+            @Override
+            protected List<ResponseStargazers> doInBackground(Void... params) {
+                return getStargazersSync(repository);
+            }
+
+            @Override
+            protected void onPostExecute(List<ResponseStargazers> responseStargazersList) {
+                if (responseStargazersList != null) {
+                    callback.onStargazersLoaded(responseStargazersList);
+                } else {
+                    callback.onDataNotAvailable();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public List<ResponseStargazers> getStargazersSync(Repository repository) {
+        try {
+            ResponseAccessToken accessToken = new ResponseAccessToken();
+            accessToken.setAccessToken(getToken());
+            accessToken.setTokenType(getTokenType());
+
+            GithubService githubService = GithubServiceGenerator.createService(
+                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL);
+            Call<List<ResponseStargazers>> call = githubService.getStargazers(repository
+                    .getOwner().getLogin(), repository.getName());
+
+            List<ResponseStargazers> responseStargazersList = call.execute().body();
+
+            if (responseStargazersList != null) {
+                GithubLocalDataSource localDataSource =
+                        GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
+                localDataSource.saveStargazerses(repository, responseStargazersList);
+                return responseStargazersList;
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+            return null;
+        }
     }
 }

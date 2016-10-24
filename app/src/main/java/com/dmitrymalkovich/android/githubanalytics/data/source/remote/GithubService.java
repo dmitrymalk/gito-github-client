@@ -3,6 +3,7 @@ package com.dmitrymalkovich.android.githubanalytics.data.source.remote;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseAccessToken;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
 
@@ -80,6 +81,16 @@ public interface GithubService {
             @Query("since") String period
     );
 
-    // TODO : Get list stargazers: https://developer.github.com/v3/activity/starring/
+    /**
+     *
+     * Get list of stargazers:
+     * https://developer.github.com/v3/activity/starring/
+     */
+    @GET("/repos/{owner}/{repo}/stargazers")
+    Call<List<ResponseStargazers>> getStargazers(
+            @Path("owner") String owner,
+            @Path("repo") String repo
+    );
+
     // TODO : Get list forks: https://developer.github.com/v3/repos/forks/
 }
