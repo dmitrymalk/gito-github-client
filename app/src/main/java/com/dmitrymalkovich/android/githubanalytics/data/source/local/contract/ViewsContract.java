@@ -5,13 +5,20 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * https://developer.github.com/v3/repos/traffic/
  */
 public class ViewsContract {
+    public static String LOG_TAG = ViewsContract.class.getSimpleName();
     public static final String CONTENT_AUTHORITY = "com.dmitrymalkovich.android.githubanalytics.data";
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_VIEWS = "traffic.views";
@@ -49,10 +56,21 @@ public class ViewsContract {
         public static final int COL_VIEWS_TIMESTAMP = 4;
 
         public static ContentValues buildContentValues(long repositoryId, ResponseViews.View view) {
+
+            // ISO 8601 to milliseconds
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+            long timeInMilliseconds = 0;
+            try {
+                Date date = df.parse(view.getTimestamp());
+                timeInMilliseconds = date.getTime();
+            } catch (ParseException e) {
+                Log.e(LOG_TAG, e.getMessage(), e);
+            }
+
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLUMN_REPOSITORY_KEY, repositoryId);
             contentValues.put(COLUMN_VIEWS_COUNT, view.getCount());
-            contentValues.put(COLUMN_VIEWS_TIMESTAMP, view.getTimestamp());
+            contentValues.put(COLUMN_VIEWS_TIMESTAMP, timeInMilliseconds);
             contentValues.put(COLUMN_VIEWS_UNIQUES, view.getUniques());
             return contentValues;
         }

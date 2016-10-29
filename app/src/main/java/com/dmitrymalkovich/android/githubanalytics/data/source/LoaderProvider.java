@@ -23,8 +23,8 @@ public class LoaderProvider {
     public Loader<Cursor> createPopularRepositoryLoader() {
         return new CursorLoader(
                 mContext,
-                RepositoryContract.RepositoryEntry.CONTENT_URI,
-                RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS,
+                RepositoryContract.RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS,
+                RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " = ?",
                 new String[] {"0"},
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " DESC"

@@ -89,7 +89,8 @@ public interface GithubService {
     @GET("/repos/{owner}/{repo}/stargazers")
     Call<List<ResponseStargazers>> getStargazers(
             @Path("owner") String owner,
-            @Path("repo") String repo
+            @Path("repo") String repo,
+            @Query("page") String page
     );
 
     // TODO : Get list forks: https://developer.github.com/v3/repos/forks/

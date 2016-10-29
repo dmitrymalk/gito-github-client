@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
 
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
@@ -18,6 +19,7 @@ import static com.dmitrymalkovich.android.githubanalytics.data.source.local.cont
 
 class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdapter.ViewHolder> {
 
+    public static String LOG_TAG = RepositoryListAdapter.class.getSimpleName();
     RepositoryListAdapter(Cursor cursor) {
         super(cursor);
     }

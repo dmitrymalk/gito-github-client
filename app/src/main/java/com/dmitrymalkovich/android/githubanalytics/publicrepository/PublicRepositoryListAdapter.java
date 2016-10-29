@@ -3,6 +3,7 @@ package com.dmitrymalkovich.android.githubanalytics.publicrepository;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import static com.dmitrymalkovich.android.githubanalytics.data.source.local.cont
 
 class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicRepositoryListAdapter.ViewHolder> {
 
+    public static String LOG_TAG = PublicRepositoryListAdapter.class.getSimpleName();
     private final PublicRepositoryContract.View mView;
 
     PublicRepositoryListAdapter(Cursor cursor, PublicRepositoryContract.View view) {
@@ -77,7 +79,6 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
                     .getColor(R.color.green));
             holder.badgeView.setText(R.string.public_rep);
         }
-
     }
 
     @Override

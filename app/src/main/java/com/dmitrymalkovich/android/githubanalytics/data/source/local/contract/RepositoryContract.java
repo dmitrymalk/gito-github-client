@@ -20,14 +20,21 @@ public class RepositoryContract {
     public static final String CONTENT_AUTHORITY = "com.dmitrymalkovich.android.githubanalytics.data";
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_REPOSITORY = "repository";
+    public static final String PATH_REPOSITORY_STARGAZERS = "repository_stargazers";
 
     public static final class RepositoryEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_REPOSITORY).build();
 
+        public static final Uri CONTENT_URI_REPOSITORY_STARGAZERS =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_REPOSITORY_STARGAZERS).build();
+
         public static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_REPOSITORY;
+
+        public static final String CONTENT_TYPE_REPOSITORY_STARGAZERS =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_REPOSITORY_STARGAZERS;
 
         public static final String TABLE_NAME = "repository";
         public static final String COLUMN_REPOSITORY_ID = "repository_id";
@@ -47,18 +54,41 @@ public class RepositoryContract {
         }
 
         public static final String[] REPOSITORY_COLUMNS = {
-                _ID,
-                COLUMN_REPOSITORY_ID,
-                COLUMN_REPOSITORY_NAME,
-                COLUMN_REPOSITORY_FULL_NAME,
-                COLUMN_REPOSITORY_DESCRIPTION,
-                COLUMN_REPOSITORY_PRIVATE,
-                COLUMN_REPOSITORY_FORK,
-                COLUMN_REPOSITORY_URL,
-                COLUMN_REPOSITORY_HTML_URL,
-                COLUMN_REPOSITORY_FORKS,
-                COLUMN_REPOSITORY_WATCHERS,
-                COLUMN_REPOSITORY_LANGUAGE
+                TABLE_NAME + "." + _ID,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_ID,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_NAME,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_FULL_NAME,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_DESCRIPTION,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_PRIVATE,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_FORK,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_URL,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_HTML_URL,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_FORKS,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_WATCHERS,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_LANGUAGE
+        };
+
+        public static final String[] REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO = {
+                TABLE_NAME + "." + _ID,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_ID,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_NAME,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_FULL_NAME,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_DESCRIPTION,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_PRIVATE,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_FORK,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_URL,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_HTML_URL,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_FORKS,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_WATCHERS,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_LANGUAGE,
+                StargazersContract.Entry.TABLE_NAME + "." + StargazersContract.Entry.COLUMN_REPOSITORY_KEY,
+                StargazersContract.Entry.TABLE_NAME + "." + "stars",
+                ViewsContract.ViewsEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY,
+                ViewsContract.ViewsEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_UNIQUES,
+                ViewsContract.ViewsEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT,
+                ClonesContract.ClonesEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY,
+                ClonesContract.ClonesEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_UNIQUES,
+                ClonesContract.ClonesEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT
         };
 
         public static final int COL_ID = 0;
@@ -73,6 +103,14 @@ public class RepositoryContract {
         public static final int COL_REPOSITORY_FORKS = 9;
         public static final int COL_REPOSITORY_WATCHERS = 10;
         public static final int COL_REPOSITORY_LANGUAGE = 11;
+        public static final int COL_STARGAZERS_ID = 12;
+        public static final int COL_STARGAZERS_STARS = 13;
+        public static final int COL_VIEWS_ID = 14;
+        public static final int COL_VIEWS_UNIQUES = 15;
+        public static final int COL_VIEWS_COUNT = 16;
+        public static final int COL_CLONES_ID = 17;
+        public static final int COL_CLONES_UNIQUES = 18;
+        public static final int COL_CLONES_COUNT = 19;
 
         public static ContentValues buildContentValues(Repository repo) {
             ContentValues contentValues = new ContentValues();

@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
+import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.APIError;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseAccessToken;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Response;
 
 public class GithubRemoteDataSource implements GithubDataSource {
     private static String LOG_TAG = GithubRemoteDataSource.class.getSimpleName();
@@ -99,26 +101,33 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    public ResponseClones getRepositoryClonesSync(final Repository repository) {
+    public ResponseClones getRepositoryClonesSync(final Repository repository, String period) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
             accessToken.setTokenType(getTokenType());
 
             GithubService loginService = GithubServiceGenerator.createService(
-                    GithubService.class, accessToken);
+                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
+                    "application/vnd.github.spiderman-preview+json");
             Call<ResponseClones> call = loginService.getRepositoryClones(
-                    repository.getOwner().getLogin(), repository.getName(), "week");
+                    repository.getOwner().getLogin(), repository.getName(), period);
 
-            ResponseClones responseClones = call.execute().body();
-
-            if (responseClones != null && responseClones.getClones() != null) {
-                GithubLocalDataSource localDataSource =
-                        GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                localDataSource.saveClones(repository.getId(), responseClones);
+            Response<ResponseClones> response = call.execute();
+            if (response.isSuccessful()) {
+                ResponseClones responseClones = response.body();
+                if (responseClones != null && responseClones.getClones() != null) {
+                    GithubLocalDataSource localDataSource =
+                            GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
+                    localDataSource.saveClones(repository.getId(), responseClones);
+                    return responseClones;
+                } else {
+                    throw new IOException("responseClones not specified");
+                }
+            } else {
+                APIError error = APIError.parseError(response);
+                throw new IOException(error.getMessage());
             }
-
-            return responseClones;
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             return null;
@@ -126,11 +135,12 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoryClones(final Repository repository, final GetRepositoryClonesCallback callback) {
+    public void getRepositoryClones(final Repository repository, final String period,
+                                    final GetRepositoryClonesCallback callback) {
         new AsyncTask<Void, Void, ResponseClones>() {
             @Override
             protected ResponseClones doInBackground(Void... params) {
-                return getRepositoryClonesSync(repository);
+                return getRepositoryClonesSync(repository, period);
             }
 
             @Override
@@ -145,26 +155,34 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    public ResponseViews getRepositoryViewsSync(final Repository repository) {
+    public ResponseViews getRepositoryViewsSync(final Repository repository, String period) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
             accessToken.setTokenType(getTokenType());
 
             GithubService loginService = GithubServiceGenerator.createService(
-                    GithubService.class, accessToken);
+                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
+                    "application/vnd.github.spiderman-preview+json");
             Call<ResponseViews> call = loginService.getRepositoryViews(
-                    repository.getOwner().getLogin(), repository.getName(), "week");
+                    repository.getOwner().getLogin(), repository.getName(), period);
 
-            ResponseViews responseViews = call.execute().body();
-
-            if (responseViews != null && responseViews.getViews() != null) {
-                GithubLocalDataSource localDataSource =
-                        GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                localDataSource.saveViews(repository.getId(), responseViews);
+            Response<ResponseViews> response = call.execute();
+            if (response.isSuccessful()) {
+                ResponseViews responseViews = response.body();
+                if (responseViews != null && responseViews.getViews() != null) {
+                    GithubLocalDataSource localDataSource =
+                            GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
+                    localDataSource.saveViews(repository.getId(), responseViews);
+                    return responseViews;
+                } else {
+                    throw new IOException("responseViews not specified");
+                }
+            } else {
+                APIError error = APIError.parseError(response);
+                throw new IOException(error.getMessage());
             }
 
-            return responseViews;
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             return null;
@@ -172,11 +190,11 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoryViews(final Repository repository, final GetRepositoryViewsCallback callback) {
+    public void getRepositoryViews(final Repository repository, final String period, final GetRepositoryViewsCallback callback) {
         new AsyncTask<Void, Void, ResponseViews>() {
             @Override
             protected ResponseViews doInBackground(Void... params) {
-                return getRepositoryViewsSync(repository);
+                return getRepositoryViewsSync(repository, period);
             }
 
             @Override
@@ -197,7 +215,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             accessToken.setAccessToken(getToken());
             accessToken.setTokenType(getTokenType());
 
-            GithubService githubService = GithubServiceGenerator.createThirdPartyService(
+            GithubService githubService = ThirdPartyGithubServiceGenerator.createService(
                     GithubService.class);
             Call<List<ResponseTrending>> call = githubService.getTrendingRepositories(language,
                     period);
@@ -239,22 +257,35 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @WorkerThread
     public List<ResponseReferrer> getRepositoryReferrersSync(final Repository repository) {
+        GithubLocalDataSource localDataSource =
+                GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
+
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
             accessToken.setTokenType(getTokenType());
 
             GithubService loginService = GithubServiceGenerator.createService(
-                    GithubService.class, accessToken);
+                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
+                    "application/vnd.github.spiderman-preview+json");
+
             Call<List<ResponseReferrer>> call = loginService.getTopReferrers(
                     repository.getOwner().getLogin(), repository.getName());
-            List<ResponseReferrer> responseReferrerList = call.execute().body();
-            GithubLocalDataSource localDataSource =
-                    GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-            if (responseReferrerList != null) {
-                localDataSource.saveReferrers(repository.getId(), responseReferrerList);
+
+            Response<List<ResponseReferrer>> response = call.execute();
+
+            if (response.isSuccessful()) {
+                List<ResponseReferrer> responseReferrerList = response.body();
+                if (responseReferrerList != null) {
+                    localDataSource.saveReferrers(repository.getId(), responseReferrerList);
+                    return responseReferrerList;
+                } else {
+                    throw new IOException("responseReferrerList is null");
+                }
+            } else {
+                APIError error = APIError.parseError(response);
+                throw new IOException(error.getMessage());
             }
-            return responseReferrerList;
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             return null;
@@ -389,7 +420,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
         new AsyncTask<Void, Void, List<ResponseStargazers>>() {
             @Override
             protected List<ResponseStargazers> doInBackground(Void... params) {
-                return getStargazersSync(repository);
+                return getStargazersSync(repository, "last");
             }
 
             @Override
@@ -403,26 +434,53 @@ public class GithubRemoteDataSource implements GithubDataSource {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public List<ResponseStargazers> getStargazersSync(Repository repository) {
+    public List<ResponseStargazers> getStargazersSync(Repository repository, String page) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
             accessToken.setTokenType(getTokenType());
 
             GithubService githubService = GithubServiceGenerator.createService(
-                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL);
+                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
+                    "application/vnd.github.v3.star+json");
             Call<List<ResponseStargazers>> call = githubService.getStargazers(repository
-                    .getOwner().getLogin(), repository.getName());
+                    .getOwner().getLogin(), repository.getName(), page);
 
-            List<ResponseStargazers> responseStargazersList = call.execute().body();
 
-            if (responseStargazersList != null) {
-                GithubLocalDataSource localDataSource =
-                        GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                localDataSource.saveStargazerses(repository, responseStargazersList);
-                return responseStargazersList;
+            Response<List<ResponseStargazers>> response = call.execute();
+
+            if (response.isSuccessful()) {
+
+                String headerLink = response.headers().get("Link");
+                if (headerLink != null)
+                {
+                    boolean containsLast = headerLink.contains("last");
+                    headerLink = headerLink.replace(
+                            headerLink.substring(headerLink.lastIndexOf(">")), "");
+                    String lastPage = headerLink = headerLink.replace(
+                            headerLink.substring(0, headerLink.lastIndexOf("=") + 1), "");
+
+                    if (headerLink != null && (containsLast && !lastPage.equals(page)))
+                    {
+                        getStargazersSync(repository, lastPage);
+                    }
+                }
+
+                List<ResponseStargazers> responseStargazersList = response.body();
+
+                if (responseStargazersList != null) {
+                    GithubLocalDataSource localDataSource =
+                            GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
+                    localDataSource.saveStargazerses(repository, responseStargazersList);
+                    return responseStargazersList;
+
+                } else {
+                    throw new IOException("responseStargazersList is null");
+                }
+
             } else {
-                return null;
+                APIError error = APIError.parseError(response);
+                throw new IOException(error.getMessage());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);

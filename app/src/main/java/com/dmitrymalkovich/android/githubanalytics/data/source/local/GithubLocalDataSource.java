@@ -117,11 +117,11 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoryClones(Repository repository, GetRepositoryClonesCallback callback) {
+    public void getRepositoryClones(Repository repository, String period,GetRepositoryClonesCallback callback) {
     }
 
     @Override
-    public void getRepositoryViews(Repository repository, GetRepositoryViewsCallback callback) {
+    public void getRepositoryViews(Repository repository, String period, GetRepositoryViewsCallback callback) {
     }
 
     @Override
@@ -264,10 +264,20 @@ public class GithubLocalDataSource implements GithubDataSource {
             ContentValues contentValues = ClonesContract.ClonesEntry
                     .buildContentValues(repositoryId, clone);
 
+            // ISO 8601 to milliseconds
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+            long timeInMilliseconds = 0;
+            try {
+                Date date = df.parse(clone.getTimestamp());
+                timeInMilliseconds = date.getTime();
+            } catch (ParseException e) {
+                Log.e(LOG_TAG, e.getMessage(), e);
+            }
+
             String selection = ClonesContract.ClonesEntry.COLUMN_REPOSITORY_KEY + " = "
                     + repositoryId + " AND "
                     + ClonesContract.ClonesEntry.COLUMN_CLONES_TIMESTAMP
-                    + " = " + clone.getTimestamp();
+                    + " = " + timeInMilliseconds;
 
             Cursor cursor = mContentResolver.query(ClonesContract.ClonesEntry.CONTENT_URI,
                     new String[]{ClonesContract.ClonesEntry.COLUMN_REPOSITORY_KEY},
@@ -298,10 +308,20 @@ public class GithubLocalDataSource implements GithubDataSource {
             ContentValues contentValues = ViewsContract.ViewsEntry
                     .buildContentValues(repositoryId, view);
 
+            // ISO 8601 to milliseconds
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+            long timeInMilliseconds = 0;
+            try {
+                Date date = df.parse(view.getTimestamp());
+                timeInMilliseconds = date.getTime();
+            } catch (ParseException e) {
+                Log.e(LOG_TAG, e.getMessage(), e);
+            }
+
             String selection = ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY + " = "
                     + repositoryId + " AND "
                     + ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP
-                    + " = " + view.getTimestamp();
+                    + " = " + timeInMilliseconds;
 
             Cursor cursor = mContentResolver.query(ViewsContract.ViewsEntry.CONTENT_URI,
                     new String[]{ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY},
@@ -351,37 +371,41 @@ public class GithubLocalDataSource implements GithubDataSource {
     public void saveStargazerses(Repository repository, List<ResponseStargazers>
             responseStargazersList) {
         for (ResponseStargazers stargazers : responseStargazersList) {
+            if (stargazers != null) {
+                ContentValues contentValues = StargazersContract.Entry
+                        .buildContentValues(repository.getId(), stargazers);
 
-            ContentValues contentValues = StargazersContract.Entry
-                    .buildContentValues(repository.getId(), stargazers);
+                // ISO 8601 to milliseconds
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+                long timeInMilliseconds = 0;
+                try {
+                    Date date = df.parse(stargazers.getStarredAt());
+                    timeInMilliseconds = date.getTime();
+                } catch (ParseException e) {
+                    Log.e(LOG_TAG, e.getMessage(), e);
+                }
 
-            // ISO 8601 to milliseconds
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-            long timeInMilliseconds = 0;
-            try {
-                Date date = df.parse(stargazers.getStarredAt());
-                timeInMilliseconds = date.getTime();
-            } catch (ParseException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-            }
+                String selection = StargazersContract.Entry.COLUMN_REPOSITORY_KEY + " = "
+                        + repository.getId() + " AND "
+                        + StargazersContract.Entry.COLUMN_TIMESTAMP
+                        + " = " + timeInMilliseconds;
 
-            String selection = StargazersContract.Entry.COLUMN_REPOSITORY_KEY + " = "
-                    + repository.getId() + " AND "
-                    + StargazersContract.Entry.COLUMN_TIMESTAMP
-                    + " = " + timeInMilliseconds;
+                Cursor cursor = mContentResolver.query(ViewsContract.ViewsEntry.CONTENT_URI,
+                        new String[]{StargazersContract.Entry.COLUMN_REPOSITORY_KEY},
+                        selection,
+                        null,
+                        null);
 
-            Cursor cursor = mContentResolver.query(ViewsContract.ViewsEntry.CONTENT_URI,
-                    new String[]{StargazersContract.Entry.COLUMN_REPOSITORY_KEY},
-                    selection,
-                    null,
-                    null);
+                if (cursor == null || !cursor.moveToFirst()) {
+                    mContentResolver.insert(
+                            StargazersContract.Entry.CONTENT_URI,
+                            contentValues);
+                }
 
-            if (cursor == null || !cursor.moveToFirst()) {
-                mContentResolver.insert(
-                        StargazersContract.Entry.CONTENT_URI,
-                        contentValues);
-            } else {
-                cursor.close();
+                if (cursor != null)
+                {
+                    cursor.close();
+                }
             }
         }
     }

@@ -89,8 +89,8 @@ public class GithubRepository implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoryClones(Repository repository, final GetRepositoryClonesCallback callback) {
-        mGithubRemoteDataSource.getRepositoryClones(repository, new GetRepositoryClonesCallback() {
+    public void getRepositoryClones(Repository repository, String period,final GetRepositoryClonesCallback callback) {
+        mGithubRemoteDataSource.getRepositoryClones(repository, period, new GetRepositoryClonesCallback() {
             @Override
             public void onRepositoryClonesLoaded(ResponseClones responseClones) {
                 callback.onRepositoryClonesLoaded(responseClones);
@@ -104,8 +104,8 @@ public class GithubRepository implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoryViews(Repository repository, final GetRepositoryViewsCallback callback) {
-        mGithubRemoteDataSource.getRepositoryViews(repository, new GetRepositoryViewsCallback() {
+    public void getRepositoryViews(Repository repository, String period, final GetRepositoryViewsCallback callback) {
+        mGithubRemoteDataSource.getRepositoryViews(repository, period, new GetRepositoryViewsCallback() {
             @Override
             public void onRepositoryViewsLoaded(ResponseViews responseViews) {
                 callback.onRepositoryViewsLoaded(responseViews);

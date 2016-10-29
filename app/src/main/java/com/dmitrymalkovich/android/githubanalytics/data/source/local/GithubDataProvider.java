@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,8 +17,13 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.St
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
 public class GithubDataProvider extends ContentProvider {
 
+    public static String LOG_TAG = GithubDataProvider.class.getSimpleName();
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     static final int REPOSITORIES = 300;
     static final int REFERRERS = 400;
@@ -25,7 +31,34 @@ public class GithubDataProvider extends ContentProvider {
     static final int VIEWS = 402;
     static final int TRENDING = 500;
     static final int STARGAZERS = 600;
+    static final int REPOSITORIES_STARGAZERS = 700;
     private GithubAnalyticsDbHelper mOpenHelper;
+
+    private static final SQLiteQueryBuilder sRepositoryByVisitorsAndStarsQueryBuilder;
+
+    static {
+        Calendar c = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day - 10, 0, 0, 0);
+        long time = calendar.getTimeInMillis() / 1000 * 1000;
+
+        sRepositoryByVisitorsAndStarsQueryBuilder = new SQLiteQueryBuilder();
+        sRepositoryByVisitorsAndStarsQueryBuilder.setTables(
+                RepositoryContract.RepositoryEntry.TABLE_NAME
+                + " LEFT JOIN (SELECT stargazers.repository_id, COUNT(stargazers.timestamp) as stars FROM stargazers WHERE timestamp >= "
+                + time +
+                " GROUP BY stargazers.repository_id) as stargazers ON stargazers.repository_id = repository.repository_id"
+                + " LEFT JOIN (SELECT traffic_views.repository_id, traffic_views.uniques, traffic_views.count FROM traffic_views WHERE timestamp="
+                + time +
+                ") as traffic_views ON traffic_views.repository_id = repository.repository_id"
+                + " LEFT JOIN (SELECT traffic_clones.repository_id, traffic_clones.uniques, traffic_clones.count FROM traffic_clones WHERE timestamp="
+                + time +
+                ") as traffic_clones ON traffic_clones.repository_id = repository.repository_id"
+        );
+    }
 
     private static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -36,6 +69,7 @@ public class GithubDataProvider extends ContentProvider {
         matcher.addURI(authority, ClonesContract.PATH_CLONES, CLONES);
         matcher.addURI(authority, TrendingContract.PATH_TRENDING, TRENDING);
         matcher.addURI(authority, StargazersContract.PATH_STARGAZERS, STARGAZERS);
+        matcher.addURI(authority, RepositoryContract.PATH_REPOSITORY_STARGAZERS, REPOSITORIES_STARGAZERS);
         return matcher;
     }
 
@@ -123,6 +157,18 @@ public class GithubDataProvider extends ContentProvider {
                 );
                 break;
             }
+            case REPOSITORIES_STARGAZERS: {
+                cursor = sRepositoryByVisitorsAndStarsQueryBuilder.query(
+                        mOpenHelper.getReadableDatabase(),
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -149,6 +195,8 @@ public class GithubDataProvider extends ContentProvider {
                 return TrendingContract.TrendingEntry.CONTENT_TYPE;
             case STARGAZERS:
                 return StargazersContract.Entry.CONTENT_TYPE;
+            case REPOSITORIES_STARGAZERS:
+                return RepositoryContract.RepositoryEntry.CONTENT_TYPE_REPOSITORY_STARGAZERS;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

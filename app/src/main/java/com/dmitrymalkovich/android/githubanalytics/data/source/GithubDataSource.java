@@ -73,9 +73,9 @@ public interface GithubDataSource {
 
     void getRepositoryReferrers(Repository repository, GetRepositoryReferrersCallback callback);
 
-    void getRepositoryClones(Repository repository, GetRepositoryClonesCallback callback);
+    void getRepositoryClones(Repository repository, String period, GetRepositoryClonesCallback callback);
 
-    void getRepositoryViews(Repository repository, GetRepositoryViewsCallback callback);
+    void getRepositoryViews(Repository repository, String period, GetRepositoryViewsCallback callback);
 
     void requestTokenFromCode(String code, RequestTokenFromCodeCallback callback);
 
