@@ -3,7 +3,6 @@ package com.dmitrymalkovich.android.githubanalytics.publicrepository;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,10 +98,10 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
             super(view);
             titleView = (TextView) view.findViewById(R.id.title);
             subtitleView = (TextView) view.findViewById(R.id.subtitle);
-            watchersView = (TextView) view.findViewById(R.id.repository_watchers);
-            languageView = (TextView) view.findViewById(R.id.repository_language);
-            languageIconView = (ImageView) view.findViewById(R.id.repository_language_icon);
-            forksView = (TextView) view.findViewById(R.id.forks);
+            watchersView = (TextView) view.findViewById(R.id.stars_total);
+            languageView = (TextView) view.findViewById(R.id.language);
+            languageIconView = (ImageView) view.findViewById(R.id.language_icon);
+            forksView = (TextView) view.findViewById(R.id.forks_total);
             badgeView = (TextView) view.findViewById(R.id.badge);
         }
     }

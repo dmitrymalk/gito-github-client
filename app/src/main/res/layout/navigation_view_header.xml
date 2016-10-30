@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:theme="@style/ThemeOverlay.AppCompat">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/material_background"
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/navigation_view_header_avatar_size"
+        android:layout_height="@dimen/navigation_view_header_avatar_size"
+        android:layout_marginEnd="@dimen/avatar_vertical_margin"
+        android:layout_marginLeft="@dimen/avatar_vertical_margin"
+        android:layout_marginRight="@dimen/avatar_vertical_margin"
+        android:layout_marginStart="@dimen/avatar_vertical_margin"
+        android:layout_marginTop="@dimen/avatar_margin_top"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="@dimen/avatar_vertical_margin">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/name_color"
+            android:textSize="@dimen/name_text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/name_color"
+            android:textSize="@dimen/name_text_size" />
+
+    </LinearLayout>
+</FrameLayout>

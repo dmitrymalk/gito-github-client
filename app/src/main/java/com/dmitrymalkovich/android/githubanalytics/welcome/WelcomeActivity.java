@@ -9,9 +9,6 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
 import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 
-/**
- * A login screen that offers login via email/password.
- */
 public class WelcomeActivity extends AppCompatActivity {
 
     @Override
@@ -19,7 +16,6 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        // Set up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -37,9 +33,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         new WelcomePresenter(
                 Injection.provideGithubRepository(this),
-                welcomeFragment,
-                new LoaderProvider(this),
-                getSupportLoaderManager());
+                welcomeFragment);
     }
 }
 

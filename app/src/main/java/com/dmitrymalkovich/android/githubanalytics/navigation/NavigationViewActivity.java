@@ -35,7 +35,6 @@ import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 
 public class NavigationViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     @SuppressWarnings("unused")
     private static final String LOG_TAG = NavigationViewActivity.class.getSimpleName();
     private NavigationView mNavigationView;
@@ -56,14 +55,12 @@ public class NavigationViewActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
             showDashboard();
-        }
-        else
-        {
+        } else {
             mCurrentFragment = savedInstanceState.getString(EXTRA_CURRENT_FRAGMENT);
             if (mCurrentFragment.equals(DashboardFragment.class.getSimpleName())) {
                 showDashboard();
@@ -81,21 +78,21 @@ public class NavigationViewActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
+        // TODO : Refactor it, use Loaders
         View headerLayout = mNavigationView.getHeaderView(0);
         final ImageView avatarView = (ImageView) headerLayout.findViewById(R.id.avatar);
         final TextView nameView = (TextView) headerLayout.findViewById(R.id.name);
-        final TextView usernameView = (TextView) headerLayout.findViewById(R.id.username);
         final TextView followersView = (TextView) headerLayout.findViewById(R.id.followers);
-
         GithubRepository repository = Injection.provideGithubRepository(this);
         repository.getUser(new GithubDataSource.GerUserCallback() {
             @Override
             public void onUserLoaded(ResponseUser user) {
-                Glide.with(NavigationViewActivity.this)
-                        .load(user.getAvatarUrl()).into(avatarView);
-                nameView.setText(user.getName());
-                usernameView.setText(getString(R.string.username, user.getLogin()));
-                followersView.setText(getString(R.string.followers, user.getFollowers()));
+                if (!NavigationViewActivity.this.isDestroyed()) {
+                    Glide.with(NavigationViewActivity.this)
+                            .load(user.getAvatarUrl()).into(avatarView);
+                    nameView.setText(user.getName());
+                    followersView.setText(getString(R.string.followers, user.getFollowers()));
+                }
             }
 
             @Override

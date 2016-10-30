@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemoteDataSource;
 
 import org.eclipse.egit.github.core.Repository;
@@ -75,10 +76,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
-        Log.d(LOG_TAG, "onPerformSync");
-
         final GithubRemoteDataSource githubRepository = Injection.provideRemoteDataSource(getContext());
-
         // Get user's repositories and save to db
         List<Repository> repositoryList = githubRepository.getRepositoriesSync();
         if (repositoryList != null) {
@@ -104,25 +102,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 TRENDING_LANGUAGE_C_PLUS_PLUS,
                 TRENDING_LANGUAGE_PYTHON,
                 TRENDING_LANGUAGE_C_SHARP,
-                TRENDING_LANGUAGE_HTML};
+                TRENDING_LANGUAGE_HTML
+        };
 
-//        for (String language : languages) {
-//            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_DAILY,
-//                    language);
-//            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_WEEKLY,
-//                    language);
-//            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_MONTHLY,
-//                    language);
-//        }
+        for (String language : languages) {
+            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_DAILY,
+                    language);
+            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_WEEKLY,
+                    language);
+            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_MONTHLY,
+                    language);
+        }
     }
 
     public static void initializeSyncAdapter(Context context) {
-        Log.d(LOG_TAG, "initializeSyncAdapter");
         getSyncAccount(context);
     }
 
     private static void onAccountCreated(Account newAccount, Context context) {
-        Log.d(LOG_TAG, "onAccountCreated");
         configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
         ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.sync_authority), true);
         syncImmediately(context);
@@ -134,7 +131,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      * @param context The context used to access the account service
      */
     private static void syncImmediately(Context context) {
-        Log.d(LOG_TAG, "syncImmediately");
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -146,7 +142,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      * Helper method to schedule the sync adapter periodic execution
      */
     private static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
-        Log.d(LOG_TAG, "configurePeriodicSync");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             SyncRequest request = new SyncRequest.Builder().
                     syncPeriodic(syncInterval, flexTime).
@@ -160,7 +155,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private static Account getSyncAccount(Context context) {
-        Log.d(LOG_TAG, "getSyncAccount");
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
         mAccount = new Account(

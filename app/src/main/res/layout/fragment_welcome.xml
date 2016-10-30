@@ -6,27 +6,28 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|top"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:src="@drawable/github_logo"
+            tools:ignore="ContentDescription" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_marginTop="?attr/actionBarSize"
-                android:src="@drawable/github_logo"
-                tools:ignore="ContentDescription" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:text="@string/analytics"
+            android:textSize="@dimen/material_typography_headline" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="?attr/actionBarSize"
-                android:text="@string/analytics"
-                android:textSize="@dimen/material_typography_headline" />
-
-        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/content"
@@ -36,51 +37,23 @@
         android:layout_margin="?attr/actionBarSize"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
-                android:visibility="gone"
-                android:src="@drawable/ic_trending_up_black_50dp"
-                tools:ignore="ContentDescription" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
-                android:visibility="gone"
-                android:src="@drawable/ic_equalizer_black_50dp"
-                tools:ignore="ContentDescription" />
-
-        </LinearLayout>
-
         <Button
             android:id="@+id/sign_in_oauth"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/material_layout_keylines_screen_edge_margin"
-            android:padding="16dp"
+            android:layout_margin="@dimen/button_margin"
             android:background="@drawable/ripple_grey"
-            android:shadowDx="1"
-            android:shadowDy="1"
             android:drawableLeft="@drawable/github_mark"
             android:drawableStart="@drawable/github_mark"
+            android:padding="@dimen/button_padding"
             android:text="@string/welcome_sign_in_oauth"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textColor="@color/button_text_color" />
 
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/login_progress"
+        android:id="@+id/progress"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

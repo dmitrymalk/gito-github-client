@@ -26,9 +26,12 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
     private DashboardContract.Presenter mPresenter;
     private Unbinder unbinder;
     ProgressBar mProgressBar;
-    @BindView(R.id.empty_state_dashboard_container) View mEmptyStateView;
-    @BindView(R.id.recycler_view_for_repositories) RecyclerView mRecyclerView;
-    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.empty_state_dashboard_container)
+    View mEmptyStateView;
+    @BindView(R.id.recycler_view_for_repositories)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private RepositoryListAdapter mAdapter;
 
     public static DashboardFragment newInstance() {

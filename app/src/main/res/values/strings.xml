@@ -30,4 +30,10 @@
     <string name="public_rep">Public</string>
     <string name="username">\@%1$s</string>
     <string name="followers">%1$s followers</string>
+    <string name="stars">Stars</string>
+    <string name="views">Visitors</string>
+    <string name="git_clones">Git clones</string>
+    <string name="forks">Forks</string>
+    <string name="stargazers_today">%1$s stars today</string>
+    <string name="traffic">Traffic</string>
 </resources>

@@ -17,30 +17,13 @@ class WelcomePresenter implements WelcomeContract.Presenter {
 
     @SuppressWarnings("unused")
     private static String LOG_TAG = WelcomePresenter.class.getSimpleName();
-
-    @SuppressWarnings("all")
-    @NonNull
-    private final LoaderProvider mLoaderProvider;
-
-    @SuppressWarnings("all")
-    @NonNull
-    private final LoaderManager mLoaderManager;
-
-    @NonNull
     private GithubRepository mGithubRepository;
-
-    @NonNull
     private WelcomeContract.View mWelcomeView;
 
     WelcomePresenter(@NonNull GithubRepository githubRepository,
-                     @NonNull WelcomeContract.View view,
-                     @NonNull LoaderProvider loaderProvider,
-                     @NonNull LoaderManager loaderManager) {
+                     @NonNull WelcomeContract.View view) {
         mGithubRepository = checkNotNull(githubRepository);
         mWelcomeView = checkNotNull(view);
-        mLoaderProvider = checkNotNull(loaderProvider);
-        mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
-
         mWelcomeView.setPresenter(this);
     }
 
@@ -69,6 +52,7 @@ class WelcomePresenter implements WelcomeContract.Presenter {
             String code = uri.getQueryParameter("code");
             if (code != null) {
                 mWelcomeView.setLoadingIndicator(true);
+
                 mGithubRepository.requestTokenFromCode(code, new GithubDataSource.RequestTokenFromCodeCallback() {
                     @Override
                     public void onTokenLoaded(String token, String tokenType) {
@@ -81,6 +65,7 @@ class WelcomePresenter implements WelcomeContract.Presenter {
                         mWelcomeView.authorizationFailed();
                     }
                 });
+
             } else {
                 mWelcomeView.authorizationFailed();
             }
