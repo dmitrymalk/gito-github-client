@@ -13,7 +13,6 @@ import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
 
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_COUNT;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORKS;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_LANGUAGE;
@@ -21,7 +20,6 @@ import static com.dmitrymalkovich.android.githubanalytics.data.source.local.cont
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_WATCHERS;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_VIEWS_COUNT;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES;
 
 class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdapter.ViewHolder> {
 
@@ -29,6 +27,7 @@ class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdap
     private static final int VIEW_TYPE_POPULAR = 1;
 
     public static String LOG_TAG = RepositoryListAdapter.class.getSimpleName();
+
     RepositoryListAdapter(Cursor cursor) {
         super(cursor);
     }
@@ -79,20 +78,16 @@ class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdap
         holder.subtitleView.setText(cursor.getString(COL_REPOSITORY_DESCRIPTION));
         holder.starsTotalView.setText(cursor.getString(COL_REPOSITORY_WATCHERS));
         holder.totalForksView.setText(cursor.getString(COL_REPOSITORY_FORKS));
-        if (holder.getItemViewType() == VIEW_TYPE_POPULAR) {
-            holder.languageView.setText(cursor.getString(COL_REPOSITORY_LANGUAGE));
-            holder.languageIconView.setVisibility(holder.languageView.getText() != null
-                    && holder.languageView.getText().length() != 0
-                    ? View.VISIBLE : View.GONE);
-        } else if (holder.getItemViewType() == VIEW_TYPE_THE_MOST_POPULAR) {
-
+        holder.languageView.setText(cursor.getString(COL_REPOSITORY_LANGUAGE));
+        holder.languageIconView.setVisibility(holder.languageView.getText() != null
+                && holder.languageView.getText().length() != 0
+                ? View.VISIBLE : View.GONE);
+        if (holder.getItemViewType() == VIEW_TYPE_THE_MOST_POPULAR) {
             holder.clonesCountView.setText(cursor.getString(COL_CLONES_COUNT));
             holder.viewsCountView.setText(cursor.getString(COL_VIEWS_COUNT));
             String stargazersToday = cursor.getString(COL_STARGAZERS_STARS);
             holder.starsTodayView.setText(
-                    context.getString(R.string.stargazers_today, stargazersToday));
-            holder.clonesUniquesView.setText(cursor.getString(COL_CLONES_UNIQUES));
-            holder.viewsUniquesView.setText(cursor.getString(COL_VIEWS_UNIQUES));
+                    context.getString(R.string.dashboard_stargazers, stargazersToday));
         }
     }
 
@@ -109,8 +104,6 @@ class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdap
         private final TextView clonesCountView;
         private final TextView viewsCountView;
         private final TextView starsTodayView;
-        private final TextView clonesUniquesView;
-        private final TextView viewsUniquesView;
         private TextView titleView;
         private TextView subtitleView;
 
@@ -123,9 +116,7 @@ class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdap
             languageIconView = (ImageView) view.findViewById(R.id.language_icon);
             totalForksView = (TextView) view.findViewById(R.id.forks_total);
             clonesCountView = (TextView) view.findViewById(R.id.clones_count);
-            clonesUniquesView = (TextView) view.findViewById(R.id.clones_uniques);
             viewsCountView = (TextView) view.findViewById(R.id.views_count);
-            viewsUniquesView = (TextView) view.findViewById(R.id.views_uniques);
             starsTodayView = (TextView) view.findViewById(R.id.stars_today);
         }
     }

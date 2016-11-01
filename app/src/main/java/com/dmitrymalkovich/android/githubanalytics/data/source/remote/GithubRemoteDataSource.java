@@ -19,6 +19,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.Respo
 
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.User;
+import org.eclipse.egit.github.core.client.RequestException;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.eclipse.egit.github.core.service.UserService;
 
@@ -76,6 +77,11 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 return null;
             }
         } catch (IOException e) {
+            if (e instanceof RequestException) {
+                if (((RequestException) e).getStatus() == 401) {
+                    saveToken(null, null);
+                }
+            }
             Log.e(LOG_TAG, e.getMessage(), e);
             return null;
         }

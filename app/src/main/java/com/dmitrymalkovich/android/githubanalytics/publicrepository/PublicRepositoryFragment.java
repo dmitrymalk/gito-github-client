@@ -57,7 +57,7 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
         if (getActivity() instanceof AppCompatActivity) {
             AppCompatActivity activity = (AppCompatActivity) getActivity();
             if (activity.getSupportActionBar() != null) {
-                activity.getSupportActionBar().setTitle(R.string.repositories);
+                activity.getSupportActionBar().setTitle(R.string.navigation_view_repositories);
             }
 
             mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);

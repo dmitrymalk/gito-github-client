@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/selectableItemBackground">
+    android:background="@drawable/selector_white">
 
     <TextView
         android:id="@+id/rank"

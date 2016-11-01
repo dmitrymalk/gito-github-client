@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:gravity="center_vertical"
         android:layout_height="match_parent"
+        android:textColor="@android:color/black"
         android:paddingLeft="@dimen/material_component_cards_left_and_right_padding"
         android:paddingRight="@dimen/material_component_cards_left_and_right_padding"/>
 

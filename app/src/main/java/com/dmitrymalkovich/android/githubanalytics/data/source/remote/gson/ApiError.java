@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class APIError {
 
-    @SerializedName("message")
+    @SuppressWarnings("all") @SerializedName("message")
     private String message = "No internet connection";
 
     public String getMessage() {

@@ -5,15 +5,8 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.support.annotation.IntDef;
-import android.support.annotation.StringDef;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /**
  * https://github.com/mingjunli/GithubTrending

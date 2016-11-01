@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/material_component_grid_lists_padding_big">
+    android:layout_weight="1"
+    android:gravity="center|top"
+    android:orientation="vertical">
 
     <TextView
         style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/dashboard_list_item_vertical_padding"
-        android:text="@string/git_clones" />
+        android:layout_gravity="center"
+        android:text="@string/dashboard_git_clones" />
 
     <TextView
         android:id="@+id/clones_count"
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="center"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/clones_count_text_size" />
-
-    <TextView
-        android:id="@+id/clones_uniques"
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
+        android:textSize="@dimen/dashboard_clones_text_size" />
 
 </LinearLayout>

@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
-import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 
 public class WelcomeActivity extends AppCompatActivity {

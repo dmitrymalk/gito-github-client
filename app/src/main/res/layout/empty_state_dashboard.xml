@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/title_for_empty_view_dashboard"
+        android:text="@string/dashboard_empty_view_title"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/empty_view_text_color" />
 
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/text_for_empty_view_dashboard"
+        android:text="@string/dashboard_empty_view_text"
         android:textColor="@color/empty_view_text_color" />
 
 </LinearLayout>

@@ -51,7 +51,7 @@ public class NavigationViewActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_view_open, R.string.navigation_view_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -87,12 +87,10 @@ public class NavigationViewActivity extends AppCompatActivity
         repository.getUser(new GithubDataSource.GerUserCallback() {
             @Override
             public void onUserLoaded(ResponseUser user) {
-                if (!NavigationViewActivity.this.isDestroyed()) {
-                    Glide.with(NavigationViewActivity.this)
-                            .load(user.getAvatarUrl()).into(avatarView);
-                    nameView.setText(user.getName());
-                    followersView.setText(getString(R.string.followers, user.getFollowers()));
-                }
+                Glide.with(NavigationViewActivity.this)
+                        .load(user.getAvatarUrl()).into(avatarView);
+                nameView.setText(user.getName());
+                followersView.setText(getString(R.string.navigation_view_header_followers, user.getFollowers()));
             }
 
             @Override

@@ -78,11 +78,11 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
             mRecyclerViewForBadges.setAdapter(new BadgesAdapter(mPresenter));
         }
         // Set up bottom navigation
-        AHBottomNavigationItem daily = new AHBottomNavigationItem(R.string.daily,
+        AHBottomNavigationItem daily = new AHBottomNavigationItem(R.string.trending_daily,
                 R.drawable.ic_trending_up_black_24dp, R.color.blue);
-        AHBottomNavigationItem weekly = new AHBottomNavigationItem(R.string.weekly,
+        AHBottomNavigationItem weekly = new AHBottomNavigationItem(R.string.trending_weekly,
                 R.drawable.ic_trending_up_black_24dp, R.color.blue);
-        AHBottomNavigationItem monthly = new AHBottomNavigationItem(R.string.monthly,
+        AHBottomNavigationItem monthly = new AHBottomNavigationItem(R.string.trending_monthly,
                 R.drawable.ic_trending_up_black_24dp, R.color.blue);
         mBottomNavigation.removeAllItems();
         mBottomNavigation.addItem(daily);

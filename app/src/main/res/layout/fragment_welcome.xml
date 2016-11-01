@@ -18,13 +18,13 @@
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:layout_marginTop="?attr/actionBarSize"
-            android:src="@drawable/github_logo"
+            android:src="@drawable/ic_github_logo"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
-            android:text="@string/analytics"
+            android:text="@string/welcome_analytics"
             android:textSize="@dimen/material_typography_headline" />
 
     </LinearLayout>
@@ -42,12 +42,12 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/button_margin"
-            android:background="@drawable/ripple_grey"
-            android:drawableLeft="@drawable/github_mark"
-            android:drawableStart="@drawable/github_mark"
-            android:padding="@dimen/button_padding"
-            android:text="@string/welcome_sign_in_oauth"
+            android:layout_margin="@dimen/welcome_button_margin"
+            android:background="@drawable/selector_grey"
+            android:drawableLeft="@drawable/ic_github_mark"
+            android:drawableStart="@drawable/ic_github_mark"
+            android:padding="@dimen/welcome_button_padding"
+            android:text="@string/welcome_sign_in"
             android:textColor="@color/button_text_color" />
 
     </LinearLayout>

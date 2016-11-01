@@ -3,11 +3,9 @@ package com.dmitrymalkovich.android.githubanalytics.welcome;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.app.LoaderManager;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
-import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubService;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubServiceGenerator;
 

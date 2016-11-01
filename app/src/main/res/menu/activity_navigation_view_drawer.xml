@@ -6,24 +6,24 @@
             android:checked="true"
             android:id="@+id/nav_dashboard"
             android:icon="@drawable/ic_dashboard_black_24dp"
-            android:title="@string/dashboard" />
+            android:title="@string/navigation_view_dashboard" />
         <item
             android:id="@+id/nav_repositories"
             android:icon="@drawable/ic_public_black_24dp"
-            android:title="@string/repositories" />
+            android:title="@string/navigation_view_repositories" />
         <item
             android:id="@+id/nav_trending"
             android:icon="@drawable/ic_trending_up_black_24dp"
-            android:title="@string/trending" />
+            android:title="@string/navigation_view_trending" />
     </group>
 
     <group android:id="@+id/group_2" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_feedback"
-            android:title="@string/feedback" />
+            android:title="@string/navigation_view_feedback" />
         <item
             android:id="@+id/nav_sign_out"
-            android:title="@string/sign_out" />
+            android:title="@string/navigation_view_sign_out" />
     </group>
 
 </menu>

@@ -11,9 +11,12 @@ class DashboardContract {
 
     interface View extends BaseView<Presenter> {
         void setLoadingIndicator(boolean active);
+
         void setRefreshIndicator(boolean active);
 
         void showRepositories(Cursor data);
+
+        void signOut();
     }
 
     interface Presenter extends BasePresenter, SwipeRefreshLayout.OnRefreshListener {

@@ -41,7 +41,7 @@
             android:layout_gravity="center"
             app:layout_scrollFlags="scroll|enterAlways"
             android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
-            android:src="@drawable/github_logo"
+            android:src="@drawable/ic_github_logo"
             tools:ignore="ContentDescription" />
 
     </android.support.design.widget.AppBarLayout>

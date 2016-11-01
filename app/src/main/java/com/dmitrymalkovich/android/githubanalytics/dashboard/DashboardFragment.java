@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.dashboard;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,12 +57,10 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
 
         mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
 
-        mPresenter.start();
-
         if (getActivity() instanceof AppCompatActivity) {
             AppCompatActivity activity = (AppCompatActivity) getActivity();
             if (activity.getSupportActionBar() != null) {
-                activity.getSupportActionBar().setTitle(R.string.dashboard);
+                activity.getSupportActionBar().setTitle(R.string.navigation_view_dashboard);
             }
             mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
             getActivity().findViewById(R.id.toolbar_logo).setVisibility(View.VISIBLE);
@@ -68,6 +68,8 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
                     .setVisibility(View.GONE);
             getActivity().findViewById(R.id.recycler_view_for_badges).setVisibility(View.GONE);
         }
+
+        mPresenter.start();
 
         return root;
     }
@@ -100,5 +102,16 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
     @Override
     public void showRepositories(Cursor data) {
         this.mAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void signOut() {
+        if (getActivity() != null) {
+            Intent intent = new Intent(getActivity(), WelcomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
+            getActivity().finish();
+        }
     }
 }

@@ -70,7 +70,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
 
     @Override
     public String getTitle(Context context) {
-        return context.getString(R.string.trending);
+        return context.getString(R.string.navigation_view_trending);
     }
 
     @Override

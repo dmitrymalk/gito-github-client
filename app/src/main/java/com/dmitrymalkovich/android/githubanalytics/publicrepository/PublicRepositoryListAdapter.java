@@ -70,13 +70,13 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
         if (forked) {
             holder.badgeView.setBackgroundColor(context.getResources()
                     .getColor(R.color.blue));
-            holder.badgeView.setText(R.string.forked);
+            holder.badgeView.setText(R.string.repositories_forked);
         }
         else
         {
             holder.badgeView.setBackgroundColor(context.getResources()
                     .getColor(R.color.green));
-            holder.badgeView.setText(R.string.public_rep);
+            holder.badgeView.setText(R.string.trending_public);
         }
     }
 

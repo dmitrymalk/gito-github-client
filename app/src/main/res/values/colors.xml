@@ -4,9 +4,8 @@
     <color name="colorPrimaryDark">@color/material_grey_500</color>
     <color name="colorAccent">@color/green</color>
     <color name="green">#569e3d</color>
-    <color name="dark_green">#44a340</color>
     <color name="blue">#4078c0</color>
-    <color name="dark_grey">#d5d5d5</color>
+    <color name="grey">#d5d5d5</color>
     <color name="empty_view_text_color">#BDBDBD</color>
     <color name="cards_border">#ddd</color>
     <color name="background">#E0E0E0</color>

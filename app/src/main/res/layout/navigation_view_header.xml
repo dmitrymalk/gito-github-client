@@ -2,13 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
+    android:layout_height="@dimen/navigation_view_header_height"
     android:theme="@style/ThemeOverlay.AppCompat">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/material_background"
+        android:background="@drawable/background_material"
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription" />
 
@@ -16,11 +16,11 @@
         android:id="@+id/avatar"
         android:layout_width="@dimen/navigation_view_header_avatar_size"
         android:layout_height="@dimen/navigation_view_header_avatar_size"
-        android:layout_marginEnd="@dimen/avatar_vertical_margin"
-        android:layout_marginLeft="@dimen/avatar_vertical_margin"
-        android:layout_marginRight="@dimen/avatar_vertical_margin"
-        android:layout_marginStart="@dimen/avatar_vertical_margin"
-        android:layout_marginTop="@dimen/avatar_margin_top"
+        android:layout_marginEnd="@dimen/navigation_view_avatar_vertical_margin"
+        android:layout_marginLeft="@dimen/navigation_view_avatar_vertical_margin"
+        android:layout_marginRight="@dimen/navigation_view_avatar_vertical_margin"
+        android:layout_marginStart="@dimen/navigation_view_avatar_vertical_margin"
+        android:layout_marginTop="@dimen/navigation_view_avatar_top_margin"
         tools:ignore="ContentDescription" />
 
     <LinearLayout
@@ -29,14 +29,14 @@
         android:layout_gravity="bottom"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="@dimen/avatar_vertical_margin">
+        android:padding="@dimen/navigation_view_avatar_vertical_margin">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/name_color"
-            android:textSize="@dimen/name_text_size"
+            android:textSize="@dimen/navigation_view_header_name_text_size"
             android:textStyle="bold" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/name_color"
-            android:textSize="@dimen/name_text_size" />
+            android:textSize="@dimen/navigation_view_header_name_text_size" />
 
     </LinearLayout>
 </FrameLayout>

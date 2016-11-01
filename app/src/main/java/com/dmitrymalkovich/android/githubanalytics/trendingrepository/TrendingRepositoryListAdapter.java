@@ -45,7 +45,7 @@ class TrendingRepositoryListAdapter extends CursorRecyclerViewAdapter<TrendingRe
             }
         });
         Context context = holder.titleView.getContext();
-        String rank = context.getString(R.string.rank, String.valueOf(cursor.getPosition() + 1));
+        String rank = context.getString(R.string.trending_rank, String.valueOf(cursor.getPosition() + 1));
         holder.rankView.setText(rank);
 
         String language = cursor.getString(TrendingContract.TrendingEntry.COL_LANGUAGE);
@@ -55,18 +55,18 @@ class TrendingRepositoryListAdapter extends CursorRecyclerViewAdapter<TrendingRe
         String period = cursor.getString(TrendingContract.TrendingEntry.COL_PERIOD);
         switch (period) {
             case GithubLocalDataSource.TRENDING_PERIOD_MONTHLY:
-                period = context.getString(R.string.monthly);
+                period = context.getString(R.string.trending_monthly);
                 break;
             case GithubLocalDataSource.TRENDING_PERIOD_WEEKLY:
-                period = context.getString(R.string.weekly);
+                period = context.getString(R.string.trending_weekly);
                 break;
             default:
             case GithubLocalDataSource.TRENDING_PERIOD_DAILY:
-                period = context.getString(R.string.daily);
+                period = context.getString(R.string.trending_daily);
                 break;
         }
         final String stars = cursor.getString(TrendingContract.TrendingEntry.COL_WATCHER_COUNT);
-        String bottomText = context.getString(R.string.trending_info, language, stars, period);
+        String bottomText = context.getString(R.string.trending_information, language, stars, period);
         holder.infoView.setText(bottomText);
 
         Glide.clear(holder.avatarView);

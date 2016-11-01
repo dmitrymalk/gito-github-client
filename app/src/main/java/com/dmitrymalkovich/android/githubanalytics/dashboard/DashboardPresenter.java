@@ -84,6 +84,9 @@ public class DashboardPresenter implements DashboardContract.Presenter,
     public void onDataNotAvailable() {
         mDashboardView.setLoadingIndicator(false);
         mDashboardView.setRefreshIndicator(false);
+        if (mGithubRepository.getToken() == null) {
+            mDashboardView.signOut();
+        }
     }
 
     @Override
