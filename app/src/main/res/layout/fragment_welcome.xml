@@ -25,30 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:text="@string/welcome_analytics"
-            android:textSize="@dimen/material_typography_headline" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="?attr/actionBarSize"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/sign_in_oauth"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/welcome_button_margin"
-            android:background="@drawable/selector_grey"
-            android:drawableLeft="@drawable/ic_github_mark"
-            android:drawableStart="@drawable/ic_github_mark"
-            android:padding="@dimen/welcome_button_padding"
-            android:text="@string/welcome_sign_in"
-            android:textColor="@color/button_text_color" />
+            android:textColor="@color/blue"
+            android:textSize="@dimen/material_typography_display1" />
 
     </LinearLayout>
 
@@ -59,5 +37,28 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="?attr/actionBarSize"
+        android:background="@null"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/sign_in_oauth"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/welcome_button_margin"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/welcome_button_padding"
+            android:text="@string/welcome_sign_in"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/material_typography_title" />
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
