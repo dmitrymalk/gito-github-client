@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
 
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
@@ -50,10 +51,16 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
         holder.titleView.setText(cursor.getString(COL_REPOSITORY_NAME));
         holder.subtitleView.setText(cursor.getString(COL_REPOSITORY_DESCRIPTION));
         holder.watchersView.setText(cursor.getString(COL_REPOSITORY_WATCHERS));
+        // Language
+        String language = cursor.getString(COL_REPOSITORY_LANGUAGE);
         holder.languageView.setText(cursor.getString(COL_REPOSITORY_LANGUAGE));
         holder.languageIconView.setVisibility(holder.languageView.getText() != null
                 && holder.languageView.getText().length() != 0
                 ? View.VISIBLE : View.GONE);
+        holder.languageView.setVisibility(holder.languageIconView.getVisibility() == View.VISIBLE
+                ? View.VISIBLE : View.GONE);
+        holder.languageIconView.setBackgroundDrawable(DrawableUtils.getColor(context, language));
+        // Link
         final String htmlUrl = cursor.getString(COL_REPOSITORY_HTML_URL);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

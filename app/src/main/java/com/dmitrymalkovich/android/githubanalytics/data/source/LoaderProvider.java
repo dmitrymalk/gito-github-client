@@ -25,8 +25,9 @@ public class LoaderProvider {
                 mContext,
                 RepositoryContract.RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS,
                 RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " = ?",
-                new String[] {"0"},
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " = ? AND "
+                        + RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " > ? " ,
+                new String[] {"0", "10"},
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " DESC"
         );
     }

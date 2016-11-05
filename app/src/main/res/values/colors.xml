@@ -11,4 +11,14 @@
     <color name="background">#E0E0E0</color>
     <color name="button_text_color">#000</color>
     <color name="name_color">#FFF</color>
+    <color name="java">#b07219</color>
+    <color name="c">#555555</color>
+    <color name="ruby">#701516</color>
+    <color name="javascript">#f1e05a</color>
+    <color name="swift">#ffac45</color>
+    <color name="objective_c">#438eff</color>
+    <color name="c_plus_plus">#f34b7d</color>
+    <color name="python">#3572A5</color>
+    <color name="c_sharp">#178600</color>
+    <color name="html">#e44b23</color>
 </resources>

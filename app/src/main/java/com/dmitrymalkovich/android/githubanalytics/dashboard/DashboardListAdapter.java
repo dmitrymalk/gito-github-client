@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
 
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_COUNT;
@@ -21,14 +22,14 @@ import static com.dmitrymalkovich.android.githubanalytics.data.source.local.cont
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_VIEWS_COUNT;
 
-class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdapter.ViewHolder> {
+class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapter.ViewHolder> {
 
     private static final int VIEW_TYPE_THE_MOST_POPULAR = 0;
     private static final int VIEW_TYPE_POPULAR = 1;
 
-    public static String LOG_TAG = RepositoryListAdapter.class.getSimpleName();
+    public static String LOG_TAG = DashboardListAdapter.class.getSimpleName();
 
-    RepositoryListAdapter(Cursor cursor) {
+    DashboardListAdapter(Cursor cursor) {
         super(cursor);
     }
 
@@ -74,24 +75,33 @@ class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdap
     @Override
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
         Context context = holder.itemView.getContext();
+        // Most popular repository
+        if (holder.getItemViewType() == VIEW_TYPE_THE_MOST_POPULAR) {
+            // Clones
+            String clonesCount = cursor.getString(COL_CLONES_COUNT);
+            holder.clonesCountView.setText(clonesCount != null ? clonesCount : "0");
+            // Views
+            String viewsCount = cursor.getString(COL_VIEWS_COUNT);
+            holder.viewsCountView.setText(viewsCount != null ? viewsCount : "0" );
+            // Stars
+            String stargazersToday = cursor.getString(COL_STARGAZERS_STARS);
+                holder.starsTodayView.setText(stargazersToday != null ?
+                        context.getString(R.string.dashboard_stargazers, stargazersToday)
+                : "0");
+        }
+        // Common
         holder.titleView.setText(cursor.getString(COL_REPOSITORY_NAME));
         holder.subtitleView.setText(cursor.getString(COL_REPOSITORY_DESCRIPTION));
         holder.starsTotalView.setText(cursor.getString(COL_REPOSITORY_WATCHERS));
         holder.totalForksView.setText(cursor.getString(COL_REPOSITORY_FORKS));
-        holder.languageView.setText(cursor.getString(COL_REPOSITORY_LANGUAGE));
+        String language = cursor.getString(COL_REPOSITORY_LANGUAGE);
+        holder.languageView.setText(language);
+        holder.languageIconView.setBackgroundDrawable(DrawableUtils.getColor(context, language));
         holder.languageIconView.setVisibility(holder.languageView.getText() != null
                 && holder.languageView.getText().length() != 0
                 ? View.VISIBLE : View.GONE);
-        if (holder.getItemViewType() == VIEW_TYPE_THE_MOST_POPULAR) {
-            holder.clonesCountView.setText(cursor.getString(COL_CLONES_COUNT));
-            holder.viewsCountView.setText(cursor.getString(COL_VIEWS_COUNT));
-            String stargazersToday = cursor.getString(COL_STARGAZERS_STARS);
-            if (stargazersToday != null) {
-                holder.starsTodayView.setText(stargazersToday != null ?
-                        context.getString(R.string.dashboard_stargazers, stargazersToday)
-                : "");
-            }
-        }
+        holder.languageView.setVisibility(holder.languageIconView.getVisibility() == View.VISIBLE
+                ? View.VISIBLE : View.GONE);
     }
 
     @Override

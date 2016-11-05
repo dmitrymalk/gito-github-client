@@ -34,7 +34,7 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    private RepositoryListAdapter mAdapter;
+    private DashboardListAdapter mAdapter;
 
     public static DashboardFragment newInstance() {
         return new DashboardFragment();
@@ -51,7 +51,7 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        mAdapter = new RepositoryListAdapter(null);
+        mAdapter = new DashboardListAdapter(null);
         mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
 

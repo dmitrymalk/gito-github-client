@@ -16,10 +16,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Re
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.StargazersContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 public class GithubDataProvider extends ContentProvider {
 
@@ -37,26 +34,17 @@ public class GithubDataProvider extends ContentProvider {
     private static final SQLiteQueryBuilder sRepositoryByVisitorsAndStarsQueryBuilder;
 
     static {
-
-        Calendar c = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day - 1, 0, 0, 0);
-        long time = calendar.getTimeInMillis() / 1000 * 1000;
-
         sRepositoryByVisitorsAndStarsQueryBuilder = new SQLiteQueryBuilder();
         sRepositoryByVisitorsAndStarsQueryBuilder.setTables(
                 RepositoryContract.RepositoryEntry.TABLE_NAME
                 + " LEFT JOIN (SELECT stargazers.repository_id, COUNT(stargazers.timestamp) as stars FROM stargazers WHERE timestamp >= "
-                + time +
+                + TimeUtils.today() +
                 " GROUP BY stargazers.repository_id) as stargazers ON stargazers.repository_id = repository.repository_id"
                 + " LEFT JOIN (SELECT traffic_views.repository_id, traffic_views.uniques, traffic_views.count FROM traffic_views WHERE timestamp="
-                + time +
+                + TimeUtils.today() +
                 ") as traffic_views ON traffic_views.repository_id = repository.repository_id"
                 + " LEFT JOIN (SELECT traffic_clones.repository_id, traffic_clones.uniques, traffic_clones.count FROM traffic_clones WHERE timestamp="
-                + time +
+                + TimeUtils.today() +
                 ") as traffic_clones ON traffic_clones.repository_id = repository.repository_id"
         );
     }
