@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.data.source;
+package com.dmitrymalkovich.android.githubanalytics.data.source.local;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -27,7 +27,7 @@ public class LoaderProvider {
                 RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " = ? AND "
                         + RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " > ? " ,
-                new String[] {"0", "10"},
+                new String[] {"0", "1"},
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " DESC"
         );
     }

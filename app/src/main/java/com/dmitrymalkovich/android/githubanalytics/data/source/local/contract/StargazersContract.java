@@ -5,14 +5,9 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 public class StargazersContract {
     public static final String LOG_TAG = StargazersContract.class.getSimpleName();
@@ -48,15 +43,8 @@ public class StargazersContract {
 
         public static ContentValues buildContentValues(long repositoryId,
                                                        ResponseStargazers responseStargazers) {
-            // ISO 8601 to milliseconds
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-            long timeInMilliseconds = 0;
-            try {
-                Date date = df.parse(responseStargazers.getStarredAt());
-                timeInMilliseconds = date.getTime();
-            } catch (ParseException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-            }
+            String timestamp = responseStargazers.getStarredAt();
+            long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(timestamp);
 
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLUMN_REPOSITORY_KEY, repositoryId);

@@ -5,14 +5,9 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 /**
  * https://developer.github.com/v3/repos/traffic/
@@ -56,16 +51,8 @@ public class ClonesContract {
         public static final int COL_CLONES_TIMESTAMP = 4;
 
         public static ContentValues buildContentValues(long repositoryId, ResponseClones.Clone clone) {
-
-            // ISO 8601 to milliseconds
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-            long timeInMilliseconds = 0;
-            try {
-                Date date = df.parse(clone.getTimestamp());
-                timeInMilliseconds = date.getTime();
-            } catch (ParseException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-            }
+            String timestamp = clone.getTimestamp();
+            long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(timestamp);
 
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLUMN_REPOSITORY_KEY, repositoryId);

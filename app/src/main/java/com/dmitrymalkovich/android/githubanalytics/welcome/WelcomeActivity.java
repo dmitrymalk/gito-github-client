@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -31,7 +31,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         new WelcomePresenter(
-                Injection.provideGithubRepository(this),
+                GithubRepository.Injection.provideGithubRepository(this),
                 welcomeFragment);
     }
 }

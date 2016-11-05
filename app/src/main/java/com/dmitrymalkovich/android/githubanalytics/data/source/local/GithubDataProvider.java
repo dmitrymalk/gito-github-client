@@ -271,7 +271,8 @@ public class GithubDataProvider extends ContentProvider {
         }
         if (getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
-            if (match == STARGAZERS || match == REPOSITORIES)
+            if (match == STARGAZERS || match == REPOSITORIES || match == CLONES
+                    || match == VIEWS || match == REFERRERS)
             {
                 getContext().getContentResolver().notifyChange(
                         RepositoryContract.RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS, null);
@@ -360,6 +361,12 @@ public class GithubDataProvider extends ContentProvider {
         }
         if (rowsUpdated != 0 && getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
+            if (match == STARGAZERS || match == REPOSITORIES || match == CLONES
+                    || match == VIEWS || match == REFERRERS)
+            {
+                getContext().getContentResolver().notifyChange(
+                        RepositoryContract.RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS, null);
+            }
         }
         return rowsUpdated;
     }

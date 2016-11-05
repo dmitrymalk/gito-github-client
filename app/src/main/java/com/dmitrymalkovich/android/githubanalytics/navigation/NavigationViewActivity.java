@@ -22,8 +22,7 @@ import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardFragment;
 import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardPresenter;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
-import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
-import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.sync.SyncAdapter;
 import com.dmitrymalkovich.android.githubanalytics.publicrepository.PublicRepositoryFragment;
@@ -83,7 +82,7 @@ public class NavigationViewActivity extends AppCompatActivity
         final ImageView avatarView = (ImageView) headerLayout.findViewById(R.id.avatar);
         final TextView nameView = (TextView) headerLayout.findViewById(R.id.name);
         final TextView followersView = (TextView) headerLayout.findViewById(R.id.followers);
-        GithubRepository repository = Injection.provideGithubRepository(this);
+        GithubRepository repository = GithubRepository.Injection.provideGithubRepository(this);
         repository.getUser(new GithubDataSource.GerUserCallback() {
             @Override
             public void onUserLoaded(ResponseUser user) {
@@ -159,7 +158,7 @@ public class NavigationViewActivity extends AppCompatActivity
                     dashboardFragment, R.id.content_navigation_view);
         }
         new DashboardPresenter(
-                Injection.provideGithubRepository(this),
+                GithubRepository.Injection.provideGithubRepository(this),
                 dashboardFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());
@@ -179,7 +178,7 @@ public class NavigationViewActivity extends AppCompatActivity
                     publicRepositoriesFragment, R.id.content_navigation_view);
         }
         new PublicRepositoryPresenter(
-                Injection.provideGithubRepository(this),
+                GithubRepository.Injection.provideGithubRepository(this),
                 publicRepositoriesFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());
@@ -199,7 +198,7 @@ public class NavigationViewActivity extends AppCompatActivity
                     trendingRepositoryFragment, R.id.content_navigation_view);
         }
         new TrendingRepositoryPresenter(
-                Injection.provideGithubRepository(this),
+                GithubRepository.Injection.provideGithubRepository(this),
                 trendingRepositoryFragment,
                 new LoaderProvider(this),
                 getSupportLoaderManager());
@@ -208,7 +207,7 @@ public class NavigationViewActivity extends AppCompatActivity
     }
 
     private void signOut() {
-        Injection.provideGithubRepository(this).saveToken(null, null);
+        GithubRepository.Injection.provideGithubRepository(this).saveToken(null, null);
 
         Intent intent = new Intent(this, WelcomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

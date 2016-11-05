@@ -8,7 +8,7 @@ import android.support.v4.content.Loader;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
-import com.dmitrymalkovich.android.githubanalytics.data.source.LoaderProvider;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
 
 import org.eclipse.egit.github.core.Repository;
 

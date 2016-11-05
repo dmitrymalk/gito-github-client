@@ -23,17 +23,14 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.Respo
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 import org.eclipse.egit.github.core.Repository;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
@@ -44,14 +41,15 @@ public class GithubLocalDataSource implements GithubDataSource {
     private static final String PREFERENCES_TOKEN = "PREFERENCES_TOKEN";
     private static final String PREFERENCES_TOKEN_TYPE = "PREFERENCES_TOKEN_TYPE";
 
+    private static final String PREFERENCES_TRENDING_PERIOD = "PREFERENCES_TRENDING_PERIOD";
+    private static final String PREFERENCES_TRENDING_LANGUAGE = "PREFERENCES_TRENDING_LANGUAGE";
+
     @Retention(SOURCE)
     @StringDef({TRENDING_PERIOD_DAILY, TRENDING_PERIOD_WEEKLY, TRENDING_PERIOD_MONTHLY})
     public @interface TrendingPeriod {}
     public static final String TRENDING_PERIOD_DAILY = "daily";
     public static final String TRENDING_PERIOD_WEEKLY = "weekly";
     public static final String TRENDING_PERIOD_MONTHLY = "monthly";
-
-    private static final String PREFERENCES_TRENDING_PERIOD = "PREFERENCES_TRENDING_PERIOD";
 
     @Retention(SOURCE)
     @StringDef({TRENDING_LANGUAGE_JAVA,
@@ -75,8 +73,6 @@ public class GithubLocalDataSource implements GithubDataSource {
     public static final String TRENDING_LANGUAGE_PYTHON = "Python";
     public static final String TRENDING_LANGUAGE_C_SHARP = "C#";
     public static final String TRENDING_LANGUAGE_HTML = "Html";
-
-    private static final String PREFERENCES_TRENDING_LANGUAGE = "PREFERENCES_TRENDING_LANGUAGE";
 
     private static GithubLocalDataSource INSTANCE;
     @SuppressWarnings("all")
@@ -109,7 +105,6 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     @Override
     public void getRepositoryReferrers(Repository repository, GetRepositoryReferrersCallback callback) {
-
     }
 
     @Override
@@ -134,7 +129,6 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     @Override
     public void getUser(GerUserCallback callback) {
-
     }
 
     @Override
@@ -264,15 +258,8 @@ public class GithubLocalDataSource implements GithubDataSource {
             ContentValues contentValues = ClonesContract.ClonesEntry
                     .buildContentValues(repositoryId, clone);
 
-            // ISO 8601 to milliseconds
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-            long timeInMilliseconds = 0;
-            try {
-                Date date = df.parse(clone.getTimestamp());
-                timeInMilliseconds = date.getTime();
-            } catch (ParseException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-            }
+            String timestamp = clone.getTimestamp();
+            long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(timestamp);
 
             String selection = ClonesContract.ClonesEntry.COLUMN_REPOSITORY_KEY + " = "
                     + repositoryId + " AND "
@@ -308,15 +295,8 @@ public class GithubLocalDataSource implements GithubDataSource {
             ContentValues contentValues = ViewsContract.ViewsEntry
                     .buildContentValues(repositoryId, view);
 
-            // ISO 8601 to milliseconds
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-            long timeInMilliseconds = 0;
-            try {
-                Date date = df.parse(view.getTimestamp());
-                timeInMilliseconds = date.getTime();
-            } catch (ParseException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-            }
+            String timestamp = view.getTimestamp();
+            long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(timestamp);
 
             String selection = ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY + " = "
                     + repositoryId + " AND "
@@ -375,15 +355,8 @@ public class GithubLocalDataSource implements GithubDataSource {
                 ContentValues contentValues = StargazersContract.Entry
                         .buildContentValues(repository.getId(), stargazers);
 
-                // ISO 8601 to milliseconds
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-                long timeInMilliseconds = 0;
-                try {
-                    Date date = df.parse(stargazers.getStarredAt());
-                    timeInMilliseconds = date.getTime();
-                } catch (ParseException e) {
-                    Log.e(LOG_TAG, e.getMessage(), e);
-                }
+                String starredAd = stargazers.getStarredAt();
+                long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(starredAd);
 
                 String selection = StargazersContract.Entry.COLUMN_REPOSITORY_KEY + " = "
                         + repository.getId() + " AND "

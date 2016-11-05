@@ -12,7 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-import com.dmitrymalkovich.android.githubanalytics.data.source.Injection;
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemoteDataSource;
 
@@ -69,21 +69,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
-        final GithubRemoteDataSource githubRepository = Injection.provideRemoteDataSource(getContext());
+        final GithubRemoteDataSource githubRepository = GithubRepository.Injection.provideRemoteDataSource(getContext());
         // Get user's repositories and save to db
-        List<Repository> repositoryList = githubRepository.getRepositoriesSync();
+        List<Repository> repositories = githubRepository.getRepositoriesSync();
 
-        if (repositoryList != null) {
+        if (repositories != null) {
 
-            Collections.sort(repositoryList, new Comparator<Repository>() {
+            // Sort by stars (desc)
+            Collections.sort(repositories, new Comparator<Repository>() {
                 @Override
                 public int compare(Repository repository, Repository t1) {
                     return t1.getWatchers() - repository.getWatchers();
                 }
             });
 
-            if (repositoryList.size() > 0) {
-                Repository mostPopularRepository = repositoryList.get(0);
+            if (repositories.size() > 0) {
+                Repository mostPopularRepository = repositories.get(0);
                 if (mostPopularRepository != null) {
                     // Get repository top referrers and save to db
                     githubRepository.getRepositoryReferrersSync(mostPopularRepository);
@@ -96,8 +97,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
             }
 
-            if (repositoryList.size() > 1) {
-                Repository mostPopularRepository = repositoryList.get(1);
+            if (repositories.size() > 1) {
+                Repository mostPopularRepository = repositories.get(1);
                 if (mostPopularRepository != null) {
                     // Get repository top referrers and save to db
                     githubRepository.getRepositoryReferrersSync(mostPopularRepository);
