@@ -37,12 +37,13 @@ public class GithubDataProvider extends ContentProvider {
     private static final SQLiteQueryBuilder sRepositoryByVisitorsAndStarsQueryBuilder;
 
     static {
+
         Calendar c = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day - 10, 0, 0, 0);
+        calendar.set(year, month, day - 1, 0, 0, 0);
         long time = calendar.getTimeInMillis() / 1000 * 1000;
 
         sRepositoryByVisitorsAndStarsQueryBuilder = new SQLiteQueryBuilder();
@@ -268,6 +269,11 @@ public class GithubDataProvider extends ContentProvider {
         }
         if (getContext() != null) {
             getContext().getContentResolver().notifyChange(uri, null);
+            if (match == STARGAZERS || match == REPOSITORIES)
+            {
+                getContext().getContentResolver().notifyChange(
+                        RepositoryContract.RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS, null);
+            }
         }
         return returnUri;
     }

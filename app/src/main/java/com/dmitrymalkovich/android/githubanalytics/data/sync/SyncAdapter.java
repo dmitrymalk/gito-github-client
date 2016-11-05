@@ -18,18 +18,11 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemo
 
 import org.eclipse.egit.github.core.Repository;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C_PLUS_PLUS;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C_SHARP;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_HTML;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_JAVA;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_JAVASCRIPT;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_OBJECTIVE_C;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_PYTHON;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_RUBY;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_SWIFT;
 
 /**
  * Handle the transfer of data between a server and an
@@ -39,6 +32,7 @@ import static com.dmitrymalkovich.android.githubanalytics.data.source.local.Gith
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
+    @SuppressWarnings("unused")
     private static String LOG_TAG = SyncAdapter.class.getSimpleName();
     private static final int SECONDS_PER_MINUTE = 60;
     private static final int SYNC_INTERVAL_IN_MINUTES = 60;
@@ -78,39 +72,51 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final GithubRemoteDataSource githubRepository = Injection.provideRemoteDataSource(getContext());
         // Get user's repositories and save to db
         List<Repository> repositoryList = githubRepository.getRepositoriesSync();
+
         if (repositoryList != null) {
-            for (Repository repository : repositoryList) {
-                // Get repository top referrers and save to db
-                // githubRepository.getRepositoryReferrersSync(repository);
-                // Get repository visitors and save to db
-                githubRepository.getRepositoryViewsSync(repository, "day");
-                // Get repository clones and save to db
-                githubRepository.getRepositoryClonesSync(repository, "day");
-                // Get repository stargazers and save to db
-                githubRepository.getStargazersSync(repository, "last");
+
+            Collections.sort(repositoryList, new Comparator<Repository>() {
+                @Override
+                public int compare(Repository repository, Repository t1) {
+                    return t1.getWatchers() - repository.getWatchers();
+                }
+            });
+
+            if (repositoryList.size() > 0) {
+                Repository mostPopularRepository = repositoryList.get(0);
+                if (mostPopularRepository != null) {
+                    // Get repository top referrers and save to db
+                    githubRepository.getRepositoryReferrersSync(mostPopularRepository);
+                    // Get repository visitors and save to db
+                    githubRepository.getRepositoryViewsSync(mostPopularRepository, "day");
+                    // Get repository clones and save to db
+                    githubRepository.getRepositoryClonesSync(mostPopularRepository, "day");
+                    // Get repository stargazers and save to db
+                    githubRepository.getStargazersSync(mostPopularRepository, "last");
+                }
             }
         }
 
         // Get information about trending repositories
         String[] languages = {TRENDING_LANGUAGE_JAVA,
-                TRENDING_LANGUAGE_C,
-                TRENDING_LANGUAGE_RUBY,
-                TRENDING_LANGUAGE_JAVASCRIPT,
-                TRENDING_LANGUAGE_SWIFT,
-                TRENDING_LANGUAGE_OBJECTIVE_C,
-                TRENDING_LANGUAGE_C_PLUS_PLUS,
-                TRENDING_LANGUAGE_PYTHON,
-                TRENDING_LANGUAGE_C_SHARP,
-                TRENDING_LANGUAGE_HTML
+//                TRENDING_LANGUAGE_C,
+//                TRENDING_LANGUAGE_RUBY,
+//                TRENDING_LANGUAGE_JAVASCRIPT,
+//                TRENDING_LANGUAGE_SWIFT,
+//                TRENDING_LANGUAGE_OBJECTIVE_C,
+//                TRENDING_LANGUAGE_C_PLUS_PLUS,
+//                TRENDING_LANGUAGE_PYTHON,
+//                TRENDING_LANGUAGE_C_SHARP,
+//                TRENDING_LANGUAGE_HTML
         };
 
         for (String language : languages) {
             githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_DAILY,
                     language);
-            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_WEEKLY,
-                    language);
-            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_MONTHLY,
-                    language);
+//            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_WEEKLY,
+//                    language);
+//            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_MONTHLY,
+//                    language);
         }
     }
 

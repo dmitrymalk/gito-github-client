@@ -65,7 +65,6 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
 
             mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
             mBottomNavigation = (AHBottomNavigation) getActivity().findViewById(R.id.bottom_navigation);
-            getActivity().findViewById(R.id.toolbar_logo).setVisibility(View.GONE);
             getActivity().findViewById(R.id.bottom_navigation)
                     .setVisibility(View.VISIBLE);
 

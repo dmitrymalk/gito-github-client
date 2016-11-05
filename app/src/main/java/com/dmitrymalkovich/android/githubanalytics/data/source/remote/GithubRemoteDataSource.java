@@ -477,7 +477,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 if (responseStargazersList != null) {
                     GithubLocalDataSource localDataSource =
                             GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                    localDataSource.saveStargazerses(repository, responseStargazersList);
+                    localDataSource.saveStargazers(repository, responseStargazersList);
                     return responseStargazersList;
 
                 } else {

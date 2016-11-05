@@ -368,7 +368,7 @@ public class GithubLocalDataSource implements GithubDataSource {
         }
     }
 
-    public void saveStargazerses(Repository repository, List<ResponseStargazers>
+    public void saveStargazers(Repository repository, List<ResponseStargazers>
             responseStargazersList) {
         for (ResponseStargazers stargazers : responseStargazersList) {
             if (stargazers != null) {
@@ -390,7 +390,7 @@ public class GithubLocalDataSource implements GithubDataSource {
                         + StargazersContract.Entry.COLUMN_TIMESTAMP
                         + " = " + timeInMilliseconds;
 
-                Cursor cursor = mContentResolver.query(ViewsContract.ViewsEntry.CONTENT_URI,
+                Cursor cursor = mContentResolver.query(StargazersContract.Entry.CONTENT_URI,
                         new String[]{StargazersContract.Entry.COLUMN_REPOSITORY_KEY},
                         selection,
                         null,

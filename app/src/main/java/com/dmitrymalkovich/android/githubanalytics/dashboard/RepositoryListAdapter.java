@@ -86,8 +86,11 @@ class RepositoryListAdapter extends CursorRecyclerViewAdapter<RepositoryListAdap
             holder.clonesCountView.setText(cursor.getString(COL_CLONES_COUNT));
             holder.viewsCountView.setText(cursor.getString(COL_VIEWS_COUNT));
             String stargazersToday = cursor.getString(COL_STARGAZERS_STARS);
-            holder.starsTodayView.setText(
-                    context.getString(R.string.dashboard_stargazers, stargazersToday));
+            if (stargazersToday != null) {
+                holder.starsTodayView.setText(stargazersToday != null ?
+                        context.getString(R.string.dashboard_stargazers, stargazersToday)
+                : "");
+            }
         }
     }
 
