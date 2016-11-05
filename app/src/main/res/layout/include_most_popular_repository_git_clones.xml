@@ -7,19 +7,19 @@
     android:orientation="vertical">
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/dashboard_git_clones" />
-
-    <TextView
         android:id="@+id/clones_count"
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center|top"
         android:textColor="@android:color/black"
         android:textSize="@dimen/dashboard_clones_text_size" />
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:text="@string/dashboard_git_clones" />
 
 </LinearLayout>

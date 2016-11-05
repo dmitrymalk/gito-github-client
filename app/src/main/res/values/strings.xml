@@ -13,7 +13,6 @@
     <string name="dashboard_stars">Stars</string>
     <string name="dashboard_views">Visitors</string>
     <string name="dashboard_git_clones">Clones</string>
-    <string name="dashboard_stargazers">%1$s</string>
     <string name="dashboard_empty_view_title">No public repositories</string>
     <string name="dashboard_empty_view_text" />
     <string name="repositories_forked">Forked</string>
@@ -25,4 +24,8 @@
     <string name="trending_public">Public</string>
     <string name="sync_account_type">com.dmitrymalkovich.android.githubanalytics</string>
     <string name="sync_authority">com.dmitrymalkovich.android.githubanalytics.data</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="traffic">Traffic</string>
+    <string name="github">Github</string>
 </resources>

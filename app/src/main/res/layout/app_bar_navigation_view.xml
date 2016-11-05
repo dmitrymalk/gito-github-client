@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll"
+            app:layout_scrollFlags="scroll|enterAlways"
             android:background="?attr/colorPrimary"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"

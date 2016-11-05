@@ -95,6 +95,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     githubRepository.getStargazersSync(mostPopularRepository, "last");
                 }
             }
+
+            if (repositoryList.size() > 1) {
+                Repository mostPopularRepository = repositoryList.get(1);
+                if (mostPopularRepository != null) {
+                    // Get repository top referrers and save to db
+                    githubRepository.getRepositoryReferrersSync(mostPopularRepository);
+                    // Get repository visitors and save to db
+                    githubRepository.getRepositoryViewsSync(mostPopularRepository, "day");
+                    // Get repository clones and save to db
+                    githubRepository.getRepositoryClonesSync(mostPopularRepository, "day");
+                    // Get repository stargazers and save to db
+                    githubRepository.getStargazersSync(mostPopularRepository, "last");
+                }
+            }
         }
 
         // Get information about trending repositories

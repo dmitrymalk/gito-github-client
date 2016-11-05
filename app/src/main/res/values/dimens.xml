@@ -6,9 +6,9 @@
     <dimen name="navigation_view_avatar_top_margin">46dp</dimen>
     <dimen name="navigation_view_avatar_vertical_margin">16dp</dimen>
     <dimen name="navigation_view_header_name_text_size">14sp</dimen>
-    <dimen name="dashboard_clones_text_size">18sp</dimen>
-    <dimen name="dashboard_views_text_size">18sp</dimen>
-    <dimen name="dashboard_stars_text_size">18sp</dimen>
+    <dimen name="dashboard_clones_text_size">16sp</dimen>
+    <dimen name="dashboard_views_text_size">16sp</dimen>
+    <dimen name="dashboard_stars_text_size">16sp</dimen>
     <dimen name="dashboard_list_item_padding">16dp</dimen>
     <dimen name="dashboard_list_item_vertical_padding">8dp</dimen>
 </resources>

@@ -22,24 +22,7 @@
         android:paddingStart="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
         android:paddingTop="@dimen/material_component_cards_left_and_right_padding">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="@color/blue" />
-
-        <TextView
-            android:id="@+id/subtitle"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:textColor="@color/material_grey_700"
-            android:maxLines="2"
-            android:paddingTop="@dimen/material_component_cards_padding_from_edge_of_screen_to_card" />
+        <include layout="@layout/include_repository_title_and_description"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

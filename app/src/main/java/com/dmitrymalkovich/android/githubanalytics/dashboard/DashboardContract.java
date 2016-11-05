@@ -2,6 +2,7 @@ package com.dmitrymalkovich.android.githubanalytics.dashboard;
 
 
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.dmitrymalkovich.android.githubanalytics.BasePresenter;
@@ -15,6 +16,8 @@ class DashboardContract {
         void setRefreshIndicator(boolean active);
 
         void showRepositories(Cursor data);
+
+        void openUrl(@NonNull String htmlUrl);
 
         void signOut();
     }

@@ -40,12 +40,26 @@ public class GithubDataProvider extends ContentProvider {
                 + " LEFT JOIN (SELECT stargazers.repository_id, COUNT(stargazers.timestamp) as stars FROM stargazers WHERE timestamp >= "
                 + TimeUtils.today() +
                 " GROUP BY stargazers.repository_id) as stargazers ON stargazers.repository_id = repository.repository_id"
+
+                + " LEFT JOIN (SELECT stargazers.repository_id, COUNT(stargazers.timestamp) as stars FROM stargazers WHERE timestamp >= "
+                + TimeUtils.yesterday() + " AND timestamp <=" + TimeUtils.today() +
+                " GROUP BY stargazers.repository_id) as stargazers_yesterday ON stargazers_yesterday.repository_id = repository.repository_id"
+
                 + " LEFT JOIN (SELECT traffic_views.repository_id, traffic_views.uniques, traffic_views.count FROM traffic_views WHERE timestamp="
                 + TimeUtils.today() +
                 ") as traffic_views ON traffic_views.repository_id = repository.repository_id"
+
+                + " LEFT JOIN (SELECT traffic_views.repository_id, traffic_views.uniques, traffic_views.count FROM traffic_views WHERE timestamp="
+                + TimeUtils.yesterday() + " AND timestamp <=" + TimeUtils.today() +
+                ") as traffic_views_yesterday ON traffic_views_yesterday.repository_id = repository.repository_id"
+
                 + " LEFT JOIN (SELECT traffic_clones.repository_id, traffic_clones.uniques, traffic_clones.count FROM traffic_clones WHERE timestamp="
                 + TimeUtils.today() +
                 ") as traffic_clones ON traffic_clones.repository_id = repository.repository_id"
+
+                + " LEFT JOIN (SELECT traffic_clones.repository_id, traffic_clones.uniques, traffic_clones.count FROM traffic_clones WHERE timestamp="
+                + TimeUtils.yesterday() + " AND timestamp <=" + TimeUtils.today() +
+                ") as traffic_clones_yesterday ON traffic_clones_yesterday.repository_id = repository.repository_id"
         );
     }
 

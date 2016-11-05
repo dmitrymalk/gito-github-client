@@ -2,7 +2,9 @@ package com.dmitrymalkovich.android.githubanalytics.dashboard;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -51,7 +53,7 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        mAdapter = new DashboardListAdapter(null);
+        mAdapter = new DashboardListAdapter(null, this);
         mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -89,6 +91,12 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
         if (mProgressBar != null) {
             mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
         }
+    }
+
+    @Override
+    public void openUrl(@NonNull String htmlUrl) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(htmlUrl));
+        getActivity().startActivity(browserIntent);
     }
 
     @Override

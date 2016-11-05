@@ -35,15 +35,10 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_repository, parent, false);
-        final ViewHolder vh = new ViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-        return vh;
+        return new ViewHolder(view);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
         Context context = holder.itemView.getContext();
@@ -78,9 +73,7 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
             holder.badgeView.setBackgroundColor(context.getResources()
                     .getColor(R.color.blue));
             holder.badgeView.setText(R.string.repositories_forked);
-        }
-        else
-        {
+        } else {
             holder.badgeView.setBackgroundColor(context.getResources()
                     .getColor(R.color.green));
             holder.badgeView.setText(R.string.trending_public);
