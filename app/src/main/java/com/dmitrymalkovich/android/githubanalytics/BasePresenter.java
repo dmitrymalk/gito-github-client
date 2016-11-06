@@ -15,7 +15,9 @@
  */
 package com.dmitrymalkovich.android.githubanalytics;
 
+import android.os.Bundle;
+
 public interface BasePresenter {
 
-    void start();
+    void start(Bundle savedInstanceState);
 }

@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
@@ -46,7 +47,9 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     @Retention(SOURCE)
     @StringDef({TRENDING_PERIOD_DAILY, TRENDING_PERIOD_WEEKLY, TRENDING_PERIOD_MONTHLY})
-    public @interface TrendingPeriod {}
+    public @interface TrendingPeriod {
+    }
+
     public static final String TRENDING_PERIOD_DAILY = "daily";
     public static final String TRENDING_PERIOD_WEEKLY = "weekly";
     public static final String TRENDING_PERIOD_MONTHLY = "monthly";
@@ -62,7 +65,9 @@ public class GithubLocalDataSource implements GithubDataSource {
             TRENDING_LANGUAGE_PYTHON,
             TRENDING_LANGUAGE_C_SHARP,
             TRENDING_LANGUAGE_HTML})
-    public @interface TrendingLanguage {}
+    public @interface TrendingLanguage {
+    }
+
     public static final String TRENDING_LANGUAGE_JAVA = "Java";
     public static final String TRENDING_LANGUAGE_C = "C";
     public static final String TRENDING_LANGUAGE_RUBY = "Ruby";
@@ -100,6 +105,12 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
+    public void logout() {
+        saveToken(null, null);
+        mContentResolver.delete(RepositoryContract.RepositoryEntry.CONTENT_URI, null, null);
+    }
+
+    @Override
     public void getRepositories(GetRepositoriesCallback callback) {
     }
 
@@ -112,7 +123,7 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoryClones(Repository repository, String period,GetRepositoryClonesCallback callback) {
+    public void getRepositoryClones(Repository repository, String period, GetRepositoryClonesCallback callback) {
     }
 
     @Override
@@ -124,7 +135,12 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
-    public void getTrendingRepositories(String period, String language, GetTrendingRepositories callback) {
+    public void getRepositoriesWithAdditionalInfo(GetRepositoriesCallback callback) {
+    }
+
+    @Override
+    public void getTrendingRepositories(String period, String language, GetTrendingRepositories callback,
+                                        boolean useCache) {
     }
 
     @Override
@@ -150,7 +166,9 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
-    public @TrendingLanguage String getDefaultLanguageForTrending() {
+    public
+    @TrendingLanguage
+    String getDefaultLanguageForTrending() {
         String language = mPreferences.getString(PREFERENCES_TRENDING_LANGUAGE,
                 TRENDING_LANGUAGE_JAVA);
         switch (language) {
@@ -186,7 +204,9 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
-    public @TrendingPeriod String getDefaultPeriodForTrending() {
+    public
+    @TrendingPeriod
+    String getDefaultPeriodForTrending() {
         String language = mPreferences.getString(PREFERENCES_TRENDING_PERIOD,
                 TRENDING_PERIOD_DAILY);
         switch (language) {
@@ -208,42 +228,38 @@ public class GithubLocalDataSource implements GithubDataSource {
         editor.apply();
     }
 
-    public void saveReferrers(long repositoryId, List<ResponseReferrer> referrerList) {
-        mContentResolver.delete(ReferrerContract.ReferrerEntry.CONTENT_URI,
+    public void saveReferrers(long repositoryId, List<ResponseReferrer> referrers) {
+        Uri uri = ReferrerContract.ReferrerEntry.CONTENT_URI;
+
+        mContentResolver.delete(uri,
                 ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY + " =  ? ",
                 new String[]{String.valueOf(repositoryId)});
 
-        for (ResponseReferrer referrer : referrerList) {
+        for (ResponseReferrer referrer : referrers) {
             ContentValues referrerValues = ReferrerContract.ReferrerEntry
                     .createContentValues(repositoryId, referrer);
 
-            mContentResolver.insert(
-                    ReferrerContract.ReferrerEntry.CONTENT_URI,
-                    referrerValues);
+            mContentResolver.insert(uri, referrerValues);
         }
     }
 
-    public boolean saveRepositories(List<Repository> repositoryList) throws IOException {
-        for (Repository repository : repositoryList) {
+    public boolean saveRepositories(List<Repository> repositories) throws IOException {
+        Uri uri = RepositoryContract.RepositoryEntry.CONTENT_URI;
+        for (Repository repository : repositories) {
             ContentValues repositoryValues = RepositoryContract.RepositoryEntry.
                     buildContentValues(repository);
 
-            Cursor cursor = mContentResolver.query(RepositoryContract.RepositoryEntry.CONTENT_URI,
+            Cursor cursor = mContentResolver.query(uri,
                     new String[]{RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID},
-                    RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " = " + repository.getId(),
-                    null,
-                    null);
+                    RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " = "
+                            + repository.getId(), null, null);
 
             if (cursor != null && cursor.moveToFirst()) {
-                mContentResolver.update(
-                        RepositoryContract.RepositoryEntry.CONTENT_URI,
-                        repositoryValues,
-                        RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " = " + repository.getId(),
-                        null);
+                mContentResolver.update(uri, repositoryValues,
+                        RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " = "
+                                + repository.getId(), null);
             } else {
-                mContentResolver.insert(
-                        RepositoryContract.RepositoryEntry.CONTENT_URI,
-                        repositoryValues);
+                mContentResolver.insert(uri, repositoryValues);
             }
 
             if (cursor != null) {
@@ -253,8 +269,10 @@ public class GithubLocalDataSource implements GithubDataSource {
         return true;
     }
 
-    public void saveClones(long repositoryId, ResponseClones responseClones) {
-        for (ResponseClones.Clone clone : responseClones.getClones()) {
+    public void saveClones(long repositoryId, ResponseClones clones) {
+        Uri uri = ClonesContract.ClonesEntry.CONTENT_URI;
+
+        for (ResponseClones.Clone clone : clones.getClones()) {
             ContentValues contentValues = ClonesContract.ClonesEntry
                     .buildContentValues(repositoryId, clone);
 
@@ -266,22 +284,14 @@ public class GithubLocalDataSource implements GithubDataSource {
                     + ClonesContract.ClonesEntry.COLUMN_CLONES_TIMESTAMP
                     + " = " + timeInMilliseconds;
 
-            Cursor cursor = mContentResolver.query(ClonesContract.ClonesEntry.CONTENT_URI,
+            Cursor cursor = mContentResolver.query(uri,
                     new String[]{ClonesContract.ClonesEntry.COLUMN_REPOSITORY_KEY},
-                    selection,
-                    null,
-                    null);
+                    selection, null, null);
 
             if (cursor != null && cursor.moveToFirst()) {
-                mContentResolver.update(
-                        ClonesContract.ClonesEntry.CONTENT_URI,
-                        contentValues,
-                        selection,
-                        null);
+                mContentResolver.update(uri, contentValues, selection, null);
             } else {
-                mContentResolver.insert(
-                        ClonesContract.ClonesEntry.CONTENT_URI,
-                        contentValues);
+                mContentResolver.insert(uri, contentValues);
             }
 
             if (cursor != null) {
@@ -290,8 +300,10 @@ public class GithubLocalDataSource implements GithubDataSource {
         }
     }
 
-    public void saveViews(long repositoryId, ResponseViews responseViews) {
-        for (ResponseViews.View view : responseViews.getViews()) {
+    public void saveViews(long repositoryId, ResponseViews views) {
+        Uri uri = ViewsContract.ViewsEntry.CONTENT_URI;
+
+        for (ResponseViews.View view : views.getViews()) {
             ContentValues contentValues = ViewsContract.ViewsEntry
                     .buildContentValues(repositoryId, view);
 
@@ -303,22 +315,14 @@ public class GithubLocalDataSource implements GithubDataSource {
                     + ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP
                     + " = " + timeInMilliseconds;
 
-            Cursor cursor = mContentResolver.query(ViewsContract.ViewsEntry.CONTENT_URI,
+            Cursor cursor = mContentResolver.query(uri,
                     new String[]{ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY},
-                    selection,
-                    null,
-                    null);
+                    selection, null, null);
 
             if (cursor != null && cursor.moveToFirst()) {
-                mContentResolver.update(
-                        ViewsContract.ViewsEntry.CONTENT_URI,
-                        contentValues,
-                        selection,
-                        null);
+                mContentResolver.update(uri, contentValues, selection, null);
             } else {
-                mContentResolver.insert(
-                        ViewsContract.ViewsEntry.CONTENT_URI,
-                        contentValues);
+                mContentResolver.insert(uri, contentValues);
             }
 
             if (cursor != null) {
@@ -328,21 +332,29 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     public void saveTrendingRepositories(String period, String language,
-                                         List<ResponseTrending> responseTrendingList) {
+                                         List<ResponseTrending> repositories) {
+        Uri uri = TrendingContract.TrendingEntry.CONTENT_URI;
+
         ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-        ops.add(ContentProviderOperation.newDelete(TrendingContract.TrendingEntry.CONTENT_URI)
+
+        ops.add(ContentProviderOperation.newDelete(uri)
                 .withSelection(TrendingContract.TrendingEntry.COLUMN_LANGUAGE + " = ? AND " +
                                 TrendingContract.TrendingEntry.COLUMN_PERIOD + " = ? ",
                         new String[]{language, period}).build());
-        for (ResponseTrending repository : responseTrendingList) {
+
+        for (ResponseTrending repository : repositories) {
+
+            repository.setLanguage(language);
+            repository.setPeriod(period);
+
             ContentValues contentValues = TrendingContract.TrendingEntry
                     .buildContentValues(repository, period, language);
-            ops.add(ContentProviderOperation
-                    .newInsert(TrendingContract.TrendingEntry.CONTENT_URI)
+            ops.add(ContentProviderOperation.newInsert(uri)
                     .withValues(contentValues).build());
         }
         try {
             mContentResolver.applyBatch(TrendingContract.CONTENT_AUTHORITY, ops);
+            mContentResolver.notifyChange(uri, null);
         } catch (RemoteException | OperationApplicationException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
         }
@@ -350,8 +362,11 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     public void saveStargazers(Repository repository, List<ResponseStargazers>
             responseStargazersList) {
+        Uri uri = StargazersContract.Entry.CONTENT_URI;
+
         for (ResponseStargazers stargazers : responseStargazersList) {
             if (stargazers != null) {
+
                 ContentValues contentValues = StargazersContract.Entry
                         .buildContentValues(repository.getId(), stargazers);
 
@@ -363,20 +378,15 @@ public class GithubLocalDataSource implements GithubDataSource {
                         + StargazersContract.Entry.COLUMN_TIMESTAMP
                         + " = " + timeInMilliseconds;
 
-                Cursor cursor = mContentResolver.query(StargazersContract.Entry.CONTENT_URI,
+                Cursor cursor = mContentResolver.query(uri,
                         new String[]{StargazersContract.Entry.COLUMN_REPOSITORY_KEY},
-                        selection,
-                        null,
-                        null);
+                        selection, null, null);
 
                 if (cursor == null || !cursor.moveToFirst()) {
-                    mContentResolver.insert(
-                            StargazersContract.Entry.CONTENT_URI,
-                            contentValues);
+                    mContentResolver.insert(uri, contentValues);
                 }
 
-                if (cursor != null)
-                {
+                if (cursor != null) {
                     cursor.close();
                 }
             }

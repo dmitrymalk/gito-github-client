@@ -65,13 +65,9 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
                 activity.getSupportActionBar().setTitle(R.string.navigation_view_dashboard);
             }
             mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
-            getActivity().findViewById(R.id.bottom_navigation)
-                    .setVisibility(View.GONE);
-            getActivity().findViewById(R.id.recycler_view_for_badges).setVisibility(View.GONE);
         }
 
-        mPresenter.start();
-
+        mPresenter.start(savedInstanceState);
         return root;
     }
 

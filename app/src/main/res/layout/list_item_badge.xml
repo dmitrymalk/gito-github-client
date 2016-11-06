@@ -13,4 +13,11 @@
         android:paddingLeft="@dimen/material_component_cards_left_and_right_padding"
         android:paddingRight="@dimen/material_component_cards_left_and_right_padding"/>
 
+    <View
+        android:id="@+id/badge_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/trending_badge_bottom_line_height"
+        android:visibility="gone"
+        android:layout_gravity="bottom"
+        android:background="@color/trending_badge_line"/>
 </FrameLayout>

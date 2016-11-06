@@ -16,7 +16,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
             android:background="?attr/colorPrimary"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
@@ -24,15 +23,6 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
         </android.support.v7.widget.Toolbar>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_for_badges"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:clipToPadding="false"
-            android:visibility="gone"
-            android:scrollbarStyle="outsideOverlay"
-            tools:ignore="PrivateResource" />
 
         <ImageView
             android:id="@+id/toolbar_logo"

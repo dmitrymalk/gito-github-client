@@ -24,6 +24,8 @@ import org.eclipse.egit.github.core.service.RepositoryService;
 import org.eclipse.egit.github.core.service.UserService;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -61,6 +63,11 @@ public class GithubRemoteDataSource implements GithubDataSource {
         }
     }
 
+    @Override
+    public void logout() {
+        GithubLocalDataSource.getInstance(mContentResolver, mPreferences).logout();
+    }
+
     @WorkerThread
     public List<Repository> getRepositoriesSync() {
         try {
@@ -93,6 +100,66 @@ public class GithubRemoteDataSource implements GithubDataSource {
             @Override
             protected List<Repository> doInBackground(Void... params) {
                 return getRepositoriesSync();
+            }
+
+            @Override
+            protected void onPostExecute(List<Repository> repositoryList) {
+                if (repositoryList != null) {
+                    callback.onRepositoriesLoaded(repositoryList);
+                } else {
+                    callback.onDataNotAvailable();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @WorkerThread
+    public void getRepositoriesWithAdditionalInfoSync(List<Repository> repositories) {
+        if (repositories != null) {
+            // Sort by stars (desc)
+            Collections.sort(repositories, new Comparator<Repository>() {
+                @Override
+                public int compare(Repository repository, Repository t1) {
+                    return t1.getWatchers() - repository.getWatchers();
+                }
+            });
+            if (repositories.size() > 0) {
+                Repository mostPopularRepository = repositories.get(0);
+                if (mostPopularRepository != null) {
+                    // Get repository top referrers and save to db
+                    getRepositoryReferrersSync(mostPopularRepository);
+                    // Get repository visitors and save to db
+                    getRepositoryViewsSync(mostPopularRepository, "day");
+                    // Get repository clones and save to db
+                    getRepositoryClonesSync(mostPopularRepository, "day");
+                    // Get repository stargazers and save to db
+                    getStargazersSync(mostPopularRepository, "last");
+                }
+            }
+            if (repositories.size() > 1) {
+                Repository mostPopularRepository = repositories.get(1);
+                if (mostPopularRepository != null) {
+                    // Get repository top referrers and save to db
+                    getRepositoryReferrersSync(mostPopularRepository);
+                    // Get repository visitors and save to db
+                    getRepositoryViewsSync(mostPopularRepository, "day");
+                    // Get repository clones and save to db
+                    getRepositoryClonesSync(mostPopularRepository, "day");
+                    // Get repository stargazers and save to db
+                    getStargazersSync(mostPopularRepository, "last");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void getRepositoriesWithAdditionalInfo(final GetRepositoriesCallback callback) {
+        new AsyncTask<Void, Void, List<Repository>>() {
+            @Override
+            protected List<Repository> doInBackground(Void... params) {
+                List<Repository> repositories = getRepositoriesSync();
+                getRepositoriesWithAdditionalInfoSync(repositories);
+                return repositories;
             }
 
             @Override
@@ -215,7 +282,8 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    public List<ResponseTrending> getTrendingRepositoriesSync(final String period, final String language) {
+    public List<ResponseTrending> getTrendingRepositoriesSync(final String period, final String language,
+                                                              boolean useCache) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
@@ -232,6 +300,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 GithubLocalDataSource localDataSource =
                         GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
                 localDataSource.saveTrendingRepositories(period, language, responseTrendingList);
+
                 return responseTrendingList;
             } else {
                 return null;
@@ -243,17 +312,18 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @Override
-    public void getTrendingRepositories(final String period, final String language, final GetTrendingRepositories callback) {
+    public void getTrendingRepositories(final String period, final String language,
+                                        final GetTrendingRepositories callback, final boolean useCache) {
         new AsyncTask<Void, Void, List<ResponseTrending>>() {
             @Override
             protected List<ResponseTrending> doInBackground(Void... params) {
-                return getTrendingRepositoriesSync(period, language);
+                return getTrendingRepositoriesSync(period, language, useCache);
             }
 
             @Override
             protected void onPostExecute(List<ResponseTrending> responseTrendingList) {
                 if (responseTrendingList != null) {
-                    callback.onTrendingRepositoriesLoaded(responseTrendingList);
+                    callback.onTrendingRepositoriesLoaded(responseTrendingList, language, period);
                 } else {
                     callback.onDataNotAvailable();
                 }
@@ -458,16 +528,14 @@ public class GithubRemoteDataSource implements GithubDataSource {
             if (response.isSuccessful()) {
 
                 String headerLink = response.headers().get("Link");
-                if (headerLink != null)
-                {
+                if (headerLink != null) {
                     boolean containsLast = headerLink.contains("last");
                     headerLink = headerLink.replace(
                             headerLink.substring(headerLink.lastIndexOf(">")), "");
                     String lastPage = headerLink = headerLink.replace(
                             headerLink.substring(0, headerLink.lastIndexOf("=") + 1), "");
 
-                    if (headerLink != null && (containsLast && !lastPage.equals(page)))
-                    {
+                    if (headerLink != null && (containsLast && !lastPage.equals(page))) {
                         getStargazersSync(repository, lastPage);
                     }
                 }

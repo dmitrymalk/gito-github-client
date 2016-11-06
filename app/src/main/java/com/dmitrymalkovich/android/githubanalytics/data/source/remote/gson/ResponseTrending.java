@@ -23,6 +23,10 @@ public class ResponseTrending {
     @SerializedName("link")
     String htmlUrl;
 
+    String language;
+
+    String period;
+
     public String getName() {
         return repo;
     }
@@ -45,5 +49,21 @@ public class ResponseTrending {
 
     public String getAvatar() {
         return avatar;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
     }
 }

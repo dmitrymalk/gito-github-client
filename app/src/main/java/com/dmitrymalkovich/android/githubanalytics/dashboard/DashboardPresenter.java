@@ -48,9 +48,15 @@ public class DashboardPresenter implements DashboardContract.Presenter,
     }
 
     @Override
-    public void start() {
+    public void start(Bundle savedInstanceState) {
         mDashboardView.setLoadingIndicator(true);
-        showRepositories();
+        if (savedInstanceState == null) {
+            showRepositories();
+        } else {
+            mLoaderManager.initLoader(REPOSITORIES_LOADER,
+                    null,
+                    DashboardPresenter.this);
+        }
     }
 
     @Override

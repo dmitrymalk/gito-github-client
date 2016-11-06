@@ -6,7 +6,6 @@
     <color name="green">#569e3d</color>
     <color name="blue">#4078c0</color>
     <color name="grey">#d5d5d5</color>
-    <color name="empty_view_text_color">#BDBDBD</color>
     <color name="cards_border">#ddd</color>
     <color name="background">#E0E0E0</color>
     <color name="button_text_color">#000</color>
@@ -21,4 +20,17 @@
     <color name="python">#3572A5</color>
     <color name="c_sharp">#178600</color>
     <color name="html">#e44b23</color>
+
+    <color name="empty_state_text_color">@color/material_grey_600</color>
+    <color name="trending_bottom_bar_background">@color/blue</color>
+    <color name="trending_bottom_bar_active">@android:color/white</color>
+    <color name="trending_bottom_bar_inactive">@color/material_grey_400</color>
+    <color name="trending_badge_inactive">@color/material_grey_300</color>
+    <color name="trending_badge_active">@android:color/white</color>
+    <color name="trending_badge_background">@color/blue</color>
+    <color name="trending_badge_line">#FFF</color>
+    <color name="repository_title_text">@android:color/black</color>
+    <color name="repository_subtitle_text">@color/material_grey_600</color>
+    <color name="trending_info_text">@color/material_grey_600</color>
+    <color name="trending_rank_text">@color/material_grey_600</color>
 </resources>

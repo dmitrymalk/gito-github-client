@@ -2,6 +2,7 @@ package com.dmitrymalkovich.android.githubanalytics.welcome;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
@@ -26,7 +27,7 @@ class WelcomePresenter implements WelcomeContract.Presenter {
     }
 
     @Override
-    public void start() {
+    public void start(Bundle savedinstanceState) {
         if (mGithubRepository.getToken() != null) {
             mWelcomeView.startDashboard();
         }

@@ -50,9 +50,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     }
 
     @Override
-    public void start() {
-        mView.setLoadingIndicator(true);
-
+    public void start(Bundle savedInstanceState) {
         String period = mGithubRepository.getDefaultPeriodForTrending();
         switch (period) {
             case GithubLocalDataSource.TRENDING_PERIOD_MONTHLY:
@@ -76,7 +74,10 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     @Override
     public void changeLanguage(String language) {
         mGithubRepository.setDefaultLanguageForTrending(language);
-        updateList();
+
+        mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
+
+        showTrendingRepositories();
     }
 
     @Override
@@ -95,44 +96,60 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
                         GithubLocalDataSource.TRENDING_PERIOD_MONTHLY);
                 break;
         }
-        updateList();
+
+        mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
+
+        showTrendingRepositories();
     }
 
     @Override
     public void onRefresh() {
-        mGithubRepository.getTrendingRepositories(mGithubRepository.getDefaultPeriodForTrending(),
-                mGithubRepository.getDefaultLanguageForTrending(),
+        final String period = mGithubRepository.getDefaultPeriodForTrending();
+        final String language = mGithubRepository.getDefaultLanguageForTrending();
+
+        mGithubRepository.getTrendingRepositories(period, language,
                 new GithubDataSource.GetTrendingRepositories() {
-            @Override
-            public void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList) {
-                mView.setRefreshIndicator(false);
-                mView.setLoadingIndicator(false);
-                mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
-            }
+                    @Override
+                    public void onTrendingRepositoriesLoaded(List<ResponseTrending> repositories,
+                                                             String language, String period) {
+                        String currentPeriod = mGithubRepository.getDefaultPeriodForTrending();
+                        String currentLanguage = mGithubRepository.getDefaultLanguageForTrending();
 
-            @Override
-            public void onDataNotAvailable() {
-                TrendingRepositoryPresenter.this.onDataNotAvailable();
-            }
-        });
+                        if (currentLanguage.equals(language)
+                                && currentPeriod.equals(period)) {
+                            mView.setRefreshIndicator(false);
+                        }
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+                        String currentPeriod = mGithubRepository.getDefaultPeriodForTrending();
+                        String currentLanguage = mGithubRepository.getDefaultLanguageForTrending();
+
+                        if (currentLanguage.equals(language)
+                                && currentPeriod.equals(period)) {
+                            mView.setRefreshIndicator(false);
+                            TrendingRepositoryPresenter.this.onDataNotAvailable();
+                        }
+                    }
+                }, false);
     }
-
-
 
     @Override
     public void onDataLoaded(Cursor data) {
-        mView.setLoadingIndicator(false);
         mView.showRepositories(data);
+        mView.setEmptyState(false);
     }
 
     @Override
     public void onDataEmpty() {
+        mView.showRepositories(null);
+        mView.setEmptyState(true);
     }
 
     @Override
     public void onDataNotAvailable() {
-        mView.setRefreshIndicator(false);
-        mView.setLoadingIndicator(false);
+        onDataEmpty();
     }
 
     @Override
@@ -141,8 +158,9 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mLoaderProvider.createTrendingLoader(mGithubRepository.getDefaultLanguageForTrending(),
-                mGithubRepository.getDefaultPeriodForTrending());
+        String period = mGithubRepository.getDefaultPeriodForTrending();
+        String language = mGithubRepository.getDefaultLanguageForTrending();
+        return mLoaderProvider.createTrendingLoader(language, period);
     }
 
     @Override
@@ -154,7 +172,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
                 onDataEmpty();
             }
         } else {
-            onDataNotAvailable();
+            onDataEmpty();
         }
     }
 
@@ -163,9 +181,44 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
         onDataReset();
     }
 
-    private void updateList() {
-        mView.showRepositories(null);
+    @Override
+    public boolean isLanguageSelected(String language) {
+        return language.equals(mGithubRepository.getDefaultLanguageForTrending());
+    }
+
+    private void showTrendingRepositories() {
+        final String period = mGithubRepository.getDefaultPeriodForTrending();
+        final String language = mGithubRepository.getDefaultLanguageForTrending();
+
         mView.setLoadingIndicator(true);
-        mLoaderManager.restartLoader(TRENDING_LOADER, null, TrendingRepositoryPresenter.this);
+
+        mGithubRepository.getTrendingRepositories(period, language,
+                new GithubDataSource.GetTrendingRepositories() {
+                    @Override
+                    public void onTrendingRepositoriesLoaded(List<ResponseTrending> repositories,
+                                                             String language, String period) {
+                        String currentPeriod = mGithubRepository.getDefaultPeriodForTrending();
+                        String currentLanguage = mGithubRepository.getDefaultLanguageForTrending();
+
+                        if (currentLanguage.equals(language)
+                                && currentPeriod.equals(period)) {
+                            mView.setLoadingIndicator(false);
+                        }
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+                        String currentPeriod = mGithubRepository.getDefaultPeriodForTrending();
+                        String currentLanguage = mGithubRepository.getDefaultLanguageForTrending();
+
+                        if (currentLanguage.equals(language)
+                                && currentPeriod.equals(period)) {
+
+                            mView.setLoadingIndicator(false);
+
+                            TrendingRepositoryPresenter.this.onDataNotAvailable();
+                        }
+                    }
+                }, true);
     }
 }

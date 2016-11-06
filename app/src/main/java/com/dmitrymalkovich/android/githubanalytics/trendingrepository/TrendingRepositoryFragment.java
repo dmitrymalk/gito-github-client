@@ -31,12 +31,17 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
 
     private TrendingRepositoryContract.Presenter mPresenter;
     private Unbinder unbinder;
-    ProgressBar mProgressBar;
-    @BindView(R.id.recycler_view_for_repositories) RecyclerView mRecyclerView;
-    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
-    AHBottomNavigation mBottomNavigation;
+    @BindView(R.id.progress) ProgressBar mProgressBar;
+    @BindView(R.id.recycler_view_for_repositories)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.bottom_navigation) AHBottomNavigation mBottomNavigation;
+    @BindView(R.id.empty_state) View mEmptyState;
+    View mCoordinatorLayout;
 
     private TrendingRepositoryListAdapter mAdapter;
+    @BindView(R.id.recycler_view_for_badges) RecyclerView mRecyclerViewForBadges;
 
     public static TrendingRepositoryFragment newInstance() {
         return new TrendingRepositoryFragment();
@@ -44,7 +49,8 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_trending, container, false);
         unbinder = ButterKnife.bind(this, root);
 
@@ -62,47 +68,19 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
             if (activity.getSupportActionBar() != null) {
                 activity.getSupportActionBar().setTitle(mPresenter.getTitle(getContext()));
             }
-
-            mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
-            mBottomNavigation = (AHBottomNavigation) getActivity().findViewById(R.id.bottom_navigation);
-            getActivity().findViewById(R.id.bottom_navigation)
-                    .setVisibility(View.VISIBLE);
-
-            RecyclerView mRecyclerViewForBadges = (RecyclerView) getActivity()
-                    .findViewById(R.id.recycler_view_for_badges);
-            mRecyclerViewForBadges.setVisibility(View.VISIBLE);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            mRecyclerViewForBadges.setLayoutManager(linearLayoutManager);
-            mRecyclerViewForBadges.setAdapter(new BadgesAdapter(mPresenter));
+            mCoordinatorLayout = activity.findViewById(R.id.coordinator_layout);
+            setUpBadges();
         }
-        // Set up bottom navigation
-        AHBottomNavigationItem daily = new AHBottomNavigationItem(R.string.trending_daily,
-                R.drawable.ic_trending_up_black_24dp, R.color.blue);
-        AHBottomNavigationItem weekly = new AHBottomNavigationItem(R.string.trending_weekly,
-                R.drawable.ic_trending_up_black_24dp, R.color.blue);
-        AHBottomNavigationItem monthly = new AHBottomNavigationItem(R.string.trending_monthly,
-                R.drawable.ic_trending_up_black_24dp, R.color.blue);
-        mBottomNavigation.removeAllItems();
-        mBottomNavigation.addItem(daily);
-        mBottomNavigation.addItem(weekly);
-        mBottomNavigation.addItem(monthly);
-        mBottomNavigation.setAccentColor(R.color.blue);
-        mBottomNavigation.setColored(true);
-        mBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-                mPresenter.onTabSelected(position);
-                return true;
-            }
-        });
+
+        setUpBottomNavigationBar();
+
+        mPresenter.start(savedInstanceState);
         return root;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
         mSwipeRefreshLayout.setOnRefreshListener(mPresenter);
     }
 
@@ -126,6 +104,10 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     public void setLoadingIndicator(boolean active) {
         if (mProgressBar != null) {
             mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
+            if (active) {
+                setRefreshIndicator(false);
+                setEmptyState(false);
+            }
         }
     }
 
@@ -133,6 +115,20 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     public void setRefreshIndicator(boolean active) {
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(active);
+            if (active) {
+                setLoadingIndicator(false);
+                setEmptyState(false);
+            }
+        }
+    }
+
+    @Override
+    public void setEmptyState(boolean active) {
+        if (mEmptyState != null && !mSwipeRefreshLayout.isRefreshing()
+                && mProgressBar.getVisibility() != View.VISIBLE && active) {
+            mEmptyState.setVisibility(View.VISIBLE);
+        } else if (mEmptyState != null) {
+            mEmptyState.setVisibility(View.GONE);
         }
     }
 
@@ -145,5 +141,52 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     public void openUrl(@NonNull String htmlUrl) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(htmlUrl));
         getActivity().startActivity(browserIntent);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void setUpBottomNavigationBar() {
+        int icon = R.drawable.ic_trending_up_black_24dp;
+        int backgroundColor = R.color.trending_bottom_bar_background;
+        int colorActive = R.color.trending_bottom_bar_active;
+        int colorInActive = R.color.trending_bottom_bar_inactive;
+
+        AHBottomNavigationItem daily = new AHBottomNavigationItem(R.string.trending_daily,
+                icon, backgroundColor);
+        AHBottomNavigationItem weekly = new AHBottomNavigationItem(R.string.trending_weekly,
+                icon, backgroundColor);
+        AHBottomNavigationItem monthly = new AHBottomNavigationItem(R.string.trending_monthly,
+                icon, backgroundColor);
+
+        mBottomNavigation.setVisibility(View.VISIBLE);
+
+        mBottomNavigation.removeAllItems();
+
+        mBottomNavigation.addItem(daily);
+        mBottomNavigation.addItem(weekly);
+        mBottomNavigation.addItem(monthly);
+
+        mBottomNavigation.setBehaviorTranslationEnabled(true);
+
+        mBottomNavigation.setColoredModeColors(getResources().getColor(colorActive),
+                getResources().getColor(colorInActive));
+        mBottomNavigation.setColored(true);
+
+        mBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+                mPresenter.onTabSelected(position);
+                return true;
+            }
+        });
+    }
+
+    private void setUpBadges() {
+        mRecyclerViewForBadges.setVisibility(View.VISIBLE);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerViewForBadges.setLayoutManager(linearLayoutManager);
+
+        mRecyclerViewForBadges.setAdapter(new BadgesAdapter(mPresenter));
     }
 }

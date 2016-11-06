@@ -9,18 +9,19 @@
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/material_component_cards_left_and_right_padding" />
+        android:textColor="@color/trending_rank_text"
+        android:padding="@dimen/trending_rank_padding" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/material_component_cards_left_and_right_padding"
+        android:paddingBottom="@dimen/trending_content_vertical_padding"
         android:paddingEnd="@dimen/material_component_cards_left_and_right_padding"
-        android:paddingLeft="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
-        android:paddingRight="@dimen/material_component_cards_left_and_right_padding"
-        android:paddingStart="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
-        android:paddingTop="@dimen/material_component_cards_left_and_right_padding">
+        android:paddingLeft="@dimen/trending_content_left_padding"
+        android:paddingRight="@dimen/trending_content_right_padding"
+        android:paddingStart="@dimen/trending_content_left_padding"
+        android:paddingTop="@dimen/trending_content_vertical_padding">
 
         <include layout="@layout/include_repository_title_and_description"/>
 
@@ -28,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/material_component_cards_padding_from_edge_of_screen_to_card"
+            android:paddingTop="@dimen/trending_top_padding"
             tools:ignore="UseCompoundDrawables">
 
             <TextView
@@ -36,10 +37,10 @@
                 style="@style/TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/material_grey_500"
+                android:textColor="@color/trending_info_text"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/material_component_grid_lists_padding_big"
-                android:layout_marginEnd="@dimen/material_component_grid_lists_padding_big" />
+                android:layout_marginRight="@dimen/trending_info_right_margin"
+                android:layout_marginEnd="@dimen/trending_info_right_margin" />
 
             <ImageView
                 android:id="@+id/avatar"

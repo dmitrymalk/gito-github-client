@@ -13,16 +13,11 @@ import android.os.Bundle;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
-import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemoteDataSource;
 
 import org.eclipse.egit.github.core.Repository;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_JAVA;
 
 /**
  * Handle the transfer of data between a server and an
@@ -69,70 +64,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
-        final GithubRemoteDataSource githubRepository = GithubRepository.Injection.provideRemoteDataSource(getContext());
-        // Get user's repositories and save to db
+        final GithubRemoteDataSource githubRepository =
+                GithubRepository.Injection.provideRemoteDataSource(getContext());
         List<Repository> repositories = githubRepository.getRepositoriesSync();
-
-        if (repositories != null) {
-
-            // Sort by stars (desc)
-            Collections.sort(repositories, new Comparator<Repository>() {
-                @Override
-                public int compare(Repository repository, Repository t1) {
-                    return t1.getWatchers() - repository.getWatchers();
-                }
-            });
-
-            if (repositories.size() > 0) {
-                Repository mostPopularRepository = repositories.get(0);
-                if (mostPopularRepository != null) {
-                    // Get repository top referrers and save to db
-                    githubRepository.getRepositoryReferrersSync(mostPopularRepository);
-                    // Get repository visitors and save to db
-                    githubRepository.getRepositoryViewsSync(mostPopularRepository, "day");
-                    // Get repository clones and save to db
-                    githubRepository.getRepositoryClonesSync(mostPopularRepository, "day");
-                    // Get repository stargazers and save to db
-                    githubRepository.getStargazersSync(mostPopularRepository, "last");
-                }
-            }
-
-            if (repositories.size() > 1) {
-                Repository mostPopularRepository = repositories.get(1);
-                if (mostPopularRepository != null) {
-                    // Get repository top referrers and save to db
-                    githubRepository.getRepositoryReferrersSync(mostPopularRepository);
-                    // Get repository visitors and save to db
-                    githubRepository.getRepositoryViewsSync(mostPopularRepository, "day");
-                    // Get repository clones and save to db
-                    githubRepository.getRepositoryClonesSync(mostPopularRepository, "day");
-                    // Get repository stargazers and save to db
-                    githubRepository.getStargazersSync(mostPopularRepository, "last");
-                }
-            }
-        }
-
-        // Get information about trending repositories
-        String[] languages = {TRENDING_LANGUAGE_JAVA,
-//                TRENDING_LANGUAGE_C,
-//                TRENDING_LANGUAGE_RUBY,
-//                TRENDING_LANGUAGE_JAVASCRIPT,
-//                TRENDING_LANGUAGE_SWIFT,
-//                TRENDING_LANGUAGE_OBJECTIVE_C,
-//                TRENDING_LANGUAGE_C_PLUS_PLUS,
-//                TRENDING_LANGUAGE_PYTHON,
-//                TRENDING_LANGUAGE_C_SHARP,
-//                TRENDING_LANGUAGE_HTML
-        };
-
-        for (String language : languages) {
-            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_DAILY,
-                    language);
-//            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_WEEKLY,
-//                    language);
-//            githubRepository.getTrendingRepositoriesSync(GithubLocalDataSource.TRENDING_PERIOD_MONTHLY,
-//                    language);
-        }
+        githubRepository.getRepositoriesWithAdditionalInfoSync(repositories);
+        githubRepository.getTrendingRepositoriesSync(githubRepository.getDefaultPeriodForTrending(),
+                githubRepository.getDefaultLanguageForTrending(), false);
     }
 
     public static void initializeSyncAdapter(Context context) {
@@ -141,7 +78,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static void onAccountCreated(Account newAccount, Context context) {
         configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
-        ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.sync_authority), true);
+        ContentResolver.setSyncAutomatically(newAccount,
+                context.getString(R.string.sync_authority), true);
         syncImmediately(context);
     }
 

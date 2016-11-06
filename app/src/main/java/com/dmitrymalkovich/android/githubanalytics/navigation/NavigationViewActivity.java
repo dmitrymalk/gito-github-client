@@ -1,7 +1,9 @@
 package com.dmitrymalkovich.android.githubanalytics.navigation;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -34,23 +36,26 @@ import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 
 public class NavigationViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    // Delay to launch nav drawer item, to allow close animation to play
+    private static final int NAVDRAWER_LAUNCH_DELAY = 250;
     @SuppressWarnings("unused")
     private static final String LOG_TAG = NavigationViewActivity.class.getSimpleName();
     private NavigationView mNavigationView;
     public static final String EXTRA_CURRENT_FRAGMENT = "EXTRA_CURRENT_FRAGMENT";
     private String mCurrentFragment = DashboardFragment.class.getSimpleName();
+    private Toolbar mToolbar;
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_view);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_view_open, R.string.navigation_view_close);
+                this, drawer, mToolbar, R.string.navigation_view_open, R.string.navigation_view_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -59,6 +64,7 @@ public class NavigationViewActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             showDashboard();
+            SyncAdapter.initializeSyncAdapter(this);
         } else {
             mCurrentFragment = savedInstanceState.getString(EXTRA_CURRENT_FRAGMENT);
             if (mCurrentFragment.equals(DashboardFragment.class.getSimpleName())) {
@@ -69,8 +75,6 @@ public class NavigationViewActivity extends AppCompatActivity
                 showTrendingRepositories();
             }
         }
-
-        SyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
@@ -82,11 +86,13 @@ public class NavigationViewActivity extends AppCompatActivity
         final ImageView avatarView = (ImageView) headerLayout.findViewById(R.id.avatar);
         final TextView nameView = (TextView) headerLayout.findViewById(R.id.name);
         final TextView followersView = (TextView) headerLayout.findViewById(R.id.followers);
+
+        final Context context = getApplicationContext();
         GithubRepository repository = GithubRepository.Injection.provideGithubRepository(this);
         repository.getUser(new GithubDataSource.GerUserCallback() {
             @Override
             public void onUserLoaded(ResponseUser user) {
-                Glide.with(NavigationViewActivity.this)
+                Glide.with(context)
                         .load(user.getAvatarUrl()).into(avatarView);
                 nameView.setText(user.getName());
                 followersView.setText(getString(R.string.navigation_view_header_followers, user.getFollowers()));
@@ -94,7 +100,6 @@ public class NavigationViewActivity extends AppCompatActivity
 
             @Override
             public void onDataNotAvailable() {
-
             }
         });
     }
@@ -129,18 +134,23 @@ public class NavigationViewActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_dashboard) {
-            showDashboard();
-        } else if (id == R.id.nav_repositories) {
-            showRepositories();
-        } else if (id == R.id.nav_trending) {
-            showTrendingRepositories();
-        } else if (id == R.id.nav_feedback) {
-            ActivityUtils.openFeedback(this);
-        } else if (id == R.id.nav_sign_out) {
-            signOut();
-        }
+        final int id = item.getItemId();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (id == R.id.nav_dashboard) {
+                    showDashboard();
+                } else if (id == R.id.nav_repositories) {
+                    showRepositories();
+                } else if (id == R.id.nav_trending) {
+                    showTrendingRepositories();
+                } else if (id == R.id.nav_feedback) {
+                    ActivityUtils.openFeedback(NavigationViewActivity.this);
+                } else if (id == R.id.nav_sign_out) {
+                    signOut();
+                }
+            }
+        }, NAVDRAWER_LAUNCH_DELAY);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -207,7 +217,7 @@ public class NavigationViewActivity extends AppCompatActivity
     }
 
     private void signOut() {
-        GithubRepository.Injection.provideGithubRepository(this).saveToken(null, null);
+        GithubRepository.Injection.provideGithubRepository(this).logout();
 
         Intent intent = new Intent(this, WelcomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

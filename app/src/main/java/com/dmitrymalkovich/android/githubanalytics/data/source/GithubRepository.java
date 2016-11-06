@@ -1,11 +1,14 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemoteDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
@@ -16,6 +19,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.Respo
 
 import org.eclipse.egit.github.core.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -27,14 +31,18 @@ public class GithubRepository implements GithubDataSource {
 
     private final GithubDataSource mGithubRemoteDataSource;
     private final GithubDataSource mGithubLocalDataSource;
+    private final SharedPreferences mPreferences;
+    private Settings mSettings = new Settings();
 
     public static class Injection {
 
         public static GithubRepository provideGithubRepository(@NonNull Context context) {
             checkNotNull(context);
-            return GithubRepository.getInstance(GithubRemoteDataSource.getInstance(context.getContentResolver(),
-                    context.getSharedPreferences("GITHUB_ANALYTICS_PREFERENCES", Context.MODE_PRIVATE)),
-                    provideLocalDataSource(context));
+            SharedPreferences sharedPreferences =
+                    context.getSharedPreferences("GITHUB_ANALYTICS_PREFERENCES", Context.MODE_PRIVATE);
+            return GithubRepository.getInstance(GithubRemoteDataSource.getInstance(
+                    context.getContentResolver(), sharedPreferences), provideLocalDataSource(context),
+                    sharedPreferences);
         }
 
         private static GithubLocalDataSource provideLocalDataSource(@NonNull Context context) {
@@ -51,9 +59,11 @@ public class GithubRepository implements GithubDataSource {
     }
 
     private GithubRepository(@NonNull GithubDataSource githubRemoteDataSource,
-                             @NonNull GithubDataSource githubLocalDataSource) {
+                             @NonNull GithubDataSource githubLocalDataSource,
+                             @NonNull SharedPreferences preferences) {
         mGithubRemoteDataSource = checkNotNull(githubRemoteDataSource);
         mGithubLocalDataSource = checkNotNull(githubLocalDataSource);
+        mPreferences = preferences;
     }
 
     /**
@@ -63,10 +73,11 @@ public class GithubRepository implements GithubDataSource {
      * @param githubLocalDataSource  the device storage data source
      * @return the {@link GithubRepository} instance
      */
-    static GithubRepository getInstance(GithubDataSource githubRemoteDataSource,
-                                        GithubDataSource githubLocalDataSource) {
+    private static GithubRepository getInstance(GithubDataSource githubRemoteDataSource,
+                                                GithubDataSource githubLocalDataSource,
+                                                SharedPreferences preferences) {
         if (INSTANCE == null) {
-            INSTANCE = new GithubRepository(githubRemoteDataSource, githubLocalDataSource);
+            INSTANCE = new GithubRepository(githubRemoteDataSource, githubLocalDataSource, preferences);
         }
         return INSTANCE;
     }
@@ -80,6 +91,26 @@ public class GithubRepository implements GithubDataSource {
                 return null;
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void logout() {
+        mGithubLocalDataSource.logout();
+    }
+
+    @Override
+    public void getRepositoriesWithAdditionalInfo(final GetRepositoriesCallback callback) {
+        mGithubRemoteDataSource.getRepositoriesWithAdditionalInfo(new GetRepositoriesCallback() {
+            @Override
+            public void onRepositoriesLoaded(List<Repository> repositoryList) {
+                callback.onRepositoriesLoaded(repositoryList);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        });
     }
 
     @Override
@@ -113,7 +144,7 @@ public class GithubRepository implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoryClones(Repository repository, String period,final GetRepositoryClonesCallback callback) {
+    public void getRepositoryClones(Repository repository, String period, final GetRepositoryClonesCallback callback) {
         mGithubRemoteDataSource.getRepositoryClones(repository, period, new GetRepositoryClonesCallback() {
             @Override
             public void onRepositoryClonesLoaded(ResponseClones responseClones) {
@@ -159,18 +190,31 @@ public class GithubRepository implements GithubDataSource {
 
     @Override
     public void getTrendingRepositories(String period, String language,
-                                        final GetTrendingRepositories callback) {
+                                        final GetTrendingRepositories callback, boolean useCache) {
+        final String key = TrendingContract.TrendingEntry.TABLE_NAME + language.hashCode() + period.hashCode();
+        if (useCache && mSettings.isSynced(key)) {
+
+            Log.i(LOG_TAG, "Cache was used for " + key);
+
+            callback.onTrendingRepositoriesLoaded(new ArrayList<ResponseTrending>(), language, period);
+            return;
+        }
+
         mGithubRemoteDataSource.getTrendingRepositories(period, language, new GetTrendingRepositories() {
             @Override
-            public void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList) {
-                callback.onTrendingRepositoriesLoaded(responseTrendingList);
+            public void onTrendingRepositoriesLoaded(List<ResponseTrending> repositories,
+                                                     String language, String period) {
+                if (repositories.size() > 0) {
+                    mSettings.synced(key);
+                }
+                callback.onTrendingRepositoriesLoaded(repositories, language, period);
             }
 
             @Override
             public void onDataNotAvailable() {
                 callback.onDataNotAvailable();
             }
-        });
+        }, useCache);
     }
 
     @Override
@@ -249,5 +293,22 @@ public class GithubRepository implements GithubDataSource {
         void onDataNotAvailable();
 
         void onDataReset();
+    }
+
+    private class Settings {
+
+        long SYNC_INTERVAL = 1000 * 60 * 60;
+
+        boolean isSynced(String key) {
+            long lastSyncTimeMillis = mPreferences.getLong(key, 0);
+            return lastSyncTimeMillis != 0 &&
+                    lastSyncTimeMillis - System.currentTimeMillis() < SYNC_INTERVAL;
+        }
+
+        void synced(String key) {
+            SharedPreferences.Editor editor = mPreferences.edit();
+            editor.putLong(key, System.currentTimeMillis());
+            editor.apply();
+        }
     }
 }

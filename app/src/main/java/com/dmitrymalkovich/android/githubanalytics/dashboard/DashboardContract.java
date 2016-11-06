@@ -2,6 +2,7 @@ package com.dmitrymalkovich.android.githubanalytics.dashboard;
 
 
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 
@@ -27,6 +28,6 @@ class DashboardContract {
         void onRefresh();
 
         @Override
-        void start();
+        void start(Bundle savedInstanceState);
     }
 }

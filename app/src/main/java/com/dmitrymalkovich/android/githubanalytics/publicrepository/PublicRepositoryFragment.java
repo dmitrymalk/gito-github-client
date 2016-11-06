@@ -61,16 +61,15 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
             }
 
             mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
-            getActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
-            getActivity().findViewById(R.id.recycler_view_for_badges).setVisibility(View.GONE);
         }
+
+        mPresenter.start(savedInstanceState);
         return root;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
     }
 
     @Override

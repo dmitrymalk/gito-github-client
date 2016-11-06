@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:maxLines="2"
-        android:textColor="@color/blue" />
+        android:textColor="@color/repository_title_text" />
 
     <TextView
         style="@style/TextAppearance.AppCompat.Small"
@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:maxLines="2"
-        android:paddingBottom="@dimen/material_component_cards_supporting_text_bottom_padding"
-        android:paddingTop="@dimen/dashboard_list_item_vertical_padding" />
+        android:paddingTop="@dimen/dashboard_list_item_vertical_padding"
+        android:textColor="@color/repository_subtitle_text"/>
 </LinearLayout>

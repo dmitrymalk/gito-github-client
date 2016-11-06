@@ -51,7 +51,8 @@ public interface GithubDataSource {
 
     interface GetTrendingRepositories {
 
-        void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList);
+        void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList,
+                                          String language, String period);
 
         void onDataNotAvailable();
     }
@@ -69,6 +70,8 @@ public interface GithubDataSource {
 
     void login(String login, String password);
 
+    void logout();
+
     void getRepositories(GetRepositoriesCallback callback);
 
     void getRepositoryReferrers(Repository repository, GetRepositoryReferrersCallback callback);
@@ -77,9 +80,12 @@ public interface GithubDataSource {
 
     void getRepositoryViews(Repository repository, String period, GetRepositoryViewsCallback callback);
 
+    void getRepositoriesWithAdditionalInfo(GetRepositoriesCallback callback);
+
     void requestTokenFromCode(String code, RequestTokenFromCodeCallback callback);
 
-    void getTrendingRepositories(String period, String language, GetTrendingRepositories callback);
+    void getTrendingRepositories(String period, String language, GetTrendingRepositories callback,
+                                 boolean useCache);
 
     void saveToken(String token, String tokenType);
 

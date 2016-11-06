@@ -2,6 +2,7 @@ package com.dmitrymalkovich.android.githubanalytics.publicrepository;
 
 
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 
@@ -25,6 +26,6 @@ class PublicRepositoryContract {
         void onRefresh();
 
         @Override
-        void start();
+        void start(Bundle savedInstanceState);
     }
 }

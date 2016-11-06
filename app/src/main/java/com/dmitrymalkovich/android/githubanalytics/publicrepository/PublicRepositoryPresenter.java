@@ -48,9 +48,15 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
     }
 
     @Override
-    public void start() {
+    public void start(Bundle savedInstanceState) {
         mPublicRepositoriesView.setLoadingIndicator(true);
-        showRepositories();
+        if (savedInstanceState == null) {
+            showRepositories();
+        } else {
+            mLoaderManager.initLoader(REPOSITORIES_LOADER,
+                    null,
+                    PublicRepositoryPresenter.this);
+        }
     }
 
     @Override

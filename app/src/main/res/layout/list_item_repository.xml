@@ -15,6 +15,10 @@
 
         <include layout="@layout/include_repository_title_and_description"/>
 
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/material_component_cards_supporting_text_bottom_padding" />
+
         <include layout="@layout/include_list_item_repository_information"/>
 
     </LinearLayout>
