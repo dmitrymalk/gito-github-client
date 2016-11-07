@@ -20,6 +20,16 @@ public class LoaderProvider {
         mContext = checkNotNull(context, "context cannot be null");
     }
 
+    public Loader<Cursor> createTrafficLoader(long repositoryId) {
+        return new CursorLoader(
+                mContext,
+                RepositoryContract.RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS,
+                RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " = ? " ,
+                new String[] {String.valueOf(repositoryId)}, null
+        );
+    }
+
     public Loader<Cursor> createPopularRepositoryLoader() {
         return new CursorLoader(
                 mContext,

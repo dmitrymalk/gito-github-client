@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
+package com.dmitrymalkovich.android.githubanalytics.trending;
 
 import android.content.Context;
 import android.content.res.Resources;

@@ -80,20 +80,29 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
             // Clones (Yesterday)
             String clonesCountYesterday = cursor.getString(COL_CLONES_UNIQUES_YESTERDAY);
             holder.clonesCountYesterdayView.setText(clonesCountYesterday != null ? clonesCountYesterday : "0");
+            // Clones (Two weeks)
+            String clonesCountTwoWeeks = cursor.getString(COL_CLONES_UNIQUES_TWO_WEEKS);
+            holder.clonesCountTwoWeeksView.setText(clonesCountTwoWeeks != null ? clonesCountTwoWeeks : "0");
             // Views
             String viewsUniques = cursor.getString(COL_VIEWS_UNIQUES);
             holder.viewsUniquesTodayView.setText(viewsUniques != null ? viewsUniques : "0");
             // Views (Yesterday)
             String viewsUniquesYesterday = cursor.getString(COL_VIEWS_UNIQUES_YESTERDAY);
             holder.viewsUniquesYesterdayView.setText(viewsUniquesYesterday != null ? viewsUniquesYesterday : "0");
+            // Views (Two weeks)
+            String viewsUniquesTwoWeeks = cursor.getString(COL_VIEWS_UNIQUES_TWO_WEEKS);
+            holder.viewsUniquesTwoWeeksView.setText(viewsUniquesTwoWeeks != null ? viewsUniquesTwoWeeks : "0");
             // Stars
             String stargazersToday = cursor.getString(COL_STARGAZERS_STARS);
             holder.starsTodayView.setText(stargazersToday != null ? stargazersToday : "0");
             // Stars (Yesterday)
             String stargazersYesterday = cursor.getString(COL_STARGAZERS_STARS_YESTERDAY);
             holder.starsYesterdayView.setText(stargazersYesterday != null ? stargazersYesterday : "0");
+            // Stars (Two weeks)
+            String stargazersTwoWeeks = cursor.getString(COL_STARGAZERS_STARS_TWO_WEEKS);
+            holder.starsTwoWeeksView.setText(stargazersTwoWeeks != null ? stargazersTwoWeeks : "0");
         }
-        // Common
+        // Common for popular repository
         holder.titleView.setText(cursor.getString(COL_REPOSITORY_NAME));
         holder.subtitleView.setText(cursor.getString(COL_REPOSITORY_DESCRIPTION));
         holder.starsTotalView.setText(cursor.getString(COL_REPOSITORY_WATCHERS));
@@ -115,9 +124,11 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
             }
         });
         // Traffic button
+        final long repositoryId = cursor.getLong(COL_REPOSITORY_ID);
         holder.trafficView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mView.showTraffic(repositoryId);
             }
         });
     }
@@ -134,6 +145,9 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
         private final TextView totalForksView;
         private final Button githubView;
         private final Button trafficView;
+        private TextView clonesCountTwoWeeksView;
+        private TextView viewsUniquesTwoWeeksView;
+        private TextView starsTwoWeeksView;
         private TextView clonesCountTodayView;
         private TextView viewsUniquesTodayView;
         private TextView starsTodayView;
@@ -166,6 +180,13 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
                 clonesCountYesterdayView = (TextView) yesterdayView.findViewById(R.id.clones_count);
                 viewsUniquesYesterdayView = (TextView) yesterdayView.findViewById(R.id.views_count);
                 starsYesterdayView = (TextView) yesterdayView.findViewById(R.id.stars_today);
+            }
+
+            View twoWeeksView = view.findViewById(R.id.two_weeks);
+            if (yesterdayView != null) {
+                clonesCountTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.clones_count);
+                viewsUniquesTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.views_count);
+                starsTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.stars_today);
             }
         }
     }

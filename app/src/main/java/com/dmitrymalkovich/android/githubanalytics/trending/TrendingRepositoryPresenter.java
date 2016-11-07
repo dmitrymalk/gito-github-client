@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
+package com.dmitrymalkovich.android.githubanalytics.trending;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -50,7 +50,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     }
 
     @Override
-    public void start(Bundle savedInstanceState) {
+    public void start(Bundle savedInstanceState, long repositoryId) {
         String period = mGithubRepository.getDefaultPeriodForTrending();
         switch (period) {
             case GithubLocalDataSource.TRENDING_PERIOD_MONTHLY:

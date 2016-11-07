@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.publicrepository;
+package com.dmitrymalkovich.android.githubanalytics.repositories;
 
 import android.content.Context;
 import android.database.Cursor;

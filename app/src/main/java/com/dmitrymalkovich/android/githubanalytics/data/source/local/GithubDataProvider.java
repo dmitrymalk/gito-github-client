@@ -42,24 +42,36 @@ public class GithubDataProvider extends ContentProvider {
                 " GROUP BY stargazers.repository_id) as stargazers ON stargazers.repository_id = repository.repository_id"
 
                 + " LEFT JOIN (SELECT stargazers.repository_id, COUNT(stargazers.timestamp) as stars FROM stargazers WHERE timestamp >= "
-                + TimeUtils.yesterday() + " AND timestamp <=" + TimeUtils.today() +
+                + TimeUtils.yesterday() + " AND timestamp < " + TimeUtils.today() +
                 " GROUP BY stargazers.repository_id) as stargazers_yesterday ON stargazers_yesterday.repository_id = repository.repository_id"
 
-                + " LEFT JOIN (SELECT traffic_views.repository_id, traffic_views.uniques, traffic_views.count FROM traffic_views WHERE timestamp="
+                + " LEFT JOIN (SELECT stargazers.repository_id, COUNT(stargazers.timestamp) as stars FROM stargazers WHERE timestamp >= "
+                + TimeUtils.twoWeeksAgo() +
+                " GROUP BY stargazers.repository_id) as stargazers_two_weeks ON stargazers_two_weeks.repository_id = repository.repository_id"
+
+                + " LEFT JOIN (SELECT traffic_views.repository_id, traffic_views.uniques, traffic_views.count FROM traffic_views WHERE timestamp >= "
                 + TimeUtils.today() +
                 ") as traffic_views ON traffic_views.repository_id = repository.repository_id"
 
-                + " LEFT JOIN (SELECT traffic_views.repository_id, traffic_views.uniques, traffic_views.count FROM traffic_views WHERE timestamp="
-                + TimeUtils.yesterday() + " AND timestamp <=" + TimeUtils.today() +
+                + " LEFT JOIN (SELECT traffic_views.repository_id, traffic_views.uniques, traffic_views.count FROM traffic_views WHERE timestamp >= "
+                + TimeUtils.yesterday() + " AND timestamp < " + TimeUtils.today() +
                 ") as traffic_views_yesterday ON traffic_views_yesterday.repository_id = repository.repository_id"
 
-                + " LEFT JOIN (SELECT traffic_clones.repository_id, traffic_clones.uniques, traffic_clones.count FROM traffic_clones WHERE timestamp="
+                + " LEFT JOIN (SELECT traffic_views.repository_id, SUM(traffic_views.uniques) as uniques, SUM(traffic_views.count) as count FROM traffic_views WHERE timestamp >= "
+                + TimeUtils.twoWeeksAgo() +
+                " GROUP BY traffic_views.repository_id) as traffic_views_two_weeks ON traffic_views_two_weeks.repository_id = repository.repository_id"
+
+                + " LEFT JOIN (SELECT traffic_clones.repository_id, traffic_clones.uniques, traffic_clones.count FROM traffic_clones WHERE timestamp >= "
                 + TimeUtils.today() +
                 ") as traffic_clones ON traffic_clones.repository_id = repository.repository_id"
 
-                + " LEFT JOIN (SELECT traffic_clones.repository_id, traffic_clones.uniques, traffic_clones.count FROM traffic_clones WHERE timestamp="
-                + TimeUtils.yesterday() + " AND timestamp <=" + TimeUtils.today() +
+                + " LEFT JOIN (SELECT traffic_clones.repository_id, traffic_clones.uniques, traffic_clones.count FROM traffic_clones WHERE timestamp >= "
+                + TimeUtils.yesterday() + " AND timestamp <" + TimeUtils.today() +
                 ") as traffic_clones_yesterday ON traffic_clones_yesterday.repository_id = repository.repository_id"
+
+                + " LEFT JOIN (SELECT traffic_clones.repository_id, SUM(traffic_clones.uniques) as uniques, SUM(traffic_clones.count) as count FROM traffic_clones WHERE timestamp >= "
+                + TimeUtils.twoWeeksAgo() +
+                " GROUP BY traffic_clones.repository_id) as traffic_clones_two_weeks ON traffic_clones_two_weeks.repository_id = repository.repository_id"
         );
     }
 

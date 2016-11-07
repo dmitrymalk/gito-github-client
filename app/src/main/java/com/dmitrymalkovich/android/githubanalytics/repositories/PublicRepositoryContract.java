@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.dashboard;
+package com.dmitrymalkovich.android.githubanalytics.repositories;
 
 
 import android.database.Cursor;
@@ -9,7 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import com.dmitrymalkovich.android.githubanalytics.BasePresenter;
 import com.dmitrymalkovich.android.githubanalytics.BaseView;
 
-class DashboardContract {
+class PublicRepositoryContract {
 
     interface View extends BaseView<Presenter> {
         void setLoadingIndicator(boolean active);
@@ -19,10 +19,6 @@ class DashboardContract {
         void showRepositories(Cursor data);
 
         void openUrl(@NonNull String htmlUrl);
-
-        void signOut();
-
-        void showTraffic(long id);
     }
 
     interface Presenter extends BasePresenter, SwipeRefreshLayout.OnRefreshListener {

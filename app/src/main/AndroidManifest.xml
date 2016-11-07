@@ -45,6 +45,10 @@
             android:name=".navigation.NavigationViewActivity"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".traffic.TrafficActivity"
+            android:theme="@style/AppTheme" />
+
         <service
             android:name=".data.sync.SyncService"
             android:exported="true"

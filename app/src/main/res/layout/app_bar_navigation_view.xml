@@ -17,9 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            app:paddingStart="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
         </android.support.v7.widget.Toolbar>
@@ -31,7 +28,7 @@
             android:layout_gravity="center"
             android:visibility="gone"
             app:layout_scrollFlags="scroll|enterAlways"
-            android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
+            android:padding="@dimen/navigation_view_toolbar_logo_padding"
             android:src="@drawable/ic_github_logo"
             tools:ignore="ContentDescription" />
 

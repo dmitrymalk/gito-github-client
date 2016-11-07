@@ -27,10 +27,10 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.sync.SyncAdapter;
-import com.dmitrymalkovich.android.githubanalytics.publicrepository.PublicRepositoryFragment;
-import com.dmitrymalkovich.android.githubanalytics.publicrepository.PublicRepositoryPresenter;
-import com.dmitrymalkovich.android.githubanalytics.trendingrepository.TrendingRepositoryFragment;
-import com.dmitrymalkovich.android.githubanalytics.trendingrepository.TrendingRepositoryPresenter;
+import com.dmitrymalkovich.android.githubanalytics.repositories.PublicRepositoryFragment;
+import com.dmitrymalkovich.android.githubanalytics.repositories.PublicRepositoryPresenter;
+import com.dmitrymalkovich.android.githubanalytics.trending.TrendingRepositoryFragment;
+import com.dmitrymalkovich.android.githubanalytics.trending.TrendingRepositoryPresenter;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 

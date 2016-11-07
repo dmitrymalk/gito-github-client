@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
+package com.dmitrymalkovich.android.githubanalytics.trending;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -74,7 +74,7 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
 
         setUpBottomNavigationBar();
 
-        mPresenter.start(savedInstanceState);
+        mPresenter.start(savedInstanceState, repositoryId);
         return root;
     }
 

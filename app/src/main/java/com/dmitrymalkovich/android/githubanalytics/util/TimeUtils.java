@@ -35,6 +35,16 @@ public class TimeUtils {
         return calendar.getTimeInMillis() / 1000 * 1000;
     }
 
+    public static long twoWeeksAgo() {
+        Calendar c = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day - 14, 0, 0, 0);
+        return calendar.getTimeInMillis() / 1000 * 1000;
+    }
+
     public static long iso8601ToMilliseconds(String date) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
         long timeInMilliseconds = 0;
