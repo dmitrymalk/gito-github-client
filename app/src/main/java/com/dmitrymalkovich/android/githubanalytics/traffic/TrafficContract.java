@@ -1,35 +1,23 @@
-package com.dmitrymalkovich.android.githubanalytics.dashboard;
+package com.dmitrymalkovich.android.githubanalytics.traffic;
 
-
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.dmitrymalkovich.android.githubanalytics.BasePresenter;
 import com.dmitrymalkovich.android.githubanalytics.BaseView;
 
-class DashboardContract {
+class TrafficContract {
 
     interface View extends BaseView<Presenter> {
         void setLoadingIndicator(boolean active);
-
-        void setRefreshIndicator(boolean active);
-
-        void showRepositories(Cursor data);
-
-        void openUrl(@NonNull String htmlUrl);
-
-        void signOut();
-
-        void showTraffic(long id);
     }
 
     interface Presenter extends BasePresenter, SwipeRefreshLayout.OnRefreshListener {
-        @Override
-        void onRefresh();
+
+        void start(Bundle savedInstanceState, long repositoryId);
 
         @Override
-        void start(Bundle savedInstanceState, long repositoryId);
+        void start(Bundle savedInstanceState);
     }
 }

@@ -33,4 +33,6 @@
     <color name="repository_subtitle_text">@color/material_grey_600</color>
     <color name="trending_info_text">@color/material_grey_600</color>
     <color name="trending_rank_text">@color/material_grey_600</color>
+    <color name="repository_badge_fork_background">@color/blue</color>
+    <color name="repository_badge_text">@android:color/white</color>
 </resources>

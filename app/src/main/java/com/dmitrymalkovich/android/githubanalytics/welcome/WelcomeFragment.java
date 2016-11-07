@@ -57,7 +57,7 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.start(savedInstanceState);
+        mPresenter.start(savedInstanceState, repositoryId);
     }
 
     @Override
@@ -91,8 +91,7 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
             mProgressBar.setVisibility(View.GONE);
             // Start dashboard
             Intent intent = new Intent(getContext(), NavigationViewActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             // Finish current activity
             getActivity().finish();

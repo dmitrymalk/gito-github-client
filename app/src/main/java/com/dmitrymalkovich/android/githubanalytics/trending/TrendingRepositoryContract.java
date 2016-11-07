@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.trendingrepository;
+package com.dmitrymalkovich.android.githubanalytics.trending;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -30,7 +30,7 @@ class TrendingRepositoryContract {
         void onRefresh();
 
         @Override
-        void start(Bundle savedInstanceState);
+        void start(Bundle savedInstanceState, long repositoryId);
 
         void onTabSelected(int position);
 

@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.publicrepository;
+package com.dmitrymalkovich.android.githubanalytics.repositories;
 
 
 import android.database.Cursor;
@@ -26,6 +26,6 @@ class PublicRepositoryContract {
         void onRefresh();
 
         @Override
-        void start(Bundle savedInstanceState);
+        void start(Bundle savedInstanceState, long repositoryId);
     }
 }

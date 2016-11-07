@@ -84,18 +84,25 @@ public class RepositoryContract {
                 StargazersContract.Entry.TABLE_NAME + "." + StargazersContract.Entry.COLUMN_REPOSITORY_KEY,
                 StargazersContract.Entry.TABLE_NAME + "." + "stars",
                 StargazersContract.Entry.TABLE_NAME + "_yesterday" + "." + "stars",
+                StargazersContract.Entry.TABLE_NAME + "_two_weeks" + "." + "stars",
                 ViewsContract.ViewsEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY,
                 ViewsContract.ViewsEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_UNIQUES,
                 ViewsContract.ViewsEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT,
                 ViewsContract.ViewsEntry.TABLE_NAME + "_yesterday" + "." + ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY,
                 ViewsContract.ViewsEntry.TABLE_NAME + "_yesterday" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_UNIQUES,
                 ViewsContract.ViewsEntry.TABLE_NAME + "_yesterday" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT,
+                ViewsContract.ViewsEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY,
+                ViewsContract.ViewsEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_UNIQUES,
+                ViewsContract.ViewsEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT,
                 ClonesContract.ClonesEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY,
                 ClonesContract.ClonesEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_UNIQUES,
                 ClonesContract.ClonesEntry.TABLE_NAME + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT,
                 ClonesContract.ClonesEntry.TABLE_NAME + "_yesterday" + "." + ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY,
                 ClonesContract.ClonesEntry.TABLE_NAME + "_yesterday" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_UNIQUES,
-                ClonesContract.ClonesEntry.TABLE_NAME + "_yesterday" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT
+                ClonesContract.ClonesEntry.TABLE_NAME + "_yesterday" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT,
+                ClonesContract.ClonesEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY,
+                ClonesContract.ClonesEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_UNIQUES,
+                ClonesContract.ClonesEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT
         };
 
         public static final int COL_ID = 0;
@@ -113,18 +120,25 @@ public class RepositoryContract {
         public static final int COL_STARGAZERS_ID = 12;
         public static final int COL_STARGAZERS_STARS = 13;
         public static final int COL_STARGAZERS_STARS_YESTERDAY = 14;
-        public static final int COL_VIEWS_ID = 15;
-        public static final int COL_VIEWS_UNIQUES = 16;
-        public static final int COL_VIEWS_COUNT = 17;
-        public static final int COL_VIEWS_ID_YESTERDAY = 18;
-        public static final int COL_VIEWS_UNIQUES_YESTERDAY = 19;
-        public static final int COL_VIEWS_COUNT_YESTERDAY = 20;
-        public static final int COL_CLONES_ID = 21;
-        public static final int COL_CLONES_UNIQUES = 22;
-        public static final int COL_CLONES_COUNT = 23;
-        public static final int COL_CLONES_ID_YESTERDAY = 24;
-        public static final int COL_CLONES_UNIQUES_YESTERDAY = 25;
-        public static final int COL_CLONES_COUNT_YESTERDAY = 26;
+        public static final int COL_STARGAZERS_STARS_TWO_WEEKS = 15;
+        public static final int COL_VIEWS_ID = 16;
+        public static final int COL_VIEWS_UNIQUES = 17;
+        public static final int COL_VIEWS_COUNT = 18;
+        public static final int COL_VIEWS_ID_YESTERDAY = 19;
+        public static final int COL_VIEWS_UNIQUES_YESTERDAY = 20;
+        public static final int COL_VIEWS_COUNT_YESTERDAY = 21;
+        public static final int COL_VIEWS_ID_TWO_WEEKS = 22;
+        public static final int COL_VIEWS_UNIQUES_TWO_WEEKS = 23;
+        public static final int COL_VIEWS_COUNT_TWO_WEEKS = 24;
+        public static final int COL_CLONES_ID = 25;
+        public static final int COL_CLONES_UNIQUES = 26;
+        public static final int COL_CLONES_COUNT = 27;
+        public static final int COL_CLONES_ID_YESTERDAY = 28;
+        public static final int COL_CLONES_UNIQUES_YESTERDAY = 29;
+        public static final int COL_CLONES_COUNT_YESTERDAY = 30;
+        public static final int COL_CLONES_ID_TWO_WEEKS = 31;
+        public static final int COL_CLONES_UNIQUES_TWO_WEEKS = 32;
+        public static final int COL_CLONES_COUNT_TWO_WEEKS = 33;
 
         public static ContentValues buildContentValues(Repository repo) {
             ContentValues contentValues = new ContentValues();

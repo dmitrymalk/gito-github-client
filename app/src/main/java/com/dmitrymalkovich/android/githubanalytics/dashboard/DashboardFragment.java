@@ -17,12 +17,14 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.traffic.TrafficActivity;
 import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.dmitrymalkovich.android.githubanalytics.traffic.TrafficActivity.EXTRA_REPOSITORY_ID;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class DashboardFragment extends Fragment implements DashboardContract.View {
@@ -67,7 +69,7 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
             mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
         }
 
-        mPresenter.start(savedInstanceState);
+        mPresenter.start(savedInstanceState, repositoryId);
         return root;
     }
 
@@ -116,5 +118,12 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
             startActivity(intent);
             getActivity().finish();
         }
+    }
+
+    @Override
+    public void showTraffic(long id) {
+        Intent intent = new Intent(getActivity(), TrafficActivity.class);
+        intent.putExtra(EXTRA_REPOSITORY_ID, id);
+        startActivity(intent);
     }
 }

@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/material_component_cards_left_and_right_padding">
+        android:padding="@dimen/repository_content_padding">
 
         <include layout="@layout/include_repository_title_and_description"/>
 
         <android.support.v4.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="@dimen/material_component_cards_supporting_text_bottom_padding" />
+            android:layout_height="@dimen/repository_space_between_description_and_information_height" />
 
         <include layout="@layout/include_list_item_repository_information"/>
 
@@ -28,8 +28,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:background="@color/blue"
-        android:padding="@dimen/material_component_cards_space_between_cards"
-        android:textColor="@android:color/white" />
+        android:background="@color/repository_badge_fork_background"
+        android:padding="@dimen/repository_badge_padding"
+        android:textColor="@color/repository_badge_text" />
 
 </android.support.v7.widget.CardView>

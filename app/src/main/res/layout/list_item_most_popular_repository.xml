@@ -74,6 +74,29 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/two_weeks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dashboard_list_item_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+                android:text="@string/week"
+                android:textColor="@color/blue" />
+
+            <include layout="@layout/include_most_popular_repository_stars" />
+
+            <include layout="@layout/include_most_popular_repository_visitors" />
+
+            <include layout="@layout/include_most_popular_repository_git_clones" />
+
+        </LinearLayout>
+
         <include layout="@layout/include_popular_repository_bottom_bar" />
 
     </LinearLayout>

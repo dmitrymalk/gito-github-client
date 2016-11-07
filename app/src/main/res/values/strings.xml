@@ -30,4 +30,5 @@
     <string name="yesterday">Yesterday</string>
     <string name="traffic">Traffic</string>
     <string name="github">Github</string>
+    <string name="week">14 days</string>
 </resources>

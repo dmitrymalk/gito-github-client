@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.publicrepository;
+package com.dmitrymalkovich.android.githubanalytics.repositories;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -48,7 +48,7 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
     }
 
     @Override
-    public void start(Bundle savedInstanceState) {
+    public void start(Bundle savedInstanceState, long repositoryId) {
         mPublicRepositoriesView.setLoadingIndicator(true);
         if (savedInstanceState == null) {
             showRepositories();

@@ -1,4 +1,4 @@
-package com.dmitrymalkovich.android.githubanalytics.publicrepository;
+package com.dmitrymalkovich.android.githubanalytics.repositories;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -63,7 +63,7 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
             mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
         }
 
-        mPresenter.start(savedInstanceState);
+        mPresenter.start(savedInstanceState, repositoryId);
         return root;
     }
 

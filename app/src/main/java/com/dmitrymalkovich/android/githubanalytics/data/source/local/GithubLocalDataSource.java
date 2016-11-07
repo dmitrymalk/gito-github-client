@@ -107,8 +107,8 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     @Override
     public void logout() {
-        saveToken(null, null);
         mContentResolver.delete(RepositoryContract.RepositoryEntry.CONTENT_URI, null, null);
+        mPreferences.edit().clear().apply();
     }
 
     @Override
