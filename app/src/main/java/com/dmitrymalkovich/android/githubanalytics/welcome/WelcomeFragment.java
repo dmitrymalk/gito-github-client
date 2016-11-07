@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.navigation.NavigationViewActivity;
+import com.google.firebase.crash.FirebaseCrash;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,7 +97,7 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
             // Finish current activity
             getActivity().finish();
         } else {
-            Log.e(LOG_TAG, "Dashboard cannot be started, activity is null");
+            FirebaseCrash.log("Dashboard cannot be started, activity is null");
         }
     }
 

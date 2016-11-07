@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingTop="@dimen/material_component_cards_space_between_cards"
+            android:paddingTop="@dimen/repositories_recycle_view_top_padding"
             android:scrollbarStyle="outsideOverlay"
             tools:ignore="PrivateResource" />
     </android.support.v4.widget.SwipeRefreshLayout>

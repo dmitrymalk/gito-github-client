@@ -25,6 +25,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.Respo
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
+import com.google.firebase.crash.FirebaseCrash;
 
 import org.eclipse.egit.github.core.Repository;
 
@@ -356,7 +357,7 @@ public class GithubLocalDataSource implements GithubDataSource {
             mContentResolver.applyBatch(TrendingContract.CONTENT_AUTHORITY, ops);
             mContentResolver.notifyChange(uri, null);
         } catch (RemoteException | OperationApplicationException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
+            FirebaseCrash.report(e);
         }
     }
 

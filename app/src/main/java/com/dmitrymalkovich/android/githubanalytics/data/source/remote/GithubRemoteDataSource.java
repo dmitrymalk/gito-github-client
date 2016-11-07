@@ -16,6 +16,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.Respo
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+import com.google.firebase.crash.FirebaseCrash;
 
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.User;
@@ -59,7 +60,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             service.getRepositories();
 
         } catch (IOException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
+            FirebaseCrash.report(e);
         }
     }
 
@@ -89,7 +90,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     saveToken(null, null);
                 }
             }
-            Log.e(LOG_TAG, e.getMessage(), e);
+            FirebaseCrash.report(e);
             return null;
         }
     }
@@ -257,7 +258,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             }
 
         } catch (IOException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
+            FirebaseCrash.report(e);
             return null;
         }
     }
@@ -363,7 +364,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 throw new IOException(error.getMessage());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
+            FirebaseCrash.report(e);
             return null;
         }
     }
@@ -475,7 +476,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     responseUser.setFollowers(String.valueOf(user.getFollowers()));
                     return responseUser;
                 } catch (IOException e) {
-                    Log.e(LOG_TAG, e.getMessage(), e);
+                    FirebaseCrash.report(e);
                 }
                 return null;
             }
@@ -557,7 +558,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 throw new IOException(error.getMessage());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
+            FirebaseCrash.report(e);
             return null;
         }
     }

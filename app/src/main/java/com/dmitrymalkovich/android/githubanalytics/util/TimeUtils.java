@@ -2,6 +2,8 @@ package com.dmitrymalkovich.android.githubanalytics.util;
 
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,7 +42,7 @@ public class TimeUtils {
             Date parsedDate = df.parse(date);
             timeInMilliseconds = parsedDate.getTime();
         } catch (ParseException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
+            FirebaseCrash.report(e);
         }
         return timeInMilliseconds;
     }

@@ -37,25 +37,24 @@ import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 public class NavigationViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     // Delay to launch nav drawer item, to allow close animation to play
-    private static final int NAVDRAWER_LAUNCH_DELAY = 250;
+    private static final int NAV_VIEW_LAUNCH_DELAY = 250;
     @SuppressWarnings("unused")
     private static final String LOG_TAG = NavigationViewActivity.class.getSimpleName();
     private NavigationView mNavigationView;
     public static final String EXTRA_CURRENT_FRAGMENT = "EXTRA_CURRENT_FRAGMENT";
     private String mCurrentFragment = DashboardFragment.class.getSimpleName();
-    private Toolbar mToolbar;
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_view);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, mToolbar, R.string.navigation_view_open, R.string.navigation_view_close);
+                this, drawer, toolbar, R.string.navigation_view_open, R.string.navigation_view_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -150,7 +149,7 @@ public class NavigationViewActivity extends AppCompatActivity
                     signOut();
                 }
             }
-        }, NAVDRAWER_LAUNCH_DELAY);
+        }, NAV_VIEW_LAUNCH_DELAY);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

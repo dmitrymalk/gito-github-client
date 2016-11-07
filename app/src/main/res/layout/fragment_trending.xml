@@ -41,6 +41,7 @@
         android:visibility="gone"
         tools:ignore="PrivateResource" />
 
+    <!-- https://material.google.com/components/bottom-navigation.html#bottom-navigation-behavior -->
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

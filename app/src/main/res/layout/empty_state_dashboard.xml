@@ -12,34 +12,21 @@
   limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/empty_state_dashboard_container"
+    android:id="@+id/empty_state"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
+    android:paddingBottom="?attr/actionBarSize"
     android:visibility="gone">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_dashboard_black_100dp"
-        tools:ignore="ContentDescription" />
-
     <TextView
+        android:id="@+id/empty_state_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/dashboard_empty_view_title"
+        android:text="@string/trending_empty_view_title"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/empty_state_text_color" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/dashboard_empty_view_text"
         android:textColor="@color/empty_state_text_color" />
 
 </LinearLayout>

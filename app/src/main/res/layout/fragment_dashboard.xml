@@ -13,7 +13,7 @@
             android:id="@+id/recycler_view_for_repositories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/material_component_cards_space_between_cards"
+            android:paddingTop="@dimen/dashboard_recycle_view_top_padding"
             android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay"
             tools:ignore="PrivateResource" />
