@@ -69,7 +69,7 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
             mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
         }
 
-        mPresenter.start(savedInstanceState, repositoryId);
+        mPresenter.start(savedInstanceState);
         return root;
     }
 

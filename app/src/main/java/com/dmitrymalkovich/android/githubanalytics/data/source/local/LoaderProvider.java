@@ -6,8 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -20,12 +23,45 @@ public class LoaderProvider {
         mContext = checkNotNull(context, "context cannot be null");
     }
 
-    public Loader<Cursor> createTrafficLoader(long repositoryId) {
+    public Loader<Cursor> createReferersLoader(long repositoryId) {
+        return new CursorLoader(
+                mContext,
+                ReferrerContract.ReferrerEntry.CONTENT_URI,
+                ReferrerContract.ReferrerEntry.REFERRER_COLUMNS,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "."
+                        + ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY + " = ? " ,
+                new String[] {String.valueOf(repositoryId)}, null
+        );
+    }
+
+    public Loader<Cursor> createClonersLoader(long repositoryId) {
+        return new CursorLoader(
+                mContext,
+                ClonesContract.ClonesEntry.CONTENT_URI,
+                ClonesContract.ClonesEntry.CLONES_COLUMNS,
+                ClonesContract.ClonesEntry.TABLE_NAME + "."
+                        + ClonesContract.ClonesEntry.COLUMN_REPOSITORY_KEY + " = ? " ,
+                new String[] {String.valueOf(repositoryId)}, null
+        );
+    }
+
+    public Loader<Cursor> createViewsLoader(long repositoryId) {
+        return new CursorLoader(
+                mContext,
+                ViewsContract.ViewsEntry.CONTENT_URI,
+                ViewsContract.ViewsEntry.VIEWS_COLUMNS,
+                ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY + " = ? " ,
+                new String[] {String.valueOf(repositoryId)}, null
+        );
+    }
+
+    public Loader<Cursor> createTrafficRepositoryLoader(long repositoryId) {
         return new CursorLoader(
                 mContext,
                 RepositoryContract.RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS,
                 RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " = ? " ,
+                RepositoryContract.RepositoryEntry.TABLE_NAME + "."
+                        + RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " = ? " ,
                 new String[] {String.valueOf(repositoryId)}, null
         );
     }

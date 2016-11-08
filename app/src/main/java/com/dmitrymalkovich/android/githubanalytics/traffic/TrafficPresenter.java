@@ -60,6 +60,8 @@ class TrafficPresenter implements TrafficContract.Presenter,
 
     @Override
     public void onDataLoaded(Cursor data) {
+        mView.setLoadingIndicator(false);
+        mView.showRepository(data);
     }
 
     @Override
@@ -76,7 +78,7 @@ class TrafficPresenter implements TrafficContract.Presenter,
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mLoaderProvider.createTrafficLoader(mRepositoryId);
+        return mLoaderProvider.createTrafficRepositoryLoader(mRepositoryId);
     }
 
     @Override

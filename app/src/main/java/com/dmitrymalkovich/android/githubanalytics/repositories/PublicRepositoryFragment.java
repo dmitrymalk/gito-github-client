@@ -63,7 +63,7 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
             mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
         }
 
-        mPresenter.start(savedInstanceState, repositoryId);
+        mPresenter.start(savedInstanceState);
         return root;
     }
 

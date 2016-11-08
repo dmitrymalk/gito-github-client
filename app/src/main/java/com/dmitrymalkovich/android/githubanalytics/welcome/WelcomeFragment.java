@@ -57,7 +57,7 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.start(savedInstanceState, repositoryId);
+        mPresenter.start(savedInstanceState);
     }
 
     @Override

@@ -30,7 +30,7 @@ class TrendingRepositoryContract {
         void onRefresh();
 
         @Override
-        void start(Bundle savedInstanceState, long repositoryId);
+        void start(Bundle savedInstanceState);
 
         void onTabSelected(int position);
 

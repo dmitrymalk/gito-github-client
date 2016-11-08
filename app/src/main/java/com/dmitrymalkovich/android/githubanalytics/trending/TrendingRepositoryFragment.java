@@ -74,7 +74,7 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
 
         setUpBottomNavigationBar();
 
-        mPresenter.start(savedInstanceState, repositoryId);
+        mPresenter.start(savedInstanceState);
         return root;
     }
 

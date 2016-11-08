@@ -50,7 +50,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     }
 
     @Override
-    public void start(Bundle savedInstanceState, long repositoryId) {
+    public void start(Bundle savedInstanceState) {
         String period = mGithubRepository.getDefaultPeriodForTrending();
         switch (period) {
             case GithubLocalDataSource.TRENDING_PERIOD_MONTHLY:

@@ -26,6 +26,6 @@ class PublicRepositoryContract {
         void onRefresh();
 
         @Override
-        void start(Bundle savedInstanceState, long repositoryId);
+        void start(Bundle savedInstanceState);
     }
 }

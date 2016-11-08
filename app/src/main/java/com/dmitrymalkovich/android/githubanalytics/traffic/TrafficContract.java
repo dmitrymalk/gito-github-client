@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.traffic;
 
+import android.database.Cursor;
 import android.os.Bundle;
 
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,8 @@ class TrafficContract {
 
     interface View extends BaseView<Presenter> {
         void setLoadingIndicator(boolean active);
+
+        void showRepository(Cursor data);
     }
 
     interface Presenter extends BasePresenter, SwipeRefreshLayout.OnRefreshListener {

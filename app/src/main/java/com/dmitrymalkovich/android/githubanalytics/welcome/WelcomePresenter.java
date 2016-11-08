@@ -27,7 +27,7 @@ class WelcomePresenter implements WelcomeContract.Presenter {
     }
 
     @Override
-    public void start(Bundle savedinstanceState, long repositoryId) {
+    public void start(Bundle savedinstanceState) {
         if (mGithubRepository.getToken() != null) {
             mWelcomeView.startDashboard();
         }

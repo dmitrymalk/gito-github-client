@@ -12,4 +12,117 @@
 
     <include layout="@layout/empty_state_traffic" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/traffic_background"
+        android:padding="@dimen/dashboard_list_item_padding">
+
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:ellipsize="end"
+                android:id="@+id/title"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColor="@color/repository_title_text" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Small"
+                android:ellipsize="end"
+                android:id="@+id/subtitle"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/dashboard_list_item_vertical_padding"
+                android:textColor="@color/repository_subtitle_text"/>
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/material_component_cards_supporting_text_bottom_padding" />
+
+        <include layout="@layout/include_list_item_repository_information" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+            android:layout_marginTop="@dimen/dashboard_list_item_padding"
+            android:background="@color/cards_border" />
+
+        <LinearLayout
+            android:id="@+id/today"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+                android:text="@string/today"
+                android:textColor="@color/blue" />
+
+            <include layout="@layout/include_most_popular_repository_stars" />
+
+            <include layout="@layout/include_most_popular_repository_visitors" />
+
+            <include layout="@layout/include_most_popular_repository_git_clones" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/yesterday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dashboard_list_item_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+                android:text="@string/yesterday"
+                android:textColor="@color/blue" />
+
+            <include layout="@layout/include_most_popular_repository_stars" />
+
+            <include layout="@layout/include_most_popular_repository_visitors" />
+
+            <include layout="@layout/include_most_popular_repository_git_clones" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/two_weeks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dashboard_list_item_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+                android:text="@string/week"
+                android:textColor="@color/blue" />
+
+            <include layout="@layout/include_most_popular_repository_stars" />
+
+            <include layout="@layout/include_most_popular_repository_visitors" />
+
+            <include layout="@layout/include_most_popular_repository_git_clones" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </FrameLayout>
