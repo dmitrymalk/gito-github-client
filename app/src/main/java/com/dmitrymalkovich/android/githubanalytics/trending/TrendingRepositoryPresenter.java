@@ -129,27 +129,27 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
                         if (currentLanguage.equals(language)
                                 && currentPeriod.equals(period)) {
                             mView.setRefreshIndicator(false);
-                            TrendingRepositoryPresenter.this.onDataNotAvailable();
+                            TrendingRepositoryPresenter.this.onDataNotAvailable(TRENDING_LOADER);
                         }
                     }
                 }, false);
     }
 
     @Override
-    public void onDataLoaded(Cursor data) {
+    public void onDataLoaded(Cursor data, int id) {
         mView.showRepositories(data);
         mView.setEmptyState(false);
     }
 
     @Override
-    public void onDataEmpty() {
+    public void onDataEmpty(int id) {
         mView.showRepositories(null);
         mView.setEmptyState(true);
     }
 
     @Override
-    public void onDataNotAvailable() {
-        onDataEmpty();
+    public void onDataNotAvailable(int id) {
+        onDataEmpty(TRENDING_LOADER);
     }
 
     @Override
@@ -167,12 +167,12 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null) {
             if (data.moveToLast()) {
-                onDataLoaded(data);
+                onDataLoaded(data, loader.getId());
             } else {
-                onDataEmpty();
+                onDataEmpty(loader.getId());
             }
         } else {
-            onDataEmpty();
+            onDataEmpty(loader.getId());
         }
     }
 
@@ -216,7 +216,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
 
                             mView.setLoadingIndicator(false);
 
-                            TrendingRepositoryPresenter.this.onDataNotAvailable();
+                            TrendingRepositoryPresenter.this.onDataNotAvailable(TRENDING_LOADER);
                         }
                     }
                 }, true);

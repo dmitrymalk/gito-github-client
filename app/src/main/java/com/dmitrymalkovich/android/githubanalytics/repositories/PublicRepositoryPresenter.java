@@ -70,24 +70,24 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
 
             @Override
             public void onDataNotAvailable() {
-                PublicRepositoryPresenter.this.onDataNotAvailable();
+                PublicRepositoryPresenter.this.onDataNotAvailable(REPOSITORIES_LOADER);
             }
         });
     }
 
     @Override
-    public void onDataLoaded(Cursor data) {
+    public void onDataLoaded(Cursor data, int id) {
         mPublicRepositoriesView.setLoadingIndicator(false);
         mPublicRepositoriesView.setRefreshIndicator(false);
         mPublicRepositoriesView.showRepositories(data);
     }
 
     @Override
-    public void onDataEmpty() {
+    public void onDataEmpty(int id) {
     }
 
     @Override
-    public void onDataNotAvailable() {
+    public void onDataNotAvailable(int id) {
         mPublicRepositoriesView.setLoadingIndicator(false);
         mPublicRepositoriesView.setRefreshIndicator(false);
     }
@@ -105,12 +105,12 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null) {
             if (data.moveToLast()) {
-                onDataLoaded(data);
+                onDataLoaded(data, loader.getId());
             } else {
-                onDataEmpty();
+                onDataEmpty(loader.getId());
             }
         } else {
-            onDataNotAvailable();
+            onDataNotAvailable(loader.getId());
         }
     }
 

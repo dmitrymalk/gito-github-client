@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,28 +21,23 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_COUNT;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_TWO_WEEKS;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_YESTERDAY;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORKS;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_LANGUAGE;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_NAME;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_WATCHERS;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS_TWO_WEEKS;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS_YESTERDAY;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES_TWO_WEEKS;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES_YESTERDAY;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract
+        .RepositoryContract.RepositoryEntry.*;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class TrafficFragment extends Fragment implements TrafficContract.View {
-
+    @SuppressWarnings("unused")
+    private static final String LOG_TAG = TrafficFragment.class.getSimpleName();
     public static String ARG_REPOSITORY_ID = "ARG_REPOSITORY_ID";
     private TrafficContract.Presenter mPresenter;
     private Unbinder unbinder;
-    @BindView(R.id.progress) ProgressBar mProgressBar;
+    @BindView(R.id.progress)
+    ProgressBar mProgressBar;
+    @BindView(R.id.empty_state)
+    View mEmptyState;
+    @BindView(R.id.recycler_view_for_referrers)
+    RecyclerView mRecyclerView;
+    private ReferrersListAdapter mAdapter;
 
     public static TrafficFragment newInstance(long repositoryId) {
         TrafficFragment trafficFragment = new TrafficFragment();
@@ -68,6 +65,16 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
             long repositoryId = getArguments().getLong(ARG_REPOSITORY_ID);
             mPresenter.start(savedInstanceState, repositoryId);
         }
+
+        int columnCount = getResources().getInteger(R.integer.grid_column_count);
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+        mAdapter = new ReferrersListAdapter(null, this);
+        mAdapter.setHasStableIds(true);
+        mRecyclerView.setAdapter(mAdapter);
+
         return root;
     }
 
@@ -86,6 +93,14 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     public void setLoadingIndicator(boolean active) {
         if (mProgressBar != null) {
             mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
+        }
+    }
+
+
+    @Override
+    public void setEmptyState(boolean active) {
+        if (mEmptyState != null) {
+            mEmptyState.setVisibility(active ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -113,7 +128,6 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         TextView viewsUniquesTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.views_count);
         TextView starsTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.stars_today);
 
-        // Most popular repository
         // Clones
         String clonesCount = cursor.getString(COL_CLONES_COUNT);
         clonesCountTodayView.setText(clonesCount != null ? clonesCount : "0");
@@ -154,5 +168,20 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
                 ? View.VISIBLE : View.GONE);
         languageView.setVisibility(languageIconView.getVisibility() == View.VISIBLE
                 ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showReferrers(Cursor data) {
+        mAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void showClones(Cursor data) {
+
+    }
+
+    @Override
+    public void showViews(Cursor data) {
+
     }
 }

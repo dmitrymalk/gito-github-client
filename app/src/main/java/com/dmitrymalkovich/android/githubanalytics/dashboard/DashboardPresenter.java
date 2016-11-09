@@ -70,24 +70,24 @@ public class DashboardPresenter implements DashboardContract.Presenter,
 
             @Override
             public void onDataNotAvailable() {
-                DashboardPresenter.this.onDataNotAvailable();
+                DashboardPresenter.this.onDataNotAvailable(REPOSITORIES_LOADER);
             }
         });
     }
 
     @Override
-    public void onDataLoaded(Cursor data) {
+    public void onDataLoaded(Cursor data, int id) {
         mDashboardView.setLoadingIndicator(false);
         mDashboardView.setRefreshIndicator(false);
         mDashboardView.showRepositories(data);
     }
 
     @Override
-    public void onDataEmpty() {
+    public void onDataEmpty(int id) {
     }
 
     @Override
-    public void onDataNotAvailable() {
+    public void onDataNotAvailable(int id) {
         mDashboardView.setLoadingIndicator(false);
         mDashboardView.setRefreshIndicator(false);
         if (mGithubRepository.getToken() == null) {
@@ -108,12 +108,12 @@ public class DashboardPresenter implements DashboardContract.Presenter,
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null) {
             if (data.moveToLast()) {
-                onDataLoaded(data);
+                onDataLoaded(data, loader.getId());
             } else {
-                onDataEmpty();
+                onDataEmpty(loader.getId());
             }
         } else {
-            onDataNotAvailable();
+            onDataNotAvailable(loader.getId());
         }
     }
 

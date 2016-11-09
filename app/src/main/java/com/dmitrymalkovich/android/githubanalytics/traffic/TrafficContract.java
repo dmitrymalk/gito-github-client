@@ -3,8 +3,6 @@ package com.dmitrymalkovich.android.githubanalytics.traffic;
 import android.database.Cursor;
 import android.os.Bundle;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
 import com.dmitrymalkovich.android.githubanalytics.BasePresenter;
 import com.dmitrymalkovich.android.githubanalytics.BaseView;
 
@@ -14,9 +12,17 @@ class TrafficContract {
         void setLoadingIndicator(boolean active);
 
         void showRepository(Cursor data);
+
+        void setEmptyState(boolean active);
+
+        void showReferrers(Cursor data);
+
+        void showClones(Cursor data);
+
+        void showViews(Cursor data);
     }
 
-    interface Presenter extends BasePresenter, SwipeRefreshLayout.OnRefreshListener {
+    interface Presenter extends BasePresenter {
 
         void start(Bundle savedInstanceState, long repositoryId);
 

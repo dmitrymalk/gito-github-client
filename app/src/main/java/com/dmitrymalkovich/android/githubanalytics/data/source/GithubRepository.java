@@ -286,11 +286,11 @@ public class GithubRepository implements GithubDataSource {
     }
 
     public interface LoadDataCallback {
-        void onDataLoaded(Cursor data);
+        void onDataLoaded(Cursor data, int id);
 
-        void onDataEmpty();
+        void onDataEmpty(int id);
 
-        void onDataNotAvailable();
+        void onDataNotAvailable(int id);
 
         void onDataReset();
     }
