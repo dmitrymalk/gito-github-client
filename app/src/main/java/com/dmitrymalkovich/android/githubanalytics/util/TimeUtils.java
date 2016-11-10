@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.google.firebase.crash.FirebaseCrash;
 
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -55,5 +57,11 @@ public class TimeUtils {
             FirebaseCrash.report(e);
         }
         return timeInMilliseconds;
+    }
+
+    public static String humanReadable(long timestamp) {
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM", Locale.US);
+        Date date = new Date(timestamp);
+        return dateFormat.format(date);
     }
 }

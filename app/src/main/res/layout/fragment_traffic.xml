@@ -136,6 +136,16 @@
                 android:layout_marginTop="@dimen/dashboard_list_item_padding"
                 android:background="@color/cards_border" />
 
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart_clones"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/traffic_chart_clones_height" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart_views"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/traffic_chart_clones_height" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_for_referrers"
                 android:layout_width="match_parent"

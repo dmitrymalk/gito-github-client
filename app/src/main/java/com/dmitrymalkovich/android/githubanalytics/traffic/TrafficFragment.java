@@ -1,6 +1,7 @@
 package com.dmitrymalkovich.android.githubanalytics.traffic;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,14 +16,29 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
+import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.AxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract
-        .RepositoryContract.RepositoryEntry.*;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class TrafficFragment extends Fragment implements TrafficContract.View {
@@ -38,6 +54,10 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     @BindView(R.id.recycler_view_for_referrers)
     RecyclerView mRecyclerView;
     private ReferrersListAdapter mAdapter;
+    @BindView(R.id.chart_clones)
+    LineChart mChartClones;
+    @BindView(R.id.chart_views)
+    LineChart mChartViews;
 
     public static TrafficFragment newInstance(long repositoryId) {
         TrafficFragment trafficFragment = new TrafficFragment();
@@ -104,8 +124,14 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void showRepository(Cursor cursor) {
+
+        if (getView() == null) {
+            return;
+        }
+
         TextView titleView = (TextView) getView().findViewById(R.id.title);
         TextView subtitleView = (TextView) getView().findViewById(R.id.subtitle);
         TextView starsTotalView = (TextView) getView().findViewById(R.id.stars_total);
@@ -129,38 +155,38 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         TextView starsTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.stars_today);
 
         // Clones
-        String clonesCount = cursor.getString(COL_CLONES_COUNT);
+        String clonesCount = cursor.getString(RepositoryContract.RepositoryEntry.COL_CLONES_COUNT);
         clonesCountTodayView.setText(clonesCount != null ? clonesCount : "0");
         // Clones (Yesterday)
-        String clonesCountYesterday = cursor.getString(COL_CLONES_UNIQUES_YESTERDAY);
+        String clonesCountYesterday = cursor.getString(RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_YESTERDAY);
         clonesCountYesterdayView.setText(clonesCountYesterday != null ? clonesCountYesterday : "0");
         // Clones (Two weeks)
-        String clonesCountTwoWeeks = cursor.getString(COL_CLONES_UNIQUES_TWO_WEEKS);
+        String clonesCountTwoWeeks = cursor.getString(RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_TWO_WEEKS);
         clonesCountTwoWeeksView.setText(clonesCountTwoWeeks != null ? clonesCountTwoWeeks : "0");
         // Views
-        String viewsUniques = cursor.getString(COL_VIEWS_UNIQUES);
+        String viewsUniques = cursor.getString(RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES);
         viewsUniquesTodayView.setText(viewsUniques != null ? viewsUniques : "0");
         // Views (Yesterday)
-        String viewsUniquesYesterday = cursor.getString(COL_VIEWS_UNIQUES_YESTERDAY);
+        String viewsUniquesYesterday = cursor.getString(RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES_YESTERDAY);
         viewsUniquesYesterdayView.setText(viewsUniquesYesterday != null ? viewsUniquesYesterday : "0");
         // Views (Two weeks)
-        String viewsUniquesTwoWeeks = cursor.getString(COL_VIEWS_UNIQUES_TWO_WEEKS);
+        String viewsUniquesTwoWeeks = cursor.getString(RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES_TWO_WEEKS);
         viewsUniquesTwoWeeksView.setText(viewsUniquesTwoWeeks != null ? viewsUniquesTwoWeeks : "0");
         // Stars
-        String stargazersToday = cursor.getString(COL_STARGAZERS_STARS);
+        String stargazersToday = cursor.getString(RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS);
         starsTodayView.setText(stargazersToday != null ? stargazersToday : "0");
         // Stars (Yesterday)
-        String stargazersYesterday = cursor.getString(COL_STARGAZERS_STARS_YESTERDAY);
+        String stargazersYesterday = cursor.getString(RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS_YESTERDAY);
         starsYesterdayView.setText(stargazersYesterday != null ? stargazersYesterday : "0");
         // Stars (Two weeks)
-        String stargazersTwoWeeks = cursor.getString(COL_STARGAZERS_STARS_TWO_WEEKS);
+        String stargazersTwoWeeks = cursor.getString(RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS_TWO_WEEKS);
         starsTwoWeeksView.setText(stargazersTwoWeeks != null ? stargazersTwoWeeks : "0");
         // Common for popular repository
-        titleView.setText(cursor.getString(COL_REPOSITORY_NAME));
-        subtitleView.setText(cursor.getString(COL_REPOSITORY_DESCRIPTION));
-        starsTotalView.setText(cursor.getString(COL_REPOSITORY_WATCHERS));
-        totalForksView.setText(cursor.getString(COL_REPOSITORY_FORKS));
-        String language = cursor.getString(COL_REPOSITORY_LANGUAGE);
+        titleView.setText(cursor.getString(RepositoryContract.RepositoryEntry.COL_REPOSITORY_NAME));
+        subtitleView.setText(cursor.getString(RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION));
+        starsTotalView.setText(cursor.getString(RepositoryContract.RepositoryEntry.COL_REPOSITORY_WATCHERS));
+        totalForksView.setText(cursor.getString(RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORKS));
+        String language = cursor.getString(RepositoryContract.RepositoryEntry.COL_REPOSITORY_LANGUAGE);
         languageView.setText(language);
         languageIconView.setBackgroundDrawable(DrawableUtils.getColor(getContext(), language));
         languageIconView.setVisibility(languageView.getText() != null
@@ -177,11 +203,135 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
 
     @Override
     public void showClones(Cursor data) {
+        List<Entry> values = new ArrayList<>();
+        if (data.moveToFirst()) {
+            do {
+                int clones = data.getInt(ClonesContract.ClonesEntry.COL_CLONES_UNIQUES);
+                long timestamp = data.getLong(ClonesContract.ClonesEntry.COL_CLONES_TIMESTAMP);
+                values.add(new Entry(timestamp, clones));
+            } while (data.moveToNext());
+        }
 
+        LineDataSet set1 = new LineDataSet(values, "Uniques clones");
+        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set1.setColor(Color.BLACK);
+        set1.setValueTextColor(Color.BLACK);
+        set1.setLineWidth(1.5f);
+        set1.setDrawCircles(false);
+        set1.setDrawValues(false);
+        set1.setFillAlpha(65);
+        set1.setFillColor(Color.BLACK);
+        set1.setHighLightColor(Color.rgb(244, 117, 117));
+        set1.setDrawCircleHole(false);
+        LineData lineData = new LineData(set1);
+
+
+        // enable touch gestures
+        mChartClones.setTouchEnabled(false);
+
+        // get the legend (only possible after setting data)
+        Legend l = mChartClones.getLegend();
+        l.setEnabled(false);
+
+        XAxis xAxis = mChartClones.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
+        xAxis.setTextSize(10f);
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(true);
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.setCenterAxisLabels(true);
+        xAxis.setGranularity(1f); // one hour
+        xAxis.setValueFormatter(new AxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return TimeUtils.humanReadable((long) value);
+            }
+
+            @Override
+            public int getDecimalDigits() {
+                return 0;
+            }
+        });
+
+        YAxis leftAxis = mChartClones.getAxisLeft();
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGranularityEnabled(true);
+        leftAxis.setYOffset(-9f);
+        leftAxis.setTextColor(Color.BLACK);
+
+        YAxis rightAxis = mChartClones.getAxisRight();
+        rightAxis.setEnabled(false);
+
+        mChartClones.setData(lineData);
     }
 
     @Override
     public void showViews(Cursor data) {
+        List<Entry> values = new ArrayList<>();
+        if (data.moveToFirst()) {
+            do {
+                int views = data.getInt(ViewsContract.ViewsEntry.COL_VIEWS_UNIQUES);
+                long timestamp = data.getLong(ViewsContract.ViewsEntry.COL_VIEWS_TIMESTAMP);
+                values.add(new Entry(timestamp, views));
+            } while (data.moveToNext());
+        }
+
+        LineDataSet set1 = new LineDataSet(values, "Visitors");
+        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set1.setColor(Color.BLACK);
+        set1.setValueTextColor(Color.BLACK);
+        set1.setLineWidth(1.5f);
+        set1.setDrawCircles(false);
+        set1.setDrawValues(false);
+        set1.setFillAlpha(65);
+        set1.setFillColor(Color.BLACK);
+        set1.setHighLightColor(Color.rgb(244, 117, 117));
+        set1.setDrawCircleHole(false);
+        LineData lineData = new LineData(set1);
+
+
+        // enable touch gestures
+        mChartViews.setTouchEnabled(false);
+
+        // get the legend (only possible after setting data)
+        Legend l = mChartViews.getLegend();
+        l.setEnabled(false);
+
+        XAxis xAxis = mChartViews.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
+        xAxis.setTextSize(10f);
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.setCenterAxisLabels(false);
+        xAxis.setValueFormatter(new AxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return TimeUtils.humanReadable((long) value);
+            }
+
+            @Override
+            public int getDecimalDigits() {
+                return 0;
+            }
+        });
+
+        YAxis leftAxis = mChartViews.getAxisLeft();
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGranularityEnabled(true);
+        leftAxis.setYOffset(-9f);
+        leftAxis.setTextColor(Color.BLACK);
+
+        YAxis rightAxis = mChartViews.getAxisRight();
+        rightAxis.setEnabled(false);
+
+        mChartViews.setData(lineData);
 
     }
 }
