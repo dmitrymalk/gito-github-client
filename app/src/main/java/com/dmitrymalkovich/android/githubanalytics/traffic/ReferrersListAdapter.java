@@ -13,6 +13,7 @@ import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapte
 
 class ReferrersListAdapter extends CursorRecyclerViewAdapter<ReferrersListAdapter.ViewHolder> {
 
+    @SuppressWarnings("unused")
     private final TrafficContract.View mView;
 
     ReferrersListAdapter(Cursor cursor, TrafficContract.View view) {
@@ -29,7 +30,20 @@ class ReferrersListAdapter extends CursorRecyclerViewAdapter<ReferrersListAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
-        holder.titleView.setText(cursor.getString(ReferrerContract.ReferrerEntry.COL_PATHS_REFERRER));
+        final String name = cursor.getString(ReferrerContract.ReferrerEntry.COL_PATHS_REFERRER);
+        String views = cursor.getString(ReferrerContract.ReferrerEntry.COL_PATHS_COUNT);
+        String visitors = cursor.getString(ReferrerContract.ReferrerEntry.COL_PATHS_UNIQUES);
+
+        holder.nameView.setText(name);
+        holder.viewsView.setText(views);
+        holder.visitorsView.setText(visitors);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mView.openUrl("http://www.google.com/#q=" + name);
+            }
+        });
     }
 
     @Override
@@ -38,11 +52,15 @@ class ReferrersListAdapter extends CursorRecyclerViewAdapter<ReferrersListAdapte
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleView;
+        TextView visitorsView;
+        TextView viewsView;
+        TextView nameView;
 
         ViewHolder(View view) {
             super(view);
-            titleView = (TextView) view.findViewById(R.id.name);
+            nameView = (TextView) view.findViewById(R.id.name);
+            viewsView = (TextView) view.findViewById(R.id.views);
+            visitorsView = (TextView) view.findViewById(R.id.visitors);
         }
     }
 }

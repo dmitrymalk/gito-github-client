@@ -1,13 +1,47 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/selector_white">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/name"
-        style="@style/TextAppearance.AppCompat.Medium"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/trending_rank_text" />
+        android:background="@drawable/selector_white"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/trending_referrer_vertical_padding"
+        android:paddingTop="@dimen/trending_referrer_vertical_padding">
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:textColor="@color/trending_referrer_name_text" />
+
+        <TextView
+            android:id="@+id/views"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textColor="@color/trending_referrer_text" />
+
+        <TextView
+            android:id="@+id/visitors"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textColor="@color/trending_referrer_text" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="@color/traffic_referrer_divider" />
 
 </FrameLayout>

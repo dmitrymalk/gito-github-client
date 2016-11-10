@@ -96,9 +96,9 @@ class TrafficPresenter implements TrafficContract.Presenter,
             case VIEWS_LOADER:
                 return mLoaderProvider.createViewsLoader(mRepositoryId);
             case CLONES_LOADER:
-                return mLoaderProvider.createClonersLoader(mRepositoryId);
+                return mLoaderProvider.createClonesLoader(mRepositoryId);
             case REFERENCES_LOADER:
-                return mLoaderProvider.createReferersLoader(mRepositoryId);
+                return mLoaderProvider.createReferrersLoader(mRepositoryId);
             default:
             case TRAFFIC_LOADER:
                 return mLoaderProvider.createTrafficRepositoryLoader(mRepositoryId);

@@ -20,6 +20,8 @@ class TrafficContract {
         void showClones(Cursor data);
 
         void showViews(Cursor data);
+
+        void openUrl(String url);
     }
 
     interface Presenter extends BasePresenter {

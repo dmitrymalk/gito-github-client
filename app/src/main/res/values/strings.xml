@@ -31,4 +31,8 @@
     <string name="traffic">Traffic</string>
     <string name="github">Github</string>
     <string name="week">14 days</string>
+    <string name="git_clones">Git clones</string>
+    <string name="visitors">Visitors</string>
+    <string name="referring_sites">Referring sites</string>
+    <string name="views_visitors">Views / Visitors</string>
 </resources>

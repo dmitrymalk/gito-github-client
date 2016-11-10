@@ -48,4 +48,8 @@
     <dimen name="repository_content_padding">
         @dimen/material_component_cards_left_and_right_padding
     </dimen>
+    <dimen name="traffic_chart_clones_height">200dp</dimen>
+    <dimen name="traffic_head_line">16sp</dimen>
+    <dimen name="traffic_headline_vertical_padding">16dp</dimen>
+    <dimen name="trending_referrer_vertical_padding">8dp</dimen>
 </resources>

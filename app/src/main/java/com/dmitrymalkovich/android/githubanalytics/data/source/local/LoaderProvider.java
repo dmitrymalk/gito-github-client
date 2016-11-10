@@ -11,6 +11,9 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Re
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
+import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
+
+import java.sql.Time;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -23,24 +26,25 @@ public class LoaderProvider {
         mContext = checkNotNull(context, "context cannot be null");
     }
 
-    public Loader<Cursor> createReferersLoader(long repositoryId) {
+    public Loader<Cursor> createReferrersLoader(long repositoryId) {
         return new CursorLoader(
                 mContext,
                 ReferrerContract.ReferrerEntry.CONTENT_URI,
                 ReferrerContract.ReferrerEntry.REFERRER_COLUMNS,
                 ReferrerContract.ReferrerEntry.TABLE_NAME + "."
-                        + ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY + " = ? " ,
+                        + ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY + " = ? ",
                 new String[] {String.valueOf(repositoryId)}, null
         );
     }
 
-    public Loader<Cursor> createClonersLoader(long repositoryId) {
+    public Loader<Cursor> createClonesLoader(long repositoryId) {
         return new CursorLoader(
                 mContext,
                 ClonesContract.ClonesEntry.CONTENT_URI,
                 ClonesContract.ClonesEntry.CLONES_COLUMNS,
                 ClonesContract.ClonesEntry.TABLE_NAME + "."
-                        + ClonesContract.ClonesEntry.COLUMN_REPOSITORY_KEY + " = ? " ,
+                        + ClonesContract.ClonesEntry.COLUMN_REPOSITORY_KEY + " = ? AND " +
+                ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP + " >= " + TimeUtils.weekAgo(),
                 new String[] {String.valueOf(repositoryId)}, null
         );
     }
@@ -50,7 +54,8 @@ public class LoaderProvider {
                 mContext,
                 ViewsContract.ViewsEntry.CONTENT_URI,
                 ViewsContract.ViewsEntry.VIEWS_COLUMNS,
-                ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY + " = ? " ,
+                ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY + " = ? AND " +
+                        ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP + " >= " + TimeUtils.weekAgo(),
                 new String[] {String.valueOf(repositoryId)}, null
         );
     }
