@@ -202,6 +202,8 @@
                 android:scrollbarStyle="outsideOverlay"
                 tools:ignore="PrivateResource" />
 
+            <include layout="@layout/ad_view" />
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

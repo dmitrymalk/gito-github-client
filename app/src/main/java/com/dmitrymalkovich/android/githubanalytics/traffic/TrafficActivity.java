@@ -14,7 +14,7 @@ import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 
 public class TrafficActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
-    private static final String LOG_TAG = TrafficActivity.class.getSimpleName();
+    private static final String LOG_TAG = TrafficAdActivity.class.getSimpleName();
     public static String EXTRA_REPOSITORY_ID = "EXTRA_REPOSITORY_ID";
     private long mRepositoryId;
 

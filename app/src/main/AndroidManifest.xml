@@ -46,7 +46,7 @@
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".traffic.TrafficActivity"
+            android:name=".traffic.TrafficAdActivity"
             android:theme="@style/AppTheme" />
 
         <service

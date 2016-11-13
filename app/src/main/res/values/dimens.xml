@@ -55,4 +55,5 @@
     <dimen name="widget_height">150dp</dimen>
     <dimen name="widget_width">150dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="ad_banner_top_padding">16dp</dimen>
 </resources>
