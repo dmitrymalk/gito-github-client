@@ -31,7 +31,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
@@ -177,18 +176,18 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
 
         if (getView() != null) {
             View todayView = getView().findViewById(R.id.today);
-            TextView clonesCountTodayView = (TextView) todayView.findViewById(R.id.clones_count);
-            TextView viewsUniquesTodayView = (TextView) todayView.findViewById(R.id.views_count);
+            TextView clonesCountTodayView = (TextView) todayView.findViewById(R.id.clones_uniques);
+            TextView viewsUniquesTodayView = (TextView) todayView.findViewById(R.id.views_uniques);
             TextView starsTodayView = (TextView) todayView.findViewById(R.id.stars_today);
 
             View yesterdayView = getView().findViewById(R.id.yesterday);
-            TextView clonesCountYesterdayView = (TextView) yesterdayView.findViewById(R.id.clones_count);
-            TextView viewsUniquesYesterdayView = (TextView) yesterdayView.findViewById(R.id.views_count);
+            TextView clonesCountYesterdayView = (TextView) yesterdayView.findViewById(R.id.clones_uniques);
+            TextView viewsUniquesYesterdayView = (TextView) yesterdayView.findViewById(R.id.views_uniques);
             TextView starsYesterdayView = (TextView) yesterdayView.findViewById(R.id.stars_today);
 
             View twoWeeksView = getView().findViewById(R.id.two_weeks);
-            TextView clonesCountTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.clones_count);
-            TextView viewsUniquesTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.views_count);
+            TextView clonesCountTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.clones_uniques);
+            TextView viewsUniquesTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.views_uniques);
             TextView starsTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.stars_today);
 
             String defaultValue = "0";

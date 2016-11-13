@@ -52,4 +52,7 @@
     <dimen name="traffic_head_line">16sp</dimen>
     <dimen name="traffic_headline_vertical_padding">16dp</dimen>
     <dimen name="trending_referrer_vertical_padding">8dp</dimen>
+    <dimen name="widget_height">150dp</dimen>
+    <dimen name="widget_width">150dp</dimen>
+    <dimen name="widget_margin">8dp</dimen>
 </resources>

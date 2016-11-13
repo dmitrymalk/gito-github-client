@@ -35,4 +35,5 @@
     <string name="visitors">Visitors</string>
     <string name="referring_sites">Referring sites</string>
     <string name="views_visitors">Views / Visitors</string>
+    <string name="widget_github_subtitle">%1$s stars \u2022 %2$s today</string>
 </resources>

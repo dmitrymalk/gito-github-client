@@ -1,5 +1,6 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    android:orientation="vertical"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -16,6 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
+            android:gravity="center_vertical"
             android:textColor="@color/trending_referrer_name_text" />
 
         <TextView
@@ -24,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="end"
+            android:gravity="end|center_vertical"
             android:textColor="@color/trending_referrer_text" />
 
         <TextView
@@ -33,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="end"
+            android:gravity="end|center_vertical"
             android:textColor="@color/trending_referrer_text" />
 
     </LinearLayout>
@@ -44,4 +46,4 @@
         android:layout_gravity="bottom"
         android:background="@color/traffic_referrer_divider" />
 
-</FrameLayout>
+</LinearLayout>

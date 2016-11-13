@@ -13,8 +13,6 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Tr
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
-import java.sql.Time;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class LoaderProvider {

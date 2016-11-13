@@ -170,22 +170,22 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
 
             View todayView = view.findViewById(R.id.today);
             if (todayView != null) {
-                clonesCountTodayView = (TextView) todayView.findViewById(R.id.clones_count);
-                viewsUniquesTodayView = (TextView) todayView.findViewById(R.id.views_count);
+                clonesCountTodayView = (TextView) todayView.findViewById(R.id.clones_uniques);
+                viewsUniquesTodayView = (TextView) todayView.findViewById(R.id.views_uniques);
                 starsTodayView = (TextView) todayView.findViewById(R.id.stars_today);
             }
 
             View yesterdayView = view.findViewById(R.id.yesterday);
             if (yesterdayView != null) {
-                clonesCountYesterdayView = (TextView) yesterdayView.findViewById(R.id.clones_count);
-                viewsUniquesYesterdayView = (TextView) yesterdayView.findViewById(R.id.views_count);
+                clonesCountYesterdayView = (TextView) yesterdayView.findViewById(R.id.clones_uniques);
+                viewsUniquesYesterdayView = (TextView) yesterdayView.findViewById(R.id.views_uniques);
                 starsYesterdayView = (TextView) yesterdayView.findViewById(R.id.stars_today);
             }
 
             View twoWeeksView = view.findViewById(R.id.two_weeks);
             if (yesterdayView != null) {
-                clonesCountTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.clones_count);
-                viewsUniquesTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.views_count);
+                clonesCountTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.clones_uniques);
+                viewsUniquesTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.views_uniques);
                 starsTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.stars_today);
             }
         }

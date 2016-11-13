@@ -6,7 +6,7 @@
     <color name="green">#569e3d</color>
     <color name="blue">#4078c0</color>
     <color name="grey">#d5d5d5</color>
-    <color name="cards_border">#ddd</color>
+    <color name="divider">#ddd</color>
     <color name="background">#E0E0E0</color>
     <color name="button_text_color">#000</color>
     <color name="name_color">#FFF</color>
@@ -39,7 +39,9 @@
     <color name="traffic_chart_line_color">@color/blue</color>
     <color name="traffic_chart_text_color">@color/material_grey_600</color>
     <color name="trending_referrer_text">#000</color>
-    <color name="traffic_referrer_divider">@color/cards_border</color>
+    <color name="traffic_referrer_divider">@color/divider</color>
     <color name="trending_referrer_name_text">@color/blue</color>
     <color name="dashboard_button">#000</color>
+    <color name="widget_background">#FFF</color>
+    <color name="widget_text">#000</color>
 </resources>
