@@ -82,6 +82,8 @@ public interface GithubDataSource {
 
     void getRepositoriesWithAdditionalInfo(GetRepositoriesCallback callback);
 
+    void getRepositoriesWithAdditionalInfo(long repositoryId, GetRepositoriesCallback callback);
+
     void requestTokenFromCode(String code, RequestTokenFromCodeCallback callback);
 
     void getTrendingRepositories(String period, String language, GetTrendingRepositories callback,

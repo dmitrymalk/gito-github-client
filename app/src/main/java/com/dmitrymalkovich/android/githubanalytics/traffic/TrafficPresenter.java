@@ -6,8 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 
+import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardPresenter;
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
+
+import org.eclipse.egit.github.core.Repository;
+
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -55,6 +61,17 @@ class TrafficPresenter implements TrafficContract.Presenter,
         mLoaderManager.initLoader(VIEWS_LOADER, null, TrafficPresenter.this);
         mLoaderManager.initLoader(CLONES_LOADER, null, TrafficPresenter.this);
         mLoaderManager.initLoader(REFERENCES_LOADER, null, TrafficPresenter.this);
+
+        mGithubRepository.getRepositoriesWithAdditionalInfo(repositoryId,
+                new GithubDataSource.GetRepositoriesCallback() {
+                    @Override
+                    public void onRepositoriesLoaded(List<Repository> repositoryList) {
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+                    }
+                });
     }
 
     @Override
@@ -122,4 +139,6 @@ class TrafficPresenter implements TrafficContract.Presenter,
     public void onLoaderReset(Loader<Cursor> loader) {
         onDataReset();
     }
+
+
 }

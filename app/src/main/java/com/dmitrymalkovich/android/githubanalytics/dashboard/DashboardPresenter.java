@@ -62,7 +62,7 @@ public class DashboardPresenter implements DashboardContract.Presenter,
 
     @Override
     public void onRefresh() {
-        mGithubRepository.getRepositories(new GithubDataSource.GetRepositoriesCallback() {
+        mGithubRepository.getRepositoriesWithAdditionalInfo(new GithubDataSource.GetRepositoriesCallback() {
             @Override
             public void onRepositoriesLoaded(List<Repository> repositoryList) {
                 mDashboardView.setLoadingIndicator(false);
@@ -88,7 +88,6 @@ public class DashboardPresenter implements DashboardContract.Presenter,
 
     @Override
     public void onDataEmpty(int id) {
-        mDashboardView.setLoadingIndicator(false);
         mDashboardView.setEmptyState(true);
     }
 

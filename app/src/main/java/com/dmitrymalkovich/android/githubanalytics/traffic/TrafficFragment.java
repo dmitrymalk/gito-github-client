@@ -105,6 +105,8 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         mAdapter = new ReferrersListAdapter(null, this);
         mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setNestedScrollingEnabled(false);
+        mRecyclerView.setHasFixedSize(false);
 
         return root;
     }

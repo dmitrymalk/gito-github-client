@@ -117,7 +117,6 @@ public class GithubRemoteDataSource implements GithubDataSource {
     @WorkerThread
     public void getRepositoriesWithAdditionalInfoSync(List<Repository> repositories) {
         if (repositories != null) {
-            // Sort by stars (desc)
             Collections.sort(repositories, new Comparator<Repository>() {
                 @Override
                 public int compare(Repository repository, Repository t1) {
@@ -127,27 +126,43 @@ public class GithubRemoteDataSource implements GithubDataSource {
             if (repositories.size() > 0) {
                 Repository mostPopularRepository = repositories.get(0);
                 if (mostPopularRepository != null) {
-                    // Get repository top referrers and save to db
                     getRepositoryReferrersSync(mostPopularRepository);
-                    // Get repository visitors and save to db
                     getRepositoryViewsSync(mostPopularRepository, "day");
-                    // Get repository clones and save to db
                     getRepositoryClonesSync(mostPopularRepository, "day");
-                    // Get repository stargazers and save to db
                     getStargazersSync(mostPopularRepository, "last");
                 }
             }
             if (repositories.size() > 1) {
                 Repository mostPopularRepository = repositories.get(1);
                 if (mostPopularRepository != null) {
-                    // Get repository top referrers and save to db
                     getRepositoryReferrersSync(mostPopularRepository);
-                    // Get repository visitors and save to db
                     getRepositoryViewsSync(mostPopularRepository, "day");
-                    // Get repository clones and save to db
                     getRepositoryClonesSync(mostPopularRepository, "day");
-                    // Get repository stargazers and save to db
                     getStargazersSync(mostPopularRepository, "last");
+                }
+            }
+            if (repositories.size() > 2) {
+                Repository mostPopularRepository = repositories.get(2);
+                if (mostPopularRepository != null) {
+                    getRepositoryReferrersSync(mostPopularRepository);
+                    getRepositoryViewsSync(mostPopularRepository, "day");
+                    getRepositoryClonesSync(mostPopularRepository, "day");
+                    getStargazersSync(mostPopularRepository, "last");
+                }
+            }
+        }
+    }
+
+    @WorkerThread
+    private void getRepositoriesWithAdditionalInfoSync(long repositoryId,
+                                                       List<Repository> repositories) {
+        if (repositories != null) {
+            for (Repository repository : repositories) {
+                if (repository.getId() == repositoryId) {
+                    getRepositoryReferrersSync(repository);
+                    getRepositoryViewsSync(repository, "day");
+                    getRepositoryClonesSync(repository, "day");
+                    getStargazersSync(repository, "last");
                 }
             }
         }
@@ -174,8 +189,30 @@ public class GithubRemoteDataSource implements GithubDataSource {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    @Override
+    public void getRepositoriesWithAdditionalInfo(final long repositoryId,
+                                                  final GetRepositoriesCallback callback) {
+        new AsyncTask<Void, Void, List<Repository>>() {
+            @Override
+            protected List<Repository> doInBackground(Void... params) {
+                List<Repository> repositories = getRepositoriesSync();
+                getRepositoriesWithAdditionalInfoSync(repositoryId, repositories);
+                return repositories;
+            }
+
+            @Override
+            protected void onPostExecute(List<Repository> repositoryList) {
+                if (repositoryList != null) {
+                    callback.onRepositoriesLoaded(repositoryList);
+                } else {
+                    callback.onDataNotAvailable();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     @WorkerThread
-    public ResponseClones getRepositoryClonesSync(final Repository repository, String period) {
+    private ResponseClones getRepositoryClonesSync(final Repository repository, String period) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
@@ -229,7 +266,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    public ResponseViews getRepositoryViewsSync(final Repository repository, String period) {
+    private ResponseViews getRepositoryViewsSync(final Repository repository, String period) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
@@ -282,6 +319,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    @SuppressWarnings("unused")
     @WorkerThread
     public List<ResponseTrending> getTrendingRepositoriesSync(final String period, final String language,
                                                               boolean useCache) {
@@ -332,8 +370,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    @SuppressWarnings("unused")
     @WorkerThread
-    public List<ResponseReferrer> getRepositoryReferrersSync(final Repository repository) {
+    private List<ResponseReferrer> getRepositoryReferrersSync(final Repository repository) {
         GithubLocalDataSource localDataSource =
                 GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
 
@@ -511,7 +550,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public List<ResponseStargazers> getStargazersSync(Repository repository, String page) {
+    private List<ResponseStargazers> getStargazersSync(Repository repository, String page) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());

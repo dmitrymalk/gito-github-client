@@ -114,6 +114,22 @@ public class GithubRepository implements GithubDataSource {
     }
 
     @Override
+    public void getRepositoriesWithAdditionalInfo(long repositoryId, final GetRepositoriesCallback callback) {
+            mGithubRemoteDataSource.getRepositoriesWithAdditionalInfo(repositoryId,
+                    new GetRepositoriesCallback() {
+                @Override
+                public void onRepositoriesLoaded(List<Repository> repositoryList) {
+                    callback.onRepositoriesLoaded(repositoryList);
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+                    callback.onDataNotAvailable();
+                }
+            });
+    }
+
+    @Override
     public void getRepositories(final GetRepositoriesCallback callback) {
         mGithubRemoteDataSource.getRepositories(new GetRepositoriesCallback() {
             @Override

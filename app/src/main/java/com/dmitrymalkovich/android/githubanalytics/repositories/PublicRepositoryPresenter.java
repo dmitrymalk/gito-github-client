@@ -88,7 +88,6 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
 
     @Override
     public void onDataEmpty(int id) {
-        mPublicRepositoriesView.setLoadingIndicator(false);
         mPublicRepositoriesView.setEmptyState(true);
     }
 
