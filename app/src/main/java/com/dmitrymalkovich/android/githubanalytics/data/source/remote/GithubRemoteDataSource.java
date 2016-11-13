@@ -169,7 +169,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoriesWithAdditionalInfo(final GetRepositoriesCallback callback) {
+    public void getRepositoriesWithAdditionalInfo(final GetRepositoriesCallback callback, boolean useCache) {
         new AsyncTask<Void, Void, List<Repository>>() {
             @Override
             protected List<Repository> doInBackground(Void... params) {
@@ -191,7 +191,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @Override
     public void getRepositoriesWithAdditionalInfo(final long repositoryId,
-                                                  final GetRepositoriesCallback callback) {
+                                                  final GetRepositoriesCallback callback, boolean useCache) {
         new AsyncTask<Void, Void, List<Repository>>() {
             @Override
             protected List<Repository> doInBackground(Void... params) {

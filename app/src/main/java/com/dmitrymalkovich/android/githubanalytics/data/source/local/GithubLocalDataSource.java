@@ -135,11 +135,12 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoriesWithAdditionalInfo(GetRepositoriesCallback callback) {
+    public void getRepositoriesWithAdditionalInfo(GetRepositoriesCallback callback, boolean useCache) {
     }
 
     @Override
-    public void getRepositoriesWithAdditionalInfo(long repositoryId, GetRepositoriesCallback callback) {
+    public void getRepositoriesWithAdditionalInfo(long repositoryId, GetRepositoriesCallback callback,
+                                                  boolean useCache) {
     }
 
     @Override

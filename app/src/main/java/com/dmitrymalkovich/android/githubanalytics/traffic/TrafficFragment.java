@@ -129,7 +129,6 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         }
     }
 
-
     @Override
     public void setEmptyState(boolean active) {
         if (mEmptyState != null) {

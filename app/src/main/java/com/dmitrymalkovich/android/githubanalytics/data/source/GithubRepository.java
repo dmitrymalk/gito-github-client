@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemoteDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
@@ -99,7 +100,13 @@ public class GithubRepository implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoriesWithAdditionalInfo(final GetRepositoriesCallback callback) {
+    public void getRepositoriesWithAdditionalInfo(final GetRepositoriesCallback callback, boolean useCache) {
+        final String key = ReferrerContract.ReferrerEntry.TABLE_NAME;
+        if (useCache && mSettings.isSynced(key)) {
+            Log.i(LOG_TAG, "Cache was used for " + key);
+            callback.onRepositoriesLoaded(new ArrayList<Repository>());
+            return;
+        }
         mGithubRemoteDataSource.getRepositoriesWithAdditionalInfo(new GetRepositoriesCallback() {
             @Override
             public void onRepositoriesLoaded(List<Repository> repositoryList) {
@@ -110,23 +117,30 @@ public class GithubRepository implements GithubDataSource {
             public void onDataNotAvailable() {
                 callback.onDataNotAvailable();
             }
-        });
+        }, useCache);
     }
 
     @Override
-    public void getRepositoriesWithAdditionalInfo(long repositoryId, final GetRepositoriesCallback callback) {
-            mGithubRemoteDataSource.getRepositoriesWithAdditionalInfo(repositoryId,
-                    new GetRepositoriesCallback() {
-                @Override
-                public void onRepositoriesLoaded(List<Repository> repositoryList) {
-                    callback.onRepositoriesLoaded(repositoryList);
-                }
+    public void getRepositoriesWithAdditionalInfo(long repositoryId, final GetRepositoriesCallback callback,
+                                                  boolean useCache) {
+        final String key = ReferrerContract.ReferrerEntry.TABLE_NAME + repositoryId;
+        if (useCache && mSettings.isSynced(key)) {
+            Log.i(LOG_TAG, "Cache was used for " + key);
+            callback.onRepositoriesLoaded(new ArrayList<Repository>());
+            return;
+        }
+        mGithubRemoteDataSource.getRepositoriesWithAdditionalInfo(repositoryId,
+                new GetRepositoriesCallback() {
+                    @Override
+                    public void onRepositoriesLoaded(List<Repository> repositoryList) {
+                        callback.onRepositoriesLoaded(repositoryList);
+                    }
 
-                @Override
-                public void onDataNotAvailable() {
-                    callback.onDataNotAvailable();
-                }
-            });
+                    @Override
+                    public void onDataNotAvailable() {
+                        callback.onDataNotAvailable();
+                    }
+                }, useCache);
     }
 
     @Override
@@ -313,7 +327,7 @@ public class GithubRepository implements GithubDataSource {
 
     private class Settings {
 
-        long SYNC_INTERVAL = 1000 * 60 * 60;
+        long SYNC_INTERVAL = 1000 * 60 * 30;
 
         boolean isSynced(String key) {
             long lastSyncTimeMillis = mPreferences.getLong(key, 0);

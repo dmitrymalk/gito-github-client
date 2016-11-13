@@ -52,7 +52,23 @@ public class DashboardPresenter implements DashboardContract.Presenter,
         mDashboardView.setLoadingIndicator(true);
         if (savedInstanceState == null) {
             showRepositories();
-            onRefresh();
+
+            mGithubRepository.getRepositoriesWithAdditionalInfo(
+                    new GithubDataSource.GetRepositoriesCallback() {
+                @Override
+                public void onRepositoriesLoaded(List<Repository> repositoryList) {
+                    mDashboardView.setLoadingIndicator(false);
+                    mDashboardView.setRefreshIndicator(false);
+                    mLoaderManager.restartLoader(REPOSITORIES_LOADER, null,
+                            DashboardPresenter.this);
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+                    DashboardPresenter.this.onDataNotAvailable(REPOSITORIES_LOADER);
+                }
+            }, true);
+
         } else {
             mLoaderManager.initLoader(REPOSITORIES_LOADER,
                     null,
@@ -75,7 +91,7 @@ public class DashboardPresenter implements DashboardContract.Presenter,
             public void onDataNotAvailable() {
                 DashboardPresenter.this.onDataNotAvailable(REPOSITORIES_LOADER);
             }
-        });
+        }, false);
     }
 
     @Override

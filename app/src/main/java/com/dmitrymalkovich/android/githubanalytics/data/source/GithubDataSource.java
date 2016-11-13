@@ -80,9 +80,9 @@ public interface GithubDataSource {
 
     void getRepositoryViews(Repository repository, String period, GetRepositoryViewsCallback callback);
 
-    void getRepositoriesWithAdditionalInfo(GetRepositoriesCallback callback);
+    void getRepositoriesWithAdditionalInfo(GetRepositoriesCallback callback, boolean useCache);
 
-    void getRepositoriesWithAdditionalInfo(long repositoryId, GetRepositoriesCallback callback);
+    void getRepositoriesWithAdditionalInfo(long repositoryId, GetRepositoriesCallback callback, boolean useCache);
 
     void requestTokenFromCode(String code, RequestTokenFromCodeCallback callback);
 

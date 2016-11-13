@@ -71,7 +71,7 @@ class TrafficPresenter implements TrafficContract.Presenter,
                     @Override
                     public void onDataNotAvailable() {
                     }
-                });
+                }, false);
     }
 
     @Override
