@@ -97,7 +97,7 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
             mPresenter.start(savedInstanceState, repositoryId);
         }
 
-        int columnCount = getResources().getInteger(R.integer.grid_column_count);
+        int columnCount = getResources().getInteger(R.integer.trending_grid_column_count);
         StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);

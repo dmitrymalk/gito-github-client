@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="max_width">400dp</dimen>
+    <dimen name="traffic_top_padding">8dp</dimen>
+</resources>

@@ -1,0 +1,188 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/traffic_background"
+    android:orientation="vertical"
+    android:padding="@dimen/dashboard_list_item_padding">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/subtitle"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:paddingTop="@dimen/dashboard_list_item_vertical_padding"
+            android:textColor="@color/repository_subtitle_text" />
+    </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_component_cards_supporting_text_bottom_padding" />
+
+    <include layout="@layout/include_list_item_repository_information" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+        android:layout_marginTop="@dimen/dashboard_list_item_padding"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        android:id="@+id/today"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+            android:text="@string/today"
+            android:textColor="@color/blue" />
+
+        <include layout="@layout/include_most_popular_repository_stars" />
+
+        <include layout="@layout/include_most_popular_repository_visitors" />
+
+        <include layout="@layout/include_most_popular_repository_git_clones" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yesterday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dashboard_list_item_padding"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+            android:text="@string/yesterday"
+            android:textColor="@color/blue" />
+
+        <include layout="@layout/include_most_popular_repository_stars" />
+
+        <include layout="@layout/include_most_popular_repository_visitors" />
+
+        <include layout="@layout/include_most_popular_repository_git_clones" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/two_weeks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dashboard_list_item_padding"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="@dimen/material_layout_keylines_content_left_margin_from_screen_edge"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+            android:text="@string/week"
+            android:textColor="@color/blue" />
+
+        <include layout="@layout/include_most_popular_repository_stars" />
+
+        <include layout="@layout/include_most_popular_repository_visitors" />
+
+        <include layout="@layout/include_most_popular_repository_git_clones" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+        android:layout_marginTop="@dimen/dashboard_list_item_padding"
+        android:background="@color/divider" />
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/traffic_headline_vertical_padding"
+        android:text="@string/visitors"
+        android:textSize="@dimen/traffic_head_line" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart_views"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/traffic_chart_clones_height" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/dashboard_list_item_padding"
+        android:layout_marginTop="@dimen/dashboard_list_item_padding"
+        android:background="@color/divider" />
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/traffic_headline_vertical_padding"
+        android:text="@string/git_clones"
+        android:textSize="@dimen/traffic_head_line" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart_clones"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/traffic_chart_clones_height" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/trending_referrer_vertical_padding"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_white"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/trending_referrer_vertical_padding"
+        android:paddingTop="@dimen/trending_referrer_vertical_padding">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/referring_sites"
+            android:textSize="@dimen/traffic_head_line" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="@string/views_visitors"
+            android:textColor="@color/trending_referrer_text" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_for_referrers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay"
+        tools:ignore="PrivateResource" />
+
+    <include layout="@layout/ad_view" />
+
+</LinearLayout>
