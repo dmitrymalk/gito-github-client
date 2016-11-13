@@ -19,6 +19,8 @@ class PublicRepositoryContract {
         void showRepositories(Cursor data);
 
         void openUrl(@NonNull String htmlUrl);
+
+        void setEmptyState(boolean active);
     }
 
     interface Presenter extends BasePresenter, SwipeRefreshLayout.OnRefreshListener {

@@ -28,10 +28,12 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
 
     private PublicRepositoryContract.Presenter mPresenter;
     private Unbinder unbinder;
+    @BindView(R.id.progress)
     ProgressBar mProgressBar;
     @BindView(R.id.recycler_view_for_repositories) RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     private PublicRepositoryListAdapter mAdapter;
+    @BindView(R.id.empty_state) View mEmptyStateView;
 
     public static PublicRepositoryFragment newInstance() {
         return new PublicRepositoryFragment();
@@ -59,8 +61,6 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
             if (activity.getSupportActionBar() != null) {
                 activity.getSupportActionBar().setTitle(R.string.navigation_view_repositories);
             }
-
-            mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
         }
 
         mPresenter.start(savedInstanceState);
@@ -106,5 +106,15 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
     public void openUrl(@NonNull String htmlUrl) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(htmlUrl));
         getActivity().startActivity(browserIntent);
+    }
+
+    @Override
+    public void setEmptyState(boolean active) {
+        if (mEmptyStateView != null && !mSwipeRefreshLayout.isRefreshing()
+                && mProgressBar.getVisibility() != View.VISIBLE && active) {
+            mEmptyStateView.setVisibility(View.VISIBLE);
+        } else if (mEmptyStateView != null) {
+            mEmptyStateView.setVisibility(View.GONE);
+        }
     }
 }

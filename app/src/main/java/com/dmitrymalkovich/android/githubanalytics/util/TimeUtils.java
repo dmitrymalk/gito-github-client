@@ -1,10 +1,7 @@
 package com.dmitrymalkovich.android.githubanalytics.util;
 
-import android.util.Log;
-
 import com.google.firebase.crash.FirebaseCrash;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -23,6 +23,8 @@ class DashboardContract {
         void signOut();
 
         void showTraffic(long id);
+
+        void setEmptyState(boolean active);
     }
 
     interface Presenter extends BasePresenter, SwipeRefreshLayout.OnRefreshListener {

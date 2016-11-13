@@ -31,14 +31,14 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
 
     private DashboardContract.Presenter mPresenter;
     private Unbinder unbinder;
+    @BindView(R.id.progress)
     ProgressBar mProgressBar;
-    @BindView(R.id.empty_state)
-    View mEmptyStateView;
     @BindView(R.id.recycler_view_for_repositories)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private DashboardListAdapter mAdapter;
+    @BindView(R.id.empty_state) View mEmptyStateView;
 
     public static DashboardFragment newInstance() {
         return new DashboardFragment();
@@ -66,7 +66,6 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
             if (activity.getSupportActionBar() != null) {
                 activity.getSupportActionBar().setTitle(R.string.navigation_view_dashboard);
             }
-            mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
         }
 
         mPresenter.start(savedInstanceState);
@@ -125,5 +124,15 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
         Intent intent = new Intent(getActivity(), TrafficAdActivity.class);
         intent.putExtra(EXTRA_REPOSITORY_ID, id);
         startActivity(intent);
+    }
+
+    @Override
+    public void setEmptyState(boolean active) {
+        if (mEmptyStateView != null && !mSwipeRefreshLayout.isRefreshing()
+                && mProgressBar.getVisibility() != View.VISIBLE && active) {
+            mEmptyStateView.setVisibility(View.VISIBLE);
+        } else if (mEmptyStateView != null) {
+            mEmptyStateView.setVisibility(View.GONE);
+        }
     }
 }

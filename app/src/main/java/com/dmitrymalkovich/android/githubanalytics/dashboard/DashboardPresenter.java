@@ -52,6 +52,7 @@ public class DashboardPresenter implements DashboardContract.Presenter,
         mDashboardView.setLoadingIndicator(true);
         if (savedInstanceState == null) {
             showRepositories();
+            onRefresh();
         } else {
             mLoaderManager.initLoader(REPOSITORIES_LOADER,
                     null,
@@ -66,6 +67,8 @@ public class DashboardPresenter implements DashboardContract.Presenter,
             public void onRepositoriesLoaded(List<Repository> repositoryList) {
                 mDashboardView.setLoadingIndicator(false);
                 mDashboardView.setRefreshIndicator(false);
+                mLoaderManager.restartLoader(REPOSITORIES_LOADER, null,
+                        DashboardPresenter.this);
             }
 
             @Override
@@ -79,17 +82,21 @@ public class DashboardPresenter implements DashboardContract.Presenter,
     public void onDataLoaded(Cursor data, int id) {
         mDashboardView.setLoadingIndicator(false);
         mDashboardView.setRefreshIndicator(false);
+        mDashboardView.setEmptyState(false);
         mDashboardView.showRepositories(data);
     }
 
     @Override
     public void onDataEmpty(int id) {
+        mDashboardView.setLoadingIndicator(false);
+        mDashboardView.setEmptyState(true);
     }
 
     @Override
     public void onDataNotAvailable(int id) {
         mDashboardView.setLoadingIndicator(false);
         mDashboardView.setRefreshIndicator(false);
+        mDashboardView.setEmptyState(true);
         if (mGithubRepository.getToken() == null) {
             mDashboardView.signOut();
         }

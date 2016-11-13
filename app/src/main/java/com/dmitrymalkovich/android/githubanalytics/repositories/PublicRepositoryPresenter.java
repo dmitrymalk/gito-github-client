@@ -52,6 +52,7 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
         mPublicRepositoriesView.setLoadingIndicator(true);
         if (savedInstanceState == null) {
             showRepositories();
+            onRefresh();
         } else {
             mLoaderManager.initLoader(REPOSITORIES_LOADER,
                     null,
@@ -66,6 +67,9 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
             public void onRepositoriesLoaded(List<Repository> repositoryList) {
                 mPublicRepositoriesView.setLoadingIndicator(false);
                 mPublicRepositoriesView.setRefreshIndicator(false);
+                mLoaderManager.restartLoader(REPOSITORIES_LOADER,
+                        null,
+                        PublicRepositoryPresenter.this);
             }
 
             @Override
@@ -84,6 +88,8 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
 
     @Override
     public void onDataEmpty(int id) {
+        mPublicRepositoriesView.setLoadingIndicator(false);
+        mPublicRepositoriesView.setEmptyState(true);
     }
 
     @Override

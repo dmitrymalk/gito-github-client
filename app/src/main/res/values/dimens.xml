@@ -28,9 +28,6 @@
     <dimen name="trending_content_right_padding">
         @dimen/material_component_cards_left_and_right_padding
     </dimen>
-    <dimen name="trending_toolbar_elevation">0dp</dimen>
-    <dimen name="dashboard_toolbar_elevation">8dp</dimen>
-    <dimen name="repositories_toolbar_elevation">8dp</dimen>
     <dimen name="repositories_recycle_view_top_padding">
         @dimen/material_component_cards_space_between_cards
     </dimen>
