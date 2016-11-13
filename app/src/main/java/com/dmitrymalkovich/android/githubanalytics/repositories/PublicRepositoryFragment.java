@@ -111,7 +111,8 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
     @Override
     public void setEmptyState(boolean active) {
         if (mEmptyStateView != null && !mSwipeRefreshLayout.isRefreshing()
-                && mProgressBar.getVisibility() != View.VISIBLE && active) {
+                && mProgressBar.getVisibility() != View.VISIBLE && active
+                && this.mAdapter.getItemCount() == 0) {
             mEmptyStateView.setVisibility(View.VISIBLE);
         } else if (mEmptyStateView != null) {
             mEmptyStateView.setVisibility(View.GONE);

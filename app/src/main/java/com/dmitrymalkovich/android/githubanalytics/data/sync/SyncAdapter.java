@@ -6,6 +6,7 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
@@ -31,20 +32,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static String LOG_TAG = SyncAdapter.class.getSimpleName();
     private static final int SECONDS_PER_MINUTE = 60;
     private static final int SYNC_INTERVAL_IN_MINUTES = 60;
-    private static final int SYNC_INTERVAL =
-            SYNC_INTERVAL_IN_MINUTES *
-                    SECONDS_PER_MINUTE;
+    private static final int SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE;
     private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
     private static Account mAccount;
-    @SuppressWarnings("all")
-    ContentResolver mContentResolver;
+    private SyncSettings mSyncSettings;
 
     /**
      * Set up the sync adapter
      */
     SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-        mContentResolver = context.getContentResolver();
+        SharedPreferences sharedPreferences =
+                context.getSharedPreferences(GithubRepository.PREFERENCES,
+                        Context.MODE_PRIVATE);
+        mSyncSettings = new SyncSettings(sharedPreferences);
     }
 
     /**
@@ -58,12 +59,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             boolean autoInitialize,
             boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
-        mContentResolver = context.getContentResolver();
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
+        String key = "onPerformSync";
+        if (mSyncSettings.isSynced(key)) {
+            return;
+        } else {
+            mSyncSettings.synced(key);
+        }
+
         final GithubRemoteDataSource githubRepository =
                 GithubRepository.Injection.provideRemoteDataSource(getContext());
         List<Repository> repositories = githubRepository.getRepositoriesSync();

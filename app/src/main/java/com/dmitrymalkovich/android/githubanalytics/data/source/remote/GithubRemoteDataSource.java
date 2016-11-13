@@ -16,6 +16,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.Respo
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 import com.google.firebase.crash.FirebaseCrash;
 
 import org.eclipse.egit.github.core.Repository;
@@ -129,7 +130,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     getRepositoryReferrersSync(mostPopularRepository);
                     getRepositoryViewsSync(mostPopularRepository, "day");
                     getRepositoryClonesSync(mostPopularRepository, "day");
-                    getStargazersSync(mostPopularRepository, "last");
+                    getStargazersSync(mostPopularRepository);
                 }
             }
             if (repositories.size() > 1) {
@@ -138,7 +139,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     getRepositoryReferrersSync(mostPopularRepository);
                     getRepositoryViewsSync(mostPopularRepository, "day");
                     getRepositoryClonesSync(mostPopularRepository, "day");
-                    getStargazersSync(mostPopularRepository, "last");
+                    getStargazersSync(mostPopularRepository);
                 }
             }
             if (repositories.size() > 2) {
@@ -147,7 +148,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     getRepositoryReferrersSync(mostPopularRepository);
                     getRepositoryViewsSync(mostPopularRepository, "day");
                     getRepositoryClonesSync(mostPopularRepository, "day");
-                    getStargazersSync(mostPopularRepository, "last");
+                    getStargazersSync(mostPopularRepository);
                 }
             }
         }
@@ -162,7 +163,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     getRepositoryReferrersSync(repository);
                     getRepositoryViewsSync(repository, "day");
                     getRepositoryClonesSync(repository, "day");
-                    getStargazersSync(repository, "last");
+                    getStargazersSync(repository);
                 }
             }
         }
@@ -531,12 +532,11 @@ public class GithubRemoteDataSource implements GithubDataSource {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    @Override
     public void getStargazers(final Repository repository, final GetStargazersCallback callback) {
         new AsyncTask<Void, Void, List<ResponseStargazers>>() {
             @Override
             protected List<ResponseStargazers> doInBackground(Void... params) {
-                return getStargazersSync(repository, "last");
+                return getStargazersSync(repository);
             }
 
             @Override
@@ -550,7 +550,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private List<ResponseStargazers> getStargazersSync(Repository repository, String page) {
+    @WorkerThread
+    private void getStargazersRecursiveSync(Repository repository, int page,
+                                            long date) {
         try {
             ResponseAccessToken accessToken = new ResponseAccessToken();
             accessToken.setAccessToken(getToken());
@@ -560,7 +562,51 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
                     "application/vnd.github.v3.star+json");
             Call<List<ResponseStargazers>> call = githubService.getStargazers(repository
-                    .getOwner().getLogin(), repository.getName(), page);
+                    .getOwner().getLogin(), repository.getName(), String.valueOf(page));
+
+
+            Response<List<ResponseStargazers>> response = call.execute();
+
+            if (response.isSuccessful()) {
+
+                List<ResponseStargazers> stargazers = response.body();
+
+                if (stargazers != null) {
+                    GithubLocalDataSource localDataSource =
+                            GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
+                    localDataSource.saveStargazers(repository, stargazers);
+
+                    boolean next = --page != 0 && stargazers.size() > 0 &&
+                            TimeUtils.iso8601ToMilliseconds(stargazers.get(0).getStarredAt()) > date;
+                    if (next) {
+                        getStargazersRecursiveSync(repository, page, date);
+                    }
+
+                } else {
+                    throw new IOException("responseStargazersList is null");
+                }
+
+            } else {
+                APIError error = APIError.parseError(response);
+                throw new IOException(error.getMessage());
+            }
+        } catch (IOException e) {
+            FirebaseCrash.report(e);
+        }
+    }
+
+    @WorkerThread
+    private List<ResponseStargazers> getStargazersSync(Repository repository) {
+        try {
+            ResponseAccessToken accessToken = new ResponseAccessToken();
+            accessToken.setAccessToken(getToken());
+            accessToken.setTokenType(getTokenType());
+
+            GithubService githubService = GithubServiceGenerator.createService(
+                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
+                    "application/vnd.github.v3.star+json");
+            Call<List<ResponseStargazers>> call = githubService.getStargazers(repository
+                    .getOwner().getLogin(), repository.getName(), "last");
 
 
             Response<List<ResponseStargazers>> response = call.execute();
@@ -575,8 +621,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     String lastPage = headerLink = headerLink.replace(
                             headerLink.substring(0, headerLink.lastIndexOf("=") + 1), "");
 
-                    if (headerLink != null && (containsLast && !lastPage.equals(page))) {
-                        getStargazersSync(repository, lastPage);
+                    if (headerLink != null && containsLast) {
+                        getStargazersRecursiveSync(repository, Integer.valueOf(lastPage),
+                                TimeUtils.twoWeeksAgo());
                     }
                 }
 
