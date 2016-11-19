@@ -8,6 +8,7 @@ import android.widget.RemoteViewsService;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
+import com.dmitrymalkovich.android.githubanalytics.traffic.TrafficActivity;
 
 class GithubWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
@@ -50,6 +51,12 @@ class GithubWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
                     stars, starsToday != null ? starsToday : "0");
             rv.setTextViewText(R.id.title, title);
             rv.setTextViewText(R.id.subtitle, subtitle);
+
+            Intent intent = new Intent();
+            long repositoryId = mCursor.getLong(RepositoryContract.RepositoryEntry.COL_REPOSITORY_ID);
+            intent.putExtra(TrafficActivity.EXTRA_REPOSITORY_ID, repositoryId);
+            rv.setOnClickFillInIntent(R.id.list_item, intent);
+
         }
         return rv;
     }
@@ -74,7 +81,7 @@ class GithubWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
                 RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " = ?",
                 new String[]{"0"},
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " DESC LIMIT 3");
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " DESC");
     }
 
     @Override

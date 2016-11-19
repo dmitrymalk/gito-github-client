@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_top_bar_height"
+        android:background="@color/widget_top_bar_background"
+        android:gravity="center_vertical"
+        android:elevation="@dimen/widget_top_bar_elevation"
+        android:padding="@dimen/widget_top_bar_padding"
+        android:text="@string/navigation_view_dashboard"
+        android:textColor="@color/widget_top_bar_text"
+        tools:targetApi="lollipop" />
 
     <ListView
         android:id="@+id/repository_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/widget_background" />
 
-</FrameLayout>
+</LinearLayout>

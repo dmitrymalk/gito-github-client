@@ -1,5 +1,6 @@
 package com.dmitrymalkovich.android.githubanalytics.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.traffic.TrafficActivity;
 
 /**
  * Implement functionality for Github Widget.
@@ -27,6 +29,12 @@ public class GithubWidgetProvider extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(),
                 R.layout.widget_github);
         setList(rv, context, appWidgetId);
+
+        Intent startActivityIntent = new Intent(context, TrafficActivity.class);
+        PendingIntent startActivityPendingIntent = PendingIntent.getActivity(context, 0,
+                startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        rv.setPendingIntentTemplate(R.id.repository_list, startActivityPendingIntent);
+
         appWidgetManager.updateAppWidget(appWidgetId, rv);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,
                 R.id.repository_list);
