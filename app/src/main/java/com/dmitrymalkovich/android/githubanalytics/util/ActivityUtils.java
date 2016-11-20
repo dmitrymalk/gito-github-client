@@ -17,11 +17,16 @@ package com.dmitrymalkovich.android.githubanalytics.util;
 
 import android.app.Activity;
 import android.app.ApplicationErrorReport;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
+import com.dmitrymalkovich.android.githubanalytics.GithubAnalyticsApplication;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -82,5 +87,13 @@ public class ActivityUtils {
             intent.putExtra(Intent.EXTRA_BUG_REPORT, report);
             activity.startActivity(intent);
         }
+    }
+
+    public static boolean isNetworkAvailable() {
+        Context context = GithubAnalyticsApplication.context();
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

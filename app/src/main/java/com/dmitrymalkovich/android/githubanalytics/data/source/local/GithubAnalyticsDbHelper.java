@@ -3,6 +3,7 @@ package com.dmitrymalkovich.android.githubanalytics.data.source.local;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
@@ -104,7 +105,7 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        if (newVersion < 2) {
+        if (oldVersion < 2) {
             createUsersTable(sqLiteDatabase);
         }
     }

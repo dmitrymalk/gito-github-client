@@ -16,6 +16,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.Respo
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 import com.google.firebase.crash.FirebaseCrash;
 
@@ -61,7 +62,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
             service.getRepositories();
 
         } catch (IOException e) {
-            FirebaseCrash.report(e);
+            if (ActivityUtils.isNetworkAvailable()) {
+                FirebaseCrash.report(e);
+            }
         }
     }
 
@@ -91,7 +94,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     saveToken(null, null);
                 }
             }
-            FirebaseCrash.report(e);
+            if (ActivityUtils.isNetworkAvailable()) {
+                FirebaseCrash.report(e);
+            }
             return null;
         }
     }
@@ -296,7 +301,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
             }
 
         } catch (IOException e) {
-            FirebaseCrash.report(e);
+            if (ActivityUtils.isNetworkAvailable()) {
+                FirebaseCrash.report(e);
+            }
             return null;
         }
     }
@@ -313,7 +320,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
             localDataSource.saveUser(user);
 
         } catch (IOException e) {
-            FirebaseCrash.report(e);
+            if (ActivityUtils.isNetworkAvailable()) {
+                FirebaseCrash.report(e);
+            }
         }
     }
 
@@ -420,7 +429,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 throw new IOException(error.getMessage());
             }
         } catch (IOException e) {
-            FirebaseCrash.report(e);
+            if (ActivityUtils.isNetworkAvailable()) {
+                FirebaseCrash.report(e);
+            }
             return null;
         }
     }
@@ -532,7 +543,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     responseUser.setFollowers(String.valueOf(user.getFollowers()));
                     return responseUser;
                 } catch (IOException e) {
-                    FirebaseCrash.report(e);
+                    if (ActivityUtils.isNetworkAvailable()) {
+                        FirebaseCrash.report(e);
+                    }
                 }
                 return null;
             }
@@ -607,7 +620,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 throw new IOException(error.getMessage());
             }
         } catch (IOException e) {
-            FirebaseCrash.report(e);
+            if (ActivityUtils.isNetworkAvailable()) {
+                FirebaseCrash.report(e);
+            }
         }
     }
 
@@ -660,7 +675,9 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 throw new IOException(error.getMessage());
             }
         } catch (IOException e) {
-            FirebaseCrash.report(e);
+            if (ActivityUtils.isNetworkAvailable()) {
+                FirebaseCrash.report(e);
+            }
             return null;
         }
     }
