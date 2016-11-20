@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Analytics for Github</string>
+    <string name="app_name">Analytics for GitHub</string>
     <string name="welcome_sign_in">Sign in</string>
     <string name="welcome_analytics">Analytics</string>
     <string name="navigation_view_open">Open navigation drawer</string>
