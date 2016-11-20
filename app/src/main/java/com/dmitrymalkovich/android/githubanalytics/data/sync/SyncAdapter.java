@@ -65,14 +65,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
         String key = "onPerformSync";
+        final GithubRemoteDataSource githubRepository =
+                GithubRepository.Injection.provideRemoteDataSource(getContext());
+        githubRepository.getUserSync();
         if (mSyncSettings.isSynced(key)) {
             return;
         } else {
             mSyncSettings.synced(key);
         }
-
-        final GithubRemoteDataSource githubRepository =
-                GithubRepository.Injection.provideRemoteDataSource(getContext());
         List<Repository> repositories = githubRepository.getRepositoriesSync();
         githubRepository.getRepositoriesWithAdditionalInfoSync(repositories);
         githubRepository.getTrendingRepositoriesSync(githubRepository.getDefaultPeriodForTrending(),

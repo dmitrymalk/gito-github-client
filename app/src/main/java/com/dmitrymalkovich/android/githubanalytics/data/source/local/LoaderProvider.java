@@ -10,6 +10,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Cl
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.UserContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
@@ -22,6 +23,15 @@ public class LoaderProvider {
 
     public LoaderProvider(@NonNull Context context) {
         mContext = checkNotNull(context, "context cannot be null");
+    }
+
+    public Loader<Cursor> createUsersLoader() {
+        return new CursorLoader(
+                mContext,
+                UserContract.UsersEntry.CONTENT_URI,
+                UserContract.UsersEntry.USERS_COLUMNS,
+                null, null, null
+        );
     }
 
     public Loader<Cursor> createReferrersLoader(long repositoryId) {

@@ -15,6 +15,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Re
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.StargazersContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.UserContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
@@ -29,6 +30,7 @@ public class GithubDataProvider extends ContentProvider {
     static final int TRENDING = 500;
     static final int STARGAZERS = 600;
     static final int REPOSITORIES_STARGAZERS = 700;
+    static final int USERS = 801;
     private GithubAnalyticsDbHelper mOpenHelper;
 
     private static final SQLiteQueryBuilder sRepositoryByVisitorsAndStarsQueryBuilder;
@@ -85,6 +87,7 @@ public class GithubDataProvider extends ContentProvider {
         matcher.addURI(authority, TrendingContract.PATH_TRENDING, TRENDING);
         matcher.addURI(authority, StargazersContract.PATH_STARGAZERS, STARGAZERS);
         matcher.addURI(authority, RepositoryContract.PATH_REPOSITORY_STARGAZERS, REPOSITORIES_STARGAZERS);
+        matcher.addURI(authority, UserContract.PATH_USERS, USERS);
         return matcher;
     }
 
@@ -184,6 +187,18 @@ public class GithubDataProvider extends ContentProvider {
                 );
                 break;
             }
+            case USERS: {
+                cursor = mOpenHelper.getReadableDatabase().query(
+                        UserContract.UsersEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -212,6 +227,8 @@ public class GithubDataProvider extends ContentProvider {
                 return StargazersContract.Entry.CONTENT_TYPE;
             case REPOSITORIES_STARGAZERS:
                 return RepositoryContract.RepositoryEntry.CONTENT_TYPE_REPOSITORY_STARGAZERS;
+            case USERS:
+                return UserContract.UsersEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -278,6 +295,15 @@ public class GithubDataProvider extends ContentProvider {
                 }
                 break;
             }
+            case USERS: {
+                long id = db.insert(UserContract.UsersEntry.TABLE_NAME, null, values);
+                if (id > 0) {
+                    returnUri = UserContract.UsersEntry.buildUri(id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -327,6 +353,10 @@ public class GithubDataProvider extends ContentProvider {
                 rowsDeleted = db.delete(
                         StargazersContract.Entry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case USERS:
+                rowsDeleted = db.delete(
+                        UserContract.UsersEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -366,6 +396,10 @@ public class GithubDataProvider extends ContentProvider {
                 break;
             case STARGAZERS:
                 rowsUpdated = db.update(StargazersContract.Entry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case USERS:
+                rowsUpdated = db.update(UserContract.UsersEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:

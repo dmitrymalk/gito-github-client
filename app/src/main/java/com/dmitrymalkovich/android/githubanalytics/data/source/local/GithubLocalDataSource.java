@@ -17,6 +17,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Re
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.StargazersContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.UserContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
@@ -27,6 +28,7 @@ import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 import com.google.firebase.crash.FirebaseCrash;
 
 import org.eclipse.egit.github.core.Repository;
+import org.eclipse.egit.github.core.User;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -333,6 +335,16 @@ public class GithubLocalDataSource implements GithubDataSource {
             if (cursor != null) {
                 cursor.close();
             }
+        }
+    }
+
+
+    public void saveUser(User user) {
+        if (user != null) {
+            Uri uri = UserContract.UsersEntry.CONTENT_URI;
+            ContentValues contentValues = UserContract.UsersEntry.buildContentValues(user);
+            mContentResolver.delete(uri, null, null);
+            mContentResolver.insert(uri, contentValues);
         }
     }
 

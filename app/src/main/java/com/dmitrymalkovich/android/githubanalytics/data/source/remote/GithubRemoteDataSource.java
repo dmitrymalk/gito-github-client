@@ -301,6 +301,22 @@ public class GithubRemoteDataSource implements GithubDataSource {
         }
     }
 
+    @WorkerThread
+    public void getUserSync() {
+        try {
+            UserService service = new UserService();
+            service.getClient().setOAuth2Token(getToken());
+            User user = service.getUser();
+
+            GithubLocalDataSource localDataSource =
+                    GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
+            localDataSource.saveUser(user);
+
+        } catch (IOException e) {
+            FirebaseCrash.report(e);
+        }
+    }
+
     @Override
     public void getRepositoryViews(final Repository repository, final String period, final GetRepositoryViewsCallback callback) {
         new AsyncTask<Void, Void, ResponseViews>() {

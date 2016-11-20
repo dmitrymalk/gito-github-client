@@ -9,11 +9,12 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Re
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.StargazersContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.UserContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 
 class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "GithubAnalytics.db";
 
     GithubAnalyticsDbHelper(Context context) {
@@ -97,16 +98,26 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
                 RepositoryContract.RepositoryEntry.TABLE_NAME + " (" + RepositoryContract.RepositoryEntry._ID + ")" +
                 " );";
         sqLiteDatabase.execSQL(SQL_CREATE_STARGAZERS_TABLE);
+
+        createUsersTable(sqLiteDatabase);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RepositoryContract.RepositoryEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ViewsContract.ViewsEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ReferrerContract.ReferrerEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ClonesContract.ClonesEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TrendingContract.TrendingEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + StargazersContract.Entry.TABLE_NAME);
-        onCreate(sqLiteDatabase);
+        if (newVersion < 2) {
+            createUsersTable(sqLiteDatabase);
+        }
+    }
+
+    private void createUsersTable(SQLiteDatabase sqLiteDatabase) {
+        final String SQL_CREATE_USERS_TABLE = "CREATE TABLE " + UserContract.UsersEntry.TABLE_NAME
+                + " (" +
+                UserContract.UsersEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                UserContract.UsersEntry.COLUMN_NAME + " TEXT NULL, " +
+                UserContract.UsersEntry.COLUMN_LOGIN + " TEXT NULL, " +
+                UserContract.UsersEntry.COLUMN_AVATAR + " TEXT NULL, " +
+                UserContract.UsersEntry.COLUMN_FOLLOWERS + " TEXT NULL " +
+                " );";
+        sqLiteDatabase.execSQL(SQL_CREATE_USERS_TABLE);
     }
 }
