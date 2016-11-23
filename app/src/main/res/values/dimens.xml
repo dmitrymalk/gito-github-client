@@ -57,4 +57,5 @@
     <dimen name="ad_banner_top_padding">16dp</dimen>
     <dimen name="widget_top_bar_height">40dp</dimen>
     <dimen name="widget_top_bar_elevation">4dp</dimen>
+    <dimen name="trending_referrer_horizontal_padding">16dp</dimen>
 </resources>

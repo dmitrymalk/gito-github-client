@@ -97,6 +97,57 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/dashboard_list_item_vertical_padding"
+            android:layout_marginTop="@dimen/dashboard_list_item_padding"
+            android:background="@color/divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/trending_referrer_vertical_padding"
+                android:text="@string/top_referrers"
+                android:textColor="@color/blue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/top_referrer_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <include layout="@layout/include_top_referrers" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/top_referrer_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <include layout="@layout/include_top_referrers" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
         <include layout="@layout/include_popular_repository_bottom_bar" />
 
     </LinearLayout>
