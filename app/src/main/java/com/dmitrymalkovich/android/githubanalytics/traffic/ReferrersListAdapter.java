@@ -24,7 +24,7 @@ class ReferrersListAdapter extends CursorRecyclerViewAdapter<ReferrersListAdapte
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_refferer, parent, false);
+                .inflate(R.layout.list_item_referrer, parent, false);
         return new ViewHolder(view);
     }
 

@@ -101,6 +101,34 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
             // Stars (Two weeks)
             String stargazersTwoWeeks = cursor.getString(COL_STARGAZERS_STARS_TWO_WEEKS);
             holder.starsTwoWeeksView.setText(stargazersTwoWeeks != null ? stargazersTwoWeeks : "0");
+
+            String topReferrer1 = cursor.getString(COL_REFERRER_1_PATHS_REFERRER);
+            String topReferrer2 = cursor.getString(COL_REFERRER_2_PATHS_REFERRER);
+
+            if (topReferrer2 != null && topReferrer1 != null) {
+
+                String topReferrer1Views = cursor.getString(COL_REFERRER_1_PATHS_COUNT);
+                String topReferrer1Visitors = cursor.getString(COL_REFERRER_1_PATHS_UNIQUES);
+                String topReferrer2Views = cursor.getString(COL_REFERRER_2_PATHS_COUNT);
+                String topReferrer2Visitors = cursor.getString(COL_REFERRER_2_PATHS_UNIQUES);
+
+                holder.topReferrer1Name.setText(topReferrer1);
+                holder.topReferrer1Views.setText(topReferrer1Views);
+                holder.topReferrer1Visitors.setText(topReferrer1Visitors);
+
+                holder.topReferrer2Name.setText(topReferrer2);
+                holder.topReferrer2Views.setText(topReferrer2Views);
+                holder.topReferrer2Visitors.setText(topReferrer2Visitors);
+
+                holder.mTopReferrerDivider.setVisibility(View.VISIBLE);
+                holder.mTopReferrerSites.setVisibility(View.VISIBLE);
+
+            } else {
+
+                holder.mTopReferrerDivider.setVisibility(View.GONE);
+                holder.mTopReferrerSites.setVisibility(View.GONE);
+
+            }
         }
         // Common for popular repository
         holder.titleView.setText(cursor.getString(COL_REPOSITORY_NAME));
@@ -145,6 +173,16 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
         private final TextView totalForksView;
         private final Button githubView;
         private final Button trafficView;
+        private final View mTopReferrer1;
+        private final View mTopReferrerDivider;
+        private final View mTopReferrerSites;
+        private TextView topReferrer1Name;
+        private TextView topReferrer1Views;
+        private TextView topReferrer1Visitors;
+        private final View mTopReferrer2;
+        private TextView topReferrer2Name;
+        private TextView topReferrer2Views;
+        private TextView topReferrer2Visitors;
         private TextView clonesCountTwoWeeksView;
         private TextView viewsUniquesTwoWeeksView;
         private TextView starsTwoWeeksView;
@@ -188,6 +226,23 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
                 viewsUniquesTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.views_uniques);
                 starsTwoWeeksView = (TextView) twoWeeksView.findViewById(R.id.stars_today);
             }
+
+            mTopReferrer1 = view.findViewById(R.id.top_referrer_1);
+            if (mTopReferrer1 != null) {
+                topReferrer1Name = (TextView) mTopReferrer1.findViewById(R.id.name);
+                topReferrer1Views = (TextView) mTopReferrer1.findViewById(R.id.views);
+                topReferrer1Visitors = (TextView) mTopReferrer1.findViewById(R.id.visitors);
+            }
+
+            mTopReferrer2 = view.findViewById(R.id.top_referrer_2);
+            if (mTopReferrer2 != null) {
+                topReferrer2Name = (TextView) mTopReferrer2.findViewById(R.id.name);
+                topReferrer2Views = (TextView) mTopReferrer2.findViewById(R.id.views);
+                topReferrer2Visitors = (TextView) mTopReferrer2.findViewById(R.id.visitors);
+            }
+
+            mTopReferrerDivider = view.findViewById(R.id.top_referrer_divider);
+            mTopReferrerSites = view.findViewById(R.id.top_referrer_sites);
         }
     }
 }

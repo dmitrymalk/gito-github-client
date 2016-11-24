@@ -11,7 +11,6 @@
     <string name="navigation_view_feedback">Feedback</string>
     <string name="navigation_view_header_followers">%1$s followers</string>
     <string name="dashboard_stars">Stars</string>
-    <string name="dashboard_views">Visitors</string>
     <string name="dashboard_git_clones">Clones</string>
     <string name="dashboard_empty_view_title">No public repositories</string>
     <string name="dashboard_empty_view_text" />
@@ -37,4 +36,7 @@
     <string name="views_visitors">Views / Visitors</string>
     <string name="widget_github_subtitle">%1$s stars \u2022 %2$s today</string>
     <string name="banner_ad_unit_id">ca-app-pub-6820123979073037/5983926100</string>
+    <string name="dashboard_referring_sites_views">views</string>
+    <string name="dashboard_referring_sites_visitors">visitors</string>
+    <string name="dashboard_visitors">Visitors</string>
 </resources>

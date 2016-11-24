@@ -3,7 +3,6 @@ package com.dmitrymalkovich.android.githubanalytics.data.source.local;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
@@ -15,7 +14,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Vi
 
 class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "GithubAnalytics.db";
 
     GithubAnalyticsDbHelper(Context context) {
@@ -70,8 +69,8 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
                 ReferrerContract.ReferrerEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY + " INTEGER NOT NULL, " +
                 ReferrerContract.ReferrerEntry.COLUMN_REFERRER_REFERRER + " TEXT NOT NULL ," +
-                ReferrerContract.ReferrerEntry.COLUMN_REFERRER_COUNT + " TEXT NOT NULL ," +
-                ReferrerContract.ReferrerEntry.COLUMN_REFERRER_UNIQUES + " TEXT NOT NULL ," +
+                ReferrerContract.ReferrerEntry.COLUMN_REFERRER_COUNT + " INT NOT NULL ," +
+                ReferrerContract.ReferrerEntry.COLUMN_REFERRER_UNIQUES + " INT NOT NULL ," +
                 " FOREIGN KEY (" + ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY + ") REFERENCES " +
                 RepositoryContract.RepositoryEntry.TABLE_NAME + " (" + RepositoryContract.RepositoryEntry._ID + ")" +
                 " );";
@@ -107,6 +106,17 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
             createUsersTable(sqLiteDatabase);
+        }
+
+        if (oldVersion < 3) {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RepositoryContract.RepositoryEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ViewsContract.ViewsEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ReferrerContract.ReferrerEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ClonesContract.ClonesEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TrendingContract.TrendingEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + StargazersContract.Entry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserContract.UsersEntry.TABLE_NAME);
+            onCreate(sqLiteDatabase);
         }
     }
 

@@ -74,6 +74,15 @@ public class GithubDataProvider extends ContentProvider {
                 + " LEFT JOIN (SELECT traffic_clones.repository_id, SUM(traffic_clones.uniques) as uniques, SUM(traffic_clones.count) as count FROM traffic_clones WHERE timestamp >= "
                 + TimeUtils.twoWeeksAgo() +
                 " GROUP BY traffic_clones.repository_id) as traffic_clones_two_weeks ON traffic_clones_two_weeks.repository_id = repository.repository_id"
+
+                + " LEFT JOIN (SELECT traffic_paths._id, traffic_paths.repository_id, traffic_paths.referrer, MAX(traffic_paths.count) as count, traffic_paths.uniques as uniques FROM traffic_paths GROUP BY traffic_paths.repository_id) as traffic_paths_1 ON traffic_paths_1.repository_id = repository.repository_id"
+
+                + " LEFT JOIN (SELECT traffic_paths._id, traffic_paths.repository_id, traffic_paths.referrer, " +
+                        " MAX(traffic_paths.count) as count, traffic_paths.uniques as uniques " +
+                        " FROM traffic_paths WHERE traffic_paths.count " +
+                        " < (SELECT MAX(tp2.count) FROM traffic_paths as tp2 WHERE tp2.repository_id = traffic_paths.repository_id GROUP BY tp2.repository_id) " +
+                        " GROUP BY traffic_paths.repository_id) as traffic_paths_2 " +
+                        " ON traffic_paths_2.repository_id = repository.repository_id "
         );
     }
 

@@ -9,11 +9,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemoteDataSource;
 
 import org.eclipse.egit.github.core.Repository;
@@ -68,7 +70,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final GithubRemoteDataSource githubRepository =
                 GithubRepository.Injection.provideRemoteDataSource(getContext());
         githubRepository.getUserSync();
-        if (mSyncSettings.isSynced(key)) {
+        Cursor cursor = getContext().getContentResolver().query(RepositoryContract
+                .RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS,
+                RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
+                null, null, null);
+        boolean forceSync = cursor == null || !cursor.moveToFirst();
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        if (mSyncSettings.isSynced(key) && !forceSync) {
             return;
         } else {
             mSyncSettings.synced(key);

@@ -102,7 +102,17 @@ public class RepositoryContract {
                 ClonesContract.ClonesEntry.TABLE_NAME + "_yesterday" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT,
                 ClonesContract.ClonesEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY,
                 ClonesContract.ClonesEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_UNIQUES,
-                ClonesContract.ClonesEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT
+                ClonesContract.ClonesEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_1"+ "." + ReferrerContract.ReferrerEntry._ID,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_1" + "." + ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_1" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_REFERRER,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_1" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_COUNT,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_1" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_UNIQUES,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_2"+ "." + ReferrerContract.ReferrerEntry._ID,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_2" + "." + ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_2" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_REFERRER,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_2" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_COUNT,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_2" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_UNIQUES
         };
 
         public static final int COL_ID = 0;
@@ -139,6 +149,16 @@ public class RepositoryContract {
         public static final int COL_CLONES_ID_TWO_WEEKS = 31;
         public static final int COL_CLONES_UNIQUES_TWO_WEEKS = 32;
         public static final int COL_CLONES_COUNT_TWO_WEEKS = 33;
+        public static final int COL_REFERRER_1_ID = 34;
+        public static final int COL_REFERRER_1_REPOSITORY_KEY = 35;
+        public static final int COL_REFERRER_1_PATHS_REFERRER = 36;
+        public static final int COL_REFERRER_1_PATHS_COUNT = 37;
+        public static final int COL_REFERRER_1_PATHS_UNIQUES = 38;
+        public static final int COL_REFERRER_2_ID = 39;
+        public static final int COL_REFERRER_2_REPOSITORY_KEY = 40;
+        public static final int COL_REFERRER_2_PATHS_REFERRER = 41;
+        public static final int COL_REFERRER_2_PATHS_COUNT = 42;
+        public static final int COL_REFERRER_2_PATHS_UNIQUES = 43;
 
         public static ContentValues buildContentValues(Repository repo) {
             ContentValues contentValues = new ContentValues();

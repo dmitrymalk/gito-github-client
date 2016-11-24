@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="@dimen/dashboard_site_name_width"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dashboard_site_name" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center|top"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/views"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:textSize="@dimen/dashboard_views_text_size" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginLeft="@dimen/dashboard_referring_sites_type_left_padding"
+            android:layout_marginStart="@dimen/dashboard_referring_sites_type_left_padding"
+            android:text="@string/dashboard_referring_sites_views" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center|top"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/visitors"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:textSize="@dimen/dashboard_views_text_size" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginLeft="@dimen/dashboard_referring_sites_type_left_padding"
+            android:layout_marginStart="@dimen/dashboard_referring_sites_type_left_padding"
+            android:text="@string/dashboard_referring_sites_visitors" />
+
+    </LinearLayout>
+
+</LinearLayout>
