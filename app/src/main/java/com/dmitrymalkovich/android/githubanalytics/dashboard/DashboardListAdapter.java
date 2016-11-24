@@ -103,27 +103,31 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
             holder.starsTwoWeeksView.setText(stargazersTwoWeeks != null ? stargazersTwoWeeks : "0");
 
             String topReferrer1 = cursor.getString(COL_REFERRER_1_PATHS_REFERRER);
-            String topReferrer1Views = cursor.getString(COL_REFERRER_1_PATHS_COUNT);
-            String topReferrer1Visitors = cursor.getString(COL_REFERRER_1_PATHS_UNIQUES);
-            if (topReferrer1 != null) {
+            String topReferrer2 = cursor.getString(COL_REFERRER_2_PATHS_REFERRER);
+
+            if (topReferrer2 != null && topReferrer1 != null) {
+
+                String topReferrer1Views = cursor.getString(COL_REFERRER_1_PATHS_COUNT);
+                String topReferrer1Visitors = cursor.getString(COL_REFERRER_1_PATHS_UNIQUES);
+                String topReferrer2Views = cursor.getString(COL_REFERRER_2_PATHS_COUNT);
+                String topReferrer2Visitors = cursor.getString(COL_REFERRER_2_PATHS_UNIQUES);
+
                 holder.topReferrer1Name.setText(topReferrer1);
                 holder.topReferrer1Views.setText(topReferrer1Views);
                 holder.topReferrer1Visitors.setText(topReferrer1Visitors);
-                holder.mTopReferrer1.setVisibility(View.VISIBLE);
-            } else {
-                holder.mTopReferrer1.setVisibility(View.GONE);
-            }
 
-            String topReferrer2 = cursor.getString(COL_REFERRER_2_PATHS_REFERRER);
-            String topReferrer2Views = cursor.getString(COL_REFERRER_2_PATHS_COUNT);
-            String topReferrer2Visitors = cursor.getString(COL_REFERRER_2_PATHS_UNIQUES);
-            if (topReferrer2 != null) {
                 holder.topReferrer2Name.setText(topReferrer2);
                 holder.topReferrer2Views.setText(topReferrer2Views);
                 holder.topReferrer2Visitors.setText(topReferrer2Visitors);
-                holder.mTopReferrer2.setVisibility(View.VISIBLE);
+
+                holder.mTopReferrerDivider.setVisibility(View.VISIBLE);
+                holder.mTopReferrerSites.setVisibility(View.VISIBLE);
+
             } else {
-                holder.mTopReferrer2.setVisibility(View.GONE);
+
+                holder.mTopReferrerDivider.setVisibility(View.GONE);
+                holder.mTopReferrerSites.setVisibility(View.GONE);
+
             }
         }
         // Common for popular repository
@@ -170,6 +174,8 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
         private final Button githubView;
         private final Button trafficView;
         private final View mTopReferrer1;
+        private final View mTopReferrerDivider;
+        private final View mTopReferrerSites;
         private TextView topReferrer1Name;
         private TextView topReferrer1Views;
         private TextView topReferrer1Visitors;
@@ -234,6 +240,9 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
                 topReferrer2Views = (TextView) mTopReferrer2.findViewById(R.id.views);
                 topReferrer2Visitors = (TextView) mTopReferrer2.findViewById(R.id.visitors);
             }
+
+            mTopReferrerDivider = view.findViewById(R.id.top_referrer_divider);
+            mTopReferrerSites = view.findViewById(R.id.top_referrer_sites);
         }
     }
 }

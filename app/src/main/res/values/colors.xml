@@ -46,4 +46,5 @@
     <color name="widget_text">#000</color>
     <color name="widget_top_bar_background">@color/blue</color>
     <color name="widget_top_bar_text">#FFF</color>
+    <color name="dashboard_site_name">#000</color>
 </resources>

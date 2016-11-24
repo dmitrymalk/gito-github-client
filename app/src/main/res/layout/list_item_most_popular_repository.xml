@@ -98,51 +98,40 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/top_referrer_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="@dimen/dashboard_list_item_vertical_padding"
+            android:layout_marginBottom="@dimen/dashboard_list_item_padding"
             android:layout_marginTop="@dimen/dashboard_list_item_padding"
             android:background="@color/divider" />
 
         <LinearLayout
+            android:id="@+id/top_referrer_sites"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/trending_referrer_vertical_padding"
-                android:text="@string/top_referrers"
-                android:textColor="@color/blue" />
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/top_referrer_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/top_referrer_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                <include layout="@layout/include_top_referrers" />
 
-                    <include layout="@layout/include_top_referrers" />
+            </LinearLayout>
 
-                </LinearLayout>
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dashboard_space_between_referring_sites_height" />
 
-                <LinearLayout
-                    android:id="@+id/top_referrer_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+            <LinearLayout
+                android:id="@+id/top_referrer_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    <include layout="@layout/include_top_referrers" />
-
-                </LinearLayout>
+                <include layout="@layout/include_top_referrers" />
 
             </LinearLayout>
 

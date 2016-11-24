@@ -58,4 +58,7 @@
     <dimen name="widget_top_bar_height">40dp</dimen>
     <dimen name="widget_top_bar_elevation">4dp</dimen>
     <dimen name="trending_referrer_horizontal_padding">16dp</dimen>
+    <dimen name="dashboard_site_name_width">120dp</dimen>
+    <dimen name="dashboard_referring_sites_type_left_padding">4dp</dimen>
+    <dimen name="dashboard_space_between_referring_sites_height">8dp</dimen>
 </resources>
