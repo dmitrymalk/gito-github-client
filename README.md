@@ -14,3 +14,10 @@ See the Google+ community to get early dev updates:
 https://plus.google.com/communities/106373382024164307474
 
 <a href='https://play.google.com/store/apps/details?id=com.dmitrymalkovich.android.githubanalytics&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width="150" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+
+Sensortower:
+https://sensortower.com/android/us/dmitry-malkovich/app/analytics-for-github/com.dmitrymalkovich.android.githubanalytics/
+
+Firebase:
+https://console.firebase.google.com/project/github-analytics-ccc23/overview
+
