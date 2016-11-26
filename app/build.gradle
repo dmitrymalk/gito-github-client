@@ -24,6 +24,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
         release {
             signingConfig signingConfigs.release
             minifyEnabled false
@@ -71,6 +74,7 @@ dependencies {
     compile 'com.aurelhubert:ahbottomnavigation:1.5.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.google.firebase:firebase-core:9.2.1'
+    // https://firebase.googleblog.com/2016/08/organizing-your-firebase-enabled-android-app-builds.html
     compile 'com.google.firebase:firebase-crash:9.2.1'
     compile 'com.google.android.gms:play-services:9.2.1'
     freeCompile 'com.google.firebase:firebase-ads:9.2.1'

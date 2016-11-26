@@ -15,6 +15,50 @@
       },
       "oauth_client": [
         {
+          "client_id": "766544135685-7uabubob4vook02ctsu9a21ctidmv9kf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dmitrymalkovich.android.githubanalytics",
+            "certificate_hash": "72E683D604E053355A928D9F5F66AEE39B06775C"
+          }
+        },
+        {
+          "client_id": "766544135685-o9o8i503l83elc99a9m3irouco0lhsbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaY5mMQ1UrU9cC2YOC5jvXai0YHGPMGso"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766544135685-o9o8i503l83elc99a9m3irouco0lhsbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766544135685:android:f14a1f0c34e99fd6",
+        "android_client_info": {
+          "package_name": "com.dmitrymalkovich.android.githubanalytics.debug"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "766544135685-o9o8i503l83elc99a9m3irouco0lhsbj.apps.googleusercontent.com",
           "client_type": 3
         }
