@@ -26,3 +26,6 @@ https://github.com/settings/applications/421930
 
 Google Play (Search = "GitHub"):
 https://play.google.com/store/search?q=github&hl=en
+
+Google Play Developer Console:
+https://play.google.com/apps/publish/?hl=ru&dev_acc=01922716153062345844#AppDashboardPlace:p=com.dmitrymalkovich.android.githubanalytics
