@@ -21,3 +21,8 @@ https://sensortower.com/android/us/dmitry-malkovich/app/analytics-for-github/com
 Firebase:
 https://console.firebase.google.com/project/github-analytics-ccc23/overview
 
+OAuth:
+https://github.com/settings/applications/421930
+
+Google Play (Search = "GitHub"):
+https://play.google.com/store/search?q=github&hl=en
