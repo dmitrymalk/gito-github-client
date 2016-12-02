@@ -32,3 +32,6 @@ https://play.google.com/apps/publish/?hl=ru&dev_acc=01922716153062345844#AppDash
 
 AppBrain:
 https://developers.appbrain.com/dev_dashboard#DevPagePlace:di=305763&page=marketranks
+
+Github Platform Forum:
+https://platform.github.community/t/welcome-to-github-platform-forum/979
