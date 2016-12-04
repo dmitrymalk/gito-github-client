@@ -16,10 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,17 +33,23 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
 
     private TrendingRepositoryContract.Presenter mPresenter;
     private Unbinder unbinder;
-    @BindView(R.id.progress) ProgressBar mProgressBar;
+    @BindView(R.id.progress)
+    ProgressBar mProgressBar;
     @BindView(R.id.recycler_view_for_repositories)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.bottom_navigation) AHBottomNavigation mBottomNavigation;
-    @BindView(R.id.empty_state) View mEmptyState;
+    @BindView(R.id.bottom_navigation)
+    AHBottomNavigation mBottomNavigation;
+    @BindView(R.id.empty_state)
+    View mEmptyState;
     View mCoordinatorLayout;
+    @BindView(R.id.empty_state_title)
+    TextView mEmptyStateTextView;
 
     private TrendingRepositoryListAdapter mAdapter;
-    @BindView(R.id.recycler_view_for_badges) RecyclerView mRecyclerViewForBadges;
+    @BindView(R.id.recycler_view_for_badges)
+    RecyclerView mRecyclerViewForBadges;
 
     public static TrendingRepositoryFragment newInstance() {
         return new TrendingRepositoryFragment();
@@ -127,6 +135,13 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
         if (mEmptyState != null && !mSwipeRefreshLayout.isRefreshing()
                 && mProgressBar.getVisibility() != View.VISIBLE && active) {
             mEmptyState.setVisibility(View.VISIBLE);
+
+            if (!ActivityUtils.isNetworkAvailable()) {
+                mEmptyStateTextView.setText(R.string.no_internet_connection);
+            } else {
+                mEmptyStateTextView.setText(R.string.trending_empty_view_title);
+            }
+
         } else if (mEmptyState != null) {
             mEmptyState.setVisibility(View.GONE);
         }

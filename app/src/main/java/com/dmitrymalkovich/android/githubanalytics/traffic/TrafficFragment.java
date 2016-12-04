@@ -144,7 +144,7 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
             if (!ActivityUtils.isNetworkAvailable()) {
                 mEmptyStateTextView.setText(R.string.no_internet_connection);
             } else {
-                mEmptyStateTextView.setText(R.string.trending_empty_view_text);
+                mEmptyStateTextView.setText(R.string.dashboard_empty_view_title);
             }
 
         }

@@ -16,7 +16,6 @@
     <string name="dashboard_empty_view_text" />
     <string name="repositories_forked">Forked</string>
     <string name="trending_empty_view_title">Data is not available</string>
-    <string name="trending_empty_view_text">Possible internet connection is missing</string>
     <string name="trending_information">%1$s \u2022 %2$s stars \u2022 %3$s \u2022 Built by</string>
     <string name="trending_rank">#%1$s</string>
     <string name="trending_daily">Today</string>
