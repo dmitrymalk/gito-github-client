@@ -6,7 +6,7 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
+import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
 
 /**
  * https://github.com/mingjunli/GithubTrending
@@ -59,9 +59,9 @@ public class TrendingContract {
         public static final int COL_AVATAR = 6;
         public static final int COL_PERIOD = 7;
 
-        public static ContentValues buildContentValues(ResponseTrending responseTrending, String period,
+        public static ContentValues buildContentValues(TrendingRepository trendingRepository, String period,
                                                        String language) {
-            String htmlUrl = responseTrending.getHtmlUrl();
+            String htmlUrl = trendingRepository.getHtmlUrl();
             if (!htmlUrl.contains("https://github.com/")) {
                 htmlUrl = htmlUrl.replace("https://github.com", "https://github.com/");
             }
@@ -69,13 +69,13 @@ public class TrendingContract {
             contentValues.put(TrendingContract.TrendingEntry.COLUMN_HTML_URL,
                     htmlUrl);
             contentValues.put(TrendingContract.TrendingEntry.COLUMN_WATCHER_COUNT,
-                    responseTrending.getWatchersCount());
+                    trendingRepository.getWatchersCount());
             contentValues.put(TrendingContract.TrendingEntry.COLUMN_LANGUAGE, language);
             contentValues.put(TrendingContract.TrendingEntry.COLUMN_DESCRIPTION,
-                    responseTrending.getDescription());
-            contentValues.put(TrendingContract.TrendingEntry.COLUMN_NAME, responseTrending.getOwner()
-                    + "/" + responseTrending.getName());
-            contentValues.put(TrendingEntry.COLUMN_AVATAR, responseTrending.getAvatar());
+                    trendingRepository.getDescription());
+            contentValues.put(TrendingContract.TrendingEntry.COLUMN_NAME, trendingRepository.getOwner()
+                    + "/" + trendingRepository.getName());
+            contentValues.put(TrendingEntry.COLUMN_AVATAR, trendingRepository.getAvatar());
             contentValues.put(TrendingEntry.COLUMN_PERIOD, period);
             return contentValues;
         }

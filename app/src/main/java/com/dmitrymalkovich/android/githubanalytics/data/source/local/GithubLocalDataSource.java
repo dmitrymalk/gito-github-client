@@ -11,6 +11,11 @@ import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 
+import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
+import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
+import com.dmitrymalkovich.android.githubapi.core.gson.Star;
+import com.dmitrymalkovich.android.githubapi.core.gson.User;
+import com.dmitrymalkovich.android.githubapi.core.gson.Views;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
@@ -19,16 +24,12 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.St
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.UserContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
+import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 import com.google.firebase.crash.FirebaseCrash;
 
 import org.eclipse.egit.github.core.Repository;
-import org.eclipse.egit.github.core.User;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -100,10 +101,6 @@ public class GithubLocalDataSource implements GithubDataSource {
         checkNotNull(preferences);
         mContentResolver = contentResolver;
         mPreferences = preferences;
-    }
-
-    @Override
-    public void login(String login, String password) {
     }
 
     @Override
@@ -235,14 +232,14 @@ public class GithubLocalDataSource implements GithubDataSource {
         editor.apply();
     }
 
-    public void saveReferrers(long repositoryId, List<ResponseReferrer> referrers) {
+    public void saveReferringSites(long repositoryId, List<ReferringSite> referrers) {
         Uri uri = ReferrerContract.ReferrerEntry.CONTENT_URI;
 
         mContentResolver.delete(uri,
                 ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY + " =  ? ",
                 new String[]{String.valueOf(repositoryId)});
 
-        for (ResponseReferrer referrer : referrers) {
+        for (ReferringSite referrer : referrers) {
             ContentValues referrerValues = ReferrerContract.ReferrerEntry
                     .createContentValues(repositoryId, referrer);
 
@@ -276,15 +273,15 @@ public class GithubLocalDataSource implements GithubDataSource {
         return true;
     }
 
-    public void saveClones(long repositoryId, ResponseClones clones) {
+    public void saveClones(long repositoryId, Clones clones) {
         Uri uri = ClonesContract.ClonesEntry.CONTENT_URI;
 
-        for (ResponseClones.Clone clone : clones.getClones()) {
+        for (Clones.Clone clone : clones.asList()) {
             ContentValues contentValues = ClonesContract.ClonesEntry
                     .buildContentValues(repositoryId, clone);
 
             String timestamp = clone.getTimestamp();
-            long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(timestamp);
+            long timeInMilliseconds = TimeConverter.iso8601ToMilliseconds(timestamp);
 
             String selection = ClonesContract.ClonesEntry.COLUMN_REPOSITORY_KEY + " = "
                     + repositoryId + " AND "
@@ -307,15 +304,15 @@ public class GithubLocalDataSource implements GithubDataSource {
         }
     }
 
-    public void saveViews(long repositoryId, ResponseViews views) {
+    public void saveViews(long repositoryId, Views views) {
         Uri uri = ViewsContract.ViewsEntry.CONTENT_URI;
 
-        for (ResponseViews.View view : views.getViews()) {
+        for (Views.View view : views.getViews()) {
             ContentValues contentValues = ViewsContract.ViewsEntry
                     .buildContentValues(repositoryId, view);
 
             String timestamp = view.getTimestamp();
-            long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(timestamp);
+            long timeInMilliseconds = TimeConverter.iso8601ToMilliseconds(timestamp);
 
             String selection = ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY + " = "
                     + repositoryId + " AND "
@@ -338,7 +335,6 @@ public class GithubLocalDataSource implements GithubDataSource {
         }
     }
 
-
     public void saveUser(User user) {
         if (user != null) {
             Uri uri = UserContract.UsersEntry.CONTENT_URI;
@@ -349,7 +345,7 @@ public class GithubLocalDataSource implements GithubDataSource {
     }
 
     public void saveTrendingRepositories(String period, String language,
-                                         List<ResponseTrending> repositories) {
+                                         List<TrendingRepository> repositories) {
         Uri uri = TrendingContract.TrendingEntry.CONTENT_URI;
 
         ArrayList<ContentProviderOperation> ops = new ArrayList<>();
@@ -359,7 +355,7 @@ public class GithubLocalDataSource implements GithubDataSource {
                                 TrendingContract.TrendingEntry.COLUMN_PERIOD + " = ? ",
                         new String[]{language, period}).build());
 
-        for (ResponseTrending repository : repositories) {
+        for (TrendingRepository repository : repositories) {
 
             repository.setLanguage(language);
             repository.setPeriod(period);
@@ -377,18 +373,18 @@ public class GithubLocalDataSource implements GithubDataSource {
         }
     }
 
-    public void saveStargazers(Repository repository, List<ResponseStargazers>
-            responseStargazersList) {
+    public void saveStargazers(Repository repository, List<Star>
+            starList) {
         Uri uri = StargazersContract.Entry.CONTENT_URI;
 
-        for (ResponseStargazers stargazers : responseStargazersList) {
+        for (Star stargazers : starList) {
             if (stargazers != null) {
 
                 ContentValues contentValues = StargazersContract.Entry
                         .buildContentValues(repository.getId(), stargazers);
 
                 String starredAd = stargazers.getStarredAt();
-                long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(starredAd);
+                long timeInMilliseconds = TimeConverter.iso8601ToMilliseconds(starredAd);
 
                 String selection = StargazersContract.Entry.COLUMN_REPOSITORY_KEY + " = "
                         + repository.getId() + " AND "

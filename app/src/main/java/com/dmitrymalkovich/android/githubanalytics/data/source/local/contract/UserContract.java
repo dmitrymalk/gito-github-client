@@ -6,7 +6,7 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import org.eclipse.egit.github.core.User;
+import com.dmitrymalkovich.android.githubapi.core.gson.User;
 
 public class UserContract {
     public static String LOG_TAG = UserContract.class.getSimpleName();

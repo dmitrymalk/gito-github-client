@@ -1,0 +1,3 @@
+[submodule "android-github-api"]
+	path = android-github-api
+	url = https://github.com/DmitryMalkovich/android-github-api

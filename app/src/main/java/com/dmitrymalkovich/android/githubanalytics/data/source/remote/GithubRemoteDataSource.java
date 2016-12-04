@@ -6,25 +6,25 @@ import android.os.AsyncTask;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
+import com.dmitrymalkovich.android.githubapi.GitHubAPI;
+import com.dmitrymalkovich.android.githubapi.core.pagination.Pagination;
+import com.dmitrymalkovich.android.githubapi.core.service.GithubService;
+import com.dmitrymalkovich.android.githubapi.core.service.ThirdPartyGithubServiceGenerator;
+import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
+import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
+import com.dmitrymalkovich.android.githubapi.core.gson.Star;
+import com.dmitrymalkovich.android.githubapi.core.gson.Views;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.APIError;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseAccessToken;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+import com.dmitrymalkovich.android.githubapi.core.gson.AccessToken;
+import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
+import com.dmitrymalkovich.android.githubapi.core.gson.User;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 import com.google.firebase.crash.FirebaseCrash;
 
 import org.eclipse.egit.github.core.Repository;
-import org.eclipse.egit.github.core.User;
 import org.eclipse.egit.github.core.client.RequestException;
-import org.eclipse.egit.github.core.service.RepositoryService;
-import org.eclipse.egit.github.core.service.UserService;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -32,12 +32,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class GithubRemoteDataSource implements GithubDataSource {
     private static String LOG_TAG = GithubRemoteDataSource.class.getSimpleName();
 
     private static GithubRemoteDataSource INSTANCE;
+    private final GithubLocalDataSource mLocalDataSource;
     @SuppressWarnings("unused")
     private ContentResolver mContentResolver;
     private SharedPreferences mPreferences;
@@ -45,6 +45,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
     private GithubRemoteDataSource(ContentResolver contentResolver, SharedPreferences preferences) {
         mContentResolver = contentResolver;
         mPreferences = preferences;
+        mLocalDataSource = GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
     }
 
     public static GithubRemoteDataSource getInstance(ContentResolver contentResolver, SharedPreferences preferences) {
@@ -55,20 +56,6 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @Override
-    public void login(final String username, final String password) {
-        try {
-            RepositoryService service = new RepositoryService();
-            service.getClient().setCredentials(username, password);
-            service.getRepositories();
-
-        } catch (IOException e) {
-            if (ActivityUtils.isNetworkAvailable()) {
-                FirebaseCrash.report(e);
-            }
-        }
-    }
-
-    @Override
     public void logout() {
         GithubLocalDataSource.getInstance(mContentResolver, mPreferences).logout();
     }
@@ -76,18 +63,11 @@ public class GithubRemoteDataSource implements GithubDataSource {
     @WorkerThread
     public List<Repository> getRepositoriesSync() {
         try {
-            String token = getToken();
-            if (token != null) {
-                RepositoryService service = new RepositoryService();
-                service.getClient().setOAuth2Token(token);
-                List<Repository> repositoryList = service.getRepositories();
-                GithubLocalDataSource localDataSource =
-                        GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                localDataSource.saveRepositories(repositoryList);
-                return repositoryList;
-            } else {
-                return null;
-            }
+            List<Repository> repositories = GitHubAPI.repository()
+                    .setToken(getToken())
+                    .getRepositories();
+            mLocalDataSource.saveRepositories(repositories);
+            return repositories;
         } catch (IOException e) {
             if (e instanceof RequestException) {
                 if (((RequestException) e).getStatus() == 401) {
@@ -218,33 +198,19 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    private ResponseClones getRepositoryClonesSync(final Repository repository, String period) {
+    private Clones getRepositoryClonesSync(final Repository repository, String period) {
         try {
-            ResponseAccessToken accessToken = new ResponseAccessToken();
-            accessToken.setAccessToken(getToken());
-            accessToken.setTokenType(getTokenType());
+            Clones clones = GitHubAPI.traffic()
+                    .setToken(getToken())
+                    .setTokenType(getTokenType())
+                    .setRepository(repository)
+                    .setPeriod(period)
+                    .getClones();
 
-            GithubService loginService = GithubServiceGenerator.createService(
-                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
-                    "application/vnd.github.spiderman-preview+json");
-            Call<ResponseClones> call = loginService.getRepositoryClones(
-                    repository.getOwner().getLogin(), repository.getName(), period);
+            mLocalDataSource.saveClones(repository.getId(), clones);
 
-            Response<ResponseClones> response = call.execute();
-            if (response.isSuccessful()) {
-                ResponseClones responseClones = response.body();
-                if (responseClones != null && responseClones.getClones() != null) {
-                    GithubLocalDataSource localDataSource =
-                            GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                    localDataSource.saveClones(repository.getId(), responseClones);
-                    return responseClones;
-                } else {
-                    throw new IOException("responseClones not specified");
-                }
-            } else {
-                APIError error = APIError.parseError(response);
-                throw new IOException(error.getMessage());
-            }
+            return clones;
+
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             return null;
@@ -254,16 +220,16 @@ public class GithubRemoteDataSource implements GithubDataSource {
     @Override
     public void getRepositoryClones(final Repository repository, final String period,
                                     final GetRepositoryClonesCallback callback) {
-        new AsyncTask<Void, Void, ResponseClones>() {
+        new AsyncTask<Void, Void, Clones>() {
             @Override
-            protected ResponseClones doInBackground(Void... params) {
+            protected Clones doInBackground(Void... params) {
                 return getRepositoryClonesSync(repository, period);
             }
 
             @Override
-            protected void onPostExecute(ResponseClones responseClones) {
-                if (responseClones != null) {
-                    callback.onRepositoryClonesLoaded(responseClones);
+            protected void onPostExecute(Clones clones) {
+                if (clones != null) {
+                    callback.onRepositoryClonesLoaded(clones);
                 } else {
                     callback.onDataNotAvailable();
                 }
@@ -272,33 +238,17 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    private ResponseViews getRepositoryViewsSync(final Repository repository, String period) {
+    private Views getRepositoryViewsSync(final Repository repository, String period) {
         try {
-            ResponseAccessToken accessToken = new ResponseAccessToken();
-            accessToken.setAccessToken(getToken());
-            accessToken.setTokenType(getTokenType());
+            Views views = GitHubAPI.traffic()
+                    .setToken(getToken())
+                    .setTokenType(getTokenType())
+                    .setRepository(repository)
+                    .setPeriod(period)
+                    .getViews();
 
-            GithubService loginService = GithubServiceGenerator.createService(
-                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
-                    "application/vnd.github.spiderman-preview+json");
-            Call<ResponseViews> call = loginService.getRepositoryViews(
-                    repository.getOwner().getLogin(), repository.getName(), period);
-
-            Response<ResponseViews> response = call.execute();
-            if (response.isSuccessful()) {
-                ResponseViews responseViews = response.body();
-                if (responseViews != null && responseViews.getViews() != null) {
-                    GithubLocalDataSource localDataSource =
-                            GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                    localDataSource.saveViews(repository.getId(), responseViews);
-                    return responseViews;
-                } else {
-                    throw new IOException("responseViews not specified");
-                }
-            } else {
-                APIError error = APIError.parseError(response);
-                throw new IOException(error.getMessage());
-            }
+            mLocalDataSource.saveViews(repository.getId(), views);
+            return views;
 
         } catch (IOException e) {
             if (ActivityUtils.isNetworkAvailable()) {
@@ -311,13 +261,11 @@ public class GithubRemoteDataSource implements GithubDataSource {
     @WorkerThread
     public void getUserSync() {
         try {
-            UserService service = new UserService();
-            service.getClient().setOAuth2Token(getToken());
-            User user = service.getUser();
+            User user = GitHubAPI.user()
+                    .setToken(getToken())
+                    .getUser();
 
-            GithubLocalDataSource localDataSource =
-                    GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-            localDataSource.saveUser(user);
+            mLocalDataSource.saveUser(user);
 
         } catch (IOException e) {
             if (ActivityUtils.isNetworkAvailable()) {
@@ -327,17 +275,18 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @Override
-    public void getRepositoryViews(final Repository repository, final String period, final GetRepositoryViewsCallback callback) {
-        new AsyncTask<Void, Void, ResponseViews>() {
+    public void getRepositoryViews(final Repository repository, final String period,
+                                   final GetRepositoryViewsCallback callback) {
+        new AsyncTask<Void, Void, Views>() {
             @Override
-            protected ResponseViews doInBackground(Void... params) {
+            protected Views doInBackground(Void... params) {
                 return getRepositoryViewsSync(repository, period);
             }
 
             @Override
-            protected void onPostExecute(ResponseViews responseViews) {
-                if (responseViews != null) {
-                    callback.onRepositoryViewsLoaded(responseViews);
+            protected void onPostExecute(Views views) {
+                if (views != null) {
+                    callback.onRepositoryViewsLoaded(views);
                 } else {
                     callback.onDataNotAvailable();
                 }
@@ -347,26 +296,27 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @SuppressWarnings("unused")
     @WorkerThread
-    public List<ResponseTrending> getTrendingRepositoriesSync(final String period, final String language,
-                                                              boolean useCache) {
+    public List<TrendingRepository> getTrendingRepositoriesSync(final String period,
+                                                                final String language,
+                                                                boolean useCache) {
         try {
-            ResponseAccessToken accessToken = new ResponseAccessToken();
+            AccessToken accessToken = new AccessToken();
             accessToken.setAccessToken(getToken());
             accessToken.setTokenType(getTokenType());
 
             GithubService githubService = ThirdPartyGithubServiceGenerator.createService(
                     GithubService.class);
-            Call<List<ResponseTrending>> call = githubService.getTrendingRepositories(language,
+            Call<List<TrendingRepository>> call = githubService.getTrendingRepositories(language,
                     period);
 
-            List<ResponseTrending> responseTrendingList = call.execute().body();
+            List<TrendingRepository> trendingRepositoryList = call.execute().body();
 
-            if (responseTrendingList != null) {
+            if (trendingRepositoryList != null) {
                 GithubLocalDataSource localDataSource =
                         GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                localDataSource.saveTrendingRepositories(period, language, responseTrendingList);
+                localDataSource.saveTrendingRepositories(period, language, trendingRepositoryList);
 
-                return responseTrendingList;
+                return trendingRepositoryList;
             } else {
                 return null;
             }
@@ -379,16 +329,16 @@ public class GithubRemoteDataSource implements GithubDataSource {
     @Override
     public void getTrendingRepositories(final String period, final String language,
                                         final GetTrendingRepositories callback, final boolean useCache) {
-        new AsyncTask<Void, Void, List<ResponseTrending>>() {
+        new AsyncTask<Void, Void, List<TrendingRepository>>() {
             @Override
-            protected List<ResponseTrending> doInBackground(Void... params) {
+            protected List<TrendingRepository> doInBackground(Void... params) {
                 return getTrendingRepositoriesSync(period, language, useCache);
             }
 
             @Override
-            protected void onPostExecute(List<ResponseTrending> responseTrendingList) {
-                if (responseTrendingList != null) {
-                    callback.onTrendingRepositoriesLoaded(responseTrendingList, language, period);
+            protected void onPostExecute(List<TrendingRepository> trendingRepositoryList) {
+                if (trendingRepositoryList != null) {
+                    callback.onTrendingRepositoriesLoaded(trendingRepositoryList, language, period);
                 } else {
                     callback.onDataNotAvailable();
                 }
@@ -398,36 +348,15 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @SuppressWarnings("unused")
     @WorkerThread
-    private List<ResponseReferrer> getRepositoryReferrersSync(final Repository repository) {
-        GithubLocalDataSource localDataSource =
-                GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-
+    private List<ReferringSite> getRepositoryReferrersSync(final Repository repository) {
         try {
-            ResponseAccessToken accessToken = new ResponseAccessToken();
-            accessToken.setAccessToken(getToken());
-            accessToken.setTokenType(getTokenType());
-
-            GithubService loginService = GithubServiceGenerator.createService(
-                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
-                    "application/vnd.github.spiderman-preview+json");
-
-            Call<List<ResponseReferrer>> call = loginService.getTopReferrers(
-                    repository.getOwner().getLogin(), repository.getName());
-
-            Response<List<ResponseReferrer>> response = call.execute();
-
-            if (response.isSuccessful()) {
-                List<ResponseReferrer> responseReferrerList = response.body();
-                if (responseReferrerList != null) {
-                    localDataSource.saveReferrers(repository.getId(), responseReferrerList);
-                    return responseReferrerList;
-                } else {
-                    throw new IOException("responseReferrerList is null");
-                }
-            } else {
-                APIError error = APIError.parseError(response);
-                throw new IOException(error.getMessage());
-            }
+            List<ReferringSite> referringSites = GitHubAPI.traffic()
+                    .setToken(getToken())
+                    .setTokenType(getTokenType())
+                    .setRepository(repository)
+                    .getReferringSites();
+            mLocalDataSource.saveReferringSites(repository.getId(), referringSites);
+            return referringSites;
         } catch (IOException e) {
             if (ActivityUtils.isNetworkAvailable()) {
                 FirebaseCrash.report(e);
@@ -439,16 +368,16 @@ public class GithubRemoteDataSource implements GithubDataSource {
     @Override
     public void getRepositoryReferrers(final Repository repository,
                                        final GetRepositoryReferrersCallback callback) {
-        new AsyncTask<Void, Void, List<ResponseReferrer>>() {
+        new AsyncTask<Void, Void, List<ReferringSite>>() {
             @Override
-            protected List<ResponseReferrer> doInBackground(Void... params) {
+            protected List<ReferringSite> doInBackground(Void... params) {
                 return getRepositoryReferrersSync(repository);
             }
 
             @Override
-            protected void onPostExecute(List<ResponseReferrer> responseReferrerList) {
-                if (responseReferrerList != null) {
-                    callback.onRepositoryReferrersLoaded(responseReferrerList);
+            protected void onPostExecute(List<ReferringSite> referringSiteList) {
+                if (referringSiteList != null) {
+                    callback.onRepositoryReferrersLoaded(referringSiteList);
                 } else {
                     callback.onDataNotAvailable();
                 }
@@ -457,16 +386,15 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @Override
-    public void requestTokenFromCode(final String code, final RequestTokenFromCodeCallback callback) {
-        new AsyncTask<Void, Void, ResponseAccessToken>() {
+    public void requestTokenFromCode(final String code,
+                                     final RequestTokenFromCodeCallback callback) {
+        new AsyncTask<Void, Void, AccessToken>() {
             @Override
-            protected ResponseAccessToken doInBackground(Void... params) {
+            protected AccessToken doInBackground(Void... params) {
                 try {
-                    GithubService loginService = GithubServiceGenerator.createService(
-                            GithubService.class);
-                    Call<ResponseAccessToken> call = loginService.getAccessToken(code,
-                            GithubService.clientId, GithubService.clientSecret);
-                    return call.execute().body();
+                    return GitHubAPI.auth()
+                            .setCode(code)
+                            .requestAccessToken();
                 } catch (IOException e) {
                     Log.e(LOG_TAG, e.getMessage(), e);
                 }
@@ -474,10 +402,10 @@ public class GithubRemoteDataSource implements GithubDataSource {
             }
 
             @Override
-            protected void onPostExecute(ResponseAccessToken accessToken) {
-                if (accessToken != null && accessToken.getAccessToken() != null
-                        && !accessToken.getAccessToken().isEmpty()) {
-                    callback.onTokenLoaded(accessToken.getAccessToken(), accessToken.getTokenType());
+            protected void onPostExecute(AccessToken accessToken) {
+                if (accessToken != null && accessToken.getToken() != null
+                        && !accessToken.getToken().isEmpty()) {
+                    callback.onTokenLoaded(accessToken.getToken(), accessToken.getTokenType());
                 } else {
                     callback.onDataNotAvailable();
                 }
@@ -493,55 +421,46 @@ public class GithubRemoteDataSource implements GithubDataSource {
 
     @Override
     public String getToken() {
-        return GithubLocalDataSource.getInstance(mContentResolver, mPreferences).getToken();
+        return mLocalDataSource.getToken();
     }
 
     @Override
     public String getTokenType() {
-        return GithubLocalDataSource.getInstance(mContentResolver, mPreferences).getTokenType();
+        return mLocalDataSource.getTokenType();
     }
 
 
     @Override
     public String getDefaultLanguageForTrending() {
-        return GithubLocalDataSource.getInstance(mContentResolver, mPreferences)
-                .getDefaultLanguageForTrending();
+        return mLocalDataSource.getDefaultLanguageForTrending();
     }
 
     @Override
-    public void setDefaultLanguageForTrending(@GithubLocalDataSource.TrendingLanguage String language) {
-        GithubLocalDataSource.getInstance(mContentResolver, mPreferences)
-                .setDefaultLanguageForTrending(language);
+    public void setDefaultLanguageForTrending(@GithubLocalDataSource.TrendingLanguage String
+                                                      language) {
+        mLocalDataSource.setDefaultLanguageForTrending(language);
     }
 
     @Override
     public String getDefaultPeriodForTrending() {
-        return GithubLocalDataSource.getInstance(mContentResolver, mPreferences)
-                .getDefaultPeriodForTrending();
+        return mLocalDataSource.getDefaultPeriodForTrending();
     }
 
     @Override
-    public void setDefaultPeriodForTrending(@GithubLocalDataSource.TrendingPeriod String period) {
-        GithubLocalDataSource.getInstance(mContentResolver, mPreferences)
-                .setDefaultPeriodForTrending(period);
+    public void setDefaultPeriodForTrending(@GithubLocalDataSource.TrendingPeriod String
+                                                    period) {
+        mLocalDataSource.setDefaultPeriodForTrending(period);
     }
 
     @Override
     public void getUser(final GerUserCallback callback) {
-        new AsyncTask<Void, Void, ResponseUser>() {
+        new AsyncTask<Void, Void, User>() {
             @Override
-            protected ResponseUser doInBackground(Void... params) {
+            protected User doInBackground(Void... params) {
                 try {
-                    UserService service = new UserService();
-                    service.getClient().setOAuth2Token(getToken());
-                    User user = service.getUser();
-
-                    ResponseUser responseUser = new ResponseUser();
-                    responseUser.setName(user.getName());
-                    responseUser.setLogin(user.getLogin());
-                    responseUser.setAvatarUrl(user.getAvatarUrl());
-                    responseUser.setFollowers(String.valueOf(user.getFollowers()));
-                    return responseUser;
+                    return GitHubAPI.user()
+                            .setToken(getToken())
+                            .getUser();
                 } catch (IOException e) {
                     if (ActivityUtils.isNetworkAvailable()) {
                         FirebaseCrash.report(e);
@@ -551,7 +470,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             }
 
             @Override
-            protected void onPostExecute(ResponseUser user) {
+            protected void onPostExecute(User user) {
                 if (user != null) {
                     callback.onUserLoaded(user);
                 } else {
@@ -562,16 +481,16 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     public void getStargazers(final Repository repository, final GetStargazersCallback callback) {
-        new AsyncTask<Void, Void, List<ResponseStargazers>>() {
+        new AsyncTask<Void, Void, List<Star>>() {
             @Override
-            protected List<ResponseStargazers> doInBackground(Void... params) {
+            protected List<Star> doInBackground(Void... params) {
                 return getStargazersSync(repository);
             }
 
             @Override
-            protected void onPostExecute(List<ResponseStargazers> responseStargazersList) {
-                if (responseStargazersList != null) {
-                    callback.onStargazersLoaded(responseStargazersList);
+            protected void onPostExecute(List<Star> starList) {
+                if (starList != null) {
+                    callback.onStargazersLoaded(starList);
                 } else {
                     callback.onDataNotAvailable();
                 }
@@ -580,100 +499,17 @@ public class GithubRemoteDataSource implements GithubDataSource {
     }
 
     @WorkerThread
-    private void getStargazersRecursiveSync(Repository repository, int page,
-                                            long date) {
+    private List<Star> getStargazersSync(Repository repository) {
         try {
-            ResponseAccessToken accessToken = new ResponseAccessToken();
-            accessToken.setAccessToken(getToken());
-            accessToken.setTokenType(getTokenType());
-
-            GithubService githubService = GithubServiceGenerator.createService(
-                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
-                    "application/vnd.github.v3.star+json");
-            Call<List<ResponseStargazers>> call = githubService.getStargazers(repository
-                    .getOwner().getLogin(), repository.getName(), String.valueOf(page));
-
-
-            Response<List<ResponseStargazers>> response = call.execute();
-
-            if (response.isSuccessful()) {
-
-                List<ResponseStargazers> stargazers = response.body();
-
-                if (stargazers != null) {
-                    GithubLocalDataSource localDataSource =
-                            GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                    localDataSource.saveStargazers(repository, stargazers);
-
-                    boolean next = --page != 0 && stargazers.size() > 0 &&
-                            TimeUtils.iso8601ToMilliseconds(stargazers.get(0).getStarredAt()) > date;
-                    if (next) {
-                        getStargazersRecursiveSync(repository, page, date);
-                    }
-
-                } else {
-                    throw new IOException("responseStargazersList is null");
-                }
-
-            } else {
-                APIError error = APIError.parseError(response);
-                throw new IOException(error.getMessage());
-            }
-        } catch (IOException e) {
-            if (ActivityUtils.isNetworkAvailable()) {
-                FirebaseCrash.report(e);
-            }
-        }
-    }
-
-    @WorkerThread
-    private List<ResponseStargazers> getStargazersSync(Repository repository) {
-        try {
-            ResponseAccessToken accessToken = new ResponseAccessToken();
-            accessToken.setAccessToken(getToken());
-            accessToken.setTokenType(getTokenType());
-
-            GithubService githubService = GithubServiceGenerator.createService(
-                    GithubService.class, accessToken, GithubServiceGenerator.API_HTTPS_BASE_URL,
-                    "application/vnd.github.v3.star+json");
-            Call<List<ResponseStargazers>> call = githubService.getStargazers(repository
-                    .getOwner().getLogin(), repository.getName(), "last");
-
-
-            Response<List<ResponseStargazers>> response = call.execute();
-
-            if (response.isSuccessful()) {
-
-                String headerLink = response.headers().get("Link");
-                if (headerLink != null) {
-                    boolean containsLast = headerLink.contains("last");
-                    headerLink = headerLink.replace(
-                            headerLink.substring(headerLink.lastIndexOf(">")), "");
-                    String lastPage = headerLink = headerLink.replace(
-                            headerLink.substring(0, headerLink.lastIndexOf("=") + 1), "");
-
-                    if (headerLink != null && containsLast) {
-                        getStargazersRecursiveSync(repository, Integer.valueOf(lastPage),
-                                TimeUtils.twoWeeksAgo());
-                    }
-                }
-
-                List<ResponseStargazers> responseStargazersList = response.body();
-
-                if (responseStargazersList != null) {
-                    GithubLocalDataSource localDataSource =
-                            GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                    localDataSource.saveStargazers(repository, responseStargazersList);
-                    return responseStargazersList;
-
-                } else {
-                    throw new IOException("responseStargazersList is null");
-                }
-
-            } else {
-                APIError error = APIError.parseError(response);
-                throw new IOException(error.getMessage());
-            }
+            List<Star> stars = GitHubAPI.stargazers()
+                    .setToken(getToken())
+                    .setTokenType(getTokenType())
+                    .setRepository(repository)
+                    .setPage(Pagination.LAST_PAGE)
+                    .setDate(TimeUtils.twoWeeksAgo())
+                    .getStars();
+            mLocalDataSource.saveStargazers(repository, stars);
+            return stars;
         } catch (IOException e) {
             if (ActivityUtils.isNetworkAvailable()) {
                 FirebaseCrash.report(e);

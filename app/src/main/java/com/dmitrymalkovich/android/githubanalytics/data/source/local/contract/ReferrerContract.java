@@ -6,7 +6,7 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
+import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
 
 /**
  * https://developer.github.com/v3/repos/traffic/
@@ -48,7 +48,7 @@ public class ReferrerContract {
         public static final int COL_PATHS_COUNT = 3;
         public static final int COL_PATHS_UNIQUES = 4;
 
-        public static ContentValues createContentValues(long repositoryId, ResponseReferrer referrer) {
+        public static ContentValues createContentValues(long repositoryId, ReferringSite referrer) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(ReferrerEntry.COLUMN_REPOSITORY_KEY,
                     repositoryId);

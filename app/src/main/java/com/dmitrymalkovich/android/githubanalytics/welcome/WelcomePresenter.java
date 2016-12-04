@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubService;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubServiceGenerator;
+import com.dmitrymalkovich.android.githubapi.core.service.GithubService;
+import com.dmitrymalkovich.android.githubapi.core.service.GithubServiceGenerator;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

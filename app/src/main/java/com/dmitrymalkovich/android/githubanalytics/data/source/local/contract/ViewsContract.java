@@ -6,7 +6,8 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
+import com.dmitrymalkovich.android.githubapi.core.gson.Views;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 /**
@@ -50,9 +51,9 @@ public class ViewsContract {
         public static final int COL_VIEWS_UNIQUES = 3;
         public static final int COL_VIEWS_TIMESTAMP = 4;
 
-        public static ContentValues buildContentValues(long repositoryId, ResponseViews.View view) {
+        public static ContentValues buildContentValues(long repositoryId, Views.View view) {
             String timestamp = view.getTimestamp();
-            long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(timestamp);
+            long timeInMilliseconds = TimeConverter.iso8601ToMilliseconds(timestamp);
 
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLUMN_REPOSITORY_KEY, repositoryId);

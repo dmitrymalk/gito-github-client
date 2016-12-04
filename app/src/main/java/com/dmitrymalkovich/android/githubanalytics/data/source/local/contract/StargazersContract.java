@@ -6,7 +6,8 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
+import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
+import com.dmitrymalkovich.android.githubapi.core.gson.Star;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 public class StargazersContract {
@@ -42,9 +43,9 @@ public class StargazersContract {
         public static final int COL_TIMESTAMP = 2;
 
         public static ContentValues buildContentValues(long repositoryId,
-                                                       ResponseStargazers responseStargazers) {
-            String timestamp = responseStargazers.getStarredAt();
-            long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(timestamp);
+                                                       Star star) {
+            String timestamp = star.getStarredAt();
+            long timeInMilliseconds = TimeConverter.iso8601ToMilliseconds(timestamp);
 
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLUMN_REPOSITORY_KEY, repositoryId);

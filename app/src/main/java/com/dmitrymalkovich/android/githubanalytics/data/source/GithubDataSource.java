@@ -1,12 +1,12 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source;
 
+import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
+import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
+import com.dmitrymalkovich.android.githubapi.core.gson.Views;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+import com.dmitrymalkovich.android.githubapi.core.gson.Star;
+import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
+import com.dmitrymalkovich.android.githubapi.core.gson.User;
 
 import org.eclipse.egit.github.core.Repository;
 
@@ -30,45 +30,43 @@ public interface GithubDataSource {
 
     interface GetRepositoryReferrersCallback {
 
-        void onRepositoryReferrersLoaded(List<ResponseReferrer> responseReferrerList);
+        void onRepositoryReferrersLoaded(List<ReferringSite> referringSiteList);
 
         void onDataNotAvailable();
     }
 
     interface GetRepositoryClonesCallback {
 
-        void onRepositoryClonesLoaded(ResponseClones responseClones);
+        void onRepositoryClonesLoaded(Clones clones);
 
         void onDataNotAvailable();
     }
 
     interface GetRepositoryViewsCallback {
 
-        void onRepositoryViewsLoaded(ResponseViews responseViews);
+        void onRepositoryViewsLoaded(Views views);
 
         void onDataNotAvailable();
     }
 
     interface GetTrendingRepositories {
 
-        void onTrendingRepositoriesLoaded(List<ResponseTrending> responseTrendingList,
+        void onTrendingRepositoriesLoaded(List<TrendingRepository> trendingRepositoryList,
                                           String language, String period);
 
         void onDataNotAvailable();
     }
 
     interface GerUserCallback {
-        void onUserLoaded(ResponseUser user);
+        void onUserLoaded(User user);
 
         void onDataNotAvailable();
     }
 
     interface GetStargazersCallback {
-        void onStargazersLoaded(List<ResponseStargazers> responseStargazersList);
+        void onStargazersLoaded(List<Star> starList);
         void onDataNotAvailable();
     }
-
-    void login(String login, String password);
 
     void logout();
 

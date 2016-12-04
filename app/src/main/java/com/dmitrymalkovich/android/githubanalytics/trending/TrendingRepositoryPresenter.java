@@ -12,7 +12,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
+import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
 
 import java.util.List;
 
@@ -110,7 +110,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
         mGithubRepository.getTrendingRepositories(period, language,
                 new GithubDataSource.GetTrendingRepositories() {
                     @Override
-                    public void onTrendingRepositoriesLoaded(List<ResponseTrending> repositories,
+                    public void onTrendingRepositoriesLoaded(List<TrendingRepository> repositories,
                                                              String language, String period) {
                         String currentPeriod = mGithubRepository.getDefaultPeriodForTrending();
                         String currentLanguage = mGithubRepository.getDefaultLanguageForTrending();
@@ -195,7 +195,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
         mGithubRepository.getTrendingRepositories(period, language,
                 new GithubDataSource.GetTrendingRepositories() {
                     @Override
-                    public void onTrendingRepositoriesLoaded(List<ResponseTrending> repositories,
+                    public void onTrendingRepositoriesLoaded(List<TrendingRepository> repositories,
                                                              String language, String period) {
                         String currentPeriod = mGithubRepository.getDefaultPeriodForTrending();
                         String currentLanguage = mGithubRepository.getDefaultLanguageForTrending();

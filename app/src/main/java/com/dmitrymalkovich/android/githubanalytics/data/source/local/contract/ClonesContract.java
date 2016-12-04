@@ -6,7 +6,8 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
+import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
+import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 /**
@@ -50,9 +51,9 @@ public class ClonesContract {
         public static final int COL_CLONES_UNIQUES = 3;
         public static final int COL_CLONES_TIMESTAMP = 4;
 
-        public static ContentValues buildContentValues(long repositoryId, ResponseClones.Clone clone) {
+        public static ContentValues buildContentValues(long repositoryId, Clones.Clone clone) {
             String timestamp = clone.getTimestamp();
-            long timeInMilliseconds = TimeUtils.iso8601ToMilliseconds(timestamp);
+            long timeInMilliseconds = TimeConverter.iso8601ToMilliseconds(timestamp);
 
             ContentValues contentValues = new ContentValues();
             contentValues.put(COLUMN_REPOSITORY_KEY, repositoryId);

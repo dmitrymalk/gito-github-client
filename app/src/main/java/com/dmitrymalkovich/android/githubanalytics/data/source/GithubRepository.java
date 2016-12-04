@@ -3,7 +3,6 @@ package com.dmitrymalkovich.android.githubanalytics.data.source;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -11,12 +10,12 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocal
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemoteDataSource;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseClones;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseReferrer;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseStargazers;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseTrending;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseUser;
-import com.dmitrymalkovich.android.githubanalytics.data.source.remote.gson.ResponseViews;
+import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
+import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
+import com.dmitrymalkovich.android.githubapi.core.gson.Star;
+import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
+import com.dmitrymalkovich.android.githubapi.core.gson.User;
+import com.dmitrymalkovich.android.githubapi.core.gson.Views;
 import com.dmitrymalkovich.android.githubanalytics.data.sync.SyncSettings;
 
 import org.eclipse.egit.github.core.Repository;
@@ -82,17 +81,6 @@ public class GithubRepository implements GithubDataSource {
             INSTANCE = new GithubRepository(githubRemoteDataSource, githubLocalDataSource, preferences);
         }
         return INSTANCE;
-    }
-
-    @Override
-    public void login(final String username, final String password) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                mGithubRemoteDataSource.login(username, password);
-                return null;
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -169,8 +157,8 @@ public class GithubRepository implements GithubDataSource {
     public void getRepositoryReferrers(Repository repository, final GetRepositoryReferrersCallback callback) {
         mGithubRemoteDataSource.getRepositoryReferrers(repository, new GetRepositoryReferrersCallback() {
             @Override
-            public void onRepositoryReferrersLoaded(List<ResponseReferrer> responseReferrerList) {
-                callback.onRepositoryReferrersLoaded(responseReferrerList);
+            public void onRepositoryReferrersLoaded(List<ReferringSite> referringSiteList) {
+                callback.onRepositoryReferrersLoaded(referringSiteList);
             }
 
             @Override
@@ -184,8 +172,8 @@ public class GithubRepository implements GithubDataSource {
     public void getRepositoryClones(Repository repository, String period, final GetRepositoryClonesCallback callback) {
         mGithubRemoteDataSource.getRepositoryClones(repository, period, new GetRepositoryClonesCallback() {
             @Override
-            public void onRepositoryClonesLoaded(ResponseClones responseClones) {
-                callback.onRepositoryClonesLoaded(responseClones);
+            public void onRepositoryClonesLoaded(Clones clones) {
+                callback.onRepositoryClonesLoaded(clones);
             }
 
             @Override
@@ -199,8 +187,8 @@ public class GithubRepository implements GithubDataSource {
     public void getRepositoryViews(Repository repository, String period, final GetRepositoryViewsCallback callback) {
         mGithubRemoteDataSource.getRepositoryViews(repository, period, new GetRepositoryViewsCallback() {
             @Override
-            public void onRepositoryViewsLoaded(ResponseViews responseViews) {
-                callback.onRepositoryViewsLoaded(responseViews);
+            public void onRepositoryViewsLoaded(Views views) {
+                callback.onRepositoryViewsLoaded(views);
             }
 
             @Override
@@ -214,8 +202,8 @@ public class GithubRepository implements GithubDataSource {
     public void getStargazers(Repository repository, final GetStargazersCallback callback) {
         mGithubRemoteDataSource.getStargazers(repository, new GetStargazersCallback() {
             @Override
-            public void onStargazersLoaded(List<ResponseStargazers> responseStargazersList) {
-                callback.onStargazersLoaded(responseStargazersList);
+            public void onStargazersLoaded(List<Star> starList) {
+                callback.onStargazersLoaded(starList);
             }
 
             @Override
@@ -233,13 +221,13 @@ public class GithubRepository implements GithubDataSource {
 
             Log.i(LOG_TAG, "Cache was used for " + key);
 
-            callback.onTrendingRepositoriesLoaded(new ArrayList<ResponseTrending>(), language, period);
+            callback.onTrendingRepositoriesLoaded(new ArrayList<TrendingRepository>(), language, period);
             return;
         }
 
         mGithubRemoteDataSource.getTrendingRepositories(period, language, new GetTrendingRepositories() {
             @Override
-            public void onTrendingRepositoriesLoaded(List<ResponseTrending> repositories,
+            public void onTrendingRepositoriesLoaded(List<TrendingRepository> repositories,
                                                      String language, String period) {
                 if (repositories.size() > 0) {
                     mSyncSettings.synced(key);
@@ -274,7 +262,7 @@ public class GithubRepository implements GithubDataSource {
     public void getUser(final GerUserCallback callback) {
         mGithubRemoteDataSource.getUser(new GerUserCallback() {
             @Override
-            public void onUserLoaded(ResponseUser user) {
+            public void onUserLoaded(User user) {
                 callback.onUserLoaded(user);
             }
 
