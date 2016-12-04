@@ -24,3 +24,6 @@ https://developers.appbrain.com/dev_dashboard#DevPagePlace:di=305763&page=market
 
 Github Platform Forum:
 https://platform.github.community/t/welcome-to-github-platform-forum/979
+
+Issue tracker: 
+https://github.com/DmitryMalkovich/github-analytics-issue-tracker
