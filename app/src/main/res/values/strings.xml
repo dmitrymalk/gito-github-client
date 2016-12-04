@@ -12,7 +12,7 @@
     <string name="navigation_view_header_followers">%1$s followers</string>
     <string name="dashboard_stars">Stars</string>
     <string name="dashboard_git_clones">Clones</string>
-    <string name="dashboard_empty_view_title">No public repositories</string>
+    <string name="dashboard_empty_view_title">We don’t have enough data to show anything useful</string>
     <string name="dashboard_empty_view_text" />
     <string name="repositories_forked">Forked</string>
     <string name="trending_empty_view_title">Data is not available</string>
@@ -39,4 +39,6 @@
     <string name="dashboard_referring_sites_views">views</string>
     <string name="dashboard_referring_sites_visitors">visitors</string>
     <string name="dashboard_visitors">Visitors</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="repositories_empty_view_title">We didn\'t found any your public repositories</string>
 </resources>

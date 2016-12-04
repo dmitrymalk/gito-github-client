@@ -3,6 +3,7 @@ package com.dmitrymalkovich.android.githubanalytics.traffic;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
+import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 import com.github.mikephil.charting.charts.LineChart;
@@ -72,6 +74,8 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     ImageView mLanguageIconView;
     @BindView(R.id.forks_total)
     TextView mTotalForksView;
+    @BindView(R.id.empty_state_title)
+    TextView mEmptyStateTextView;
 
     public static TrafficFragment newInstance(long repositoryId) {
         TrafficFragment trafficFragment = new TrafficFragment();
@@ -108,6 +112,9 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setHasFixedSize(false);
 
+        chartStyling(mChartClones);
+        chartStyling(mChartViews);
+
         return root;
     }
 
@@ -133,6 +140,13 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     public void setEmptyState(boolean active) {
         if (mEmptyState != null) {
             mEmptyState.setVisibility(active ? View.VISIBLE : View.GONE);
+
+            if (!ActivityUtils.isNetworkAvailable()) {
+                mEmptyStateTextView.setText(R.string.no_internet_connection);
+            } else {
+                mEmptyStateTextView.setText(R.string.trending_empty_view_text);
+            }
+
         }
     }
 
@@ -230,8 +244,6 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         YAxis yAxis = mChartClones.getAxisLeft();
         chartYAxisStyling(yAxis);
         mChartClones.setData(lineData);
-        chartStyling(mChartClones);
-
     }
 
     @Override
@@ -252,7 +264,6 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         YAxis yAxis = mChartViews.getAxisLeft();
         chartYAxisStyling(yAxis);
         mChartViews.setData(lineData);
-        chartStyling(mChartViews);
     }
 
     @SuppressWarnings("deprecation")
@@ -260,7 +271,7 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         chart.setTouchEnabled(true);
         chart.setDescription("");
         chart.setAutoScaleMinMaxEnabled(false);
-        chart.setNoDataTextColor(getResources().getColor(R.color.traffic_chart_text_color));
+        chart.setNoDataTextColor(Color.BLACK);
         YAxis axisRight = chart.getAxisRight();
         axisRight.setEnabled(false);
         chart.getLegend().setEnabled(false);

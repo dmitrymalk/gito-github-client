@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +36,7 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
     @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     private PublicRepositoryListAdapter mAdapter;
     @BindView(R.id.empty_state) View mEmptyStateView;
+    @BindView(R.id.empty_state_title) TextView mEmptyStateTextView;
 
     public static PublicRepositoryFragment newInstance() {
         return new PublicRepositoryFragment();
@@ -114,6 +117,13 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
                 && mProgressBar.getVisibility() != View.VISIBLE && active
                 && this.mAdapter.getItemCount() == 0) {
             mEmptyStateView.setVisibility(View.VISIBLE);
+
+            if (!ActivityUtils.isNetworkAvailable()) {
+                mEmptyStateTextView.setText(R.string.no_internet_connection);
+            } else {
+                mEmptyStateTextView.setText(R.string.repositories_empty_view_title);
+            }
+
         } else if (mEmptyStateView != null) {
             mEmptyStateView.setVisibility(View.GONE);
         }

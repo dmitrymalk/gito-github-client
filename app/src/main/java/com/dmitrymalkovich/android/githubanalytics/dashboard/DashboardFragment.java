@@ -15,9 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.traffic.TrafficAdActivity;
+import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 
 import butterknife.BindView;
@@ -39,6 +41,8 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
     SwipeRefreshLayout mSwipeRefreshLayout;
     private DashboardListAdapter mAdapter;
     @BindView(R.id.empty_state) View mEmptyStateView;
+    @BindView(R.id.empty_state_title)
+    TextView mEmptyStateTextView;
 
     public static DashboardFragment newInstance() {
         return new DashboardFragment();
@@ -132,6 +136,13 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
                 && mProgressBar.getVisibility() != View.VISIBLE && active
                 && this.mAdapter.getItemCount() == 0) {
             mEmptyStateView.setVisibility(View.VISIBLE);
+
+            if (!ActivityUtils.isNetworkAvailable()) {
+                mEmptyStateTextView.setText(R.string.no_internet_connection);
+            } else {
+                mEmptyStateTextView.setText(R.string.dashboard_empty_view_title);
+            }
+
         } else if (mEmptyStateView != null) {
             mEmptyStateView.setVisibility(View.GONE);
         }
