@@ -26,7 +26,6 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Us
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
 import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
-import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 import com.google.firebase.crash.FirebaseCrash;
 
 import org.eclipse.egit.github.core.Repository;
@@ -245,6 +244,16 @@ public class GithubLocalDataSource implements GithubDataSource {
 
             mContentResolver.insert(uri, referrerValues);
         }
+    }
+
+    @Override
+    public void setPinned(boolean active, long id) {
+        Uri uri = RepositoryContract.RepositoryEntry.CONTENT_URI;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_PINNED, active ? 1 : 0);
+        mContentResolver.update(uri, contentValues,
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " = "
+                        + id, null);
     }
 
     public boolean saveRepositories(List<Repository> repositories) throws IOException {

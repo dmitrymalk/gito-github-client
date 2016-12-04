@@ -21,6 +21,8 @@ class PublicRepositoryContract {
         void openUrl(@NonNull String htmlUrl);
 
         void setEmptyState(boolean active);
+
+        void setPinned(boolean active, long id);
     }
 
     interface Presenter extends BasePresenter, SwipeRefreshLayout.OnRefreshListener {
@@ -29,5 +31,7 @@ class PublicRepositoryContract {
 
         @Override
         void start(Bundle savedInstanceState);
+
+        void setPinned(boolean active, long id);
     }
 }

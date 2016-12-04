@@ -118,4 +118,9 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
             mEmptyStateView.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void setPinned(boolean active, long id) {
+        mPresenter.setPinned(active, id);
+    }
 }

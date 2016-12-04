@@ -14,6 +14,8 @@ import java.util.List;
 
 public interface GithubDataSource {
 
+    void setPinned(boolean active, long id);
+
     interface RequestTokenFromCodeCallback {
 
         void onTokenLoaded(String token, String tokenType);

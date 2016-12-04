@@ -129,4 +129,9 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
                 null,
                 PublicRepositoryPresenter.this);
     }
+
+    @Override
+    public void setPinned(boolean active, long id) {
+        mGithubRepository.setPinned(active, id);
+    }
 }

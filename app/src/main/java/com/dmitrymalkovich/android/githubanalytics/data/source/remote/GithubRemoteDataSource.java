@@ -8,8 +8,6 @@ import android.util.Log;
 
 import com.dmitrymalkovich.android.githubapi.GitHubAPI;
 import com.dmitrymalkovich.android.githubapi.core.pagination.Pagination;
-import com.dmitrymalkovich.android.githubapi.core.service.GithubService;
-import com.dmitrymalkovich.android.githubapi.core.service.ThirdPartyGithubServiceGenerator;
 import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
 import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
 import com.dmitrymalkovich.android.githubapi.core.gson.Star;
@@ -30,8 +28,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import retrofit2.Call;
 
 public class GithubRemoteDataSource implements GithubDataSource {
     private static String LOG_TAG = GithubRemoteDataSource.class.getSimpleName();
@@ -300,26 +296,15 @@ public class GithubRemoteDataSource implements GithubDataSource {
                                                                 final String language,
                                                                 boolean useCache) {
         try {
-            AccessToken accessToken = new AccessToken();
-            accessToken.setAccessToken(getToken());
-            accessToken.setTokenType(getTokenType());
+            List<TrendingRepository> repositories = GitHubAPI.trending()
+                    .setLanguage(language)
+                    .setPeriod(period)
+                    .getRepositories();
 
-            GithubService githubService = ThirdPartyGithubServiceGenerator.createService(
-                    GithubService.class);
-            Call<List<TrendingRepository>> call = githubService.getTrendingRepositories(language,
-                    period);
-
-            List<TrendingRepository> trendingRepositoryList = call.execute().body();
-
-            if (trendingRepositoryList != null) {
-                GithubLocalDataSource localDataSource =
-                        GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
-                localDataSource.saveTrendingRepositories(period, language, trendingRepositoryList);
-
-                return trendingRepositoryList;
-            } else {
-                return null;
-            }
+            GithubLocalDataSource localDataSource =
+                    GithubLocalDataSource.getInstance(mContentResolver, mPreferences);
+            localDataSource.saveTrendingRepositories(period, language, repositories);
+            return repositories;
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             return null;
@@ -450,6 +435,11 @@ public class GithubRemoteDataSource implements GithubDataSource {
     public void setDefaultPeriodForTrending(@GithubLocalDataSource.TrendingPeriod String
                                                     period) {
         mLocalDataSource.setDefaultPeriodForTrending(period);
+    }
+
+    @Override
+    public void setPinned(boolean active, long id) {
+        mLocalDataSource.setPinned(active, id);
     }
 
     @Override

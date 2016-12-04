@@ -1,6 +1,7 @@
 package com.dmitrymalkovich.android.githubanalytics.repositories;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,8 +18,10 @@ import static com.dmitrymalkovich.android.githubanalytics.data.source.local.cont
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORK;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORKS;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_HTML_URL;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_ID;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_LANGUAGE;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_NAME;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_PINNED;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_WATCHERS;
 
 class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicRepositoryListAdapter.ViewHolder> {
@@ -42,6 +45,7 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
     @Override
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
         Context context = holder.itemView.getContext();
+        Resources resources = context.getResources();
 
         holder.titleView.setText(cursor.getString(COL_REPOSITORY_NAME));
         holder.subtitleView.setText(cursor.getString(COL_REPOSITORY_DESCRIPTION));
@@ -78,6 +82,25 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
                     .getColor(R.color.green));
             holder.badgeView.setText(R.string.trending_public);
         }
+
+        String pinned = cursor.getString(COL_REPOSITORY_PINNED);
+        final boolean favorite = pinned.equals("1");
+        if (favorite) {
+            holder.favoriteView.setImageDrawable(
+                    resources.getDrawable(R.drawable.ic_turned_in_blue_24dp));
+        } else {
+            holder.favoriteView.setImageDrawable(
+                    resources.getDrawable(R.drawable.ic_turned_in_not_blue_24dp));
+        }
+
+        final long id = cursor.getLong(COL_REPOSITORY_ID);
+        holder.favoriteView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mView.setPinned(!favorite, id);
+            }
+        });
+        holder.favoriteView.setVisibility(!forked ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
@@ -90,6 +113,7 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
         private final TextView languageView;
         private final TextView forksView;
         private final TextView badgeView;
+        private final ImageView favoriteView;
         TextView titleView;
         TextView subtitleView;
         private final ImageView languageIconView;
@@ -103,6 +127,7 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
             languageIconView = (ImageView) view.findViewById(R.id.language_icon);
             forksView = (TextView) view.findViewById(R.id.forks_total);
             badgeView = (TextView) view.findViewById(R.id.badge);
+            favoriteView = (ImageView) view.findViewById(R.id.favorite);
         }
     }
 }

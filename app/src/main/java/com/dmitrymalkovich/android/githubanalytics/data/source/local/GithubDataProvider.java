@@ -421,6 +421,8 @@ public class GithubDataProvider extends ContentProvider {
             {
                 getContext().getContentResolver().notifyChange(
                         RepositoryContract.RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS, null);
+                getContext().getContentResolver().notifyChange(
+                        RepositoryContract.RepositoryEntry.CONTENT_URI, null);
             }
         }
         return rowsUpdated;
