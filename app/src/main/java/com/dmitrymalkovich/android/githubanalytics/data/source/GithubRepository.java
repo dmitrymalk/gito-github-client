@@ -310,6 +310,11 @@ public class GithubRepository implements GithubDataSource {
         mGithubLocalDataSource.setDefaultPeriodForTrending(period);
     }
 
+    @Override
+    public void setPinned(boolean active, long id) {
+        mGithubLocalDataSource.setPinned(active, id);
+    }
+
     public interface LoadDataCallback {
         void onDataLoaded(Cursor data, int id);
 

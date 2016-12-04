@@ -6,7 +6,7 @@
     <string name="navigation_view_close">Close navigation drawer</string>
     <string name="navigation_view_dashboard">Dashboard</string>
     <string name="navigation_view_repositories">Repositories</string>
-    <string name="navigation_view_trending">Trending</string>
+    <string name="navigation_view_trending">Trending beta</string>
     <string name="navigation_view_sign_out">Sign out</string>
     <string name="navigation_view_feedback">Feedback</string>
     <string name="navigation_view_header_followers">%1$s followers</string>

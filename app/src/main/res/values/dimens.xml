@@ -37,8 +37,7 @@
     <dimen name="navigation_view_toolbar_logo_padding">
         @dimen/material_layout_vertical_spacing_between_content_areas
     </dimen>
-    <dimen name="repository_badge_padding">@dimen/material_component_cards_space_between_cards
-    </dimen>
+    <dimen name="repository_badge_padding">4dp</dimen>
     <dimen name="repository_space_between_description_and_information_height">
         @dimen/material_component_cards_supporting_text_bottom_padding
     </dimen>
@@ -58,7 +57,10 @@
     <dimen name="widget_top_bar_height">40dp</dimen>
     <dimen name="widget_top_bar_elevation">4dp</dimen>
     <dimen name="trending_referrer_horizontal_padding">16dp</dimen>
-    <dimen name="dashboard_site_name_width">120dp</dimen>
+    <dimen name="dashboard_site_name_width">140dp</dimen>
     <dimen name="dashboard_referring_sites_type_left_padding">4dp</dimen>
     <dimen name="dashboard_space_between_referring_sites_height">8dp</dimen>
+    <dimen name="dashboard_button_padding">4dp</dimen>
+    <dimen name="repository_turned_button_padding">8dp</dimen>
+    <dimen name="repository_badge_margin">8dp</dimen>
 </resources>

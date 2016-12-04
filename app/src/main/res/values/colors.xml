@@ -25,7 +25,7 @@
     <color name="trending_bottom_bar_background">@color/blue</color>
     <color name="trending_bottom_bar_active">@android:color/white</color>
     <color name="trending_bottom_bar_inactive">@color/material_grey_400</color>
-    <color name="trending_badge_inactive">@color/material_grey_300</color>
+    <color name="trending_badge_inactive">@color/material_grey_200</color>
     <color name="trending_badge_active">@android:color/white</color>
     <color name="trending_badge_background">@color/blue</color>
     <color name="trending_badge_line">#FFF</color>
@@ -46,5 +46,5 @@
     <color name="widget_text">#000</color>
     <color name="widget_top_bar_background">@color/blue</color>
     <color name="widget_top_bar_text">#FFF</color>
-    <color name="dashboard_site_name">#000</color>
+    <color name="dashboard_site_name">@color/blue</color>
 </resources>

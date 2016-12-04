@@ -203,7 +203,7 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
             languageView = (TextView) view.findViewById(R.id.language);
             languageIconView = (ImageView) view.findViewById(R.id.language_icon);
             totalForksView = (TextView) view.findViewById(R.id.forks_total);
-            githubView = (Button) view.findViewById(R.id.github);
+            githubView = (Button) view.findViewById(R.id.open_with_github);
             trafficView = (Button) view.findViewById(R.id.traffic);
 
             View todayView = view.findViewById(R.id.today);

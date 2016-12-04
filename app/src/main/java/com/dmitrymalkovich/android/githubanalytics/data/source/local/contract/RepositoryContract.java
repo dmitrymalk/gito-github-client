@@ -48,6 +48,7 @@ public class RepositoryContract {
         public static final String COLUMN_REPOSITORY_FORKS = "repository_forks";
         public static final String COLUMN_REPOSITORY_WATCHERS = "repository_watchers";
         public static final String COLUMN_REPOSITORY_LANGUAGE = "repository_language";
+        public static final String COLUMN_REPOSITORY_PINNED = "repository_pinned";
 
         public static Uri buildRepositoryUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -65,7 +66,8 @@ public class RepositoryContract {
                 TABLE_NAME + "." + COLUMN_REPOSITORY_HTML_URL,
                 TABLE_NAME + "." + COLUMN_REPOSITORY_FORKS,
                 TABLE_NAME + "." + COLUMN_REPOSITORY_WATCHERS,
-                TABLE_NAME + "." + COLUMN_REPOSITORY_LANGUAGE
+                TABLE_NAME + "." + COLUMN_REPOSITORY_LANGUAGE,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_PINNED
         };
 
         public static final String[] REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO = {
@@ -81,6 +83,7 @@ public class RepositoryContract {
                 TABLE_NAME + "." + COLUMN_REPOSITORY_FORKS,
                 TABLE_NAME + "." + COLUMN_REPOSITORY_WATCHERS,
                 TABLE_NAME + "." + COLUMN_REPOSITORY_LANGUAGE,
+                TABLE_NAME + "." + COLUMN_REPOSITORY_PINNED,
                 StargazersContract.Entry.TABLE_NAME + "." + StargazersContract.Entry.COLUMN_REPOSITORY_KEY,
                 StargazersContract.Entry.TABLE_NAME + "." + "stars",
                 StargazersContract.Entry.TABLE_NAME + "_yesterday" + "." + "stars",
@@ -127,38 +130,39 @@ public class RepositoryContract {
         public static final int COL_REPOSITORY_FORKS = 9;
         public static final int COL_REPOSITORY_WATCHERS = 10;
         public static final int COL_REPOSITORY_LANGUAGE = 11;
-        public static final int COL_STARGAZERS_ID = 12;
-        public static final int COL_STARGAZERS_STARS = 13;
-        public static final int COL_STARGAZERS_STARS_YESTERDAY = 14;
-        public static final int COL_STARGAZERS_STARS_TWO_WEEKS = 15;
-        public static final int COL_VIEWS_ID = 16;
-        public static final int COL_VIEWS_UNIQUES = 17;
-        public static final int COL_VIEWS_COUNT = 18;
-        public static final int COL_VIEWS_ID_YESTERDAY = 19;
-        public static final int COL_VIEWS_UNIQUES_YESTERDAY = 20;
-        public static final int COL_VIEWS_COUNT_YESTERDAY = 21;
-        public static final int COL_VIEWS_ID_TWO_WEEKS = 22;
-        public static final int COL_VIEWS_UNIQUES_TWO_WEEKS = 23;
-        public static final int COL_VIEWS_COUNT_TWO_WEEKS = 24;
-        public static final int COL_CLONES_ID = 25;
-        public static final int COL_CLONES_UNIQUES = 26;
-        public static final int COL_CLONES_COUNT = 27;
-        public static final int COL_CLONES_ID_YESTERDAY = 28;
-        public static final int COL_CLONES_UNIQUES_YESTERDAY = 29;
-        public static final int COL_CLONES_COUNT_YESTERDAY = 30;
-        public static final int COL_CLONES_ID_TWO_WEEKS = 31;
-        public static final int COL_CLONES_UNIQUES_TWO_WEEKS = 32;
-        public static final int COL_CLONES_COUNT_TWO_WEEKS = 33;
-        public static final int COL_REFERRER_1_ID = 34;
-        public static final int COL_REFERRER_1_REPOSITORY_KEY = 35;
-        public static final int COL_REFERRER_1_PATHS_REFERRER = 36;
-        public static final int COL_REFERRER_1_PATHS_COUNT = 37;
-        public static final int COL_REFERRER_1_PATHS_UNIQUES = 38;
-        public static final int COL_REFERRER_2_ID = 39;
-        public static final int COL_REFERRER_2_REPOSITORY_KEY = 40;
-        public static final int COL_REFERRER_2_PATHS_REFERRER = 41;
-        public static final int COL_REFERRER_2_PATHS_COUNT = 42;
-        public static final int COL_REFERRER_2_PATHS_UNIQUES = 43;
+        public static final int COL_REPOSITORY_PINNED = 12;
+        public static final int COL_STARGAZERS_ID = 13;
+        public static final int COL_STARGAZERS_STARS = 14;
+        public static final int COL_STARGAZERS_STARS_YESTERDAY = 15;
+        public static final int COL_STARGAZERS_STARS_TWO_WEEKS = 16;
+        public static final int COL_VIEWS_ID = 17;
+        public static final int COL_VIEWS_UNIQUES = 18;
+        public static final int COL_VIEWS_COUNT = 19;
+        public static final int COL_VIEWS_ID_YESTERDAY = 20;
+        public static final int COL_VIEWS_UNIQUES_YESTERDAY = 21;
+        public static final int COL_VIEWS_COUNT_YESTERDAY = 22;
+        public static final int COL_VIEWS_ID_TWO_WEEKS = 23;
+        public static final int COL_VIEWS_UNIQUES_TWO_WEEKS = 24;
+        public static final int COL_VIEWS_COUNT_TWO_WEEKS = 25;
+        public static final int COL_CLONES_ID = 26;
+        public static final int COL_CLONES_UNIQUES = 27;
+        public static final int COL_CLONES_COUNT = 28;
+        public static final int COL_CLONES_ID_YESTERDAY = 29;
+        public static final int COL_CLONES_UNIQUES_YESTERDAY = 30;
+        public static final int COL_CLONES_COUNT_YESTERDAY = 31;
+        public static final int COL_CLONES_ID_TWO_WEEKS = 32;
+        public static final int COL_CLONES_UNIQUES_TWO_WEEKS = 33;
+        public static final int COL_CLONES_COUNT_TWO_WEEKS = 34;
+        public static final int COL_REFERRER_1_ID = 35;
+        public static final int COL_REFERRER_1_REPOSITORY_KEY = 36;
+        public static final int COL_REFERRER_1_PATHS_REFERRER = 37;
+        public static final int COL_REFERRER_1_PATHS_COUNT = 38;
+        public static final int COL_REFERRER_1_PATHS_UNIQUES = 39;
+        public static final int COL_REFERRER_2_ID = 40;
+        public static final int COL_REFERRER_2_REPOSITORY_KEY = 41;
+        public static final int COL_REFERRER_2_PATHS_REFERRER = 42;
+        public static final int COL_REFERRER_2_PATHS_COUNT = 43;
+        public static final int COL_REFERRER_2_PATHS_UNIQUES = 44;
 
         public static ContentValues buildContentValues(Repository repo) {
             ContentValues contentValues = new ContentValues();

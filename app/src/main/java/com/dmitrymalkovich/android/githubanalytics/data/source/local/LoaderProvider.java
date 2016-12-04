@@ -85,8 +85,9 @@ public class LoaderProvider {
                 RepositoryContract.RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS,
                 RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " = ? AND "
-                        + RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " > ? " ,
-                new String[] {"0", "1"},
+                        + RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " > ? AND "
+                        + RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_PINNED + " = ? ",
+                new String[] {"0", "0", "1"},
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " DESC"
         );
     }

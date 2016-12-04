@@ -14,7 +14,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Vi
 
 class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "GithubAnalytics.db";
 
     GithubAnalyticsDbHelper(Context context) {
@@ -36,7 +36,8 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_HTML_URL + " TEXT ," +
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORKS + " INTEGER ," +
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " INTEGER ," +
-                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_LANGUAGE + " TEXT" +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_LANGUAGE + " TEXT ," +
+                RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_PINNED + " INTEGER DEFAULT 1" +
                 " );";
         sqLiteDatabase.execSQL(SQL_CREATE_REPOSITORIES_TABLE);
 
@@ -109,6 +110,17 @@ class GithubAnalyticsDbHelper extends SQLiteOpenHelper {
         }
 
         if (oldVersion < 3) {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RepositoryContract.RepositoryEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ViewsContract.ViewsEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ReferrerContract.ReferrerEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ClonesContract.ClonesEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TrendingContract.TrendingEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + StargazersContract.Entry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserContract.UsersEntry.TABLE_NAME);
+            onCreate(sqLiteDatabase);
+        }
+
+        if (oldVersion < 4) {
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RepositoryContract.RepositoryEntry.TABLE_NAME);
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ViewsContract.ViewsEntry.TABLE_NAME);
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ReferrerContract.ReferrerEntry.TABLE_NAME);

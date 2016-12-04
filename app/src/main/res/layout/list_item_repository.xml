@@ -7,6 +7,15 @@
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
 
+    <ImageButton
+        android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:background="?attr/selectableItemBackground"
+        android:padding="@dimen/repository_turned_button_padding"
+        android:src="@drawable/ic_turned_in_blue_24dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/repository_badge_margin"
         android:background="@color/repository_badge_fork_background"
         android:padding="@dimen/repository_badge_padding"
         android:textColor="@color/repository_badge_text" />
