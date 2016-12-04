@@ -106,7 +106,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                 }
             });
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 2; i++) {
                 if (repositories.size() >= i + 1) {
                     Repository repository = repositories.get(i);
                     getRepositoriesWithAdditionalInfoSync(repository.getId(), repositories);

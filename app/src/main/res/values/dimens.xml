@@ -63,4 +63,6 @@
     <dimen name="dashboard_button_padding">4dp</dimen>
     <dimen name="repository_turned_button_padding">8dp</dimen>
     <dimen name="repository_badge_margin">8dp</dimen>
+    <dimen name="traffic_card_padding">16dp</dimen>
+    <dimen name="traffic_card_title_padding">12dp</dimen>
 </resources>

@@ -2,15 +2,15 @@
 
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/background"
     android:id="@+id/coordinator_layout"
+    android:background="@color/background"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
     <include
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        layout="@layout/app_bar_navigation_view" />
+        layout="@layout/app_bar_traffic_view" />
 
     <ProgressBar
         style="?android:attr/progressBarStyle"

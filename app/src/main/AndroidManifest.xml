@@ -49,7 +49,7 @@
 
         <activity
             android:name=".traffic.TrafficAdActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.ColoredStatusBar" />
 
         <service
             android:name=".data.sync.SyncService"
