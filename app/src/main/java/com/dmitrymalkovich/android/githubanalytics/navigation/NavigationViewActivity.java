@@ -120,6 +120,8 @@ public class NavigationViewActivity extends AppCompatActivity
                     showDashboard();
                 } else if (id == R.id.nav_repositories) {
                     showRepositories();
+                } else if (id == R.id.nav_settings) {
+
                 } else if (id == R.id.nav_trending) {
                     showTrendingRepositories();
                 } else if (id == R.id.nav_feedback) {
