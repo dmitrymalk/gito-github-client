@@ -20,6 +20,7 @@ https://plus.google.com/communities/106373382024164307474
 ## License
 
     Copyright 2016 Dmitry Malkovich
+    
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
