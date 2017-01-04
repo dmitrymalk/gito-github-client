@@ -10,7 +10,7 @@ The non-official GitHub mobile app helps you monitor stars and traffic of your p
 * No ads
 
 
-<img width="40%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/21659763/3faed468-d2dd-11e6-8a35-359a634c59f2.png" /> <img width="40%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/21659762/3f78adf2-d2dd-11e6-9853-d9ee873df5d6.png" /> <img width="40%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/21659764/3fb25278-d2dd-11e6-9845-3461b983cf76.png" />
+<img width="40%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/21659763/3faed468-d2dd-11e6-8a35-359a634c59f2.png" /> <img width="40%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/21659762/3f78adf2-d2dd-11e6-9853-d9ee873df5d6.png" />
 
 <a href='https://play.google.com/store/apps/details?id=com.dmitrymalkovich.android.githubanalytics&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width="150" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
 
