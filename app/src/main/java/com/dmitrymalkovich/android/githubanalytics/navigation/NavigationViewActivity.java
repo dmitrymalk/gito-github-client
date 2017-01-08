@@ -45,6 +45,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Us
 import com.dmitrymalkovich.android.githubanalytics.data.sync.SyncAdapter;
 import com.dmitrymalkovich.android.githubanalytics.repositories.PublicRepositoryFragment;
 import com.dmitrymalkovich.android.githubanalytics.repositories.PublicRepositoryPresenter;
+import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 import com.dmitrymalkovich.android.githubanalytics.trending.TrendingRepositoryFragment;
 import com.dmitrymalkovich.android.githubanalytics.trending.TrendingRepositoryPresenter;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
@@ -66,6 +67,8 @@ public class NavigationViewActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SettingsActivity.ThemePreferenceFragment.getTheme(this,
+                SettingsActivity.ThemePreferenceFragment.THEME_TYPE_NO_ACTION_BAR));
         setContentView(R.layout.activity_navigation_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -136,7 +139,7 @@ public class NavigationViewActivity extends AppCompatActivity
                 } else if (id == R.id.nav_repositories) {
                     showRepositories();
                 } else if (id == R.id.nav_settings) {
-
+                    ActivityUtils.openSettings(NavigationViewActivity.this);
                 } else if (id == R.id.nav_trending) {
                     showTrendingRepositories();
                 } else if (id == R.id.nav_feedback) {

@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
+import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 
 public class TrafficActivity extends AppCompatActivity {
@@ -37,6 +38,9 @@ public class TrafficActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SettingsActivity.ThemePreferenceFragment.getTheme(this,
+                SettingsActivity
+                        .ThemePreferenceFragment.THEME_TYPE_NO_ACTION_BAR_AND_COLORED_STATUS_BAR));
         setContentView(R.layout.activity_traffic);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

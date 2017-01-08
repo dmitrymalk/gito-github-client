@@ -27,6 +27,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.dmitrymalkovich.android.githubanalytics.GithubAnalyticsApplication;
+import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -95,5 +96,10 @@ public class ActivityUtils {
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static void openSettings(Activity activity) {
+        Intent intent = new Intent(activity, SettingsActivity.class);
+        activity.startActivity(intent);
     }
 }
