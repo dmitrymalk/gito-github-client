@@ -50,7 +50,7 @@
         android:layout_height="?attr/actionBarSize"
         android:clipToPadding="false"
         android:scrollbarStyle="outsideOverlay"
-        android:background="@color/trending_badge_background"
+        android:background="?attr/trending_badge_background"
         android:visibility="gone"
         tools:ignore="PrivateResource" />
 

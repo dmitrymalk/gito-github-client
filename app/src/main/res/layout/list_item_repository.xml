@@ -51,8 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/repository_badge_margin"
-        android:background="@color/repository_badge_fork_background"
+        android:background="?attr/repository_badge_fork_background"
         android:padding="@dimen/repository_badge_padding"
-        android:textColor="@color/repository_badge_text" />
+        android:textColor="?attr/repository_badge_text" />
 
 </android.support.v7.widget.CardView>

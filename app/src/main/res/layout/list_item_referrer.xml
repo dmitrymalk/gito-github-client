@@ -19,7 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_white"
+        android:background="?referrer_list_item_selector"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/trending_referrer_vertical_padding"
         android:paddingTop="@dimen/trending_referrer_vertical_padding">
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:gravity="center_vertical"
-            android:textColor="@color/trending_referrer_name_text" />
+            android:textColor="?attr/trending_referrer_name_text" />
 
         <TextView
             android:id="@+id/views"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end|center_vertical"
-            android:textColor="@color/trending_referrer_text" />
+            android:textColor="?attr/trending_referrer_text" />
 
         <TextView
             android:id="@+id/visitors"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end|center_vertical"
-            android:textColor="@color/trending_referrer_text" />
+            android:textColor="?attr/trending_referrer_text" />
 
     </LinearLayout>
 
@@ -57,6 +57,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_gravity="bottom"
-        android:background="@color/traffic_referrer_divider" />
+        android:background="?attr/traffic_referrer_divider" />
 
 </LinearLayout>

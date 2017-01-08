@@ -40,7 +40,7 @@
             android:layout_height="1dp"
             android:layout_marginBottom="@dimen/dashboard_list_item_padding"
             android:layout_marginTop="@dimen/dashboard_list_item_padding"
-            android:background="@color/divider" />
+            android:background="?attr/divider_background" />
 
         <LinearLayout
             android:id="@+id/today"
@@ -116,7 +116,7 @@
             android:layout_height="1dp"
             android:layout_marginBottom="@dimen/dashboard_list_item_padding"
             android:layout_marginTop="@dimen/dashboard_list_item_padding"
-            android:background="@color/divider" />
+            android:background="?attr/divider_background" />
 
         <LinearLayout
             android:id="@+id/top_referrer_sites"

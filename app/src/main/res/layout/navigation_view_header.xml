@@ -47,7 +47,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/name_color"
+            android:textColor="?attr/name_color"
             android:textSize="@dimen/navigation_view_header_name_text_size"
             android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
             android:id="@+id/followers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/name_color"
+            android:textColor="?attr/name_color"
             android:textSize="@dimen/navigation_view_header_name_text_size" />
 
     </LinearLayout>

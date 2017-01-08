@@ -36,6 +36,7 @@ import android.widget.TextView;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 
 import butterknife.BindView;
@@ -176,9 +177,10 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     @SuppressWarnings("deprecation")
     private void setUpBottomNavigationBar() {
         int icon = R.drawable.ic_trending_up_black_24dp;
-        int backgroundColor = R.color.trending_bottom_bar_background;
-        int colorActive = R.color.trending_bottom_bar_active;
-        int colorInActive = R.color.trending_bottom_bar_inactive;
+        int backgroundColor = SettingsActivity.ThemePreferenceFragment.isLight(getContext()) ?
+                R.color.trending_bottom_bar_background_light : R.color.trending_bottom_bar_background_dark;
+        int colorActive = R.color.trending_bottom_bar_active_light;
+        int colorInActive = R.color.trending_bottom_bar_inactive_light;
 
         AHBottomNavigationItem daily = new AHBottomNavigationItem(R.string.trending_daily,
                 icon, backgroundColor);

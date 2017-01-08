@@ -24,7 +24,7 @@
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background">
+        android:background="?background_general">
 
         <include
             layout="@layout/app_bar_navigation_view"
@@ -40,8 +40,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navigation_view_header"
-        app:itemIconTint="@drawable/selector_blue"
-        app:itemTextColor="@drawable/selector_blue"
+        app:itemIconTint="?navigation_view_selector"
+        app:itemTextColor="?navigation_view_selector"
         app:menu="@menu/activity_navigation_view_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

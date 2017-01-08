@@ -45,10 +45,12 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Us
 import com.dmitrymalkovich.android.githubanalytics.data.sync.SyncAdapter;
 import com.dmitrymalkovich.android.githubanalytics.repositories.PublicRepositoryFragment;
 import com.dmitrymalkovich.android.githubanalytics.repositories.PublicRepositoryPresenter;
+import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 import com.dmitrymalkovich.android.githubanalytics.trending.TrendingRepositoryFragment;
 import com.dmitrymalkovich.android.githubanalytics.trending.TrendingRepositoryPresenter;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
+import com.kobakei.ratethisapp.RateThisApp;
 
 public class NavigationViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -66,6 +68,8 @@ public class NavigationViewActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SettingsActivity.ThemePreferenceFragment.getTheme(this,
+                SettingsActivity.ThemePreferenceFragment.THEME_TYPE_NO_ACTION_BAR));
         setContentView(R.layout.activity_navigation_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,6 +99,15 @@ public class NavigationViewActivity extends AppCompatActivity
 
         mLoaderProvider = new LoaderProvider(this);
         getSupportLoaderManager().initLoader(USER_LOADER, null, this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Monitor launch times and interval from installation
+        RateThisApp.onStart(this);
+        // If the criteria is satisfied, "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this);
     }
 
     @Override
@@ -136,7 +149,7 @@ public class NavigationViewActivity extends AppCompatActivity
                 } else if (id == R.id.nav_repositories) {
                     showRepositories();
                 } else if (id == R.id.nav_settings) {
-
+                    ActivityUtils.openSettings(NavigationViewActivity.this);
                 } else if (id == R.id.nav_trending) {
                     showTrendingRepositories();
                 } else if (id == R.id.nav_feedback) {

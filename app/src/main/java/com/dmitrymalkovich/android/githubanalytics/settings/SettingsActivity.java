@@ -1,4 +1,3 @@
-package com.dmitrymalkovich.android.githubanalytics.settings;
 /*
  * Copyright 2016.  Dmitry Malkovich
  *
@@ -14,10 +13,12 @@ package com.dmitrymalkovich.android.githubanalytics.settings;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.dmitrymalkovich.android.githubanalytics.settings;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,10 +27,16 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.dmitrymalkovich.android.githubanalytics.R;
+
+import java.lang.annotation.Retention;
 import java.util.List;
+
+import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -44,11 +51,12 @@ import java.util.List;
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
-    public final static String KEY_PREF_RECOGNITION_LANGUAGE = "recognition_language";
+    public final static String KEY_PREF_THEME = "theme";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemePreferenceFragment.getTheme(this, ThemePreferenceFragment.THEME_TYPE_ACTION_BAR);
         setupActionBar();
     }
 
@@ -74,7 +82,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onIsMultiPane() {
         return isXLargeTablet(this);
@@ -89,7 +99,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<PreferenceActivity.Header> target) {
@@ -152,26 +164,40 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || TextRecognitionPreferenceFragment.class.getName().equals(fragmentName);
+                || ThemePreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
-     * This fragment shows text recognition preferences only. It is used when the
+     * This fragment shows theme preferences only. It is used when the
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class TextRecognitionPreferenceFragment extends PreferenceFragment {
+    public static class ThemePreferenceFragment extends PreferenceFragment {
+
+        private static final String THEME_LIGHT = "0";
+        @SuppressWarnings("unused")
+        private static final String THEME_DARK = "1";
+
+        @Retention(SOURCE)
+        @IntDef({THEME_TYPE_NO_ACTION_BAR, THEME_TYPE_NO_ACTION_BAR_AND_COLORED_STATUS_BAR, THEME_TYPE_ACTION_BAR})
+        public @interface THEME_TYPE {
+        }
+
+        public static final int THEME_TYPE_NO_ACTION_BAR = 0;
+        public static final int THEME_TYPE_NO_ACTION_BAR_AND_COLORED_STATUS_BAR = 1;
+        public static final int THEME_TYPE_ACTION_BAR = 2;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_text_recognition);
+            addPreferencesFromResource(R.xml.pref_header_theme);
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference(KEY_PREF_RECOGNITION_LANGUAGE));
+            bindPreferenceSummaryToValue(findPreference(KEY_PREF_THEME));
         }
 
         @Override
@@ -182,6 +208,39 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 return true;
             }
             return super.onOptionsItemSelected(item);
+        }
+
+        public static boolean isLight(Context context) {
+            SharedPreferences preference = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            return preference.getString(KEY_PREF_THEME, THEME_LIGHT).equals(THEME_LIGHT);
+        }
+
+        public static int getTheme(Context context, @THEME_TYPE int themeType) {
+            switch (themeType) {
+                case THEME_TYPE_NO_ACTION_BAR: {
+                    if (isLight(context)) {
+                        return R.style.AppTheme;
+                    } else {
+                        return R.style.AppTheme_Dark;
+                    }
+                }
+                case THEME_TYPE_ACTION_BAR: {
+                    if (isLight(context)) {
+                        return R.style.AppTheme_Settings;
+                    } else {
+                        return R.style.AppTheme_Dark_Settings;
+                    }
+                }
+                default:
+                case THEME_TYPE_NO_ACTION_BAR_AND_COLORED_STATUS_BAR: {
+                    if (isLight(context)) {
+                        return R.style.AppTheme_ColoredStatusBar;
+                    } else {
+                        return R.style.AppTheme_Dark_ColoredStatusBar;
+                    }
+                }
+            }
         }
     }
 }

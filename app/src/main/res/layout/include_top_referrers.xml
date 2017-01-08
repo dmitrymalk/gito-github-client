@@ -74,6 +74,6 @@
         android:layout_gravity="bottom"
         android:layout_width="@dimen/dashboard_site_name_width"
         android:layout_height="wrap_content"
-        android:textColor="@color/dashboard_site_name" />
+        android:textColor="?attr/dashboard_site_name" />
 
 </LinearLayout>

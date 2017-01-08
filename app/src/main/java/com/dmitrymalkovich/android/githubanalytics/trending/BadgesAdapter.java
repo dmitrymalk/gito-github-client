@@ -77,9 +77,9 @@ class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
         });
         holder.badgeView.setText(language);
 
-        int textColor = R.color.trending_badge_inactive;
+        int textColor = R.color.trending_badge_inactive_light;
         if (mPresenter.isLanguageSelected(language)) {
-            textColor = R.color.trending_badge_active;
+            textColor = R.color.trending_badge_active_light;
         }
         holder.badgeView.setTextColor(resources.getColor(textColor));
 

@@ -20,6 +20,8 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.kobakei.ratethisapp.RateThisApp;
+
 public class GithubAnalyticsApplication extends Application {
 
     @SuppressLint("StaticFieldLeak")
@@ -30,6 +32,9 @@ public class GithubAnalyticsApplication extends Application {
         super.attachBaseContext(context);
         MultiDex.install(this);
         sContext = context;
+        // Custom criteria: 3 days and 5 launches
+        RateThisApp.Config config = new RateThisApp.Config(1, 5);
+        RateThisApp.init(config);
     }
 
     public static Context context() {

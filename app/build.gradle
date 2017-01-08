@@ -74,6 +74,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:9.2.1'
     freeCompile 'com.google.firebase:firebase-ads:9.2.1'
     compile project(':material-design-dimens')
+    compile 'io.github.kobakei:ratethisapp:1.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

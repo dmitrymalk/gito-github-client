@@ -1,25 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright 2017.  Dmitry Malkovich
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-      http://www.apache.org/licenses/LICENSE-2.0
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
 <resources>
-
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/colorPrimary_light</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_light</item>
+        <item name="colorAccent">@color/colorAccent_light</item>
+        <item name="divider_background">@color/divider_light</item>
+        <item name="background_general">@color/background_light</item>
+        <item name="button_text_color">@color/button_text_color_light</item>
+        <item name="name_color">@color/name_color_light</item>
+        <item name="empty_state_text_color">@color/empty_state_text_color_light</item>
+        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_light</item>
+        <item name="trending_bottom_bar_active">@color/trending_bottom_bar_active_light</item>
+        <item name="trending_bottom_bar_inactive">@color/trending_bottom_bar_inactive_light</item>
+        <item name="trending_badge_inactive">@color/trending_badge_inactive_light</item>
+        <item name="trending_badge_active">@color/trending_badge_active_light</item>
+        <item name="trending_badge_background">@color/trending_badge_background_light</item>
+        <item name="trending_badge_line">@color/trending_badge_line_light</item>
+        <item name="repository_title_text">@color/repository_title_text_light</item>
+        <item name="repository_subtitle_text">@color/repository_subtitle_text_light</item>
+        <item name="trending_info_text">@color/trending_info_text_light</item>
+        <item name="trending_rank_text">@color/trending_rank_text_light</item>
+        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_light</item>
+        <item name="repository_badge_text">@color/repository_badge_text_light</item>
+        <item name="traffic_background">@color/traffic_background_light</item>
+        <item name="traffic_chart_line_color">@color/traffic_chart_line_color_light</item>
+        <item name="traffic_chart_text_color">@color/traffic_chart_text_color_light</item>
+        <item name="traffic_repository_desc_text">@color/traffic_repository_desc_text_light</item>
+        <item name="trending_referrer_text">@color/trending_referrer_text_light</item>
+        <item name="traffic_referrer_divider">@color/traffic_referrer_divider_light</item>
+        <item name="trending_referrer_name_text">@color/trending_referrer_name_text_light</item>
+        <item name="dashboard_button">@color/dashboard_button_light</item>
+        <item name="widget_background">@color/widget_background_light</item>
+        <item name="widget_text">@color/widget_text_light</item>
+        <item name="widget_top_bar_background">@color/widget_top_bar_background_light</item>
+        <item name="widget_top_bar_text">@color/widget_top_bar_text_light</item>
+        <item name="dashboard_site_name">@color/dashboard_site_name_light</item>
+        <item name="traffic_card_title_background">@color/traffic_card_title_background_light</item>
+        <item name="traffic_card_title_text">@color/traffic_card_title_text_light</item>
+        <item name="navigation_view_selector">@drawable/selector_blue</item>
+        <item name="referrer_list_item_selector">@drawable/selector_white</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/colorPrimary_dark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_dark</item>
+        <item name="colorAccent">@color/colorAccent_dark</item>
+        <item name="divider_background">@color/divider_dark</item>
+        <item name="background_general">@color/background_dark</item>
+        <item name="button_text_color">@color/button_text_color_dark</item>
+        <item name="name_color">@color/name_color_dark</item>
+        <item name="empty_state_text_color">@color/empty_state_text_color_dark</item>
+        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_dark</item>
+        <item name="trending_bottom_bar_active">@color/trending_bottom_bar_active_dark</item>
+        <item name="trending_bottom_bar_inactive">@color/trending_bottom_bar_inactive_dark</item>
+        <item name="trending_badge_inactive">@color/trending_badge_inactive_dark</item>
+        <item name="trending_badge_active">@color/trending_badge_active_dark</item>
+        <item name="trending_badge_background">@color/trending_badge_background_dark</item>
+        <item name="trending_badge_line">@color/trending_badge_line_dark</item>
+        <item name="repository_title_text">@color/repository_title_text_dark</item>
+        <item name="repository_subtitle_text">@color/repository_subtitle_text_dark</item>
+        <item name="trending_info_text">@color/trending_info_text_dark</item>
+        <item name="trending_rank_text">@color/trending_rank_text_dark</item>
+        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_dark</item>
+        <item name="repository_badge_text">@color/repository_badge_text_dark</item>
+        <item name="traffic_background">@color/traffic_background_dark</item>
+        <item name="traffic_chart_line_color">@color/traffic_chart_line_color_dark</item>
+        <item name="traffic_chart_text_color">@color/traffic_chart_text_color_dark</item>
+        <item name="traffic_repository_desc_text">@color/traffic_repository_desc_text_dark</item>
+        <item name="trending_referrer_text">@color/trending_referrer_text_dark</item>
+        <item name="traffic_referrer_divider">@color/traffic_referrer_divider_dark</item>
+        <item name="trending_referrer_name_text">@color/trending_referrer_name_text_dark</item>
+        <item name="dashboard_button">@color/dashboard_button_dark</item>
+        <item name="widget_background">@color/widget_background_dark</item>
+        <item name="widget_text">@color/widget_text_dark</item>
+        <item name="widget_top_bar_background">@color/widget_top_bar_background_dark</item>
+        <item name="widget_top_bar_text">@color/widget_top_bar_text_dark</item>
+        <item name="dashboard_site_name">@color/dashboard_site_name_dark</item>
+        <item name="traffic_card_title_background">@color/traffic_card_title_background_dark</item>
+        <item name="traffic_card_title_text">@color/traffic_card_title_text_dark</item>
+        <item name="navigation_view_selector">@drawable/selector_blue_dark</item>
+        <item name="referrer_list_item_selector">@drawable/selector_white_dark</item>
     </style>
 
     <style name="AppTheme.ColoredStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="colorPrimary">@color/colorPrimary_light</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_light</item>
+        <item name="colorAccent">@color/colorAccent_light</item>
+        <item name="divider_background">@color/divider_light</item>
+        <item name="background_general">@color/background_light</item>
+        <item name="button_text_color">@color/button_text_color_light</item>
+        <item name="name_color">@color/name_color_light</item>
+        <item name="empty_state_text_color">@color/empty_state_text_color_light</item>
+        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_light</item>
+        <item name="trending_bottom_bar_active">@color/trending_bottom_bar_active_light</item>
+        <item name="trending_bottom_bar_inactive">@color/trending_bottom_bar_inactive_light</item>
+        <item name="trending_badge_inactive">@color/trending_badge_inactive_light</item>
+        <item name="trending_badge_active">@color/trending_badge_active_light</item>
+        <item name="trending_badge_background">@color/trending_badge_background_light</item>
+        <item name="trending_badge_line">@color/trending_badge_line_light</item>
+        <item name="repository_title_text">@color/repository_title_text_light</item>
+        <item name="repository_subtitle_text">@color/repository_subtitle_text_light</item>
+        <item name="trending_info_text">@color/trending_info_text_light</item>
+        <item name="trending_rank_text">@color/trending_rank_text_light</item>
+        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_light</item>
+        <item name="repository_badge_text">@color/repository_badge_text_light</item>
+        <item name="traffic_background">@color/traffic_background_light</item>
+        <item name="traffic_chart_line_color">@color/traffic_chart_line_color_light</item>
+        <item name="traffic_chart_text_color">@color/traffic_chart_text_color_light</item>
+        <item name="traffic_repository_desc_text">@color/traffic_repository_desc_text_light</item>
+        <item name="trending_referrer_text">@color/trending_referrer_text_light</item>
+        <item name="traffic_referrer_divider">@color/traffic_referrer_divider_light</item>
+        <item name="trending_referrer_name_text">@color/trending_referrer_name_text_light</item>
+        <item name="dashboard_button">@color/dashboard_button_light</item>
+        <item name="widget_background">@color/widget_background_light</item>
+        <item name="widget_text">@color/widget_text_light</item>
+        <item name="widget_top_bar_background">@color/widget_top_bar_background_light</item>
+        <item name="widget_top_bar_text">@color/widget_top_bar_text_light</item>
+        <item name="dashboard_site_name">@color/dashboard_site_name_light</item>
+        <item name="traffic_card_title_background">@color/traffic_card_title_background_light</item>
+        <item name="traffic_card_title_text">@color/traffic_card_title_text_light</item>
+        <item name="navigation_view_selector">@drawable/selector_blue</item>
+        <item name="referrer_list_item_selector">@drawable/selector_white</item>
+    </style>
+
+    <style name="AppTheme.Dark.ColoredStatusBar" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="colorPrimary">@color/colorPrimary_dark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_dark</item>
+        <item name="colorAccent">@color/colorAccent_dark</item>
+        <item name="divider_background">@color/divider_dark</item>
+        <item name="background_general">@color/background_dark</item>
+        <item name="button_text_color">@color/button_text_color_dark</item>
+        <item name="name_color">@color/name_color_dark</item>
+        <item name="empty_state_text_color">@color/empty_state_text_color_dark</item>
+        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_dark</item>
+        <item name="trending_bottom_bar_active">@color/trending_bottom_bar_active_dark</item>
+        <item name="trending_bottom_bar_inactive">@color/trending_bottom_bar_inactive_dark</item>
+        <item name="trending_badge_inactive">@color/trending_badge_inactive_dark</item>
+        <item name="trending_badge_active">@color/trending_badge_active_dark</item>
+        <item name="trending_badge_background">@color/trending_badge_background_dark</item>
+        <item name="trending_badge_line">@color/trending_badge_line_dark</item>
+        <item name="repository_title_text">@color/repository_title_text_dark</item>
+        <item name="repository_subtitle_text">@color/repository_subtitle_text_dark</item>
+        <item name="trending_info_text">@color/trending_info_text_dark</item>
+        <item name="trending_rank_text">@color/trending_rank_text_dark</item>
+        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_dark</item>
+        <item name="repository_badge_text">@color/repository_badge_text_dark</item>
+        <item name="traffic_background">@color/traffic_background_dark</item>
+        <item name="traffic_chart_line_color">@color/traffic_chart_line_color_dark</item>
+        <item name="traffic_chart_text_color">@color/traffic_chart_text_color_dark</item>
+        <item name="traffic_repository_desc_text">@color/traffic_repository_desc_text_dark</item>
+        <item name="trending_referrer_text">@color/trending_referrer_text_dark</item>
+        <item name="traffic_referrer_divider">@color/traffic_referrer_divider_dark</item>
+        <item name="trending_referrer_name_text">@color/trending_referrer_name_text_dark</item>
+        <item name="dashboard_button">@color/dashboard_button_dark</item>
+        <item name="widget_background">@color/widget_background_dark</item>
+        <item name="widget_text">@color/widget_text_dark</item>
+        <item name="widget_top_bar_background">@color/widget_top_bar_background_dark</item>
+        <item name="widget_top_bar_text">@color/widget_top_bar_text_dark</item>
+        <item name="dashboard_site_name">@color/dashboard_site_name_dark</item>
+        <item name="traffic_card_title_background">@color/traffic_card_title_background_dark</item>
+        <item name="traffic_card_title_text">@color/traffic_card_title_text_dark</item>
+        <item name="navigation_view_selector">@drawable/selector_blue_dark</item>
+        <item name="referrer_list_item_selector">@drawable/selector_white_dark</item>
     </style>
 
 </resources>

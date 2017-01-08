@@ -295,7 +295,7 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     @SuppressWarnings("deprecation")
     private void chartXAxisStyling(XAxis xAxis) {
         xAxis.setPosition(XAxis.XAxisPosition.TOP);
-        xAxis.setTextColor(getResources().getColor(R.color.traffic_chart_text_color));
+        xAxis.setTextColor(getResources().getColor(R.color.traffic_chart_text_color_light));
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(false);
         xAxis.setCenterAxisLabels(true);
@@ -315,7 +315,7 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     @SuppressWarnings("deprecation")
     private void chartYAxisStyling(YAxis yAxis) {
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-        yAxis.setTextColor(getResources().getColor(R.color.traffic_chart_text_color));
+        yAxis.setTextColor(getResources().getColor(R.color.traffic_chart_text_color_light));
         yAxis.setDrawGridLines(false);
         yAxis.setGranularityEnabled(true);
         yAxis.setDrawAxisLine(true);
@@ -324,12 +324,12 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     @SuppressWarnings("deprecation")
     private void chartDataSetStyling(LineDataSet dataSet) {
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        dataSet.setColor(getResources().getColor(R.color.traffic_chart_line_color));
+        dataSet.setColor(getResources().getColor(R.color.traffic_chart_line_color_light));
         dataSet.setLineWidth(2f);
         dataSet.setCircleRadius(4f);
         dataSet.setDrawValues(false);
         dataSet.setDrawCircleHole(false);
-        dataSet.setCircleColor(getResources().getColor(R.color.traffic_chart_line_color));
+        dataSet.setCircleColor(getResources().getColor(R.color.traffic_chart_line_color_light));
     }
 
     private void setTitle(String title) {
