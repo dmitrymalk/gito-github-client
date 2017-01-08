@@ -1,1 +1,2 @@
-include ':app', ':android-github-api'
+include ':app', ':android-github-api', ":material-design-dimens"
+project(':material-design-dimens').projectDir = new File(settingsDir, '/material-design-dimens/material-design-dimens/')
