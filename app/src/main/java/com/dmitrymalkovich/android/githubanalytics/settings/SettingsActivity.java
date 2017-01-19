@@ -174,9 +174,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class ThemePreferenceFragment extends PreferenceFragment {
 
-        private static final String THEME_LIGHT = "0";
+        private static final String THEME_LIGHT = "light";
         @SuppressWarnings("unused")
-        private static final String THEME_DARK = "1";
+        private static final String THEME_DARK = "dark";
 
         @Retention(SOURCE)
         @IntDef({THEME_TYPE_NO_ACTION_BAR, THEME_TYPE_NO_ACTION_BAR_AND_COLORED_STATUS_BAR, THEME_TYPE_ACTION_BAR})

@@ -62,7 +62,7 @@
     <color name="widget_top_bar_background_light">@color/blue</color>
     <color name="widget_top_bar_text_light">#FFF</color>
     <color name="dashboard_site_name_light">@color/blue</color>
-    <color name="traffic_card_title_background_light">#f5f5f5</color>
+    <color name="traffic_card_title_background_light">#fff</color>
     <color name="traffic_card_title_text_light">@android:color/black</color>
 
     <!-- Theme dependent colors: dark -->
