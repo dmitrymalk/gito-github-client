@@ -1,3 +1,4 @@
+package com.dmitrymalkovich.android.githubanalytics.settings;
 /*
  * Copyright 2016.  Dmitry Malkovich
  *
@@ -13,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dmitrymalkovich.android.githubanalytics.settings;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,16 +26,10 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.annotation.IntDef;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
-import com.dmitrymalkovich.android.githubanalytics.R;
-
-import java.lang.annotation.Retention;
 import java.util.List;
-
-import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
