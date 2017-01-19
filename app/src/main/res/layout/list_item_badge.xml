@@ -32,5 +32,5 @@
         android:layout_height="@dimen/trending_badge_bottom_line_height"
         android:visibility="gone"
         android:layout_gravity="bottom"
-        android:background="@color/trending_badge_line"/>
+        android:background="?attr/trending_badge_line"/>
 </FrameLayout>

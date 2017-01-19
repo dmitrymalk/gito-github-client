@@ -15,14 +15,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/selector_white">
+    android:background="?referrer_list_item_selector">
 
     <TextView
         android:id="@+id/rank"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/trending_rank_text"
+        android:textColor="?attr/trending_rank_text"
         android:padding="@dimen/trending_rank_padding" />
 
     <LinearLayout
@@ -50,7 +50,7 @@
                 style="@style/TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/trending_info_text"
+                android:textColor="?attr/trending_info_text"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/trending_info_right_margin"
                 android:layout_marginEnd="@dimen/trending_info_right_margin" />

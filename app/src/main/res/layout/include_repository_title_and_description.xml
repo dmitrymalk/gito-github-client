@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:maxLines="2"
-        android:textColor="@color/repository_title_text" />
+        android:textColor="?attr/repository_title_text" />
 
     <TextView
         style="@style/TextAppearance.AppCompat.Small"
@@ -33,5 +33,5 @@
         android:layout_width="match_parent"
         android:maxLines="2"
         android:paddingTop="@dimen/dashboard_list_item_vertical_padding"
-        android:textColor="@color/repository_subtitle_text"/>
+        android:textColor="?attr/repository_subtitle_text"/>
 </LinearLayout>

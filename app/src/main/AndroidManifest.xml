@@ -63,6 +63,11 @@
             android:name=".traffic.TrafficAdActivity"
             android:theme="@style/AppTheme.ColoredStatusBar" />
 
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:theme="@style/AppTheme.Settings"
+            android:label="@string/activity_title_settings" />
+
         <service
             android:name=".data.sync.SyncService"
             android:exported="true"
