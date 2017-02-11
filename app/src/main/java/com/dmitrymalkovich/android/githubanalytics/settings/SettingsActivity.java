@@ -213,7 +213,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public static boolean isLight(Context context) {
             SharedPreferences preference = PreferenceManager
                     .getDefaultSharedPreferences(context);
-            return preference.getString(KEY_PREF_THEME, THEME_LIGHT).equals(THEME_LIGHT);
+            return preference.getString(KEY_PREF_THEME, THEME_DARK).equals(THEME_LIGHT);
         }
 
         public static int getTheme(Context context, @THEME_TYPE int themeType) {
