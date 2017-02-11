@@ -37,6 +37,7 @@ import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
+import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
@@ -315,7 +316,9 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     @SuppressWarnings("deprecation")
     private void chartYAxisStyling(YAxis yAxis) {
         yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-        yAxis.setTextColor(getResources().getColor(R.color.traffic_chart_text_color_light));
+        yAxis.setTextColor(SettingsActivity.ThemePreferenceFragment.isLight(getContext()) ?
+                getResources().getColor(R.color.traffic_chart_text_color_light) :
+                getResources().getColor(R.color.traffic_chart_text_color_dark));
         yAxis.setDrawGridLines(false);
         yAxis.setGranularityEnabled(true);
         yAxis.setDrawAxisLine(true);
@@ -324,12 +327,16 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     @SuppressWarnings("deprecation")
     private void chartDataSetStyling(LineDataSet dataSet) {
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        dataSet.setColor(getResources().getColor(R.color.traffic_chart_line_color_light));
+        dataSet.setColor(SettingsActivity.ThemePreferenceFragment.isLight(getContext()) ?
+                getResources().getColor(R.color.traffic_chart_line_color_light) :
+                getResources().getColor(R.color.traffic_chart_line_color_dark));
         dataSet.setLineWidth(2f);
         dataSet.setCircleRadius(4f);
         dataSet.setDrawValues(false);
         dataSet.setDrawCircleHole(false);
-        dataSet.setCircleColor(getResources().getColor(R.color.traffic_chart_line_color_light));
+        dataSet.setCircleColor(SettingsActivity.ThemePreferenceFragment.isLight(getContext()) ?
+                getResources().getColor(R.color.traffic_chart_line_color_light) :
+                getResources().getColor(R.color.traffic_chart_line_color_dark));
     }
 
     private void setTitle(String title) {

@@ -12,9 +12,9 @@
   limitations under the License.
 -->
 <resources>
-    <string name="app_name">GitHub Analytics</string>
+    <string name="app_name">Gito</string>
     <string name="welcome_sign_in">Sign in</string>
-    <string name="welcome_analytics">Analytics</string>
+    <string name="welcome_analytics">Gito</string>
     <string name="navigation_view_open">Open navigation drawer</string>
     <string name="navigation_view_close">Close navigation drawer</string>
     <string name="navigation_view_dashboard">Dashboard</string>

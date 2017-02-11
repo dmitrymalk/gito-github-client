@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
+import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -28,6 +29,8 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SettingsActivity.ThemePreferenceFragment.getTheme(this,
+                SettingsActivity.ThemePreferenceFragment.THEME_TYPE_NO_ACTION_BAR));
         setContentView(R.layout.activity_welcome);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

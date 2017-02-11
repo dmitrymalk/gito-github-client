@@ -20,7 +20,7 @@
         android:title="@string/pref_title_theme"
         android:entries="@array/pref_theme_titles"
         android:entryValues="@array/pref_theme_values"
-        android:defaultValue="light"
+        android:defaultValue="dark"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null" />
 

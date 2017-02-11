@@ -26,7 +26,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.dmitrymalkovich.android.githubanalytics.GithubAnalyticsApplication;
+import com.dmitrymalkovich.android.githubanalytics.GitoApplication;
 import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 
 import java.io.PrintWriter;
@@ -91,7 +91,7 @@ public class ActivityUtils {
     }
 
     public static boolean isNetworkAvailable() {
-        Context context = GithubAnalyticsApplication.context();
+        Context context = GitoApplication.context();
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
