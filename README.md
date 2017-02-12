@@ -16,6 +16,15 @@ The non-official GitHub mobile app helps you monitor stars and traffic of your p
 See the Google+ community to get early dev updates:
 https://plus.google.com/communities/106373382024164307474
 
+### Troubleshooting
+
+Cloning this repository into Android Studio may initially produce the following error message:
+
+    Configuration with name 'default' not found in Android Studio
+
+This can be solved by running the command `git submodule update --init` from the terminal, whilst in
+the project root directory. See these StackOverflow answers ([link](http://stackoverflow.com/a/24163356/1219389)|[link](http://stackoverflow.com/a/31452568/1219389)) for more information.
+
 ## License
 
 Copyright 2016 Dmitry Malkovich
