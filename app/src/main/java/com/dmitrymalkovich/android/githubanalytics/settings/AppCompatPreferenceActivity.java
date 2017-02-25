@@ -36,6 +36,7 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(SettingsActivity.ThemePreferenceFragment.getTheme(this, SettingsActivity.ThemePreferenceFragment.THEME_TYPE_ACTION_BAR));
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
