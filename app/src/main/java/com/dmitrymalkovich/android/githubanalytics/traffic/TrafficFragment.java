@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
@@ -115,6 +118,11 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
 
         if (getArguments() != null && getArguments().containsKey(ARG_REPOSITORY_ID)) {
             long repositoryId = getArguments().getLong(ARG_REPOSITORY_ID);
+            new TrafficPresenter(
+                    GithubRepository.Injection.provideGithubRepository(getActivity()),
+                    this,
+                    new LoaderProvider(getContext()),
+                    getLoaderManager());
             mPresenter.start(savedInstanceState, repositoryId);
         }
 
@@ -134,6 +142,19 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         chartStyling(mChartViews);
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mChartViews.requestLayout();
+                mChartClones.requestLayout();
+            }
+        }, 50);
     }
 
     @Override
@@ -257,10 +278,6 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         LineDataSet lineDataSet = new LineDataSet(entries, getString(R.string.git_clones));
         chartDataSetStyling(lineDataSet);
         LineData lineData = new LineData(lineDataSet);
-        XAxis xAxis = mChartClones.getXAxis();
-        chartXAxisStyling(xAxis);
-        YAxis yAxis = mChartClones.getAxisLeft();
-        chartYAxisStyling(yAxis);
         mChartClones.setData(lineData);
     }
 
@@ -277,10 +294,6 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         LineDataSet lineDataSet = new LineDataSet(values, getString(R.string.visitors));
         chartDataSetStyling(lineDataSet);
         LineData lineData = new LineData(lineDataSet);
-        XAxis xAxis = mChartViews.getXAxis();
-        chartXAxisStyling(xAxis);
-        YAxis yAxis = mChartViews.getAxisLeft();
-        chartYAxisStyling(yAxis);
         mChartViews.setData(lineData);
     }
 
@@ -289,13 +302,18 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         chart.setTouchEnabled(false);
         chart.setDescription("");
         chart.setAutoScaleMinMaxEnabled(false);
-        chart.setNoDataTextColor(Color.BLACK);
+        chart.setNoDataTextColor(SettingsActivity.ThemePreferenceFragment.isLight(getContext()) ? Color.BLACK : Color.WHITE);
         YAxis axisRight = chart.getAxisRight();
         axisRight.setEnabled(false);
         chart.getLegend().setEnabled(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             chart.setNestedScrollingEnabled(false);
         }
+
+        XAxis xAxis = chart.getXAxis();
+        chartXAxisStyling(xAxis);
+        YAxis yAxis = chart.getAxisLeft();
+        chartYAxisStyling(yAxis);
     }
 
     @SuppressWarnings("deprecation")

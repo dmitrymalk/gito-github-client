@@ -1,5 +1,7 @@
 package com.dmitrymalkovich.android.githubanalytics.traffic;
 
+import android.util.Log;
+
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -14,6 +16,10 @@ public class TrafficAdActivity extends TrafficActivity {
         MobileAds.initialize(getApplicationContext(),
                 "ca-app-pub-6820123979073037~3030459702");
         AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        if (adView != null) {
+            adView.loadAd(adRequest);
+        } else {
+            Log.e(TrafficActivity.class.getSimpleName(), "Ad view is not specified.");
+        }
     }
 }

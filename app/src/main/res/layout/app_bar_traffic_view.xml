@@ -34,8 +34,19 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill"/>
+
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_navigation_view" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
 
 </android.support.design.widget.CoordinatorLayout>

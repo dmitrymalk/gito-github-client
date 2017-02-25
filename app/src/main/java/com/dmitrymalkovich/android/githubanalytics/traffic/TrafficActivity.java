@@ -16,17 +16,18 @@
 package com.dmitrymalkovich.android.githubanalytics.traffic;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
-import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
-import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 
 public class TrafficActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
@@ -55,7 +56,11 @@ public class TrafficActivity extends AppCompatActivity {
             throw new IllegalStateException("Repository id not specified");
         }
 
-        showTraffic();
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -84,21 +89,29 @@ public class TrafficActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void showTraffic() {
-        Fragment fragment = getSupportFragmentManager()
-                .findFragmentById(R.id.content_navigation_view);
-        TrafficFragment trafficFragment;
-        if (fragment instanceof TrafficFragment) {
-            trafficFragment = (TrafficFragment) fragment;
-        } else {
-            trafficFragment = TrafficFragment.newInstance(mRepositoryId);
-            ActivityUtils.replaceFragment(getSupportFragmentManager(),
-                    trafficFragment, R.id.content_navigation_view);
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
         }
-        new TrafficPresenter(
-                GithubRepository.Injection.provideGithubRepository(this),
-                trafficFragment,
-                new LoaderProvider(this),
-                getSupportLoaderManager());
+
+        @Override
+        public Fragment getItem(int position) {
+            return TrafficFragment.newInstance(mRepositoryId);
+        }
+
+        @Override
+        public int getCount() {
+            return 1;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return getString(R.string.traffic);
+        }
     }
 }
