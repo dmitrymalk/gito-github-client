@@ -13,9 +13,10 @@ The non-official GitHub mobile app helps you monitor stars and traffic of your p
 * Explore trending repositories 
 * No ads
 
-<img width="30%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/23332696/e3400c6c-fb8e-11e6-8235-f27a65ba5bc3.png" /> <img width="30%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/23332698/e5639b6c-fb8e-11e6-9d34-102001ee263a.png" />
+<img width="40%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/23332696/e3400c6c-fb8e-11e6-8235-f27a65ba5bc3.png" />	 <img width="40%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/23332698/e5639b6c-fb8e-11e6-9d34-102001ee263a.png" />
 
-<img width="30%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/23332766/2453c53a-fb90-11e6-9606-454fa487c5e9.png" /> <img width="30%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/23332701/e826db02-fb8e-11e6-8ec0-475249e42b1f.png" />
+
+<img width="40%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/23332766/2453c53a-fb90-11e6-9606-454fa487c5e9.png" /> 	<img width="40%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/23332701/e826db02-fb8e-11e6-8ec0-475249e42b1f.png" />
 
 See the Google+ community to get early dev updates:
 https://plus.google.com/communities/106373382024164307474
