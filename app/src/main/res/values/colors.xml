@@ -25,6 +25,7 @@
 
     <color name="green">#569e3d</color>
     <color name="blue">@color/material_blue_700</color>
+    <color name="blue_light">@color/material_blue_500</color>
     <color name="grey">#d5d5d5</color>
 
     <!-- Theme dependent colors: light -->
@@ -85,7 +86,7 @@
     <color name="repository_subtitle_text_dark">@android:color/white</color>
     <color name="trending_info_text_dark">@android:color/white</color>
     <color name="trending_rank_text_dark">@android:color/white</color>
-    <color name="repository_badge_fork_background_dark">@color/blue</color>
+    <color name="repository_badge_fork_background_dark">@color/blue_light</color>
     <color name="repository_badge_text_dark">@android:color/white</color>
     <color name="traffic_background_dark">@color/material_blue_grey_700</color>
     <color name="traffic_chart_line_color_dark">@android:color/white</color>
@@ -97,9 +98,9 @@
     <color name="dashboard_button_dark">#FFF</color>
     <color name="widget_background_dark">#FFF</color>
     <color name="widget_text_dark">#000</color>
-    <color name="widget_top_bar_background_dark">@color/blue</color>
+    <color name="widget_top_bar_background_dark">@color/blue_light</color>
     <color name="widget_top_bar_text_dark">#FFF</color>
-    <color name="dashboard_site_name_dark">@color/blue</color>
+    <color name="dashboard_site_name_dark">@color/blue_light</color>
     <color name="traffic_card_title_background_dark">@android:color/transparent</color>
     <color name="traffic_card_title_text_dark">@android:color/white</color>
 </resources>

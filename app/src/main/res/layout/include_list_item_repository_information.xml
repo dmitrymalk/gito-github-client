@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -11,12 +10,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<LinearLayout android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:ignore="UseCompoundDrawables"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    tools:ignore="UseCompoundDrawables">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/language_icon"
@@ -33,18 +32,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="@dimen/material_layout_keylines_screen_edge_margin"
         android:layout_marginEnd="@dimen/material_layout_keylines_screen_edge_margin"
+        android:layout_marginRight="@dimen/material_layout_keylines_screen_edge_margin"
         android:paddingEnd="@dimen/material_component_grid_lists_padding_big"
         android:paddingLeft="@dimen/material_component_grid_lists_padding_big"
         android:paddingRight="@dimen/material_component_grid_lists_padding_big"
-        android:paddingStart="@dimen/material_component_grid_lists_padding_big" />
+        android:paddingStart="@dimen/material_component_grid_lists_padding_big"
+        android:textColor="?attr/repository_title_text" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_star_grey_20dp"
+        android:src="?attr/repository_star_icon_24dp"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -56,7 +56,8 @@
         android:paddingEnd="@dimen/material_component_grid_lists_padding_big"
         android:paddingLeft="@dimen/material_component_grid_lists_padding_big"
         android:paddingRight="@dimen/material_component_grid_lists_padding_big"
-        android:paddingStart="@dimen/material_component_grid_lists_padding_big" />
+        android:paddingStart="@dimen/material_component_grid_lists_padding_big"
+        android:textColor="?attr/repository_title_text" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -64,7 +65,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/material_layout_keylines_screen_edge_margin"
         android:layout_marginStart="@dimen/material_layout_keylines_screen_edge_margin"
-        android:src="@drawable/ic_code_fork_symbol"
+        android:src="?attr/repository_fork_icon_24dp"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -76,6 +77,7 @@
         android:paddingEnd="@dimen/material_component_grid_lists_padding_big"
         android:paddingLeft="@dimen/material_component_grid_lists_padding_big"
         android:paddingRight="@dimen/material_component_grid_lists_padding_big"
-        android:paddingStart="@dimen/material_component_grid_lists_padding_big" />
+        android:paddingStart="@dimen/material_component_grid_lists_padding_big"
+        android:textColor="?attr/repository_title_text" />
 
 </LinearLayout>

@@ -41,4 +41,6 @@
     <attr name="ic_public_black_24dp" format="color|reference" />
     <attr name="ic_trending_up_black_24dp" format="color|reference" />
 
+    <attr name="repository_star_icon_24dp" format="reference" />
+    <attr name="repository_fork_icon_24dp" format="reference" />
 </resources>

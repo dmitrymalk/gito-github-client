@@ -41,6 +41,8 @@
         <item name="traffic_card_title_text">@color/traffic_card_title_text_light</item>
         <item name="navigation_view_selector">@drawable/selector_blue</item>
         <item name="referrer_list_item_selector">@drawable/selector_white</item>
+        <item name="repository_star_icon_24dp">@drawable/ic_star_grey_20dp</item>
+        <item name="repository_fork_icon_24dp">@drawable/ic_code_fork_symbol_grey</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -84,6 +86,8 @@
         <item name="traffic_card_title_text">@color/traffic_card_title_text_dark</item>
         <item name="navigation_view_selector">@drawable/selector_blue_dark</item>
         <item name="referrer_list_item_selector">@drawable/selector_white_dark</item>
+        <item name="repository_star_icon_24dp">@drawable/ic_star_white_20dp</item>
+        <item name="repository_fork_icon_24dp">@drawable/ic_code_fork_symbol_white</item>
     </style>
 
     <style name="AppTheme.ColoredStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -126,6 +130,8 @@
         <item name="traffic_card_title_text">@color/traffic_card_title_text_light</item>
         <item name="navigation_view_selector">@drawable/selector_blue</item>
         <item name="referrer_list_item_selector">@drawable/selector_white</item>
+        <item name="repository_star_icon_24dp">@drawable/ic_star_grey_20dp</item>
+        <item name="repository_fork_icon_24dp">@drawable/ic_code_fork_symbol_grey</item>
     </style>
 
     <style name="AppTheme.Dark.ColoredStatusBar" parent="Theme.AppCompat.NoActionBar">
@@ -168,6 +174,8 @@
         <item name="traffic_card_title_text">@color/traffic_card_title_text_dark</item>
         <item name="navigation_view_selector">@drawable/selector_blue_dark</item>
         <item name="referrer_list_item_selector">@drawable/selector_white_dark</item>
+        <item name="repository_star_icon_24dp">@drawable/ic_star_white_20dp</item>
+        <item name="repository_fork_icon_24dp">@drawable/ic_code_fork_symbol_white</item>
     </style>
 
 </resources>
