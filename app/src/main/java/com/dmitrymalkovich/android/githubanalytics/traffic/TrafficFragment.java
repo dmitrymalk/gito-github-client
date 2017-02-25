@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -121,6 +122,7 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        mRecyclerView.setNestedScrollingEnabled(false);
 
         mAdapter = new ReferrersListAdapter(null, this);
         mAdapter.setHasStableIds(true);
@@ -284,13 +286,16 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
 
     @SuppressWarnings("deprecation")
     private void chartStyling(LineChart chart) {
-        chart.setTouchEnabled(true);
+        chart.setTouchEnabled(false);
         chart.setDescription("");
         chart.setAutoScaleMinMaxEnabled(false);
         chart.setNoDataTextColor(Color.BLACK);
         YAxis axisRight = chart.getAxisRight();
         axisRight.setEnabled(false);
         chart.getLegend().setEnabled(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            chart.setNestedScrollingEnabled(false);
+        }
     }
 
     @SuppressWarnings("deprecation")
