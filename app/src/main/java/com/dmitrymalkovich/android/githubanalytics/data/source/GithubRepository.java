@@ -40,18 +40,30 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+/**
+ * This class is used for the access of information regarding Github repositories. In order to use
+ * it initialize it through the {@link Injection} subclass with the provideGithubRepository method
+ */
 public class GithubRepository implements GithubDataSource {
     @SuppressWarnings("unused")
     private static final String LOG_TAG = GithubRepository.class.getSimpleName();
     public static final String PREFERENCES = "GITHUB_ANALYTICS_PREFERENCES";
-    private static GithubRepository INSTANCE = null;
+    private static GithubRepository INSTANCE = null; // a static reference to the repository instance
 
     private final GithubDataSource mGithubRemoteDataSource;
     private final GithubDataSource mGithubLocalDataSource;
     private SyncSettings mSyncSettings;
 
+    /**
+     * This class is used to access the instance of the {@link GithubRepository} class
+     * and the data sources
+     */
     public static class Injection {
 
+        /**
+         * Used to access the {@link GithubRepository} static instance
+         * @return the static instance of the {@link GithubRepository} class
+         */
         public static GithubRepository provideGithubRepository(@NonNull Context context) {
             checkNotNull(context);
             SharedPreferences sharedPreferences =
@@ -61,12 +73,20 @@ public class GithubRepository implements GithubDataSource {
                     sharedPreferences);
         }
 
+        /**
+         * Used to access the {@link GithubLocalDataSource} static instance
+         * @return the static instance of the {@link GithubLocalDataSource} class
+         */
         private static GithubLocalDataSource provideLocalDataSource(@NonNull Context context) {
             checkNotNull(context);
             return GithubLocalDataSource.getInstance(context.getContentResolver(),
                     context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE));
         }
 
+        /**
+         * Used to access the {@link GithubRemoteDataSource} static instance
+         * @return the static instance of the {@link GithubRemoteDataSource} class
+         */
         public static GithubRemoteDataSource provideRemoteDataSource(@NonNull Context context) {
             checkNotNull(context);
             return GithubRemoteDataSource.getInstance(context.getContentResolver(),
@@ -74,6 +94,12 @@ public class GithubRepository implements GithubDataSource {
         }
     }
 
+    /**
+     * Initialize the static instance for the Github repository
+     * @param githubRemoteDataSource the remote datasource to retrieve data from
+     * @param githubLocaldataSource the local datasource to retrieve data from
+     * @param preferences the application's set preferences
+     */
     private GithubRepository(@NonNull GithubDataSource githubRemoteDataSource,
                              @NonNull GithubDataSource githubLocalDataSource,
                              @NonNull SharedPreferences preferences) {
@@ -98,11 +124,20 @@ public class GithubRepository implements GithubDataSource {
         return INSTANCE;
     }
 
+    /**
+     * Logout of your github account and remove the repositories associated
+     * with your account from the cache
+     */
     @Override
     public void logout() {
         mGithubLocalDataSource.logout();
     }
 
+    /**
+     * Get the user's' repositories 
+     * @param callback called when the repositories are loaded
+     * @param useCache if false the list of repositories are updated from online
+     */
     @Override
     public void getRepositoriesWithAdditionalInfo(final GetRepositoriesCallback callback, boolean useCache) {
         final String key = ReferrerContract.ReferrerEntry.TABLE_NAME;
@@ -127,6 +162,12 @@ public class GithubRepository implements GithubDataSource {
         }, useCache);
     }
 
+    /**
+     * Get the repository of the provided repository id
+     * @param repositoryId the id of the repository to find
+     * @param callback called when the repository is found or not found
+     * @param useCache whether or not the cache should be used to search for the repository
+     */
     @Override
     public void getRepositoriesWithAdditionalInfo(long repositoryId, final GetRepositoriesCallback callback,
                                                   boolean useCache) {
@@ -153,6 +194,10 @@ public class GithubRepository implements GithubDataSource {
                 }, useCache);
     }
 
+    /**
+     * Returns a list of all the user repositories
+     * @param callback called when the repositories are all retrieved
+     */
     @Override
     public void getRepositories(final GetRepositoriesCallback callback) {
         mGithubRemoteDataSource.getRepositories(new GetRepositoriesCallback() {
@@ -168,6 +213,11 @@ public class GithubRepository implements GithubDataSource {
         });
     }
 
+    /**
+     * Retrieve a list of sites that link to this repository
+     * @param repository the repository to find the referers for
+     * @param callback called with the list of referring sites
+     */
     @Override
     public void getRepositoryReferrers(Repository repository, final GetRepositoryReferrersCallback callback) {
         mGithubRemoteDataSource.getRepositoryReferrers(repository, new GetRepositoryReferrersCallback() {
@@ -183,6 +233,12 @@ public class GithubRepository implements GithubDataSource {
         });
     }
 
+    /**
+     * Retrieve the number of cloans the repository has had
+     * @param repository the repository we are analyzing
+     * @param period the period of time to look in 
+     * @param callback called with the resulting number of clones
+     */
     @Override
     public void getRepositoryClones(Repository repository, String period, final GetRepositoryClonesCallback callback) {
         mGithubRemoteDataSource.getRepositoryClones(repository, period, new GetRepositoryClonesCallback() {
@@ -198,6 +254,12 @@ public class GithubRepository implements GithubDataSource {
         });
     }
 
+    /**
+     * Retrive the number of views for the respository
+     * @param repository the repository for which to find the number of views
+     * @param period the period in which the views should have taken place
+     * @param callback called with the number of views
+     */
     @Override
     public void getRepositoryViews(Repository repository, String period, final GetRepositoryViewsCallback callback) {
         mGithubRemoteDataSource.getRepositoryViews(repository, period, new GetRepositoryViewsCallback() {
@@ -213,6 +275,11 @@ public class GithubRepository implements GithubDataSource {
         });
     }
 
+    /**
+     * Retrieve a list of users who starred the repository
+     * @param repository the repository which users have starred
+     * @param callback called with the list of users who starred the repository
+     */
     @Override
     public void getStargazers(Repository repository, final GetStargazersCallback callback) {
         mGithubRemoteDataSource.getStargazers(repository, new GetStargazersCallback() {
@@ -228,6 +295,13 @@ public class GithubRepository implements GithubDataSource {
         });
     }
 
+    /**
+     * Retrieve a list of the trending repositories
+     * @param period the period in which the repositories were trending
+     * @param language specify the programming language 
+     * @param callback called with the list of trending repositories
+     * @param useCache whether or not to use the cached trending repository information
+     */
     @Override
     public void getTrendingRepositories(String period, String language,
                                         final GetTrendingRepositories callback, boolean useCache) {
@@ -257,6 +331,11 @@ public class GithubRepository implements GithubDataSource {
         }, useCache);
     }
 
+    /**
+     * Request an access token 
+     * @param code the passcode to get the token
+     * @param callback retrieves the requested token and token type
+     */
     @Override
     public void requestTokenFromCode(final String code, final RequestTokenFromCodeCallback callback) {
         mGithubRemoteDataSource.requestTokenFromCode(code, new RequestTokenFromCodeCallback() {
@@ -273,6 +352,10 @@ public class GithubRepository implements GithubDataSource {
         });
     }
 
+    /**
+     * Get the current user
+     * @param callback called with the user information
+     */
     @Override
     public void getUser(final GerUserCallback callback) {
         mGithubRemoteDataSource.getUser(new GerUserCallback() {
@@ -288,55 +371,109 @@ public class GithubRepository implements GithubDataSource {
         });
     }
 
+    /**
+     * save the token to local storage
+     * @param token the token to save
+     * @param tokenType the type of the token
+     */
     @Override
     public void saveToken(String token, String tokenType) {
         mGithubLocalDataSource.saveToken(token, tokenType);
     }
 
+    /**
+     * Get the saved token. 
+     * @return null if no token is saved
+     */
     @Override
     public String getToken() {
         String token = mGithubLocalDataSource.getToken();
         return token != null && !token.isEmpty() ? token : null;
     }
 
+    /**
+     * Get the type of the saved token
+     * @return null if no token is saved
+     */
     @Override
     public String getTokenType() {
         String tokenType = mGithubLocalDataSource.getTokenType();
         return tokenType != null && !tokenType.isEmpty() ? tokenType : null;
     }
 
+    /**
+     * Get the default language for trending repositories
+     * @return a String representation of a programming language
+     */
     @Override
     public String getDefaultLanguageForTrending() {
         return mGithubLocalDataSource.getDefaultLanguageForTrending();
     }
 
+    /**
+     * Set the default language for trending repository search
+     * @param language a string representation of the desired programming language
+     */
     @Override
     public void setDefaultLanguageForTrending(@GithubLocalDataSource.TrendingLanguage String language) {
         mGithubLocalDataSource.setDefaultLanguageForTrending(language);
     }
 
+    /**
+     * Get the default period of time for the trending repsoitories
+     * @return a string representation of the default period of time
+     */
     @Override
     public String getDefaultPeriodForTrending() {
         return mGithubLocalDataSource.getDefaultPeriodForTrending();
     }
 
+    /**
+     * Set the default period of time for the trending repositories
+     * @param period a string representation of a period of time
+     */
     @Override
     public void setDefaultPeriodForTrending(@GithubLocalDataSource.TrendingPeriod String period) {
         mGithubLocalDataSource.setDefaultPeriodForTrending(period);
     }
 
+    /**
+     * Pin a repository so it can be viewed offline
+     * @param active true to pin the repository, false to unpin it
+     * @param id the id of the repository
+     */
     @Override
     public void setPinned(boolean active, long id) {
         mGithubLocalDataSource.setPinned(active, id);
     }
 
+    /**
+     * The callback interface for when the repository data is asynchronously loaded
+     */
     public interface LoadDataCallback {
+        /**
+         * Retrieve the retrieved data
+         * @param data the data for the repository
+         * @param id the id of the found repository
+         */
         void onDataLoaded(Cursor data, int id);
 
+        /**
+         * When no data is found for a repository this is called
+         * @param id the id of the repository
+         */
         void onDataEmpty(int id);
 
+        /**
+         * Called when there is no data available for the repository or it cannot
+         * be found
+         * @param id the id of the repository
+         */
         void onDataNotAvailable(int id);
 
+        /**
+         * Called when the data for the repository has been reset
+         */
         void onDataReset();
     }
 }
