@@ -1,6 +1,1 @@
-[submodule "android-github-api"]
-	path = android-github-api
-	url = https://github.com/DmitryMalkovich/android-github-api
-[submodule "material-design-dimens"]
-	path = material-design-dimens
-	url = https://github.com/DmitryMalkovich/material-design-dimens.git
+
