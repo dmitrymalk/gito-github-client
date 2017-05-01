@@ -3,7 +3,7 @@ apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.2"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.dmitrymalkovich.android.githubanalytics"
         minSdkVersion 15
@@ -75,6 +75,7 @@ dependencies {
     freeCompile 'com.google.firebase:firebase-ads:9.2.1'
     compile project(':material-design-dimens')
     compile 'io.github.kobakei:ratethisapp:1.1.1'
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

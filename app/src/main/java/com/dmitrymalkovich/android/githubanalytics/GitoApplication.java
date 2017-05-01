@@ -32,7 +32,7 @@ public class GitoApplication extends Application {
         super.attachBaseContext(context);
         MultiDex.install(this);
         sContext = context;
-        RateThisApp.Config config = new RateThisApp.Config(1, 5);
+        RateThisApp.Config config = new RateThisApp.Config(3, 5);
         RateThisApp.init(config);
     }
 
