@@ -43,10 +43,6 @@ public class UserContract {
         public static final String COLUMN_AVATAR = "avatar";
         public static final String COLUMN_FOLLOWERS = "followers";
 
-        public static Uri buildUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
         public static final String[] USERS_COLUMNS = {
                 _ID,
                 COLUMN_LOGIN,
@@ -60,6 +56,10 @@ public class UserContract {
         public static final int COL_NAME = 2;
         public static final int COL_AVATAR = 3;
         public static final int COL_FOLLOWERS = 4;
+
+        public static Uri buildUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
 
         public static ContentValues buildContentValues(User user) {
             ContentValues contentValues = new ContentValues();

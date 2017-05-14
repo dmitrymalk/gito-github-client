@@ -80,10 +80,8 @@ public class GithubRemoteDataSource implements GithubDataSource {
             mLocalDataSource.saveRepositories(repositories);
             return repositories;
         } catch (IOException e) {
-            if (e instanceof RequestException) {
-                if (((RequestException) e).getStatus() == 401) {
-                    saveToken(null, null);
-                }
+            if (e instanceof RequestException && ((RequestException) e).getStatus() == 401) {
+                saveToken(null, null);
             }
             if (ActivityUtils.isNetworkAvailable()) {
                 FirebaseCrash.report(e);

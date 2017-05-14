@@ -50,10 +50,6 @@ public class TrendingContract {
         public static final String COLUMN_AVATAR = "avatar";
         public static final String COLUMN_PERIOD = "period";
 
-        public static Uri buildUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
         public static final String[] TRENDING_COLUMNS = {
                 _ID,
                 COLUMN_HTML_URL,
@@ -73,6 +69,10 @@ public class TrendingContract {
         public static final int COL_NAME = 5;
         public static final int COL_AVATAR = 6;
         public static final int COL_PERIOD = 7;
+
+        public static Uri buildUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
 
         public static ContentValues buildContentValues(TrendingRepository trendingRepository, String period,
                                                        String language) {

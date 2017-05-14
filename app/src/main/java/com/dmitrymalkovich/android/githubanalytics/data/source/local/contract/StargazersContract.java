@@ -23,7 +23,6 @@ import android.provider.BaseColumns;
 
 import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
 import com.dmitrymalkovich.android.githubapi.core.gson.Star;
-import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 public class StargazersContract {
     public static final String LOG_TAG = StargazersContract.class.getSimpleName();
@@ -43,10 +42,6 @@ public class StargazersContract {
         public static final String COLUMN_REPOSITORY_KEY = "repository_id";
         public static final String COLUMN_TIMESTAMP = "timestamp";
 
-        public static Uri buildUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
         public static final String[] STARTGAZERS_COLUMNS = {
                 _ID,
                 COLUMN_REPOSITORY_KEY,
@@ -56,6 +51,10 @@ public class StargazersContract {
         public static final int COL_ID = 0;
         public static final int COL_REPOSITORY_KEY = 1;
         public static final int COL_TIMESTAMP = 2;
+
+        public static Uri buildUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
 
         public static ContentValues buildContentValues(long repositoryId,
                                                        Star star) {
