@@ -65,10 +65,6 @@ public class RepositoryContract {
         public static final String COLUMN_REPOSITORY_LANGUAGE = "repository_language";
         public static final String COLUMN_REPOSITORY_PINNED = "repository_pinned";
 
-        public static Uri buildRepositoryUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
         public static final String[] REPOSITORY_COLUMNS = {
                 TABLE_NAME + "." + _ID,
                 TABLE_NAME + "." + COLUMN_REPOSITORY_ID,
@@ -121,12 +117,12 @@ public class RepositoryContract {
                 ClonesContract.ClonesEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY,
                 ClonesContract.ClonesEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_UNIQUES,
                 ClonesContract.ClonesEntry.TABLE_NAME + "_two_weeks" + "." + ViewsContract.ViewsEntry.COLUMN_VIEWS_COUNT,
-                ReferrerContract.ReferrerEntry.TABLE_NAME + "_1"+ "." + ReferrerContract.ReferrerEntry._ID,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_1" + "." + ReferrerContract.ReferrerEntry._ID,
                 ReferrerContract.ReferrerEntry.TABLE_NAME + "_1" + "." + ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY,
                 ReferrerContract.ReferrerEntry.TABLE_NAME + "_1" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_REFERRER,
                 ReferrerContract.ReferrerEntry.TABLE_NAME + "_1" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_COUNT,
                 ReferrerContract.ReferrerEntry.TABLE_NAME + "_1" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_UNIQUES,
-                ReferrerContract.ReferrerEntry.TABLE_NAME + "_2"+ "." + ReferrerContract.ReferrerEntry._ID,
+                ReferrerContract.ReferrerEntry.TABLE_NAME + "_2" + "." + ReferrerContract.ReferrerEntry._ID,
                 ReferrerContract.ReferrerEntry.TABLE_NAME + "_2" + "." + ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY,
                 ReferrerContract.ReferrerEntry.TABLE_NAME + "_2" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_REFERRER,
                 ReferrerContract.ReferrerEntry.TABLE_NAME + "_2" + "." + ReferrerContract.ReferrerEntry.COLUMN_REFERRER_COUNT,
@@ -178,6 +174,10 @@ public class RepositoryContract {
         public static final int COL_REFERRER_2_PATHS_REFERRER = 42;
         public static final int COL_REFERRER_2_PATHS_COUNT = 43;
         public static final int COL_REFERRER_2_PATHS_UNIQUES = 44;
+
+        public static Uri buildRepositoryUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
 
         public static ContentValues buildContentValues(Repository repo) {
             ContentValues contentValues = new ContentValues();

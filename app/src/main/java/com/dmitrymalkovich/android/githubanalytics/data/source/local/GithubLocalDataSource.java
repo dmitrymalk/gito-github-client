@@ -120,44 +120,64 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     @Override
     public void getRepositories(GetRepositoriesCallback callback) {
+        // Not used
+        throw new IllegalStateException();
     }
 
     @Override
     public void getRepositoryReferrers(Repository repository, GetRepositoryReferrersCallback callback) {
+        // Not used
+        throw new IllegalStateException();
     }
 
     @Override
     public void requestTokenFromCode(String code, RequestTokenFromCodeCallback callback) {
+        // Not used
+        throw new IllegalStateException();
     }
 
     @Override
     public void getRepositoryClones(Repository repository, String period, GetRepositoryClonesCallback callback) {
+        // Not used
+        throw new IllegalStateException();
     }
 
     @Override
     public void getRepositoryViews(Repository repository, String period, GetRepositoryViewsCallback callback) {
+        // Not used
+        throw new IllegalStateException();
     }
 
     @Override
     public void getStargazers(Repository repository, GetStargazersCallback callback) {
+        // Not used
+        throw new IllegalStateException();
     }
 
     @Override
     public void getRepositoriesWithAdditionalInfo(GetRepositoriesCallback callback, boolean useCache) {
+        // Not used
+        throw new IllegalStateException();
     }
 
     @Override
     public void getRepositoriesWithAdditionalInfo(long repositoryId, GetRepositoriesCallback callback,
                                                   boolean useCache) {
+        // Not used
+        throw new IllegalStateException();
     }
 
     @Override
     public void getTrendingRepositories(String period, String language, GetTrendingRepositories callback,
                                         boolean useCache) {
+        // Not used
+        throw new IllegalStateException();
     }
 
     @Override
     public void getUser(GerUserCallback callback) {
+        // Not used
+        throw new IllegalStateException();
     }
 
     @Override

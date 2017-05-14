@@ -45,10 +45,6 @@ public class ReferrerContract {
         public static final String COLUMN_REFERRER_COUNT = "count";
         public static final String COLUMN_REFERRER_UNIQUES = "uniques";
 
-        public static Uri buildUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
         public static final String[] REFERRER_COLUMNS = {
                 _ID,
                 COLUMN_REPOSITORY_KEY,
@@ -62,6 +58,10 @@ public class ReferrerContract {
         public static final int COL_PATHS_REFERRER = 2;
         public static final int COL_PATHS_COUNT = 3;
         public static final int COL_PATHS_UNIQUES = 4;
+
+        public static Uri buildUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
 
         public static ContentValues createContentValues(long repositoryId, ReferringSite referrer) {
             ContentValues contentValues = new ContentValues();
