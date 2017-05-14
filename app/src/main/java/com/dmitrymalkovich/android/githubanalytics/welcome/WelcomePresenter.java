@@ -25,8 +25,6 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubapi.core.service.GithubService;
 import com.dmitrymalkovich.android.githubapi.core.service.GithubServiceGenerator;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 class WelcomePresenter implements WelcomeContract.Presenter {
 
     @SuppressWarnings("unused")
@@ -36,8 +34,8 @@ class WelcomePresenter implements WelcomeContract.Presenter {
 
     WelcomePresenter(@NonNull GithubRepository githubRepository,
                      @NonNull WelcomeContract.View view) {
-        mGithubRepository = checkNotNull(githubRepository);
-        mWelcomeView = checkNotNull(view);
+        mGithubRepository = githubRepository;
+        mWelcomeView = view;
         mWelcomeView.setPresenter(this);
     }
 

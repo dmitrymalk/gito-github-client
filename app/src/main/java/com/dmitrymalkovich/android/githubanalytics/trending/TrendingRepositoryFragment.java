@@ -43,8 +43,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public class TrendingRepositoryFragment extends Fragment implements TrendingRepositoryContract.View {
 
     private TrendingRepositoryContract.Presenter mPresenter;
@@ -116,7 +114,7 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
 
     @Override
     public void setPresenter(TrendingRepositoryContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+        mPresenter = presenter;
     }
 
     @Override

@@ -21,7 +21,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 
-import com.dmitrymalkovich.android.githubanalytics.dashboard.DashboardPresenter;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
@@ -29,8 +28,6 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvi
 import org.eclipse.egit.github.core.Repository;
 
 import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 class TrafficPresenter implements TrafficContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
@@ -60,10 +57,10 @@ class TrafficPresenter implements TrafficContract.Presenter,
                             @NonNull TrafficContract.View view,
                             @NonNull LoaderProvider loaderProvider,
                             @NonNull LoaderManager loaderManager) {
-        mGithubRepository = checkNotNull(githubRepository);
-        mView = checkNotNull(view);
-        mLoaderProvider = checkNotNull(loaderProvider);
-        mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
+        mGithubRepository = githubRepository;
+        mView = view;
+        mLoaderProvider = loaderProvider;
+        mLoaderManager = loaderManager;
         mView.setPresenter(this);
     }
 

@@ -29,8 +29,6 @@ import org.eclipse.egit.github.core.Repository;
 
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public class PublicRepositoryPresenter implements PublicRepositoryContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
 
@@ -55,10 +53,10 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
                                      @NonNull PublicRepositoryContract.View view,
                                      @NonNull LoaderProvider loaderProvider,
                                      @NonNull LoaderManager loaderManager) {
-        mGithubRepository = checkNotNull(githubRepository);
-        mPublicRepositoriesView = checkNotNull(view);
-        mLoaderProvider = checkNotNull(loaderProvider);
-        mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
+        mGithubRepository = githubRepository;
+        mPublicRepositoriesView = view;
+        mLoaderProvider = loaderProvider;
+        mLoaderManager = loaderManager;
         mPublicRepositoriesView.setPresenter(this);
     }
 

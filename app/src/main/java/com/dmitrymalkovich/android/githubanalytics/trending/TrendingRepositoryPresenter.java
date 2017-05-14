@@ -31,8 +31,6 @@ import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
 
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public class TrendingRepositoryPresenter implements TrendingRepositoryContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
 
@@ -57,10 +55,10 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
                                        @NonNull TrendingRepositoryContract.View view,
                                        @NonNull LoaderProvider loaderProvider,
                                        @NonNull LoaderManager loaderManager) {
-        mGithubRepository = checkNotNull(githubRepository);
-        mView = checkNotNull(view);
-        mLoaderProvider = checkNotNull(loaderProvider);
-        mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
+        mGithubRepository = githubRepository;
+        mView = view;
+        mLoaderProvider = loaderProvider;
+        mLoaderManager = loaderManager;
         mView.setPresenter(this);
     }
 

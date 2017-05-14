@@ -42,7 +42,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static com.dmitrymalkovich.android.githubanalytics.traffic.TrafficAdActivity.EXTRA_REPOSITORY_ID;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public class DashboardFragment extends Fragment implements DashboardContract.View {
 
@@ -99,7 +98,7 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
 
     @Override
     public void setPresenter(DashboardContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+        mPresenter = presenter;
     }
 
     @Override

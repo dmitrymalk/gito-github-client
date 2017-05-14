@@ -62,8 +62,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * https://github.com/PhilJay/MPAndroidChart/wiki/Getting-Started
  */
@@ -165,7 +163,7 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
 
     @Override
     public void setPresenter(TrafficContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+        mPresenter = presenter;
     }
 
     @Override

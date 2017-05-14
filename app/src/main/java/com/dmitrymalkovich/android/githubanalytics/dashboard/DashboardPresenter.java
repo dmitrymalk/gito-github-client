@@ -29,8 +29,6 @@ import org.eclipse.egit.github.core.Repository;
 
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public class DashboardPresenter implements DashboardContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
 
@@ -55,10 +53,10 @@ public class DashboardPresenter implements DashboardContract.Presenter,
                               @NonNull DashboardContract.View view,
                               @NonNull LoaderProvider loaderProvider,
                               @NonNull LoaderManager loaderManager) {
-        mGithubRepository = checkNotNull(githubRepository);
-        mDashboardView = checkNotNull(view);
-        mLoaderProvider = checkNotNull(loaderProvider);
-        mLoaderManager = checkNotNull(loaderManager, "loaderManager cannot be null!");
+        mGithubRepository = githubRepository;
+        mDashboardView = view;
+        mLoaderProvider = loaderProvider;
+        mLoaderManager = loaderManager;
         mDashboardView.setPresenter(this);
     }
 

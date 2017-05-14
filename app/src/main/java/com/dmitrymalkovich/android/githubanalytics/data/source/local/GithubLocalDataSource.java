@@ -50,7 +50,6 @@ import java.lang.annotation.Retention;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 public class GithubLocalDataSource implements GithubDataSource {
@@ -111,8 +110,6 @@ public class GithubLocalDataSource implements GithubDataSource {
 
     private GithubLocalDataSource(@NonNull ContentResolver contentResolver,
                                   SharedPreferences preferences) {
-        checkNotNull(contentResolver);
-        checkNotNull(preferences);
         mContentResolver = contentResolver;
         mPreferences = preferences;
     }

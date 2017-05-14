@@ -35,8 +35,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public class WelcomeFragment extends Fragment implements WelcomeContract.View {
 
     public static String LOG_TAG = WelcomeFragment.class.getSimpleName();
@@ -89,7 +87,7 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
 
     @Override
     public void setPresenter(WelcomeContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+        mPresenter = presenter;
     }
 
     @Override

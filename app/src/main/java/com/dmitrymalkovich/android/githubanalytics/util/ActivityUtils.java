@@ -32,8 +32,6 @@ import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * This provides methods to help Activities load their UI.
  */
@@ -45,8 +43,6 @@ public class ActivityUtils {
      */
     public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager,
                                              @NonNull Fragment fragment, int frameId) {
-        checkNotNull(fragmentManager);
-        checkNotNull(fragment);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(frameId, fragment);
         transaction.commitAllowingStateLoss();
@@ -54,8 +50,6 @@ public class ActivityUtils {
 
     public static void replaceFragment(@NonNull FragmentManager fragmentManager,
                                        @NonNull Fragment fragment, int frameId) {
-        checkNotNull(fragmentManager);
-        checkNotNull(fragment);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(frameId, fragment);
         transaction.commitAllowingStateLoss();

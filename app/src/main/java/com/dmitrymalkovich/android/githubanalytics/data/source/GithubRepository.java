@@ -38,8 +38,6 @@ import org.eclipse.egit.github.core.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * This class is used for the access of information regarding Github repositories. In order to use
  * it initialize it through the {@link Injection} subclass with the provideGithubRepository method
@@ -65,7 +63,6 @@ public class GithubRepository implements GithubDataSource {
          * @return the static instance of the {@link GithubRepository} class
          */
         public static GithubRepository provideGithubRepository(@NonNull Context context) {
-            checkNotNull(context);
             SharedPreferences sharedPreferences =
                     context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
             return GithubRepository.getInstance(GithubRemoteDataSource.getInstance(
@@ -78,7 +75,6 @@ public class GithubRepository implements GithubDataSource {
          * @return the static instance of the {@link GithubLocalDataSource} class
          */
         private static GithubLocalDataSource provideLocalDataSource(@NonNull Context context) {
-            checkNotNull(context);
             return GithubLocalDataSource.getInstance(context.getContentResolver(),
                     context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE));
         }
@@ -88,7 +84,6 @@ public class GithubRepository implements GithubDataSource {
          * @return the static instance of the {@link GithubRemoteDataSource} class
          */
         public static GithubRemoteDataSource provideRemoteDataSource(@NonNull Context context) {
-            checkNotNull(context);
             return GithubRemoteDataSource.getInstance(context.getContentResolver(),
                     context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE));
         }
@@ -97,14 +92,14 @@ public class GithubRepository implements GithubDataSource {
     /**
      * Initialize the static instance for the Github repository
      * @param githubRemoteDataSource the remote datasource to retrieve data from
-     * @param githubLocaldataSource the local datasource to retrieve data from
+     * @param githubLocalDataSource the local datasource to retrieve data from
      * @param preferences the application's set preferences
      */
     private GithubRepository(@NonNull GithubDataSource githubRemoteDataSource,
                              @NonNull GithubDataSource githubLocalDataSource,
                              @NonNull SharedPreferences preferences) {
-        mGithubRemoteDataSource = checkNotNull(githubRemoteDataSource);
-        mGithubLocalDataSource = checkNotNull(githubLocalDataSource);
+        mGithubRemoteDataSource = githubRemoteDataSource;
+        mGithubLocalDataSource = githubLocalDataSource;
         mSyncSettings = new SyncSettings(preferences);
     }
 
