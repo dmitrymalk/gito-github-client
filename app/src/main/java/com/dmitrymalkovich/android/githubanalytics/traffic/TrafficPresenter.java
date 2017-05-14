@@ -78,6 +78,7 @@ class TrafficPresenter implements TrafficContract.Presenter,
                 new GithubDataSource.GetRepositoriesCallback() {
                     @Override
                     public void onRepositoriesLoaded(List<Repository> repositoryList) {
+                        // Nothing to do
                     }
 
                     @Override

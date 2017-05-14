@@ -48,18 +48,18 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     private TrendingRepositoryContract.Presenter mPresenter;
     private Unbinder unbinder;
     @BindView(R.id.progress)
-    ProgressBar mProgressBar;
+    public ProgressBar mProgressBar;
     @BindView(R.id.recycler_view_for_repositories)
-    RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    public SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.bottom_navigation)
-    AHBottomNavigation mBottomNavigation;
+    public AHBottomNavigation mBottomNavigation;
     @BindView(R.id.empty_state)
-    View mEmptyState;
+    public View mEmptyState;
     View mCoordinatorLayout;
     @BindView(R.id.empty_state_title)
-    TextView mEmptyStateTextView;
+    public TextView mEmptyStateTextView;
 
     private TrendingRepositoryListAdapter mAdapter;
     @BindView(R.id.recycler_view_for_badges)

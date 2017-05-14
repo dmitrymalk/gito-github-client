@@ -95,11 +95,11 @@ class TrendingRepositoryListAdapter extends CursorRecyclerViewAdapter<TrendingRe
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleView;
-        TextView subtitleView;
-        TextView rankView;
-        TextView infoView;
-        ImageView avatarView;
+        private TextView titleView;
+        private TextView subtitleView;
+        private TextView rankView;
+        private TextView infoView;
+        private ImageView avatarView;
 
         ViewHolder(View view) {
             super(view);

@@ -72,28 +72,28 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     private TrafficContract.Presenter mPresenter;
     private Unbinder unbinder;
     private ReferrersListAdapter mAdapter;
-    @BindView(R.id.progress)
+    public @BindView(R.id.progress)
     ProgressBar mProgressBar;
     @BindView(R.id.empty_state)
-    View mEmptyState;
+    public View mEmptyState;
     @BindView(R.id.recycler_view_for_referrers)
-    RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     @BindView(R.id.chart_clones)
-    LineChart mChartClones;
+    public LineChart mChartClones;
     @BindView(R.id.chart_views)
-    LineChart mChartViews;
+    public LineChart mChartViews;
     @BindView(R.id.subtitle)
-    TextView mSubtitleView;
+    public TextView mSubtitleView;
     @BindView(R.id.stars_total)
-    TextView mStarsTotalView;
+    public TextView mStarsTotalView;
     @BindView(R.id.language)
-    TextView mLanguageView;
+    public TextView mLanguageView;
     @BindView(R.id.language_icon)
-    ImageView mLanguageIconView;
+    public ImageView mLanguageIconView;
     @BindView(R.id.forks_total)
-    TextView mTotalForksView;
+    public TextView mTotalForksView;
     @BindView(R.id.empty_state_title)
-    TextView mEmptyStateTextView;
+    public TextView mEmptyStateTextView;
 
     public static TrafficFragment newInstance(long repositoryId) {
         TrafficFragment trafficFragment = new TrafficFragment();

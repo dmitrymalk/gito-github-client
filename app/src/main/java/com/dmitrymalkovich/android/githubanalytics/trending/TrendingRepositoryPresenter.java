@@ -167,6 +167,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
 
     @Override
     public void onDataReset() {
+        // Nothing to do
     }
 
     @Override
