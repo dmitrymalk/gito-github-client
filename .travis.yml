@@ -7,10 +7,10 @@ android:
     # - platform-tools
 
     # The BuildTools version used by your project
-    - build-tools-25.0.0
+    - build-tools-19.1.0
 
     # The SDK version used to compile your project
-    - android-25
+    - android-22
 
     # Additional components
     - extra-google-google_play_services
@@ -22,6 +22,3 @@ android:
     # if you need to run emulator(s) during your tests
     - sys-img-armeabi-v7a-android-22
     - sys-img-armeabi-v7a-android-17
-
-    before_install:
-    - chmod +x gradlew
