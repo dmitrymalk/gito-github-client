@@ -124,8 +124,7 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
         });
     }
 
-    private void setMostPopularRepository(ViewHolder holder, Cursor cursor)
-    {
+    private void setMostPopularRepository(ViewHolder holder, Cursor cursor) {
         // Clones
         String clonesCount = cursor.getString(COL_CLONES_COUNT);
         holder.clonesCountTodayView.setText(clonesCount != null ? clonesCount : "0");
@@ -154,6 +153,10 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
         String stargazersTwoWeeks = cursor.getString(COL_STARGAZERS_STARS_TWO_WEEKS);
         holder.starsTwoWeeksView.setText(stargazersTwoWeeks != null ? stargazersTwoWeeks : "0");
 
+        setTopReferrer(holder, cursor);
+    }
+
+    private void setTopReferrer(ViewHolder holder, Cursor cursor) {
         String topReferrer1 = cursor.getString(COL_REFERRER_1_PATHS_REFERRER);
         String topReferrer2 = cursor.getString(COL_REFERRER_2_PATHS_REFERRER);
 

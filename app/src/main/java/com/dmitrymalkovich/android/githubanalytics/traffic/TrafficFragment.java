@@ -72,7 +72,8 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     private TrafficContract.Presenter mPresenter;
     private Unbinder unbinder;
     private ReferrersListAdapter mAdapter;
-    public @BindView(R.id.progress)
+    public
+    @BindView(R.id.progress)
     ProgressBar mProgressBar;
     @BindView(R.id.empty_state)
     public View mEmptyState;
@@ -206,15 +207,6 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         String stars = cursor.getString(RepositoryContract.RepositoryEntry.COL_REPOSITORY_WATCHERS);
         String forks = cursor.getString(RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORKS);
         String language = cursor.getString(RepositoryContract.RepositoryEntry.COL_REPOSITORY_LANGUAGE);
-        String clonesCount = cursor.getString(RepositoryContract.RepositoryEntry.COL_CLONES_COUNT);
-        String clonesCountYesterday = cursor.getString(RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_YESTERDAY);
-        String clonesCountTwoWeeks = cursor.getString(RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_TWO_WEEKS);
-        String viewsUniques = cursor.getString(RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES);
-        String viewsUniquesYesterday = cursor.getString(RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES_YESTERDAY);
-        String viewsUniquesTwoWeeks = cursor.getString(RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES_TWO_WEEKS);
-        String stargazersToday = cursor.getString(RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS);
-        String stargazersYesterday = cursor.getString(RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS_YESTERDAY);
-        String stargazersTwoWeeks = cursor.getString(RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS_TWO_WEEKS);
 
         setTitle(repositoryName);
 
@@ -225,6 +217,21 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         mLanguageIconView.setBackgroundDrawable(DrawableUtils.getColor(getContext(), language));
         mLanguageIconView.setVisibility(mLanguageView.getText() != null && mLanguageView.getText().length() != 0 ? View.VISIBLE : View.GONE);
         mLanguageView.setVisibility(mLanguageIconView.getVisibility() == View.VISIBLE ? View.VISIBLE : View.GONE);
+
+        showTraffic(cursor);
+    }
+
+    private void showTraffic(Cursor cursor) {
+        String clonesCount = cursor.getString(RepositoryContract.RepositoryEntry.COL_CLONES_COUNT);
+        String clonesCountYesterday = cursor.getString(RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_YESTERDAY);
+        String clonesCountTwoWeeks = cursor.getString(RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_TWO_WEEKS);
+        String viewsUniques = cursor.getString(RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES);
+        String viewsUniquesYesterday = cursor.getString(RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES_YESTERDAY);
+        String viewsUniquesTwoWeeks = cursor.getString(RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES_TWO_WEEKS);
+        String stargazersToday = cursor.getString(RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS);
+        String stargazersYesterday = cursor.getString(RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS_YESTERDAY);
+        String stargazersTwoWeeks = cursor.getString(RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS_TWO_WEEKS);
+
 
         if (getView() != null) {
             View todayView = getView().findViewById(R.id.today);
