@@ -27,9 +27,6 @@ public class Pagination {
     public static final String LAST_PAGE = "last";
     int mLastPage;
 
-    public Pagination() {
-    }
-
     public void parse(Response<List<Star>> response) {
         String headerLink = response.headers().get(HEADER_LINK);
         if (headerLink != null) {

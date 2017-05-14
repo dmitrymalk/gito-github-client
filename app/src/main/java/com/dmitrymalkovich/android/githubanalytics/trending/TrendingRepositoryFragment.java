@@ -63,7 +63,7 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
 
     private TrendingRepositoryListAdapter mAdapter;
     @BindView(R.id.recycler_view_for_badges)
-    RecyclerView mRecyclerViewForBadges;
+    public RecyclerView mRecyclerViewForBadges;
 
     public static TrendingRepositoryFragment newInstance() {
         return new TrendingRepositoryFragment();

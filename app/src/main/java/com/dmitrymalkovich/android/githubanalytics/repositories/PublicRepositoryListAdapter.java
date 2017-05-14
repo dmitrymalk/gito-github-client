@@ -129,8 +129,8 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
         private final TextView forksView;
         private final TextView badgeView;
         private final ImageView favoriteView;
-        TextView titleView;
-        TextView subtitleView;
+        private TextView titleView;
+        private TextView subtitleView;
         private final ImageView languageIconView;
 
         ViewHolder(View view) {

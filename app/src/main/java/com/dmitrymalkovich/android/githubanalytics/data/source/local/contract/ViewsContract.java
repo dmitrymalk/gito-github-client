@@ -23,7 +23,6 @@ import android.provider.BaseColumns;
 
 import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
 import com.dmitrymalkovich.android.githubapi.core.gson.Views;
-import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 /**
  * https://developer.github.com/v3/repos/traffic/

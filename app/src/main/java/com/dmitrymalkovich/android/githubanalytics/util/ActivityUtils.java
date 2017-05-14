@@ -29,6 +29,8 @@ import android.support.v4.app.FragmentTransaction;
 import com.dmitrymalkovich.android.githubanalytics.GitoApplication;
 import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -57,8 +59,8 @@ public class ActivityUtils {
 
     public static void openFeedback(Activity activity) {
         try {
-            throw new Exception();
-        } catch (Exception e) {
+            throw new IOException();
+        } catch (IOException e) {
             ApplicationErrorReport report = new ApplicationErrorReport();
             report.packageName = report.processName = activity.getApplication()
                     .getPackageName();

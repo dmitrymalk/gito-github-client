@@ -67,9 +67,9 @@ class ReferrersListAdapter extends CursorRecyclerViewAdapter<ReferrersListAdapte
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView visitorsView;
-        TextView viewsView;
-        TextView nameView;
+        private TextView visitorsView;
+        private TextView viewsView;
+        private TextView nameView;
 
         ViewHolder(View view) {
             super(view);

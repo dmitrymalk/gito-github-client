@@ -83,12 +83,14 @@ class TrafficPresenter implements TrafficContract.Presenter,
 
                     @Override
                     public void onDataNotAvailable() {
+                        // Nothing to do
                     }
                 }, false);
     }
 
     @Override
     public void start(Bundle savedInstanceState) {
+        // Nothing to do
     }
 
     @Override
@@ -107,6 +109,7 @@ class TrafficPresenter implements TrafficContract.Presenter,
 
     @Override
     public void onDataEmpty(int id) {
+        // Nothing to do
     }
 
     @Override
@@ -118,6 +121,7 @@ class TrafficPresenter implements TrafficContract.Presenter,
 
     @Override
     public void onDataReset() {
+        // Nothing to do
     }
 
     @Override
@@ -152,6 +156,5 @@ class TrafficPresenter implements TrafficContract.Presenter,
     public void onLoaderReset(Loader<Cursor> loader) {
         onDataReset();
     }
-
 
 }

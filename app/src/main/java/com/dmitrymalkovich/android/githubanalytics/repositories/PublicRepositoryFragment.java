@@ -44,12 +44,16 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
     private PublicRepositoryContract.Presenter mPresenter;
     private Unbinder unbinder;
     @BindView(R.id.progress)
-    ProgressBar mProgressBar;
-    @BindView(R.id.recycler_view_for_repositories) RecyclerView mRecyclerView;
-    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    public ProgressBar mProgressBar;
+    @BindView(R.id.recycler_view_for_repositories)
+    public RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh_layout)
+    public SwipeRefreshLayout mSwipeRefreshLayout;
     private PublicRepositoryListAdapter mAdapter;
-    @BindView(R.id.empty_state) View mEmptyStateView;
-    @BindView(R.id.empty_state_title) TextView mEmptyStateTextView;
+    @BindView(R.id.empty_state)
+    public View mEmptyStateView;
+    @BindView(R.id.empty_state_title)
+    public TextView mEmptyStateTextView;
 
     public static PublicRepositoryFragment newInstance() {
         return new PublicRepositoryFragment();

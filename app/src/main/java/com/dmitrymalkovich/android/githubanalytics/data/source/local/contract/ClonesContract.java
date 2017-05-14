@@ -48,10 +48,6 @@ public class ClonesContract {
         public static final String COLUMN_CLONES_UNIQUES = "uniques";
         public static final String COLUMN_CLONES_TIMESTAMP = "timestamp";
 
-        public static Uri buildUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
         public static final String[] CLONES_COLUMNS = {
                 _ID,
                 COLUMN_REPOSITORY_KEY,
@@ -65,6 +61,10 @@ public class ClonesContract {
         public static final int COL_CLONES_COUNT = 2;
         public static final int COL_CLONES_UNIQUES = 3;
         public static final int COL_CLONES_TIMESTAMP = 4;
+
+        public static Uri buildUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
 
         public static ContentValues buildContentValues(long repositoryId, Clones.Clone clone) {
             String timestamp = clone.getTimestamp();

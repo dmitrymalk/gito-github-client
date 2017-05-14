@@ -79,10 +79,15 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     .getRepositories();
             mLocalDataSource.saveRepositories(repositories);
             return repositories;
-        } catch (IOException e) {
-            if (e instanceof RequestException && ((RequestException) e).getStatus() == 401) {
+        } catch (RequestException e) {
+            if (e.getStatus() == 401) {
                 saveToken(null, null);
             }
+            if (ActivityUtils.isNetworkAvailable()) {
+                FirebaseCrash.report(e);
+            }
+            return null;
+        } catch (IOException e) {
             if (ActivityUtils.isNetworkAvailable()) {
                 FirebaseCrash.report(e);
             }

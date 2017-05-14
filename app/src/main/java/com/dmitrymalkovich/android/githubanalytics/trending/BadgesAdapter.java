@@ -83,8 +83,8 @@ class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView badgeView;
-        View bottomLine;
+        private TextView badgeView;
+        private View bottomLine;
 
         ViewHolder(View view) {
             super(view);
