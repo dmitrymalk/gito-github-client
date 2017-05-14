@@ -65,15 +65,9 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
         holder.titleView.setText(cursor.getString(COL_REPOSITORY_NAME));
         holder.subtitleView.setText(cursor.getString(COL_REPOSITORY_DESCRIPTION));
         holder.watchersView.setText(cursor.getString(COL_REPOSITORY_WATCHERS));
-        // Language
-        String language = cursor.getString(COL_REPOSITORY_LANGUAGE);
-        holder.languageView.setText(cursor.getString(COL_REPOSITORY_LANGUAGE));
-        holder.languageIconView.setVisibility(holder.languageView.getText() != null
-                && holder.languageView.getText().length() != 0
-                ? View.VISIBLE : View.GONE);
-        holder.languageView.setVisibility(holder.languageIconView.getVisibility() == View.VISIBLE
-                ? View.VISIBLE : View.GONE);
-        holder.languageIconView.setBackgroundDrawable(DrawableUtils.getColor(context, language));
+
+        setLanguage(context, cursor, holder);
+
         // Link
         final String htmlUrl = cursor.getString(COL_REPOSITORY_HTML_URL);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +79,25 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
             }
         });
 
+        setFork(context, cursor, holder);
+        setPinned(resources, cursor, holder);
+
+    }
+
+    @SuppressWarnings("deprecation")
+    private void setLanguage(Context context, Cursor cursor, ViewHolder holder) {
+        String language = cursor.getString(COL_REPOSITORY_LANGUAGE);
+        holder.languageView.setText(cursor.getString(COL_REPOSITORY_LANGUAGE));
+        holder.languageIconView.setVisibility(holder.languageView.getText() != null
+                && holder.languageView.getText().length() != 0
+                ? View.VISIBLE : View.GONE);
+        holder.languageView.setVisibility(holder.languageIconView.getVisibility() == View.VISIBLE
+                ? View.VISIBLE : View.GONE);
+        holder.languageIconView.setBackgroundDrawable(DrawableUtils.getColor(context, language));
+    }
+
+    @SuppressWarnings("deprecation")
+    private void setFork(Context context, Cursor cursor, ViewHolder holder) {
         holder.forksView.setText(cursor.getString(COL_REPOSITORY_FORKS));
         String fork = cursor.getString(COL_REPOSITORY_FORK);
         boolean forked = fork != null && fork.equals("1");
@@ -98,8 +111,21 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
             holder.badgeView.setText(R.string.trending_public);
         }
 
+        final String pinned = cursor.getString(COL_REPOSITORY_PINNED);
+        final long id = cursor.getLong(COL_REPOSITORY_ID);
+        holder.favoriteView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mView.setPinned(!"1".equals(pinned), id);
+            }
+        });
+        holder.favoriteView.setVisibility(!forked ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void setPinned(Resources resources, Cursor cursor, ViewHolder holder) {
         String pinned = cursor.getString(COL_REPOSITORY_PINNED);
-        final boolean favorite = pinned.equals("1");
+        final boolean favorite = "1".equals(pinned);
         if (favorite) {
             holder.favoriteView.setImageDrawable(
                     resources.getDrawable(R.drawable.ic_turned_in_blue_24dp));
@@ -107,15 +133,6 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
             holder.favoriteView.setImageDrawable(
                     resources.getDrawable(R.drawable.ic_turned_in_not_blue_24dp));
         }
-
-        final long id = cursor.getLong(COL_REPOSITORY_ID);
-        holder.favoriteView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mView.setPinned(!favorite, id);
-            }
-        });
-        holder.favoriteView.setVisibility(!forked ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override

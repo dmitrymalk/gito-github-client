@@ -89,63 +89,9 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
         Context context = holder.itemView.getContext();
-        // Most popular repository
+
         if (holder.getItemViewType() == VIEW_TYPE_THE_MOST_POPULAR) {
-            // Clones
-            String clonesCount = cursor.getString(COL_CLONES_COUNT);
-            holder.clonesCountTodayView.setText(clonesCount != null ? clonesCount : "0");
-            // Clones (Yesterday)
-            String clonesCountYesterday = cursor.getString(COL_CLONES_UNIQUES_YESTERDAY);
-            holder.clonesCountYesterdayView.setText(clonesCountYesterday != null ? clonesCountYesterday : "0");
-            // Clones (Two weeks)
-            String clonesCountTwoWeeks = cursor.getString(COL_CLONES_UNIQUES_TWO_WEEKS);
-            holder.clonesCountTwoWeeksView.setText(clonesCountTwoWeeks != null ? clonesCountTwoWeeks : "0");
-            // Views
-            String viewsUniques = cursor.getString(COL_VIEWS_UNIQUES);
-            holder.viewsUniquesTodayView.setText(viewsUniques != null ? viewsUniques : "0");
-            // Views (Yesterday)
-            String viewsUniquesYesterday = cursor.getString(COL_VIEWS_UNIQUES_YESTERDAY);
-            holder.viewsUniquesYesterdayView.setText(viewsUniquesYesterday != null ? viewsUniquesYesterday : "0");
-            // Views (Two weeks)
-            String viewsUniquesTwoWeeks = cursor.getString(COL_VIEWS_UNIQUES_TWO_WEEKS);
-            holder.viewsUniquesTwoWeeksView.setText(viewsUniquesTwoWeeks != null ? viewsUniquesTwoWeeks : "0");
-            // Stars
-            String stargazersToday = cursor.getString(COL_STARGAZERS_STARS);
-            holder.starsTodayView.setText(stargazersToday != null ? stargazersToday : "0");
-            // Stars (Yesterday)
-            String stargazersYesterday = cursor.getString(COL_STARGAZERS_STARS_YESTERDAY);
-            holder.starsYesterdayView.setText(stargazersYesterday != null ? stargazersYesterday : "0");
-            // Stars (Two weeks)
-            String stargazersTwoWeeks = cursor.getString(COL_STARGAZERS_STARS_TWO_WEEKS);
-            holder.starsTwoWeeksView.setText(stargazersTwoWeeks != null ? stargazersTwoWeeks : "0");
-
-            String topReferrer1 = cursor.getString(COL_REFERRER_1_PATHS_REFERRER);
-            String topReferrer2 = cursor.getString(COL_REFERRER_2_PATHS_REFERRER);
-
-            if (topReferrer2 != null && topReferrer1 != null) {
-
-                String topReferrer1Views = cursor.getString(COL_REFERRER_1_PATHS_COUNT);
-                String topReferrer1Visitors = cursor.getString(COL_REFERRER_1_PATHS_UNIQUES);
-                String topReferrer2Views = cursor.getString(COL_REFERRER_2_PATHS_COUNT);
-                String topReferrer2Visitors = cursor.getString(COL_REFERRER_2_PATHS_UNIQUES);
-
-                holder.topReferrer1Name.setText(topReferrer1);
-                holder.topReferrer1Views.setText(topReferrer1Views);
-                holder.topReferrer1Visitors.setText(topReferrer1Visitors);
-
-                holder.topReferrer2Name.setText(topReferrer2);
-                holder.topReferrer2Views.setText(topReferrer2Views);
-                holder.topReferrer2Visitors.setText(topReferrer2Visitors);
-
-                holder.mTopReferrerDivider.setVisibility(View.VISIBLE);
-                holder.mTopReferrerSites.setVisibility(View.VISIBLE);
-
-            } else {
-
-                holder.mTopReferrerDivider.setVisibility(View.GONE);
-                holder.mTopReferrerSites.setVisibility(View.GONE);
-
-            }
+            setMostPopularRepository(holder, cursor);
         }
         // Common for popular repository
         holder.titleView.setText(cursor.getString(COL_REPOSITORY_NAME));
@@ -176,6 +122,65 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
                 mView.showTraffic(repositoryId);
             }
         });
+    }
+
+    private void setMostPopularRepository(ViewHolder holder, Cursor cursor)
+    {
+        // Clones
+        String clonesCount = cursor.getString(COL_CLONES_COUNT);
+        holder.clonesCountTodayView.setText(clonesCount != null ? clonesCount : "0");
+        // Clones (Yesterday)
+        String clonesCountYesterday = cursor.getString(COL_CLONES_UNIQUES_YESTERDAY);
+        holder.clonesCountYesterdayView.setText(clonesCountYesterday != null ? clonesCountYesterday : "0");
+        // Clones (Two weeks)
+        String clonesCountTwoWeeks = cursor.getString(COL_CLONES_UNIQUES_TWO_WEEKS);
+        holder.clonesCountTwoWeeksView.setText(clonesCountTwoWeeks != null ? clonesCountTwoWeeks : "0");
+        // Views
+        String viewsUniques = cursor.getString(COL_VIEWS_UNIQUES);
+        holder.viewsUniquesTodayView.setText(viewsUniques != null ? viewsUniques : "0");
+        // Views (Yesterday)
+        String viewsUniquesYesterday = cursor.getString(COL_VIEWS_UNIQUES_YESTERDAY);
+        holder.viewsUniquesYesterdayView.setText(viewsUniquesYesterday != null ? viewsUniquesYesterday : "0");
+        // Views (Two weeks)
+        String viewsUniquesTwoWeeks = cursor.getString(COL_VIEWS_UNIQUES_TWO_WEEKS);
+        holder.viewsUniquesTwoWeeksView.setText(viewsUniquesTwoWeeks != null ? viewsUniquesTwoWeeks : "0");
+        // Stars
+        String stargazersToday = cursor.getString(COL_STARGAZERS_STARS);
+        holder.starsTodayView.setText(stargazersToday != null ? stargazersToday : "0");
+        // Stars (Yesterday)
+        String stargazersYesterday = cursor.getString(COL_STARGAZERS_STARS_YESTERDAY);
+        holder.starsYesterdayView.setText(stargazersYesterday != null ? stargazersYesterday : "0");
+        // Stars (Two weeks)
+        String stargazersTwoWeeks = cursor.getString(COL_STARGAZERS_STARS_TWO_WEEKS);
+        holder.starsTwoWeeksView.setText(stargazersTwoWeeks != null ? stargazersTwoWeeks : "0");
+
+        String topReferrer1 = cursor.getString(COL_REFERRER_1_PATHS_REFERRER);
+        String topReferrer2 = cursor.getString(COL_REFERRER_2_PATHS_REFERRER);
+
+        if (topReferrer2 != null && topReferrer1 != null) {
+
+            String topReferrer1Views = cursor.getString(COL_REFERRER_1_PATHS_COUNT);
+            String topReferrer1Visitors = cursor.getString(COL_REFERRER_1_PATHS_UNIQUES);
+            String topReferrer2Views = cursor.getString(COL_REFERRER_2_PATHS_COUNT);
+            String topReferrer2Visitors = cursor.getString(COL_REFERRER_2_PATHS_UNIQUES);
+
+            holder.topReferrer1Name.setText(topReferrer1);
+            holder.topReferrer1Views.setText(topReferrer1Views);
+            holder.topReferrer1Visitors.setText(topReferrer1Visitors);
+
+            holder.topReferrer2Name.setText(topReferrer2);
+            holder.topReferrer2Views.setText(topReferrer2Views);
+            holder.topReferrer2Visitors.setText(topReferrer2Visitors);
+
+            holder.mTopReferrerDivider.setVisibility(View.VISIBLE);
+            holder.mTopReferrerSites.setVisibility(View.VISIBLE);
+
+        } else {
+
+            holder.mTopReferrerDivider.setVisibility(View.GONE);
+            holder.mTopReferrerSites.setVisibility(View.GONE);
+
+        }
     }
 
     @Override
