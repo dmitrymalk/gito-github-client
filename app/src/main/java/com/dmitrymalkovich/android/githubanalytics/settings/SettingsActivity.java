@@ -181,13 +181,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         private static final String THEME_DARK = "dark";
 
         @Retention(SOURCE)
-        @IntDef({THEME_TYPE_NO_ACTION_BAR, THEME_TYPE_NO_ACTION_BAR_AND_COLORED_STATUS_BAR, THEME_TYPE_ACTION_BAR})
+        @IntDef({THEME_TYPE.NO_ACTION_BAR, THEME_TYPE.NO_ACTION_BAR_AND_COLORED_STATUS_BAR, THEME_TYPE.ACTION_BAR})
         public @interface THEME_TYPE {
+            int NO_ACTION_BAR = 0;
+            int NO_ACTION_BAR_AND_COLORED_STATUS_BAR = 1;
+            int ACTION_BAR = 2;
         }
-
-        public static final int THEME_TYPE_NO_ACTION_BAR = 0;
-        public static final int THEME_TYPE_NO_ACTION_BAR_AND_COLORED_STATUS_BAR = 1;
-        public static final int THEME_TYPE_ACTION_BAR = 2;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -244,14 +243,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         public static int getTheme(Context context, @THEME_TYPE int themeType) {
             switch (themeType) {
-                case THEME_TYPE_NO_ACTION_BAR: {
+                case THEME_TYPE.NO_ACTION_BAR: {
                     if (isLight(context)) {
                         return R.style.AppTheme;
                     } else {
                         return R.style.AppTheme_Dark;
                     }
                 }
-                case THEME_TYPE_ACTION_BAR: {
+                case THEME_TYPE.ACTION_BAR: {
                     if (isLight(context)) {
                         return R.style.AppTheme_Settings;
                     } else {
@@ -259,7 +258,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     }
                 }
                 default:
-                case THEME_TYPE_NO_ACTION_BAR_AND_COLORED_STATUS_BAR: {
+                case THEME_TYPE.NO_ACTION_BAR_AND_COLORED_STATUS_BAR: {
                     if (isLight(context)) {
                         return R.style.AppTheme_ColoredStatusBar;
                     } else {

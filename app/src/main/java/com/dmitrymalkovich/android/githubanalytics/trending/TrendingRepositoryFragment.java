@@ -57,7 +57,7 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     public AHBottomNavigation mBottomNavigation;
     @BindView(R.id.empty_state)
     public View mEmptyState;
-    View mCoordinatorLayout;
+    public View mCoordinatorLayout;
     @BindView(R.id.empty_state_title)
     public TextView mEmptyStateTextView;
 

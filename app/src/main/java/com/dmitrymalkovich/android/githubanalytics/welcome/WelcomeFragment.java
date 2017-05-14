@@ -41,11 +41,11 @@ public class WelcomeFragment extends Fragment implements WelcomeContract.View {
     private WelcomeContract.Presenter mPresenter;
     private Unbinder unbinder;
     @BindView(R.id.sign_in_oauth)
-    Button mOauthSignInButton;
+    public Button mOauthSignInButton;
     @BindView(R.id.progress)
-    ProgressBar mProgressBar;
+    public ProgressBar mProgressBar;
     @BindView(R.id.content)
-    View mContentView;
+    public View mContentView;
 
     public static WelcomeFragment newInstance() {
         return new WelcomeFragment();

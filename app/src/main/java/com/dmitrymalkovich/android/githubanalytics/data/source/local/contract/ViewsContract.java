@@ -47,10 +47,6 @@ public class ViewsContract {
         public static final String COLUMN_VIEWS_UNIQUES = "uniques";
         public static final String COLUMN_VIEWS_TIMESTAMP = "timestamp";
 
-        public static Uri buildUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
         public static final String[] VIEWS_COLUMNS = {
                 _ID,
                 COLUMN_REPOSITORY_KEY,
@@ -64,6 +60,10 @@ public class ViewsContract {
         public static final int COL_VIEWS_COUNT = 2;
         public static final int COL_VIEWS_UNIQUES = 3;
         public static final int COL_VIEWS_TIMESTAMP = 4;
+
+        public static Uri buildUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
 
         public static ContentValues buildContentValues(long repositoryId, Views.View view) {
             String timestamp = view.getTimestamp();

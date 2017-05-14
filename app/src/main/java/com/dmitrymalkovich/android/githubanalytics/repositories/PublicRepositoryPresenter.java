@@ -112,6 +112,7 @@ public class PublicRepositoryPresenter implements PublicRepositoryContract.Prese
 
     @Override
     public void onDataReset() {
+        // Nothing to do
     }
 
     @Override

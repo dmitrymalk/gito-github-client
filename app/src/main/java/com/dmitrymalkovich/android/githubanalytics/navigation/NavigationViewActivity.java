@@ -190,7 +190,7 @@ public class NavigationViewActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        // Nothing to do
     }
 
     private void showDashboard() {

@@ -56,6 +56,7 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        // Nothing to do
                     }
                 });
                 break;
@@ -67,6 +68,7 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        // Nothing to do
                     }
                 });
                 break;

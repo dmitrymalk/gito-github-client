@@ -61,6 +61,11 @@ public class GithubLocalDataSource implements GithubDataSource {
     private static final String PREFERENCES_TRENDING_PERIOD = "PREFERENCES_TRENDING_PERIOD";
     private static final String PREFERENCES_TRENDING_LANGUAGE = "PREFERENCES_TRENDING_LANGUAGE";
 
+    private static GithubLocalDataSource INSTANCE;
+    @SuppressWarnings("all")
+    private ContentResolver mContentResolver;
+    private SharedPreferences mPreferences;
+
     @Retention(SOURCE)
     @StringDef({TrendingPeriod.DAILY, TrendingPeriod.WEEKLY, TrendingPeriod.MONTHLY})
     public @interface TrendingPeriod {
@@ -92,11 +97,6 @@ public class GithubLocalDataSource implements GithubDataSource {
         String C_SHARP = "C#";
         String HTML = "Html";
     }
-
-    private static GithubLocalDataSource INSTANCE;
-    @SuppressWarnings("all")
-    private ContentResolver mContentResolver;
-    private SharedPreferences mPreferences;
 
     public static GithubLocalDataSource getInstance(ContentResolver contentResolver,
                                                     SharedPreferences preferences) {
