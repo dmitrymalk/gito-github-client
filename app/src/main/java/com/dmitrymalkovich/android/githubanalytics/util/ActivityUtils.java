@@ -29,7 +29,6 @@ import android.support.v4.app.FragmentTransaction;
 import com.dmitrymalkovich.android.githubanalytics.GitoApplication;
 import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;

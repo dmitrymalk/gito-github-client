@@ -41,7 +41,7 @@ public class TrafficActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(SettingsActivity.ThemePreferenceFragment.getTheme(this,
                 SettingsActivity
-                        .ThemePreferenceFragment.THEME_TYPE_NO_ACTION_BAR_AND_COLORED_STATUS_BAR));
+                        .ThemePreferenceFragment.THEME_TYPE.NO_ACTION_BAR_AND_COLORED_STATUS_BAR));
         setContentView(R.layout.activity_traffic);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -84,6 +84,8 @@ public class TrafficActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                break;
+            default:
                 break;
         }
         return super.onOptionsItemSelected(item);

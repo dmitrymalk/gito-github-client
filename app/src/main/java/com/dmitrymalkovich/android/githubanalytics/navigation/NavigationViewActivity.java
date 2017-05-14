@@ -69,7 +69,8 @@ public class NavigationViewActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(SettingsActivity.ThemePreferenceFragment.getTheme(this,
-                SettingsActivity.ThemePreferenceFragment.THEME_TYPE_NO_ACTION_BAR));
+                SettingsActivity
+                        .ThemePreferenceFragment.THEME_TYPE.NO_ACTION_BAR));
         setContentView(R.layout.activity_navigation_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

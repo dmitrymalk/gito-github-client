@@ -20,24 +20,24 @@ import com.google.gson.annotations.SerializedName;
 public class Star {
 
     @SerializedName("starred_at")
-    String mStarredAt;
+    private String mStarredAt;
 
     @SerializedName("user")
-    User mUser;
+    public User mUser;
 
     public String getStarredAt() {
         return mStarredAt;
     }
 
-    public class User {
+    private class User {
         @SerializedName("id")
-        long mId;
+        private long mId;
 
         @SerializedName("login")
-        String mLogin;
+        private String mLogin;
 
         @SerializedName("url")
-        String mUrl;
+        private String mUrl;
 
         public long getId() {
             return mId;

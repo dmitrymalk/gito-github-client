@@ -96,6 +96,7 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     @Override
     public void onTabSelected(int position) {
         switch (position) {
+            default:
             case 0:
                 mGithubRepository.setDefaultPeriodForTrending(
                         GithubLocalDataSource.TrendingPeriod.DAILY);
