@@ -53,7 +53,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(":android-github-api")
+    compile project(":github-api")
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
@@ -73,7 +73,6 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:9.2.1'
     compile 'com.google.android.gms:play-services:9.2.1'
     freeCompile 'com.google.firebase:firebase-ads:9.2.1'
-    compile project(':material-design-dimens')
     compile 'io.github.kobakei:ratethisapp:1.1.1'
     compile 'com.android.support:multidex:1.0.1'
 }
