@@ -1,5 +1,6 @@
 # Gito - GitHub Client
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e58cfe7096244fe6bd4b4f6c07a27f5e)](https://www.codacy.com/app/DmitryMalkovich/gito-github-client?utm_source=github.com&utm_medium=referral&utm_content=DmitryMalkovich/gito-github-client&utm_campaign=badger)
 [![Crates.io](https://img.shields.io/crates/l/rustc-serialize.svg?maxAge=2592000)]()
 
 <img width="40%" vspace="0" hspace="0" src="https://cloud.githubusercontent.com/assets/2931932/23332693/df76b13a-fb8e-11e6-9d5f-79edc6aa521c.png" />
