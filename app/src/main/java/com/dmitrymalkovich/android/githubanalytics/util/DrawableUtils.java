@@ -20,8 +20,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.*;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 
 public class DrawableUtils {
 
@@ -34,26 +33,26 @@ public class DrawableUtils {
         }
 
         switch (language) {
-            case TRENDING_LANGUAGE_C:
+            case GithubLocalDataSource.TrendingLanguage.C:
                 return resources.getDrawable(R.drawable.shape_oval_c);
-            case TRENDING_LANGUAGE_RUBY:
+            case GithubLocalDataSource.TrendingLanguage.RUBY:
                 return resources.getDrawable(R.drawable.shape_oval_ruby);
-            case TRENDING_LANGUAGE_JAVASCRIPT:
+            case GithubLocalDataSource.TrendingLanguage.JAVASCRIPT:
                 return resources.getDrawable(R.drawable.shape_oval_javascript);
-            case TRENDING_LANGUAGE_SWIFT:
+            case GithubLocalDataSource.TrendingLanguage.SWIFT:
                 return resources.getDrawable(R.drawable.shape_oval_swift);
-            case TRENDING_LANGUAGE_OBJECTIVE_C:
+            case GithubLocalDataSource.TrendingLanguage.OBJECTIVE_C:
                 return resources.getDrawable(R.drawable.shape_oval_objective_c);
-            case TRENDING_LANGUAGE_C_PLUS_PLUS:
+            case GithubLocalDataSource.TrendingLanguage.C_PLUS_PLUS:
                 return resources.getDrawable(R.drawable.shape_oval_c_plus);
-            case TRENDING_LANGUAGE_PYTHON:
+            case GithubLocalDataSource.TrendingLanguage.PYTHON:
                 return resources.getDrawable(R.drawable.shape_oval_python);
-            case TRENDING_LANGUAGE_C_SHARP:
+            case GithubLocalDataSource.TrendingLanguage.C_SHARP:
                 return resources.getDrawable(R.drawable.shape_oval_c_sharp);
-            case TRENDING_LANGUAGE_HTML:
+            case GithubLocalDataSource.TrendingLanguage.HTML:
                 return resources.getDrawable(R.drawable.shape_oval_html);
             default:
-            case TRENDING_LANGUAGE_JAVA:
+            case GithubLocalDataSource.TrendingLanguage.JAVA:
                 return resources.getDrawable(R.drawable.shape_oval_java);
         }
     }

@@ -69,14 +69,14 @@ class TrendingRepositoryListAdapter extends CursorRecyclerViewAdapter<TrendingRe
 
         String period = cursor.getString(TrendingContract.TrendingEntry.COL_PERIOD);
         switch (period) {
-            case GithubLocalDataSource.TRENDING_PERIOD_MONTHLY:
+            case GithubLocalDataSource.TrendingPeriod.MONTHLY:
                 period = context.getString(R.string.trending_monthly);
                 break;
-            case GithubLocalDataSource.TRENDING_PERIOD_WEEKLY:
+            case GithubLocalDataSource.TrendingPeriod.WEEKLY:
                 period = context.getString(R.string.trending_weekly);
                 break;
             default:
-            case GithubLocalDataSource.TRENDING_PERIOD_DAILY:
+            case GithubLocalDataSource.TrendingPeriod.DAILY:
                 period = context.getString(R.string.trending_daily);
                 break;
         }

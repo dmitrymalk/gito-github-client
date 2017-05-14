@@ -24,31 +24,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C_PLUS_PLUS;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_C_SHARP;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_HTML;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_JAVA;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_JAVASCRIPT;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_OBJECTIVE_C;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_PYTHON;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_RUBY;
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource.TRENDING_LANGUAGE_SWIFT;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 
 class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
 
     private final TrendingRepositoryContract.Presenter mPresenter;
-    private String[] mLanguages = {TRENDING_LANGUAGE_JAVA,
-            TRENDING_LANGUAGE_C,
-            TRENDING_LANGUAGE_RUBY,
-            TRENDING_LANGUAGE_JAVASCRIPT,
-            TRENDING_LANGUAGE_SWIFT,
-            TRENDING_LANGUAGE_OBJECTIVE_C,
-            TRENDING_LANGUAGE_C_PLUS_PLUS,
-            TRENDING_LANGUAGE_PYTHON,
-            TRENDING_LANGUAGE_C_SHARP,
-            TRENDING_LANGUAGE_HTML};
+    private String[] mLanguages = {GithubLocalDataSource.TrendingLanguage.JAVA,
+            GithubLocalDataSource.TrendingLanguage.C,
+            GithubLocalDataSource.TrendingLanguage.RUBY,
+            GithubLocalDataSource.TrendingLanguage.JAVASCRIPT,
+            GithubLocalDataSource.TrendingLanguage.SWIFT,
+            GithubLocalDataSource.TrendingLanguage.OBJECTIVE_C,
+            GithubLocalDataSource.TrendingLanguage.C_PLUS_PLUS,
+            GithubLocalDataSource.TrendingLanguage.PYTHON,
+            GithubLocalDataSource.TrendingLanguage.C_SHARP,
+            GithubLocalDataSource.TrendingLanguage.HTML};
 
     BadgesAdapter(TrendingRepositoryContract.Presenter presenter) {
         mPresenter = presenter;

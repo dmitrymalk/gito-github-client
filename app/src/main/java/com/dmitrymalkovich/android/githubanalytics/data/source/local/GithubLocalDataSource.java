@@ -62,38 +62,36 @@ public class GithubLocalDataSource implements GithubDataSource {
     private static final String PREFERENCES_TRENDING_LANGUAGE = "PREFERENCES_TRENDING_LANGUAGE";
 
     @Retention(SOURCE)
-    @StringDef({TRENDING_PERIOD_DAILY, TRENDING_PERIOD_WEEKLY, TRENDING_PERIOD_MONTHLY})
+    @StringDef({TrendingPeriod.DAILY, TrendingPeriod.WEEKLY, TrendingPeriod.MONTHLY})
     public @interface TrendingPeriod {
+        String DAILY = "daily";
+        String WEEKLY = "weekly";
+        String MONTHLY = "monthly";
     }
-
-    public static final String TRENDING_PERIOD_DAILY = "daily";
-    public static final String TRENDING_PERIOD_WEEKLY = "weekly";
-    public static final String TRENDING_PERIOD_MONTHLY = "monthly";
 
     @Retention(SOURCE)
-    @StringDef({TRENDING_LANGUAGE_JAVA,
-            TRENDING_LANGUAGE_C,
-            TRENDING_LANGUAGE_RUBY,
-            TRENDING_LANGUAGE_JAVASCRIPT,
-            TRENDING_LANGUAGE_SWIFT,
-            TRENDING_LANGUAGE_OBJECTIVE_C,
-            TRENDING_LANGUAGE_C_PLUS_PLUS,
-            TRENDING_LANGUAGE_PYTHON,
-            TRENDING_LANGUAGE_C_SHARP,
-            TRENDING_LANGUAGE_HTML})
+    @StringDef({TrendingLanguage.JAVA,
+            TrendingLanguage.C,
+            TrendingLanguage.RUBY,
+            TrendingLanguage.JAVASCRIPT,
+            TrendingLanguage.SWIFT,
+            TrendingLanguage.OBJECTIVE_C,
+            TrendingLanguage.C_PLUS_PLUS,
+            TrendingLanguage.PYTHON,
+            TrendingLanguage.C_SHARP,
+            TrendingLanguage.HTML})
     public @interface TrendingLanguage {
+        String JAVA = "Java";
+        String C = "C";
+        String RUBY = "Ruby";
+        String JAVASCRIPT = "Javascript";
+        String SWIFT = "Swift";
+        String OBJECTIVE_C = "Objective-C";
+        String C_PLUS_PLUS = "C++";
+        String PYTHON = "Python";
+        String C_SHARP = "C#";
+        String HTML = "Html";
     }
-
-    public static final String TRENDING_LANGUAGE_JAVA = "Java";
-    public static final String TRENDING_LANGUAGE_C = "C";
-    public static final String TRENDING_LANGUAGE_RUBY = "Ruby";
-    public static final String TRENDING_LANGUAGE_JAVASCRIPT = "Javascript";
-    public static final String TRENDING_LANGUAGE_SWIFT = "Swift";
-    public static final String TRENDING_LANGUAGE_OBJECTIVE_C = "Objective-C";
-    public static final String TRENDING_LANGUAGE_C_PLUS_PLUS = "C++";
-    public static final String TRENDING_LANGUAGE_PYTHON = "Python";
-    public static final String TRENDING_LANGUAGE_C_SHARP = "C#";
-    public static final String TRENDING_LANGUAGE_HTML = "Html";
 
     private static GithubLocalDataSource INSTANCE;
     @SuppressWarnings("all")
@@ -185,29 +183,29 @@ public class GithubLocalDataSource implements GithubDataSource {
     @TrendingLanguage
     String getDefaultLanguageForTrending() {
         String language = mPreferences.getString(PREFERENCES_TRENDING_LANGUAGE,
-                TRENDING_LANGUAGE_JAVA);
+                TrendingLanguage.JAVA);
         switch (language) {
-            case TRENDING_LANGUAGE_C:
-                return TRENDING_LANGUAGE_C;
-            case TRENDING_LANGUAGE_RUBY:
-                return TRENDING_LANGUAGE_RUBY;
-            case TRENDING_LANGUAGE_JAVASCRIPT:
-                return TRENDING_LANGUAGE_JAVASCRIPT;
-            case TRENDING_LANGUAGE_SWIFT:
-                return TRENDING_LANGUAGE_SWIFT;
-            case TRENDING_LANGUAGE_OBJECTIVE_C:
-                return TRENDING_LANGUAGE_OBJECTIVE_C;
-            case TRENDING_LANGUAGE_C_PLUS_PLUS:
-                return TRENDING_LANGUAGE_C_PLUS_PLUS;
-            case TRENDING_LANGUAGE_PYTHON:
-                return TRENDING_LANGUAGE_PYTHON;
-            case TRENDING_LANGUAGE_C_SHARP:
-                return TRENDING_LANGUAGE_C_SHARP;
-            case TRENDING_LANGUAGE_HTML:
-                return TRENDING_LANGUAGE_HTML;
+            case TrendingLanguage.C:
+                return TrendingLanguage.C;
+            case TrendingLanguage.RUBY:
+                return TrendingLanguage.RUBY;
+            case TrendingLanguage.JAVASCRIPT:
+                return TrendingLanguage.JAVASCRIPT;
+            case TrendingLanguage.SWIFT:
+                return TrendingLanguage.SWIFT;
+            case TrendingLanguage.OBJECTIVE_C:
+                return TrendingLanguage.OBJECTIVE_C;
+            case TrendingLanguage.C_PLUS_PLUS:
+                return TrendingLanguage.C_PLUS_PLUS;
+            case TrendingLanguage.PYTHON:
+                return TrendingLanguage.PYTHON;
+            case TrendingLanguage.C_SHARP:
+                return TrendingLanguage.C_SHARP;
+            case TrendingLanguage.HTML:
+                return TrendingLanguage.HTML;
             default:
-            case TRENDING_LANGUAGE_JAVA:
-                return TRENDING_LANGUAGE_JAVA;
+            case TrendingLanguage.JAVA:
+                return TrendingLanguage.JAVA;
         }
     }
 
@@ -223,16 +221,16 @@ public class GithubLocalDataSource implements GithubDataSource {
     @TrendingPeriod
     String getDefaultPeriodForTrending() {
         String language = mPreferences.getString(PREFERENCES_TRENDING_PERIOD,
-                TRENDING_PERIOD_DAILY);
+                TrendingPeriod.DAILY);
         switch (language) {
-            case TRENDING_PERIOD_DAILY:
-                return TRENDING_PERIOD_DAILY;
-            case TRENDING_PERIOD_WEEKLY:
-                return TRENDING_PERIOD_WEEKLY;
-            case TRENDING_PERIOD_MONTHLY:
-                return TRENDING_PERIOD_MONTHLY;
+            case TrendingPeriod.DAILY:
+                return TrendingPeriod.DAILY;
+            case TrendingPeriod.WEEKLY:
+                return TrendingPeriod.WEEKLY;
+            case TrendingPeriod.MONTHLY:
+                return TrendingPeriod.MONTHLY;
             default:
-                return TRENDING_PERIOD_DAILY;
+                return TrendingPeriod.DAILY;
         }
     }
 

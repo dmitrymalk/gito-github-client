@@ -66,14 +66,14 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
     public void start(Bundle savedInstanceState) {
         String period = mGithubRepository.getDefaultPeriodForTrending();
         switch (period) {
-            case GithubLocalDataSource.TRENDING_PERIOD_MONTHLY:
+            case GithubLocalDataSource.TrendingPeriod.MONTHLY:
                 mView.selectTab(2);
                 break;
-            case GithubLocalDataSource.TRENDING_PERIOD_WEEKLY:
+            case GithubLocalDataSource.TrendingPeriod.WEEKLY:
                 mView.selectTab(1);
                 break;
             default:
-            case GithubLocalDataSource.TRENDING_PERIOD_DAILY:
+            case GithubLocalDataSource.TrendingPeriod.DAILY:
                 mView.selectTab(0);
                 break;
         }
@@ -98,15 +98,15 @@ public class TrendingRepositoryPresenter implements TrendingRepositoryContract.P
         switch (position) {
             case 0:
                 mGithubRepository.setDefaultPeriodForTrending(
-                        GithubLocalDataSource.TRENDING_PERIOD_DAILY);
+                        GithubLocalDataSource.TrendingPeriod.DAILY);
                 break;
             case 1:
                 mGithubRepository.setDefaultPeriodForTrending(
-                        GithubLocalDataSource.TRENDING_PERIOD_WEEKLY);
+                        GithubLocalDataSource.TrendingPeriod.WEEKLY);
                 break;
             case 2:
                 mGithubRepository.setDefaultPeriodForTrending(
-                        GithubLocalDataSource.TRENDING_PERIOD_MONTHLY);
+                        GithubLocalDataSource.TrendingPeriod.MONTHLY);
                 break;
         }
 
