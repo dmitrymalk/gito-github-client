@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -12,9 +11,9 @@
   limitations under the License.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="?referrer_list_item_selector">
 
     <TextView
@@ -22,8 +21,8 @@
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?attr/trending_rank_text"
-        android:padding="@dimen/trending_rank_padding" />
+        android:padding="@dimen/trending_rank_padding"
+        android:textColor="?attr/trending_rank_text" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +35,7 @@
         android:paddingStart="@dimen/trending_content_left_padding"
         android:paddingTop="@dimen/trending_content_vertical_padding">
 
-        <include layout="@layout/include_repository_title_and_description"/>
+        <include layout="@layout/include_repository_title_and_description" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -50,10 +49,10 @@
                 style="@style/TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/trending_info_text"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/trending_info_right_margin"
                 android:layout_marginRight="@dimen/trending_info_right_margin"
-                android:layout_marginEnd="@dimen/trending_info_right_margin" />
+                android:textColor="?attr/trending_info_text" />
 
             <ImageView
                 android:id="@+id/avatar"

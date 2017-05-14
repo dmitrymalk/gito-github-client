@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2016.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -11,12 +10,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<sync-adapter
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:contentAuthority="@string/sync_authority"
+<sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
     android:accountType="@string/sync_account_type"
-    android:userVisible="true"
-    android:supportsUploading="false"
     android:allowParallelSyncs="false"
-    android:isAlwaysSyncable="true"/>
+    android:contentAuthority="@string/sync_authority"
+    android:isAlwaysSyncable="true"
+    android:supportsUploading="false"
+    android:userVisible="true" />
 

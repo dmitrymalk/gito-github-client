@@ -34,7 +34,7 @@ import retrofit2.http.Query;
 
 /**
  * Credit to https://futurestud.io/tutorials/oauth-2-on-android-with-retrofit
- *
+ * <p>
  * OAuth GitHub API: https://developer.github.com/v3/oauth/
  */
 public interface GithubService {
@@ -52,7 +52,7 @@ public interface GithubService {
 
     /**
      * Get the top 10 referrers over the last 14 days.
-     *
+     * <p>
      * https://developer.github.com/v3/repos/traffic/
      */
     @GET("/repos/{owner}/{repo}/traffic/popular/referrers")
@@ -63,7 +63,7 @@ public interface GithubService {
 
     /**
      * Get the total number of views and breakdown per day or week for the last 14 days.
-     *
+     * <p>
      * https://developer.github.com/v3/repos/traffic/
      */
     @GET("/repos/{owner}/{repo}/traffic/views")
@@ -86,7 +86,7 @@ public interface GithubService {
     /**
      * Get list of trending github repositories by github api:
      * https://github.com/mingjunli/GithubTrending
-     *
+     * <p>
      * Period: daily,weekly,monthly
      */
     @GET("api/github/trending/{language}")
@@ -96,7 +96,6 @@ public interface GithubService {
     );
 
     /**
-     *
      * Get list of stargazers:
      * https://developer.github.com/v3/activity/starring/
      */

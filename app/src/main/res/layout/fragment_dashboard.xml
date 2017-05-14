@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -26,13 +25,13 @@
             android:id="@+id/recycler_view_for_repositories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/dashboard_recycle_view_top_padding"
             android:clipToPadding="false"
+            android:paddingTop="@dimen/dashboard_recycle_view_top_padding"
             android:scrollbarStyle="outsideOverlay"
             tools:ignore="PrivateResource" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/empty_state_dashboard"/>
+    <include layout="@layout/empty_state_dashboard" />
 
     <ProgressBar
         android:id="@+id/progress"

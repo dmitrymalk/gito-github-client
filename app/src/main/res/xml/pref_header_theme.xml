@@ -16,12 +16,12 @@
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <ListPreference
-        android:key="theme"
-        android:title="@string/pref_title_theme"
+        android:defaultValue="dark"
         android:entries="@array/pref_theme_titles"
         android:entryValues="@array/pref_theme_values"
-        android:defaultValue="dark"
+        android:key="theme"
         android:negativeButtonText="@null"
-        android:positiveButtonText="@null" />
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_theme" />
 
 </PreferenceScreen>

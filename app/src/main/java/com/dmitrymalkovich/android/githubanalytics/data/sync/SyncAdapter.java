@@ -30,12 +30,12 @@ import java.util.List;
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
-    @SuppressWarnings("unused")
-    private static String LOG_TAG = SyncAdapter.class.getSimpleName();
     private static final int SECONDS_PER_MINUTE = 60;
     private static final int SYNC_INTERVAL_IN_MINUTES = 60;
     private static final int SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE;
     private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+    @SuppressWarnings("unused")
+    private static String LOG_TAG = SyncAdapter.class.getSimpleName();
     private static Account mAccount;
     private SyncSettings mSyncSettings;
 
@@ -61,33 +61,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             boolean autoInitialize,
             boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
-    }
-
-    @Override
-    public void onPerformSync(Account account, Bundle extras, String authority,
-                              ContentProviderClient provider, SyncResult syncResult) {
-        String key = "onPerformSync";
-        final GithubRemoteDataSource githubRepository =
-                GithubRepository.Injection.provideRemoteDataSource(getContext());
-        githubRepository.getUserSync();
-        Cursor cursor = getContext().getContentResolver().query(RepositoryContract
-                .RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS,
-                RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
-                null, null, null);
-        boolean forceSync = cursor == null || !cursor.moveToFirst();
-        if (cursor != null) {
-            cursor.close();
-        }
-
-        if (mSyncSettings.isSynced(key) && !forceSync) {
-            return;
-        } else {
-            mSyncSettings.synced(key);
-        }
-        List<Repository> repositories = githubRepository.getRepositoriesSync();
-        githubRepository.getRepositoriesWithAdditionalInfoSync(repositories);
-        githubRepository.getTrendingRepositoriesSync(githubRepository.getDefaultPeriodForTrending(),
-                githubRepository.getDefaultLanguageForTrending(), false);
     }
 
     public static void initializeSyncAdapter(Context context) {
@@ -139,5 +112,32 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         accountManager.addAccountExplicitly(mAccount, "", null);
         onAccountCreated(mAccount, context);
         return mAccount;
+    }
+
+    @Override
+    public void onPerformSync(Account account, Bundle extras, String authority,
+                              ContentProviderClient provider, SyncResult syncResult) {
+        String key = "onPerformSync";
+        final GithubRemoteDataSource githubRepository =
+                GithubRepository.Injection.provideRemoteDataSource(getContext());
+        githubRepository.getUserSync();
+        Cursor cursor = getContext().getContentResolver().query(RepositoryContract
+                        .RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS,
+                RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
+                null, null, null);
+        boolean forceSync = cursor == null || !cursor.moveToFirst();
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        if (mSyncSettings.isSynced(key) && !forceSync) {
+            return;
+        } else {
+            mSyncSettings.synced(key);
+        }
+        List<Repository> repositories = githubRepository.getRepositoriesSync();
+        githubRepository.getRepositoriesWithAdditionalInfoSync(repositories);
+        githubRepository.getTrendingRepositoriesSync(githubRepository.getDefaultPeriodForTrending(),
+                githubRepository.getDefaultLanguageForTrending(), false);
     }
 }

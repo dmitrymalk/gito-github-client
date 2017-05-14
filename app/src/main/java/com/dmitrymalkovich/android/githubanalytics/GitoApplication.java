@@ -27,6 +27,10 @@ public class GitoApplication extends Application {
     @SuppressLint("StaticFieldLeak")
     private static Context sContext;
 
+    public static Context context() {
+        return sContext;
+    }
+
     @Override
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
@@ -34,9 +38,5 @@ public class GitoApplication extends Application {
         sContext = context;
         RateThisApp.Config config = new RateThisApp.Config(3, 10);
         RateThisApp.init(config);
-    }
-
-    public static Context context() {
-        return sContext;
     }
 }

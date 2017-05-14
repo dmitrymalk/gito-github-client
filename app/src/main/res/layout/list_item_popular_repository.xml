@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,13 +27,13 @@
         android:paddingRight="@dimen/material_component_cards_left_and_right_padding"
         android:paddingTop="@dimen/material_component_cards_left_and_right_padding">
 
-        <include layout="@layout/include_repository_title_and_description"/>
+        <include layout="@layout/include_repository_title_and_description" />
 
         <android.support.v4.widget.Space
             android:layout_width="match_parent"
             android:layout_height="@dimen/material_component_cards_supporting_text_bottom_padding" />
 
-        <include layout="@layout/include_list_item_repository_information"/>
+        <include layout="@layout/include_list_item_repository_information" />
 
         <include layout="@layout/include_popular_repository_bottom_bar" />
 

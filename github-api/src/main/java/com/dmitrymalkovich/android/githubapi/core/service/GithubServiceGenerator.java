@@ -36,9 +36,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GithubServiceGenerator {
 
     public static final String API_URL_AUTH = "https://github.com/login/oauth/authorize/";
-    private static final String API_BASE_URL = "https://github.com/";
     public static final String API_HTTPS_BASE_URL = "https://api.github.com/";
-
+    private static final String API_BASE_URL = "https://github.com/";
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     public static <S> S createService(Class<S> serviceClass) {
@@ -65,7 +64,7 @@ public class GithubServiceGenerator {
     }
 
     public static <S> S createService(Class<S> serviceClass, @NonNull final AccessToken token,
-                               String baseUrl, final String headerAccept) {
+                                      String baseUrl, final String headerAccept) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         //interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = httpClient

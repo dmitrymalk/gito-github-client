@@ -30,8 +30,8 @@ import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
 public class TrendingContract {
 
     public static final String CONTENT_AUTHORITY = "com.dmitrymalkovich.android.githubanalytics.data";
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_TRENDING = "trending";
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final class TrendingEntry implements BaseColumns {
 

@@ -26,11 +26,6 @@ import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 
-import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
-import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
-import com.dmitrymalkovich.android.githubapi.core.gson.Star;
-import com.dmitrymalkovich.android.githubapi.core.gson.User;
-import com.dmitrymalkovich.android.githubapi.core.gson.Views;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
@@ -39,8 +34,13 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.St
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.UserContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
+import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
+import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
 import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
+import com.dmitrymalkovich.android.githubapi.core.gson.Star;
 import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
+import com.dmitrymalkovich.android.githubapi.core.gson.User;
+import com.dmitrymalkovich.android.githubapi.core.gson.Views;
 import com.google.firebase.crash.FirebaseCrash;
 
 import org.eclipse.egit.github.core.Repository;
@@ -54,48 +54,20 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 public class GithubLocalDataSource implements GithubDataSource {
 
-    public static String LOG_TAG = GithubLocalDataSource.class.getSimpleName();
     private static final String PREFERENCES_TOKEN = "PREFERENCES_TOKEN";
     private static final String PREFERENCES_TOKEN_TYPE = "PREFERENCES_TOKEN_TYPE";
-
     private static final String PREFERENCES_TRENDING_PERIOD = "PREFERENCES_TRENDING_PERIOD";
     private static final String PREFERENCES_TRENDING_LANGUAGE = "PREFERENCES_TRENDING_LANGUAGE";
-
+    public static String LOG_TAG = GithubLocalDataSource.class.getSimpleName();
     private static GithubLocalDataSource INSTANCE;
     @SuppressWarnings("all")
     private ContentResolver mContentResolver;
     private SharedPreferences mPreferences;
 
-    @Retention(SOURCE)
-    @StringDef({TrendingPeriod.DAILY, TrendingPeriod.WEEKLY, TrendingPeriod.MONTHLY})
-    public @interface TrendingPeriod {
-        String DAILY = "daily";
-        String WEEKLY = "weekly";
-        String MONTHLY = "monthly";
-    }
-
-    @Retention(SOURCE)
-    @StringDef({TrendingLanguage.JAVA,
-            TrendingLanguage.C,
-            TrendingLanguage.RUBY,
-            TrendingLanguage.JAVASCRIPT,
-            TrendingLanguage.SWIFT,
-            TrendingLanguage.OBJECTIVE_C,
-            TrendingLanguage.C_PLUS_PLUS,
-            TrendingLanguage.PYTHON,
-            TrendingLanguage.C_SHARP,
-            TrendingLanguage.HTML})
-    public @interface TrendingLanguage {
-        String JAVA = "Java";
-        String C = "C";
-        String RUBY = "Ruby";
-        String JAVASCRIPT = "Javascript";
-        String SWIFT = "Swift";
-        String OBJECTIVE_C = "Objective-C";
-        String C_PLUS_PLUS = "C++";
-        String PYTHON = "Python";
-        String C_SHARP = "C#";
-        String HTML = "Html";
+    private GithubLocalDataSource(@NonNull ContentResolver contentResolver,
+                                  SharedPreferences preferences) {
+        mContentResolver = contentResolver;
+        mPreferences = preferences;
     }
 
     public static GithubLocalDataSource getInstance(ContentResolver contentResolver,
@@ -104,12 +76,6 @@ public class GithubLocalDataSource implements GithubDataSource {
             INSTANCE = new GithubLocalDataSource(contentResolver, preferences);
         }
         return INSTANCE;
-    }
-
-    private GithubLocalDataSource(@NonNull ContentResolver contentResolver,
-                                  SharedPreferences preferences) {
-        mContentResolver = contentResolver;
-        mPreferences = preferences;
     }
 
     @Override
@@ -443,5 +409,37 @@ public class GithubLocalDataSource implements GithubDataSource {
                 }
             }
         }
+    }
+
+    @Retention(SOURCE)
+    @StringDef({TrendingPeriod.DAILY, TrendingPeriod.WEEKLY, TrendingPeriod.MONTHLY})
+    public @interface TrendingPeriod {
+        String DAILY = "daily";
+        String WEEKLY = "weekly";
+        String MONTHLY = "monthly";
+    }
+
+    @Retention(SOURCE)
+    @StringDef({TrendingLanguage.JAVA,
+            TrendingLanguage.C,
+            TrendingLanguage.RUBY,
+            TrendingLanguage.JAVASCRIPT,
+            TrendingLanguage.SWIFT,
+            TrendingLanguage.OBJECTIVE_C,
+            TrendingLanguage.C_PLUS_PLUS,
+            TrendingLanguage.PYTHON,
+            TrendingLanguage.C_SHARP,
+            TrendingLanguage.HTML})
+    public @interface TrendingLanguage {
+        String JAVA = "Java";
+        String C = "C";
+        String RUBY = "Ruby";
+        String JAVASCRIPT = "Javascript";
+        String SWIFT = "Swift";
+        String OBJECTIVE_C = "Objective-C";
+        String C_PLUS_PLUS = "C++";
+        String PYTHON = "Python";
+        String C_SHARP = "C#";
+        String HTML = "Html";
     }
 }

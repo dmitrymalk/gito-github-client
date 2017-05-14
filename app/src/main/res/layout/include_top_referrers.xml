@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -71,9 +70,9 @@
     <TextView
         android:id="@+id/name"
         style="@style/TextAppearance.AppCompat.Body1"
-        android:layout_gravity="bottom"
         android:layout_width="@dimen/dashboard_site_name_width"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:textColor="?attr/dashboard_site_name" />
 
 </LinearLayout>

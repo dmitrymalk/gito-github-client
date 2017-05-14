@@ -32,13 +32,12 @@ import java.util.List;
 class TrafficPresenter implements TrafficContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
 
-    @SuppressWarnings("unused")
-    private static String LOG_TAG = TrafficPresenter.class.getSimpleName();
     private static final int TRAFFIC_LOADER = 5;
     private static final int VIEWS_LOADER = 6;
     private static final int CLONES_LOADER = 7;
     private static final int REFERENCES_LOADER = 8;
-
+    @SuppressWarnings("unused")
+    private static String LOG_TAG = TrafficPresenter.class.getSimpleName();
     @SuppressWarnings("unused")
     @NonNull
     private final LoaderProvider mLoaderProvider;

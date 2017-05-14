@@ -16,6 +16,9 @@
 package com.dmitrymalkovich.android.githubapi;
 
 import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
+import com.dmitrymalkovich.android.githubapi.core.error.APIError;
+import com.dmitrymalkovich.android.githubapi.core.gson.AccessToken;
+import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
 import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
 import com.dmitrymalkovich.android.githubapi.core.gson.Star;
 import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
@@ -24,9 +27,6 @@ import com.dmitrymalkovich.android.githubapi.core.gson.Views;
 import com.dmitrymalkovich.android.githubapi.core.pagination.Pagination;
 import com.dmitrymalkovich.android.githubapi.core.service.GithubService;
 import com.dmitrymalkovich.android.githubapi.core.service.GithubServiceGenerator;
-import com.dmitrymalkovich.android.githubapi.core.error.APIError;
-import com.dmitrymalkovich.android.githubapi.core.gson.AccessToken;
-import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
 import com.dmitrymalkovich.android.githubapi.core.service.ThirdPartyGithubServiceGenerator;
 
 import org.eclipse.egit.github.core.Repository;

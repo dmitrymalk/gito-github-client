@@ -45,19 +45,19 @@ import static com.dmitrymalkovich.android.githubanalytics.traffic.TrafficAdActiv
 
 public class DashboardFragment extends Fragment implements DashboardContract.View {
 
-    private DashboardContract.Presenter mPresenter;
-    private Unbinder unbinder;
     @BindView(R.id.progress)
     public ProgressBar mProgressBar;
     @BindView(R.id.recycler_view_for_repositories)
     public RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout)
     public SwipeRefreshLayout mSwipeRefreshLayout;
-    private DashboardListAdapter mAdapter;
     @BindView(R.id.empty_state)
     public View mEmptyStateView;
     @BindView(R.id.empty_state_title)
     public TextView mEmptyStateTextView;
+    private DashboardContract.Presenter mPresenter;
+    private Unbinder unbinder;
+    private DashboardListAdapter mAdapter;
 
     public static DashboardFragment newInstance() {
         return new DashboardFragment();

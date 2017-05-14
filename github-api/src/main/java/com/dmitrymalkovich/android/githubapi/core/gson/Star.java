@@ -17,13 +17,13 @@ package com.dmitrymalkovich.android.githubapi.core.gson;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("all")
 public class Star {
-
-    @SerializedName("starred_at")
-    private String mStarredAt;
 
     @SerializedName("user")
     public User mUser;
+    @SerializedName("starred_at")
+    private String mStarredAt;
 
     public String getStarredAt() {
         return mStarredAt;

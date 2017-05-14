@@ -20,7 +20,8 @@
         <item name="button_text_color">@color/button_text_color_light</item>
         <item name="name_color">@color/name_color_light</item>
         <item name="empty_state_text_color">@color/empty_state_text_color_light</item>
-        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_light</item>
+        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_light
+        </item>
         <item name="trending_bottom_bar_active">@color/trending_bottom_bar_active_light</item>
         <item name="trending_bottom_bar_inactive">@color/trending_bottom_bar_inactive_light</item>
         <item name="trending_badge_inactive">@color/trending_badge_inactive_light</item>
@@ -31,7 +32,9 @@
         <item name="repository_subtitle_text">@color/repository_subtitle_text_light</item>
         <item name="trending_info_text">@color/trending_info_text_light</item>
         <item name="trending_rank_text">@color/trending_rank_text_light</item>
-        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_light</item>
+        <item name="repository_badge_fork_background">
+            @color/repository_badge_fork_background_light
+        </item>
         <item name="repository_badge_text">@color/repository_badge_text_light</item>
         <item name="traffic_background">@color/traffic_background_light</item>
         <item name="traffic_chart_line_color">@color/traffic_chart_line_color_light</item>
@@ -65,7 +68,8 @@
         <item name="button_text_color">@color/button_text_color_light</item>
         <item name="name_color">@color/name_color_light</item>
         <item name="empty_state_text_color">@color/empty_state_text_color_light</item>
-        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_light</item>
+        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_light
+        </item>
         <item name="trending_bottom_bar_active">@color/trending_bottom_bar_active_light</item>
         <item name="trending_bottom_bar_inactive">@color/trending_bottom_bar_inactive_light</item>
         <item name="trending_badge_inactive">@color/trending_badge_inactive_light</item>
@@ -76,7 +80,9 @@
         <item name="repository_subtitle_text">@color/repository_subtitle_text_light</item>
         <item name="trending_info_text">@color/trending_info_text_light</item>
         <item name="trending_rank_text">@color/trending_rank_text_light</item>
-        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_light</item>
+        <item name="repository_badge_fork_background">
+            @color/repository_badge_fork_background_light
+        </item>
         <item name="repository_badge_text">@color/repository_badge_text_light</item>
         <item name="traffic_background">@color/traffic_background_light</item>
         <item name="traffic_chart_line_color">@color/traffic_chart_line_color_light</item>
@@ -109,7 +115,8 @@
         <item name="button_text_color">@color/button_text_color_light</item>
         <item name="name_color">@color/name_color_light</item>
         <item name="empty_state_text_color">@color/empty_state_text_color_light</item>
-        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_light</item>
+        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_light
+        </item>
         <item name="trending_bottom_bar_active">@color/trending_bottom_bar_active_light</item>
         <item name="trending_bottom_bar_inactive">@color/trending_bottom_bar_inactive_light</item>
         <item name="trending_badge_inactive">@color/trending_badge_inactive_light</item>
@@ -120,7 +127,9 @@
         <item name="repository_subtitle_text">@color/repository_subtitle_text_light</item>
         <item name="trending_info_text">@color/trending_info_text_light</item>
         <item name="trending_rank_text">@color/trending_rank_text_light</item>
-        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_light</item>
+        <item name="repository_badge_fork_background">
+            @color/repository_badge_fork_background_light
+        </item>
         <item name="repository_badge_text">@color/repository_badge_text_light</item>
         <item name="traffic_background">@color/traffic_background_light</item>
         <item name="traffic_chart_line_color">@color/traffic_chart_line_color_light</item>
@@ -153,7 +162,8 @@
         <item name="button_text_color">@color/button_text_color_dark</item>
         <item name="name_color">@color/name_color_dark</item>
         <item name="empty_state_text_color">@color/empty_state_text_color_dark</item>
-        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_dark</item>
+        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_dark
+        </item>
         <item name="trending_bottom_bar_active">@color/trending_bottom_bar_active_dark</item>
         <item name="trending_bottom_bar_inactive">@color/trending_bottom_bar_inactive_dark</item>
         <item name="trending_badge_inactive">@color/trending_badge_inactive_dark</item>
@@ -164,7 +174,8 @@
         <item name="repository_subtitle_text">@color/repository_subtitle_text_dark</item>
         <item name="trending_info_text">@color/trending_info_text_dark</item>
         <item name="trending_rank_text">@color/trending_rank_text_dark</item>
-        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_dark</item>
+        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_dark
+        </item>
         <item name="repository_badge_text">@color/repository_badge_text_dark</item>
         <item name="traffic_background">@color/traffic_background_dark</item>
         <item name="traffic_chart_line_color">@color/traffic_chart_line_color_dark</item>
@@ -197,7 +208,8 @@
         <item name="button_text_color">@color/button_text_color_dark</item>
         <item name="name_color">@color/name_color_dark</item>
         <item name="empty_state_text_color">@color/empty_state_text_color_dark</item>
-        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_dark</item>
+        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_dark
+        </item>
         <item name="trending_bottom_bar_active">@color/trending_bottom_bar_active_dark</item>
         <item name="trending_bottom_bar_inactive">@color/trending_bottom_bar_inactive_dark</item>
         <item name="trending_badge_inactive">@color/trending_badge_inactive_dark</item>
@@ -208,7 +220,8 @@
         <item name="repository_subtitle_text">@color/repository_subtitle_text_dark</item>
         <item name="trending_info_text">@color/trending_info_text_dark</item>
         <item name="trending_rank_text">@color/trending_rank_text_dark</item>
-        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_dark</item>
+        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_dark
+        </item>
         <item name="repository_badge_text">@color/repository_badge_text_dark</item>
         <item name="traffic_background">@color/traffic_background_dark</item>
         <item name="traffic_chart_line_color">@color/traffic_chart_line_color_dark</item>
@@ -240,7 +253,8 @@
         <item name="button_text_color">@color/button_text_color_dark</item>
         <item name="name_color">@color/name_color_dark</item>
         <item name="empty_state_text_color">@color/empty_state_text_color_dark</item>
-        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_dark</item>
+        <item name="trending_bottom_bar_background">@color/trending_bottom_bar_background_dark
+        </item>
         <item name="trending_bottom_bar_active">@color/trending_bottom_bar_active_dark</item>
         <item name="trending_bottom_bar_inactive">@color/trending_bottom_bar_inactive_dark</item>
         <item name="trending_badge_inactive">@color/trending_badge_inactive_dark</item>
@@ -251,7 +265,8 @@
         <item name="repository_subtitle_text">@color/repository_subtitle_text_dark</item>
         <item name="trending_info_text">@color/trending_info_text_dark</item>
         <item name="trending_rank_text">@color/trending_rank_text_dark</item>
-        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_dark</item>
+        <item name="repository_badge_fork_background">@color/repository_badge_fork_background_dark
+        </item>
         <item name="repository_badge_text">@color/repository_badge_text_dark</item>
         <item name="traffic_background">@color/traffic_background_dark</item>
         <item name="traffic_chart_line_color">@color/traffic_chart_line_color_dark</item>

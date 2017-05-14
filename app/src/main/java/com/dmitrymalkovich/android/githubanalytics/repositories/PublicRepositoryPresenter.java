@@ -32,10 +32,9 @@ import java.util.List;
 public class PublicRepositoryPresenter implements PublicRepositoryContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
 
+    private static final int REPOSITORIES_LOADER = 2;
     @SuppressWarnings("unused")
     private static String LOG_TAG = PublicRepositoryPresenter.class.getSimpleName();
-    private static final int REPOSITORIES_LOADER = 2;
-
     @SuppressWarnings("unused")
     @NonNull
     private final LoaderProvider mLoaderProvider;

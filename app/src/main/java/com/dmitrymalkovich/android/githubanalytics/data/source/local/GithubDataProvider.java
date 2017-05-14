@@ -36,8 +36,6 @@ import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 public class GithubDataProvider extends ContentProvider {
 
-    public static String LOG_TAG = GithubDataProvider.class.getSimpleName();
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final int REPOSITORIES = 300;
     private static final int REFERRERS = 400;
     private static final int CLONES = 401;
@@ -46,9 +44,9 @@ public class GithubDataProvider extends ContentProvider {
     private static final int STARGAZERS = 600;
     private static final int REPOSITORIES_STARGAZERS = 700;
     private static final int USERS = 801;
-    private GithubAnalyticsDbHelper mOpenHelper;
-
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final SQLiteQueryBuilder sRepositoryByVisitorsAndStarsQueryBuilder;
+    public static String LOG_TAG = GithubDataProvider.class.getSimpleName();
 
     static {
         sRepositoryByVisitorsAndStarsQueryBuilder = new SQLiteQueryBuilder();
@@ -100,6 +98,8 @@ public class GithubDataProvider extends ContentProvider {
                         " ON traffic_paths_2.repository_id = repository.repository_id "
         );
     }
+
+    private GithubAnalyticsDbHelper mOpenHelper;
 
     private static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);

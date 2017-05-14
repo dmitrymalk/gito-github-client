@@ -33,12 +33,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class APIError {
 
-    @SuppressWarnings("all") @SerializedName("message")
+    @SuppressWarnings("all")
+    @SerializedName("message")
     private String mMessage = "No internet connection";
-
-    public String getMessage() {
-        return mMessage;
-    }
 
     public static APIError parseError(Response<?> response) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -58,5 +55,9 @@ public class APIError {
         }
 
         return error;
+    }
+
+    public String getMessage() {
+        return mMessage;
     }
 }

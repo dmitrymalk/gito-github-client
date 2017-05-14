@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -38,10 +37,10 @@
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"
-            android:visibility="gone"
-            app:layout_scrollFlags="scroll|enterAlways"
             android:padding="@dimen/navigation_view_toolbar_logo_padding"
             android:src="@drawable/ic_github_logo"
+            android:visibility="gone"
+            app:layout_scrollFlags="scroll|enterAlways"
             tools:ignore="ContentDescription" />
 
     </android.support.design.widget.AppBarLayout>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -27,7 +26,7 @@
         android:layout_gravity="top|end"
         android:background="?attr/selectableItemBackground"
         android:padding="@dimen/repository_turned_button_padding"
-        android:src="@drawable/ic_turned_in_blue_24dp"/>
+        android:src="@drawable/ic_turned_in_blue_24dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,13 +34,13 @@
         android:orientation="vertical"
         android:padding="@dimen/repository_content_padding">
 
-        <include layout="@layout/include_repository_title_and_description"/>
+        <include layout="@layout/include_repository_title_and_description" />
 
         <android.support.v4.widget.Space
             android:layout_width="match_parent"
             android:layout_height="@dimen/repository_space_between_description_and_information_height" />
 
-        <include layout="@layout/include_list_item_repository_information"/>
+        <include layout="@layout/include_list_item_repository_information" />
 
     </LinearLayout>
 

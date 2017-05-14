@@ -53,61 +53,6 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public final static String KEY_PREF_THEME = "theme";
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setupActionBar();
-    }
-
-    /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
-    private void setupActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            // Show the Up button in the action bar.
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onIsMultiPane() {
-        return isXLargeTablet(this);
-    }
-
-    /**
-     * Helper method to determine if the device has an extra-large screen. For
-     * example, 10" tablets are extra-large.
-     */
-    private static boolean isXLargeTablet(Context context) {
-        return (context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<PreferenceActivity.Header> target) {
-        loadHeadersFromResource(R.xml.pref_headers, target);
-    }
-
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -138,6 +83,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     };
 
     /**
+     * Helper method to determine if the device has an extra-large screen. For
+     * example, 10" tablets are extra-large.
+     */
+    private static boolean isXLargeTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
+    }
+
+    /**
      * Binds a preference's summary to its value. More specifically, when the
      * preference's value is changed, its summary (line of text below the
      * preference title) is updated to reflect the value. The summary is also
@@ -156,6 +110,50 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setupActionBar();
+    }
+
+    /**
+     * Set up the {@link android.app.ActionBar}, if the API is available.
+     */
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onIsMultiPane() {
+        return isXLargeTablet(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public void onBuildHeaders(List<PreferenceActivity.Header> target) {
+        loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
     /**
@@ -179,12 +177,37 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @SuppressWarnings("unused")
         private static final String THEME_DARK = "dark";
 
-        @Retention(SOURCE)
-        @IntDef({THEME_TYPE.NO_ACTION_BAR, THEME_TYPE.NO_ACTION_BAR_AND_COLORED_STATUS_BAR, THEME_TYPE.ACTION_BAR})
-        public @interface THEME_TYPE {
-            int NO_ACTION_BAR = 0;
-            int NO_ACTION_BAR_AND_COLORED_STATUS_BAR = 1;
-            int ACTION_BAR = 2;
+        public static boolean isLight(Context context) {
+            SharedPreferences preference = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            return preference.getString(KEY_PREF_THEME, THEME_DARK).equals(THEME_LIGHT);
+        }
+
+        public static int getTheme(Context context, @THEME_TYPE int themeType) {
+            switch (themeType) {
+                case THEME_TYPE.NO_ACTION_BAR: {
+                    if (isLight(context)) {
+                        return R.style.AppTheme;
+                    } else {
+                        return R.style.AppTheme_Dark;
+                    }
+                }
+                case THEME_TYPE.ACTION_BAR: {
+                    if (isLight(context)) {
+                        return R.style.AppTheme_Settings;
+                    } else {
+                        return R.style.AppTheme_Dark_Settings;
+                    }
+                }
+                default:
+                case THEME_TYPE.NO_ACTION_BAR_AND_COLORED_STATUS_BAR: {
+                    if (isLight(context)) {
+                        return R.style.AppTheme_ColoredStatusBar;
+                    } else {
+                        return R.style.AppTheme_Dark_ColoredStatusBar;
+                    }
+                }
+            }
         }
 
         @Override
@@ -234,37 +257,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
         }
 
-        public static boolean isLight(Context context) {
-            SharedPreferences preference = PreferenceManager
-                    .getDefaultSharedPreferences(context);
-            return preference.getString(KEY_PREF_THEME, THEME_DARK).equals(THEME_LIGHT);
-        }
-
-        public static int getTheme(Context context, @THEME_TYPE int themeType) {
-            switch (themeType) {
-                case THEME_TYPE.NO_ACTION_BAR: {
-                    if (isLight(context)) {
-                        return R.style.AppTheme;
-                    } else {
-                        return R.style.AppTheme_Dark;
-                    }
-                }
-                case THEME_TYPE.ACTION_BAR: {
-                    if (isLight(context)) {
-                        return R.style.AppTheme_Settings;
-                    } else {
-                        return R.style.AppTheme_Dark_Settings;
-                    }
-                }
-                default:
-                case THEME_TYPE.NO_ACTION_BAR_AND_COLORED_STATUS_BAR: {
-                    if (isLight(context)) {
-                        return R.style.AppTheme_ColoredStatusBar;
-                    } else {
-                        return R.style.AppTheme_Dark_ColoredStatusBar;
-                    }
-                }
-            }
+        @Retention(SOURCE)
+        @IntDef({THEME_TYPE.NO_ACTION_BAR, THEME_TYPE.NO_ACTION_BAR_AND_COLORED_STATUS_BAR, THEME_TYPE.ACTION_BAR})
+        public @interface THEME_TYPE {
+            int NO_ACTION_BAR = 0;
+            int NO_ACTION_BAR_AND_COLORED_STATUS_BAR = 1;
+            int ACTION_BAR = 2;
         }
     }
 }

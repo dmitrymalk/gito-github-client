@@ -28,10 +28,10 @@ import com.dmitrymalkovich.android.githubapi.core.gson.Views;
  * https://developer.github.com/v3/repos/traffic/
  */
 public class ViewsContract {
-    public static String LOG_TAG = ViewsContract.class.getSimpleName();
     public static final String CONTENT_AUTHORITY = "com.dmitrymalkovich.android.githubanalytics.data";
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_VIEWS = "traffic.views";
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static String LOG_TAG = ViewsContract.class.getSimpleName();
 
     public static final class ViewsEntry implements BaseColumns {
 

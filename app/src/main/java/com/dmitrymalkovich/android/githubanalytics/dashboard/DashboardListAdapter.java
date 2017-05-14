@@ -26,10 +26,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
+import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
 
-import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.*;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_COUNT;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_TWO_WEEKS;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_YESTERDAY;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REFERRER_1_PATHS_COUNT;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REFERRER_1_PATHS_REFERRER;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REFERRER_1_PATHS_UNIQUES;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REFERRER_2_PATHS_COUNT;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REFERRER_2_PATHS_REFERRER;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REFERRER_2_PATHS_UNIQUES;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORKS;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_HTML_URL;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_ID;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_LANGUAGE;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_NAME;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_WATCHERS;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS_TWO_WEEKS;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_STARGAZERS_STARS_YESTERDAY;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES_TWO_WEEKS;
+import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_VIEWS_UNIQUES_YESTERDAY;
 
 class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapter.ViewHolder> {
 
@@ -201,10 +222,10 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
         private final View mTopReferrer1;
         private final View mTopReferrerDivider;
         private final View mTopReferrerSites;
+        private final View mTopReferrer2;
         private TextView topReferrer1Name;
         private TextView topReferrer1Views;
         private TextView topReferrer1Visitors;
-        private final View mTopReferrer2;
         private TextView topReferrer2Name;
         private TextView topReferrer2Views;
         private TextView topReferrer2Visitors;

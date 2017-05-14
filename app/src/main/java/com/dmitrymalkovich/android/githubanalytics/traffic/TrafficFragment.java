@@ -69,9 +69,6 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     @SuppressWarnings("unused")
     private static final String LOG_TAG = TrafficFragment.class.getSimpleName();
     public static String ARG_REPOSITORY_ID = "ARG_REPOSITORY_ID";
-    private TrafficContract.Presenter mPresenter;
-    private Unbinder unbinder;
-    private ReferrersListAdapter mAdapter;
     public
     @BindView(R.id.progress)
     ProgressBar mProgressBar;
@@ -95,6 +92,9 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
     public TextView mTotalForksView;
     @BindView(R.id.empty_state_title)
     public TextView mEmptyStateTextView;
+    private TrafficContract.Presenter mPresenter;
+    private Unbinder unbinder;
+    private ReferrersListAdapter mAdapter;
 
     public static TrafficFragment newInstance(long repositoryId) {
         TrafficFragment trafficFragment = new TrafficFragment();

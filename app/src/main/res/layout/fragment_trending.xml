@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,8 +19,8 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_for_repositories"
@@ -48,9 +47,9 @@
         android:id="@+id/recycler_view_for_badges"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="?attr/trending_badge_background"
         android:clipToPadding="false"
         android:scrollbarStyle="outsideOverlay"
-        android:background="?attr/trending_badge_background"
         android:visibility="gone"
         tools:ignore="PrivateResource" />
 

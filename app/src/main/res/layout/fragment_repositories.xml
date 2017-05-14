@@ -31,7 +31,7 @@
             tools:ignore="PrivateResource" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/empty_state_dashboard"/>
+    <include layout="@layout/empty_state_dashboard" />
 
     <ProgressBar
         android:id="@+id/progress"

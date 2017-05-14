@@ -26,8 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
+import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
 
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORK;
@@ -146,9 +146,9 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
         private final TextView forksView;
         private final TextView badgeView;
         private final ImageView favoriteView;
+        private final ImageView languageIconView;
         private TextView titleView;
         private TextView subtitleView;
-        private final ImageView languageIconView;
 
         ViewHolder(View view) {
             super(view);

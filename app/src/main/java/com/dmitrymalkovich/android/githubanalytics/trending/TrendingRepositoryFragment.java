@@ -45,8 +45,6 @@ import butterknife.Unbinder;
 
 public class TrendingRepositoryFragment extends Fragment implements TrendingRepositoryContract.View {
 
-    private TrendingRepositoryContract.Presenter mPresenter;
-    private Unbinder unbinder;
     @BindView(R.id.progress)
     public ProgressBar mProgressBar;
     @BindView(R.id.recycler_view_for_repositories)
@@ -60,10 +58,11 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
     public View mCoordinatorLayout;
     @BindView(R.id.empty_state_title)
     public TextView mEmptyStateTextView;
-
-    private TrendingRepositoryListAdapter mAdapter;
     @BindView(R.id.recycler_view_for_badges)
     public RecyclerView mRecyclerViewForBadges;
+    private TrendingRepositoryContract.Presenter mPresenter;
+    private Unbinder unbinder;
+    private TrendingRepositoryListAdapter mAdapter;
 
     public static TrendingRepositoryFragment newInstance() {
         return new TrendingRepositoryFragment();

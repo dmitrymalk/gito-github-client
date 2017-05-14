@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,24 +14,24 @@
     android:id="@+id/list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/widget_vertical_margin"
     android:paddingLeft="@dimen/widget_horizontal_margin"
     android:paddingRight="@dimen/widget_horizontal_margin"
-    android:paddingTop="@dimen/widget_vertical_margin"
-    android:paddingBottom="@dimen/widget_vertical_margin"
-    android:orientation="vertical">
+    android:paddingTop="@dimen/widget_vertical_margin">
 
     <TextView
         android:id="@+id/title"
         style="@style/TextAppearance.AppCompat.Small"
-        android:textColor="?attr/widget_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="?attr/widget_text" />
 
     <TextView
         android:id="@+id/subtitle"
-        android:textColor="?attr/widget_text"
         style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="?attr/widget_text" />
 
 </LinearLayout>

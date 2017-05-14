@@ -25,8 +25,8 @@ import android.support.v4.content.Loader;
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
-import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
 import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
 
 import java.util.List;
@@ -34,10 +34,9 @@ import java.util.List;
 public class TrendingRepositoryPresenter implements TrendingRepositoryContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
 
+    private static final int TRENDING_LOADER = 3;
     @SuppressWarnings("unused")
     private static String LOG_TAG = TrendingRepositoryPresenter.class.getSimpleName();
-    private static final int TRENDING_LOADER = 3;
-
     @SuppressWarnings("unused")
     @NonNull
     private final LoaderProvider mLoaderProvider;

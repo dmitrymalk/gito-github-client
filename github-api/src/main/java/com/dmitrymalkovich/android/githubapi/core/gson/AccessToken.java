@@ -38,11 +38,11 @@ public class AccessToken {
         return mTokenType;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.mAccessToken = accessToken;
-    }
-
     public void setTokenType(String tokenType) {
         this.mTokenType = tokenType;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.mAccessToken = accessToken;
     }
 }

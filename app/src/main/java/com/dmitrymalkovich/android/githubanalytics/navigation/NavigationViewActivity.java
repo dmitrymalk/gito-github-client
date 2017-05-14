@@ -54,13 +54,13 @@ import com.kobakei.ratethisapp.RateThisApp;
 
 public class NavigationViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
+    public static final String EXTRA_CURRENT_FRAGMENT = "EXTRA_CURRENT_FRAGMENT";
     private static final int USER_LOADER = 101;
     // Delay to launch nav drawer item, to allow close animation to play
     private static final int NAV_VIEW_LAUNCH_DELAY = 250;
     @SuppressWarnings("unused")
     private static final String LOG_TAG = NavigationViewActivity.class.getSimpleName();
     private NavigationView mNavigationView;
-    public static final String EXTRA_CURRENT_FRAGMENT = "EXTRA_CURRENT_FRAGMENT";
     private String mCurrentFragment = DashboardFragment.class.getSimpleName();
     private LoaderProvider mLoaderProvider;
 

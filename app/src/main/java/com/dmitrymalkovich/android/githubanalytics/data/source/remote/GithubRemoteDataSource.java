@@ -21,19 +21,19 @@ import android.os.AsyncTask;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
+import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
+import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
+import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
+import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 import com.dmitrymalkovich.android.githubapi.GitHubAPI;
-import com.dmitrymalkovich.android.githubapi.core.pagination.Pagination;
+import com.dmitrymalkovich.android.githubapi.core.gson.AccessToken;
 import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
 import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
 import com.dmitrymalkovich.android.githubapi.core.gson.Star;
-import com.dmitrymalkovich.android.githubapi.core.gson.Views;
-import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
-import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
-import com.dmitrymalkovich.android.githubapi.core.gson.AccessToken;
 import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
 import com.dmitrymalkovich.android.githubapi.core.gson.User;
-import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
-import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
+import com.dmitrymalkovich.android.githubapi.core.gson.Views;
+import com.dmitrymalkovich.android.githubapi.core.pagination.Pagination;
 import com.google.firebase.crash.FirebaseCrash;
 
 import org.eclipse.egit.github.core.Repository;

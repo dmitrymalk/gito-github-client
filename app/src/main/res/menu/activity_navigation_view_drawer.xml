@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,10 +12,12 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/group_1" android:checkableBehavior="single">
+    <group
+        android:id="@+id/group_1"
+        android:checkableBehavior="single">
         <item
-            android:checked="true"
             android:id="@+id/nav_dashboard"
+            android:checked="true"
             android:icon="@drawable/ic_dashboard_black_24dp"
             android:title="@string/navigation_view_dashboard" />
         <item
@@ -29,7 +30,9 @@
             android:title="@string/navigation_view_trending" />
     </group>
 
-    <group android:id="@+id/group_2" android:checkableBehavior="single">
+    <group
+        android:id="@+id/group_2"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_settings"

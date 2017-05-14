@@ -38,14 +38,14 @@ import butterknife.Unbinder;
 public class WelcomeFragment extends Fragment implements WelcomeContract.View {
 
     public static String LOG_TAG = WelcomeFragment.class.getSimpleName();
-    private WelcomeContract.Presenter mPresenter;
-    private Unbinder unbinder;
     @BindView(R.id.sign_in_oauth)
     public Button mOauthSignInButton;
     @BindView(R.id.progress)
     public ProgressBar mProgressBar;
     @BindView(R.id.content)
     public View mContentView;
+    private WelcomeContract.Presenter mPresenter;
+    private Unbinder unbinder;
 
     public static WelcomeFragment newInstance() {
         return new WelcomeFragment();

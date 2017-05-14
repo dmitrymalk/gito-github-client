@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017.  Dmitry Malkovich
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -11,12 +10,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<com.google.android.gms.ads.AdView ads:adSize="BANNER"
-    ads:adUnitId="@string/banner_ad_unit_id"
+<com.google.android.gms.ads.AdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ad_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto" />
+    ads:adSize="BANNER"
+    ads:adUnitId="@string/banner_ad_unit_id" />

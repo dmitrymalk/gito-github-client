@@ -27,8 +27,8 @@ import com.dmitrymalkovich.android.githubapi.core.gson.Star;
 public class StargazersContract {
     public static final String LOG_TAG = StargazersContract.class.getSimpleName();
     public static final String CONTENT_AUTHORITY = "com.dmitrymalkovich.android.githubanalytics.data";
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_STARGAZERS = "stargazers";
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final class Entry implements BaseColumns {
 

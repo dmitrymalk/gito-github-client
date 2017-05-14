@@ -41,19 +41,19 @@ import butterknife.Unbinder;
 
 public class PublicRepositoryFragment extends Fragment implements PublicRepositoryContract.View {
 
-    private PublicRepositoryContract.Presenter mPresenter;
-    private Unbinder unbinder;
     @BindView(R.id.progress)
     public ProgressBar mProgressBar;
     @BindView(R.id.recycler_view_for_repositories)
     public RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout)
     public SwipeRefreshLayout mSwipeRefreshLayout;
-    private PublicRepositoryListAdapter mAdapter;
     @BindView(R.id.empty_state)
     public View mEmptyStateView;
     @BindView(R.id.empty_state_title)
     public TextView mEmptyStateTextView;
+    private PublicRepositoryContract.Presenter mPresenter;
+    private Unbinder unbinder;
+    private PublicRepositoryListAdapter mAdapter;
 
     public static PublicRepositoryFragment newInstance() {
         return new PublicRepositoryFragment();

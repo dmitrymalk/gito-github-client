@@ -32,10 +32,9 @@ import java.util.List;
 public class DashboardPresenter implements DashboardContract.Presenter,
         LoaderManager.LoaderCallbacks<Cursor>, GithubRepository.LoadDataCallback {
 
+    private static final int REPOSITORIES_LOADER = 1;
     @SuppressWarnings("unused")
     private static String LOG_TAG = DashboardPresenter.class.getSimpleName();
-    private static final int REPOSITORIES_LOADER = 1;
-
     @SuppressWarnings("unused")
     @NonNull
     private final LoaderProvider mLoaderProvider;
@@ -68,19 +67,19 @@ public class DashboardPresenter implements DashboardContract.Presenter,
 
             mGithubRepository.getRepositoriesWithAdditionalInfo(
                     new GithubDataSource.GetRepositoriesCallback() {
-                @Override
-                public void onRepositoriesLoaded(List<Repository> repositoryList) {
-                    mDashboardView.setLoadingIndicator(false);
-                    mDashboardView.setRefreshIndicator(false);
-                    mLoaderManager.restartLoader(REPOSITORIES_LOADER, null,
-                            DashboardPresenter.this);
-                }
+                        @Override
+                        public void onRepositoriesLoaded(List<Repository> repositoryList) {
+                            mDashboardView.setLoadingIndicator(false);
+                            mDashboardView.setRefreshIndicator(false);
+                            mLoaderManager.restartLoader(REPOSITORIES_LOADER, null,
+                                    DashboardPresenter.this);
+                        }
 
-                @Override
-                public void onDataNotAvailable() {
-                    DashboardPresenter.this.onDataNotAvailable(REPOSITORIES_LOADER);
-                }
-            }, true);
+                        @Override
+                        public void onDataNotAvailable() {
+                            DashboardPresenter.this.onDataNotAvailable(REPOSITORIES_LOADER);
+                        }
+                    }, true);
 
         } else {
             mLoaderManager.initLoader(REPOSITORIES_LOADER,

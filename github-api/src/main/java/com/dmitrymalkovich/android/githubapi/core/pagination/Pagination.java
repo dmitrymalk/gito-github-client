@@ -23,8 +23,8 @@ import retrofit2.Response;
 
 public class Pagination {
 
-    private static final String HEADER_LINK = "Link";
     public static final String LAST_PAGE = "last";
+    private static final String HEADER_LINK = "Link";
     private int mLastPage;
 
     public void parse(Response<List<Star>> response) {

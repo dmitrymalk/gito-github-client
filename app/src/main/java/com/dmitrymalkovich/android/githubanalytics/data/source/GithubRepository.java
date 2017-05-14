@@ -25,13 +25,13 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocal
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.remote.GithubRemoteDataSource;
+import com.dmitrymalkovich.android.githubanalytics.data.sync.SyncSettings;
 import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
 import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
 import com.dmitrymalkovich.android.githubapi.core.gson.Star;
 import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
 import com.dmitrymalkovich.android.githubapi.core.gson.User;
 import com.dmitrymalkovich.android.githubapi.core.gson.Views;
-import com.dmitrymalkovich.android.githubanalytics.data.sync.SyncSettings;
 
 import org.eclipse.egit.github.core.Repository;
 
@@ -43,9 +43,9 @@ import java.util.List;
  * it initialize it through the {@link Injection} subclass with the provideGithubRepository method
  */
 public class GithubRepository implements GithubDataSource {
+    public static final String PREFERENCES = "GITHUB_ANALYTICS_PREFERENCES";
     @SuppressWarnings("unused")
     private static final String LOG_TAG = GithubRepository.class.getSimpleName();
-    public static final String PREFERENCES = "GITHUB_ANALYTICS_PREFERENCES";
     private static GithubRepository INSTANCE = null; // a static reference to the repository instance
 
     private final GithubDataSource mGithubRemoteDataSource;
@@ -53,47 +53,11 @@ public class GithubRepository implements GithubDataSource {
     private SyncSettings mSyncSettings;
 
     /**
-     * This class is used to access the instance of the {@link GithubRepository} class
-     * and the data sources
-     */
-    public static class Injection {
-
-        /**
-         * Used to access the {@link GithubRepository} static instance
-         * @return the static instance of the {@link GithubRepository} class
-         */
-        public static GithubRepository provideGithubRepository(@NonNull Context context) {
-            SharedPreferences sharedPreferences =
-                    context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-            return GithubRepository.getInstance(GithubRemoteDataSource.getInstance(
-                    context.getContentResolver(), sharedPreferences), provideLocalDataSource(context),
-                    sharedPreferences);
-        }
-
-        /**
-         * Used to access the {@link GithubLocalDataSource} static instance
-         * @return the static instance of the {@link GithubLocalDataSource} class
-         */
-        private static GithubLocalDataSource provideLocalDataSource(@NonNull Context context) {
-            return GithubLocalDataSource.getInstance(context.getContentResolver(),
-                    context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE));
-        }
-
-        /**
-         * Used to access the {@link GithubRemoteDataSource} static instance
-         * @return the static instance of the {@link GithubRemoteDataSource} class
-         */
-        public static GithubRemoteDataSource provideRemoteDataSource(@NonNull Context context) {
-            return GithubRemoteDataSource.getInstance(context.getContentResolver(),
-                    context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE));
-        }
-    }
-
-    /**
      * Initialize the static instance for the Github repository
+     *
      * @param githubRemoteDataSource the remote datasource to retrieve data from
-     * @param githubLocalDataSource the local datasource to retrieve data from
-     * @param preferences the application's set preferences
+     * @param githubLocalDataSource  the local datasource to retrieve data from
+     * @param preferences            the application's set preferences
      */
     private GithubRepository(@NonNull GithubDataSource githubRemoteDataSource,
                              @NonNull GithubDataSource githubLocalDataSource,
@@ -129,7 +93,8 @@ public class GithubRepository implements GithubDataSource {
     }
 
     /**
-     * Get the user's' repositories 
+     * Get the user's' repositories
+     *
      * @param callback called when the repositories are loaded
      * @param useCache if false the list of repositories are updated from online
      */
@@ -159,9 +124,10 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Get the repository of the provided repository id
+     *
      * @param repositoryId the id of the repository to find
-     * @param callback called when the repository is found or not found
-     * @param useCache whether or not the cache should be used to search for the repository
+     * @param callback     called when the repository is found or not found
+     * @param useCache     whether or not the cache should be used to search for the repository
      */
     @Override
     public void getRepositoriesWithAdditionalInfo(long repositoryId, final GetRepositoriesCallback callback,
@@ -191,6 +157,7 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Returns a list of all the user repositories
+     *
      * @param callback called when the repositories are all retrieved
      */
     @Override
@@ -210,8 +177,9 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Retrieve a list of sites that link to this repository
+     *
      * @param repository the repository to find the referers for
-     * @param callback called with the list of referring sites
+     * @param callback   called with the list of referring sites
      */
     @Override
     public void getRepositoryReferrers(Repository repository, final GetRepositoryReferrersCallback callback) {
@@ -230,9 +198,10 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Retrieve the number of cloans the repository has had
+     *
      * @param repository the repository we are analyzing
-     * @param period the period of time to look in 
-     * @param callback called with the resulting number of clones
+     * @param period     the period of time to look in
+     * @param callback   called with the resulting number of clones
      */
     @Override
     public void getRepositoryClones(Repository repository, String period, final GetRepositoryClonesCallback callback) {
@@ -251,9 +220,10 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Retrive the number of views for the respository
+     *
      * @param repository the repository for which to find the number of views
-     * @param period the period in which the views should have taken place
-     * @param callback called with the number of views
+     * @param period     the period in which the views should have taken place
+     * @param callback   called with the number of views
      */
     @Override
     public void getRepositoryViews(Repository repository, String period, final GetRepositoryViewsCallback callback) {
@@ -272,8 +242,9 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Retrieve a list of users who starred the repository
+     *
      * @param repository the repository which users have starred
-     * @param callback called with the list of users who starred the repository
+     * @param callback   called with the list of users who starred the repository
      */
     @Override
     public void getStargazers(Repository repository, final GetStargazersCallback callback) {
@@ -292,8 +263,9 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Retrieve a list of the trending repositories
-     * @param period the period in which the repositories were trending
-     * @param language specify the programming language 
+     *
+     * @param period   the period in which the repositories were trending
+     * @param language specify the programming language
      * @param callback called with the list of trending repositories
      * @param useCache whether or not to use the cached trending repository information
      */
@@ -327,8 +299,9 @@ public class GithubRepository implements GithubDataSource {
     }
 
     /**
-     * Request an access token 
-     * @param code the passcode to get the token
+     * Request an access token
+     *
+     * @param code     the passcode to get the token
      * @param callback retrieves the requested token and token type
      */
     @Override
@@ -349,6 +322,7 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Get the current user
+     *
      * @param callback called with the user information
      */
     @Override
@@ -368,7 +342,8 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * save the token to local storage
-     * @param token the token to save
+     *
+     * @param token     the token to save
      * @param tokenType the type of the token
      */
     @Override
@@ -377,7 +352,8 @@ public class GithubRepository implements GithubDataSource {
     }
 
     /**
-     * Get the saved token. 
+     * Get the saved token.
+     *
      * @return null if no token is saved
      */
     @Override
@@ -388,6 +364,7 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Get the type of the saved token
+     *
      * @return null if no token is saved
      */
     @Override
@@ -398,6 +375,7 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Get the default language for trending repositories
+     *
      * @return a String representation of a programming language
      */
     @Override
@@ -407,6 +385,7 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Set the default language for trending repository search
+     *
      * @param language a string representation of the desired programming language
      */
     @Override
@@ -416,6 +395,7 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Get the default period of time for the trending repsoitories
+     *
      * @return a string representation of the default period of time
      */
     @Override
@@ -425,6 +405,7 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Set the default period of time for the trending repositories
+     *
      * @param period a string representation of a period of time
      */
     @Override
@@ -434,8 +415,9 @@ public class GithubRepository implements GithubDataSource {
 
     /**
      * Pin a repository so it can be viewed offline
+     *
      * @param active true to pin the repository, false to unpin it
-     * @param id the id of the repository
+     * @param id     the id of the repository
      */
     @Override
     public void setPinned(boolean active, long id) {
@@ -448,13 +430,15 @@ public class GithubRepository implements GithubDataSource {
     public interface LoadDataCallback {
         /**
          * Retrieve the retrieved data
+         *
          * @param data the data for the repository
-         * @param id the id of the found repository
+         * @param id   the id of the found repository
          */
         void onDataLoaded(Cursor data, int id);
 
         /**
          * When no data is found for a repository this is called
+         *
          * @param id the id of the repository
          */
         void onDataEmpty(int id);
@@ -462,6 +446,7 @@ public class GithubRepository implements GithubDataSource {
         /**
          * Called when there is no data available for the repository or it cannot
          * be found
+         *
          * @param id the id of the repository
          */
         void onDataNotAvailable(int id);
@@ -470,5 +455,45 @@ public class GithubRepository implements GithubDataSource {
          * Called when the data for the repository has been reset
          */
         void onDataReset();
+    }
+
+    /**
+     * This class is used to access the instance of the {@link GithubRepository} class
+     * and the data sources
+     */
+    public static class Injection {
+
+        /**
+         * Used to access the {@link GithubRepository} static instance
+         *
+         * @return the static instance of the {@link GithubRepository} class
+         */
+        public static GithubRepository provideGithubRepository(@NonNull Context context) {
+            SharedPreferences sharedPreferences =
+                    context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+            return GithubRepository.getInstance(GithubRemoteDataSource.getInstance(
+                    context.getContentResolver(), sharedPreferences), provideLocalDataSource(context),
+                    sharedPreferences);
+        }
+
+        /**
+         * Used to access the {@link GithubLocalDataSource} static instance
+         *
+         * @return the static instance of the {@link GithubLocalDataSource} class
+         */
+        private static GithubLocalDataSource provideLocalDataSource(@NonNull Context context) {
+            return GithubLocalDataSource.getInstance(context.getContentResolver(),
+                    context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE));
+        }
+
+        /**
+         * Used to access the {@link GithubRemoteDataSource} static instance
+         *
+         * @return the static instance of the {@link GithubRemoteDataSource} class
+         */
+        public static GithubRemoteDataSource provideRemoteDataSource(@NonNull Context context) {
+            return GithubRemoteDataSource.getInstance(context.getContentResolver(),
+                    context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE));
+        }
     }
 }

@@ -15,12 +15,11 @@
  */
 package com.dmitrymalkovich.android.githubanalytics.data.source.local.contract;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
-
-import android.content.ContentResolver;
 
 import org.eclipse.egit.github.core.Repository;
 
@@ -33,9 +32,9 @@ import java.io.File;
 public class RepositoryContract {
 
     public static final String CONTENT_AUTHORITY = "com.dmitrymalkovich.android.githubanalytics.data";
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_REPOSITORY = "repository";
     public static final String PATH_REPOSITORY_STARGAZERS = "repository_stargazers";
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final class RepositoryEntry implements BaseColumns {
 

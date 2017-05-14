@@ -54,7 +54,7 @@ public class LoaderProvider {
                 ReferrerContract.ReferrerEntry.REFERRER_COLUMNS,
                 ReferrerContract.ReferrerEntry.TABLE_NAME + "."
                         + ReferrerContract.ReferrerEntry.COLUMN_REPOSITORY_KEY + " = ? ",
-                new String[] {String.valueOf(repositoryId)}, null
+                new String[]{String.valueOf(repositoryId)}, null
         );
     }
 
@@ -65,8 +65,8 @@ public class LoaderProvider {
                 ClonesContract.ClonesEntry.CLONES_COLUMNS,
                 ClonesContract.ClonesEntry.TABLE_NAME + "."
                         + ClonesContract.ClonesEntry.COLUMN_REPOSITORY_KEY + " = ? AND " +
-                ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP + " >= " + TimeUtils.weekAgo(),
-                new String[] {String.valueOf(repositoryId)}, null
+                        ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP + " >= " + TimeUtils.weekAgo(),
+                new String[]{String.valueOf(repositoryId)}, null
         );
     }
 
@@ -77,7 +77,7 @@ public class LoaderProvider {
                 ViewsContract.ViewsEntry.VIEWS_COLUMNS,
                 ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY + " = ? AND " +
                         ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP + " >= " + TimeUtils.weekAgo(),
-                new String[] {String.valueOf(repositoryId)}, null
+                new String[]{String.valueOf(repositoryId)}, null
         );
     }
 
@@ -87,8 +87,8 @@ public class LoaderProvider {
                 RepositoryContract.RepositoryEntry.CONTENT_URI_REPOSITORY_STARGAZERS,
                 RepositoryContract.RepositoryEntry.REPOSITORY_COLUMNS_WITH_ADDITIONAL_INFO,
                 RepositoryContract.RepositoryEntry.TABLE_NAME + "."
-                        + RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " = ? " ,
-                new String[] {String.valueOf(repositoryId)}, null
+                        + RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_ID + " = ? ",
+                new String[]{String.valueOf(repositoryId)}, null
         );
     }
 
@@ -100,7 +100,7 @@ public class LoaderProvider {
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_FORK + " = ? AND "
                         + RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " > ? AND "
                         + RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_PINNED + " = ? ",
-                new String[] {"0", "0", "1"},
+                new String[]{"0", "0", "1"},
                 RepositoryContract.RepositoryEntry.COLUMN_REPOSITORY_WATCHERS + " DESC"
         );
     }

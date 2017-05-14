@@ -24,10 +24,10 @@ import android.provider.BaseColumns;
 import com.dmitrymalkovich.android.githubapi.core.gson.User;
 
 public class UserContract {
-    public static String LOG_TAG = UserContract.class.getSimpleName();
     public static final String CONTENT_AUTHORITY = "com.dmitrymalkovich.android.githubanalytics.data";
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_USERS = "users";
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static String LOG_TAG = UserContract.class.getSimpleName();
 
     public static final class UsersEntry implements BaseColumns {
 

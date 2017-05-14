@@ -9,13 +9,13 @@ import android.util.Log;
  * Define a Service that returns an IBinder for the
  * sync adapter class, allowing the sync adapter framework to call
  * onPerformSync().
- *
+ * <p>
  * https://developer.android.com/training/sync-adapters/creating-sync-adapter.html
  */
 public class SyncService extends Service {
+    private static final Object sSyncAdapterLock = new Object();
     private static String LOG_TAG = SyncAdapter.class.getSimpleName();
     private static SyncAdapter sSyncAdapter = null;
-    private static final Object sSyncAdapterLock = new Object();
 
     @Override
     public void onCreate() {
@@ -26,10 +26,10 @@ public class SyncService extends Service {
             }
         }
     }
+
     /**
      * Return an object that allows the system to invoke
      * the sync adapter.
-     *
      */
     @Override
     public IBinder onBind(Intent intent) {

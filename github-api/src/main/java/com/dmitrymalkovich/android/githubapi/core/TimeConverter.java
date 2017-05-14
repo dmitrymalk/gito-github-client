@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class TimeConverter {
-    public static final String LOG_TAG = TimeConverter.class.getSimpleName();
+    private static final String LOG_TAG = TimeConverter.class.getSimpleName();
 
     public static long iso8601ToMilliseconds(String date) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);

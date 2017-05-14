@@ -16,8 +16,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:paddingTop="?attr/actionBarSize"
     android:paddingBottom="?attr/actionBarSize"
+    android:paddingTop="?attr/actionBarSize"
     android:visibility="gone">
 
     <TextView
