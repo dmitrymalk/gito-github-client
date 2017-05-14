@@ -38,14 +38,14 @@ public class GithubDataProvider extends ContentProvider {
 
     public static String LOG_TAG = GithubDataProvider.class.getSimpleName();
     private static final UriMatcher sUriMatcher = buildUriMatcher();
-    static final int REPOSITORIES = 300;
-    static final int REFERRERS = 400;
-    static final int CLONES = 401;
-    static final int VIEWS = 402;
-    static final int TRENDING = 500;
-    static final int STARGAZERS = 600;
-    static final int REPOSITORIES_STARGAZERS = 700;
-    static final int USERS = 801;
+    private static final int REPOSITORIES = 300;
+    private static final int REFERRERS = 400;
+    private static final int CLONES = 401;
+    private static final int VIEWS = 402;
+    private static final int TRENDING = 500;
+    private static final int STARGAZERS = 600;
+    private static final int REPOSITORIES_STARGAZERS = 700;
+    private static final int USERS = 801;
     private GithubAnalyticsDbHelper mOpenHelper;
 
     private static final SQLiteQueryBuilder sRepositoryByVisitorsAndStarsQueryBuilder;
