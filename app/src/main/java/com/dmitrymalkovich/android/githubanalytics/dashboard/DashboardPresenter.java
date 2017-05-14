@@ -132,6 +132,7 @@ public class DashboardPresenter implements DashboardContract.Presenter,
 
     @Override
     public void onDataReset() {
+        // Nothing to do
     }
 
     @Override

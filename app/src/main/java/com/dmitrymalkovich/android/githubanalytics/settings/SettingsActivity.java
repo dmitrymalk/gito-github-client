@@ -28,7 +28,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
-import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 

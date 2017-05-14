@@ -53,7 +53,8 @@
             android:name=".data.source.local.GithubDataProvider"
             android:authorities="com.dmitrymalkovich.android.githubanalytics.data"
             android:exported="true"
-            android:syncable="true" />
+            android:syncable="true"
+            tools:ignore="ExportedContentProvider" />
 
         <activity
             android:name=".navigation.NavigationViewActivity"
@@ -91,19 +92,6 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
-
-        <service
-            android:name=".widget.GithubWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
-
-        <receiver android:name=".widget.GithubWidgetProvider">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_metadata_github" />
-        </receiver>
 
     </application>
 
