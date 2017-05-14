@@ -33,7 +33,7 @@ the project root directory. See these StackOverflow answers ([link](http://stack
 
 ## License
 
-Copyright 2016 Dmitry Malkovich
+Copyright 2017 Dmitry Malkovich
     
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
