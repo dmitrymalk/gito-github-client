@@ -7,10 +7,12 @@ android:
     - platform-tools
     - build-tools-22.0.1
     - android-22
-    - sys-img-armeabi-v7a-android-22
+    - addon
+    - extra
     - extra-android-support
     - extra-android-m2repository
     - extra-google-m2repository
+    - sys-img-armeabi-v7a-android-22
 
   licenses:
     - '.+'
@@ -23,4 +25,5 @@ android:
     - ./ci/wait_for_emulator
     - adb shell input keyevent 82 &
 
-  script: ./gradlew connectedAndroidTest
+  # script: ./gradlew connectedAndroidTest
+  script: ./gradlew assembleDebug
