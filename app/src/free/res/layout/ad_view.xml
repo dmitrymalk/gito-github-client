@@ -19,4 +19,4 @@
     android:layout_centerHorizontal="true"
     android:layout_marginTop="@dimen/ad_banner_top_padding"
     ads:adSize="BANNER"
-    ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
+    ads:adUnitId="@string/banner_ad_unit_id"/>
