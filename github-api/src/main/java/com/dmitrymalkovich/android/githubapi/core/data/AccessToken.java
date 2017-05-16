@@ -17,11 +17,6 @@ package com.dmitrymalkovich.android.githubapi.core.data;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Credit to https://futurestud.io/tutorials/oauth-2-on-android-with-retrofit
- * <p>
- * OAuth GitHub API: https://developer.github.com/v3/oauth/
- */
 @SuppressWarnings("all")
 public class AccessToken {
 
