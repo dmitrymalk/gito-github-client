@@ -39,9 +39,9 @@ import retrofit2.http.Query;
  */
 public interface GithubService {
 
-    String clientId = "e0bcea9f880637cd0e7a";
+    String clientId = "";
     String clientSecret = "";
-    String redirectUri = "";
+    String redirectUri = "githubanalytics://auth";
 
     @FormUrlEncoded
     @POST("/login/oauth//access_token")
