@@ -21,8 +21,8 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
-import com.dmitrymalkovich.android.githubapi.core.gson.Views;
+import com.dmitrymalkovich.android.githubapi.core.time.TimeConverter;
+import com.dmitrymalkovich.android.githubapi.core.data.Views;
 
 /**
  * https://developer.github.com/v3/repos/traffic/

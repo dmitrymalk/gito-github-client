@@ -21,8 +21,8 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
-import com.dmitrymalkovich.android.githubapi.core.gson.Star;
+import com.dmitrymalkovich.android.githubapi.core.time.TimeConverter;
+import com.dmitrymalkovich.android.githubapi.core.data.Star;
 
 public class StargazersContract {
     public static final String LOG_TAG = StargazersContract.class.getSimpleName();

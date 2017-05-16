@@ -16,12 +16,12 @@
 package com.dmitrymalkovich.android.githubanalytics.data.source;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
-import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
-import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
-import com.dmitrymalkovich.android.githubapi.core.gson.Star;
-import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
-import com.dmitrymalkovich.android.githubapi.core.gson.User;
-import com.dmitrymalkovich.android.githubapi.core.gson.Views;
+import com.dmitrymalkovich.android.githubapi.core.data.Clones;
+import com.dmitrymalkovich.android.githubapi.core.data.ReferringSite;
+import com.dmitrymalkovich.android.githubapi.core.data.Star;
+import com.dmitrymalkovich.android.githubapi.core.data.TrendingRepository;
+import com.dmitrymalkovich.android.githubapi.core.data.User;
+import com.dmitrymalkovich.android.githubapi.core.data.Views;
 
 import org.eclipse.egit.github.core.Repository;
 

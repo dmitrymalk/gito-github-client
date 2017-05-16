@@ -19,11 +19,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
-import com.dmitrymalkovich.android.githubapi.core.service.GithubService;
-import com.dmitrymalkovich.android.githubapi.core.service.GithubServiceGenerator;
+import com.dmitrymalkovich.android.githubapi.core.GithubService;
+
+import static com.dmitrymalkovich.android.githubapi.core.Service.API_URL_AUTH;
 
 class WelcomePresenter implements WelcomeContract.Presenter {
 
@@ -40,7 +42,7 @@ class WelcomePresenter implements WelcomeContract.Presenter {
     }
 
     @Override
-    public void start(Bundle savedinstanceState) {
+    public void start(Bundle savedInstanceState) {
         if (mGithubRepository.getToken() != null) {
             mWelcomeView.startDashboard();
         }
@@ -48,7 +50,7 @@ class WelcomePresenter implements WelcomeContract.Presenter {
 
     @Override
     public void oauthSignIn() {
-        Uri uri = Uri.parse(GithubServiceGenerator.API_URL_AUTH
+        Uri uri = Uri.parse(API_URL_AUTH
                 + "?client_id=" + GithubService.clientId
                 + "&redirect_uri=" + GithubService.redirectUri
                 // https://developer.github.com/v3/oauth/#scopes
@@ -64,7 +66,7 @@ class WelcomePresenter implements WelcomeContract.Presenter {
             String code = uri.getQueryParameter("code");
             if (code != null) {
                 mWelcomeView.setLoadingIndicator(true);
-
+                Log.d(LOG_TAG, "Code=" + code);
                 mGithubRepository.requestTokenFromCode(code, new GithubDataSource.RequestTokenFromCodeCallback() {
                     @Override
                     public void onTokenLoaded(String token, String tokenType) {

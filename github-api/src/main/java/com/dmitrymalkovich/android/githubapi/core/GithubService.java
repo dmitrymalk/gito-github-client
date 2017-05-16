@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dmitrymalkovich.android.githubapi.core.service;
+package com.dmitrymalkovich.android.githubapi.core;
 
-import com.dmitrymalkovich.android.githubapi.core.gson.AccessToken;
-import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
-import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
-import com.dmitrymalkovich.android.githubapi.core.gson.Star;
-import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
-import com.dmitrymalkovich.android.githubapi.core.gson.Views;
+import com.dmitrymalkovich.android.githubapi.core.data.AccessToken;
+import com.dmitrymalkovich.android.githubapi.core.data.Clones;
+import com.dmitrymalkovich.android.githubapi.core.data.ReferringSite;
+import com.dmitrymalkovich.android.githubapi.core.data.Star;
+import com.dmitrymalkovich.android.githubapi.core.data.TrendingRepository;
+import com.dmitrymalkovich.android.githubapi.core.data.Views;
 
 import java.util.List;
 
@@ -105,6 +105,4 @@ public interface GithubService {
             @Path("repo") String repo,
             @Query("page") String page
     );
-
-    // TODO : Get list forks: https://developer.github.com/v3/repos/forks/
 }

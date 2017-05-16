@@ -21,7 +21,7 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
+import com.dmitrymalkovich.android.githubapi.core.data.ReferringSite;
 
 /**
  * https://developer.github.com/v3/repos/traffic/

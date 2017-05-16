@@ -15,7 +15,7 @@
  */
 package com.dmitrymalkovich.android.githubanalytics.util;
 
-import com.dmitrymalkovich.android.githubapi.core.TimeConverter;
+import com.dmitrymalkovich.android.githubapi.core.time.TimeConverter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,7 +28,7 @@ public class TimeUtils {
     public static final String LOG_TAG = TimeUtils.class.getSimpleName();
 
     public static long today() {
-        Calendar c = new GregorianCalendar(TimeConverter.getTimeZone());
+        Calendar c = new GregorianCalendar(TimeConverter.getGitHubDefaultTimeZone());
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
@@ -38,7 +38,7 @@ public class TimeUtils {
     }
 
     public static long yesterday() {
-        Calendar c = new GregorianCalendar(TimeConverter.getTimeZone());
+        Calendar c = new GregorianCalendar(TimeConverter.getGitHubDefaultTimeZone());
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
@@ -48,7 +48,7 @@ public class TimeUtils {
     }
 
     public static long twoWeeksAgo() {
-        Calendar c = new GregorianCalendar(TimeConverter.getTimeZone());
+        Calendar c = new GregorianCalendar(TimeConverter.getGitHubDefaultTimeZone());
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
@@ -58,7 +58,7 @@ public class TimeUtils {
     }
 
     public static long weekAgo() {
-        Calendar c = new GregorianCalendar(TimeConverter.getTimeZone());
+        Calendar c = new GregorianCalendar(TimeConverter.getGitHubDefaultTimeZone());
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);

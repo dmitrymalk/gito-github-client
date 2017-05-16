@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dmitrymalkovich.android.githubapi.core.gson;
+package com.dmitrymalkovich.android.githubapi.core.data;
 
 import com.google.gson.annotations.SerializedName;
 

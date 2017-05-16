@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dmitrymalkovich.android.githubapi.core.service;
+package com.dmitrymalkovich.android.githubapi.core;
 
 import android.support.annotation.NonNull;
 
-import com.dmitrymalkovich.android.githubapi.core.gson.AccessToken;
+import com.dmitrymalkovich.android.githubapi.core.data.AccessToken;
+import com.dmitrymalkovich.android.githubapi.core.data.Star;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Converter;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -33,14 +40,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * <p>
  * OAuth GitHub API: https://developer.github.com/v3/oauth/
  */
-public class GithubServiceGenerator {
-
+public class Service {
     public static final String API_URL_AUTH = "https://github.com/login/oauth/authorize/";
-    public static final String API_HTTPS_BASE_URL = "https://api.github.com/";
+    static final String API_HTTPS_BASE_URL = "https://api.github.com/";
     private static final String API_BASE_URL = "https://github.com/";
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+    private AccessToken mAccessToken = new AccessToken();
 
-    public static <S> S createService(Class<S> serviceClass) {
+    Service() {
+    }
+
+    public Service setToken(String token) {
+        mAccessToken.setAccessToken(token);
+        return this;
+    }
+
+    public Service setTokenType(String tokenType) {
+        mAccessToken.setTokenType(tokenType);
+        return this;
+    }
+
+    AccessToken getAccessToken() {
+        return mAccessToken;
+    }
+
+    <S> S createService(Class<S> serviceClass) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         //interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
@@ -63,8 +87,8 @@ public class GithubServiceGenerator {
         return retrofit.create(serviceClass);
     }
 
-    public static <S> S createService(Class<S> serviceClass, @NonNull final AccessToken token,
-                                      String baseUrl, final String headerAccept) {
+    <S> S createService(Class<S> serviceClass, @NonNull final AccessToken token,
+                        String baseUrl, final String headerAccept) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         //interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = httpClient
@@ -87,5 +111,60 @@ public class GithubServiceGenerator {
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create()).client(client).build();
         return retrofit.create(serviceClass);
+    }
+
+    /**
+     * Client Errors: https://developer.github.com/v3/
+     */
+    @SuppressWarnings("all")
+    public static class APIError {
+
+        @SerializedName("message")
+        private String mMessage = "No internet connection";
+
+        public static APIError parseError(Response<?> response) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(API_HTTPS_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(new OkHttpClient.Builder().build()).build();
+
+            Converter<ResponseBody, APIError> converter =
+                    retrofit.responseBodyConverter(APIError.class, new Annotation[0]);
+
+            APIError error;
+
+            try {
+                error = converter.convert(response.errorBody());
+            } catch (IOException e) {
+                return new APIError();
+            }
+
+            return error;
+        }
+
+        public String getMessage() {
+            return mMessage;
+        }
+    }
+
+    public class Pagination {
+
+        public static final String LAST_PAGE = "last";
+        private static final String HEADER_LINK = "Link";
+        private int mLastPage;
+
+        public void parse(Response<List<Star>> response) {
+            String headerLink = response.headers().get(HEADER_LINK);
+            if (headerLink != null) {
+                headerLink = headerLink.replace(
+                        headerLink.substring(headerLink.lastIndexOf(">")), "");
+                mLastPage = Integer.valueOf(headerLink.replace(
+                        headerLink.substring(0, headerLink.lastIndexOf("=") + 1), ""));
+            }
+        }
+
+        int getLastPage() {
+            return mLastPage;
+        }
     }
 }

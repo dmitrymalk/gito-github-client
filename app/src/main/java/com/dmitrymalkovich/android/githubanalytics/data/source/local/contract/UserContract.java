@@ -21,7 +21,7 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.dmitrymalkovich.android.githubapi.core.gson.User;
+import com.dmitrymalkovich.android.githubapi.core.data.User;
 
 public class UserContract {
     public static final String CONTENT_AUTHORITY = "com.dmitrymalkovich.android.githubanalytics.data";

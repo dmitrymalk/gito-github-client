@@ -26,14 +26,14 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocal
 import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
 import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 import com.dmitrymalkovich.android.githubapi.GitHubAPI;
-import com.dmitrymalkovich.android.githubapi.core.gson.AccessToken;
-import com.dmitrymalkovich.android.githubapi.core.gson.Clones;
-import com.dmitrymalkovich.android.githubapi.core.gson.ReferringSite;
-import com.dmitrymalkovich.android.githubapi.core.gson.Star;
-import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
-import com.dmitrymalkovich.android.githubapi.core.gson.User;
-import com.dmitrymalkovich.android.githubapi.core.gson.Views;
-import com.dmitrymalkovich.android.githubapi.core.pagination.Pagination;
+import com.dmitrymalkovich.android.githubapi.core.Service;
+import com.dmitrymalkovich.android.githubapi.core.data.AccessToken;
+import com.dmitrymalkovich.android.githubapi.core.data.Clones;
+import com.dmitrymalkovich.android.githubapi.core.data.ReferringSite;
+import com.dmitrymalkovich.android.githubapi.core.data.Star;
+import com.dmitrymalkovich.android.githubapi.core.data.TrendingRepository;
+import com.dmitrymalkovich.android.githubapi.core.data.User;
+import com.dmitrymalkovich.android.githubapi.core.data.Views;
 import com.google.firebase.crash.FirebaseCrash;
 
 import org.eclipse.egit.github.core.Repository;
@@ -493,7 +493,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     .setToken(getToken())
                     .setTokenType(getTokenType())
                     .setRepository(repository)
-                    .setPage(Pagination.LAST_PAGE)
+                    .setPage(Service.Pagination.LAST_PAGE)
                     .setDate(TimeUtils.twoWeeksAgo())
                     .getStars();
             mLocalDataSource.saveStargazers(repository, stars);

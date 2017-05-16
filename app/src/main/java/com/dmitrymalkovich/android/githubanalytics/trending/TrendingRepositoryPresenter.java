@@ -27,7 +27,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.LoaderProvider;
-import com.dmitrymalkovich.android.githubapi.core.gson.TrendingRepository;
+import com.dmitrymalkovich.android.githubapi.core.data.TrendingRepository;
 
 import java.util.List;
 

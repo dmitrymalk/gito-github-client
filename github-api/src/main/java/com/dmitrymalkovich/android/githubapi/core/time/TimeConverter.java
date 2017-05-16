@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dmitrymalkovich.android.githubapi.core;
+package com.dmitrymalkovich.android.githubapi.core.time;
 
 import android.util.Log;
 
@@ -38,7 +38,7 @@ public class TimeConverter {
         return timeInMilliseconds;
     }
 
-    public static TimeZone getTimeZone() {
+    public static TimeZone getGitHubDefaultTimeZone() {
         return TimeZone.getTimeZone("GMT");
     }
 }

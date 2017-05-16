@@ -13,31 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dmitrymalkovich.android.githubapi.core.gson;
+package com.dmitrymalkovich.android.githubapi.core.data;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Credit to https://futurestud.io/tutorials/oauth-2-on-android-with-retrofit
+ * <p>
+ * OAuth GitHub API: https://developer.github.com/v3/oauth/
+ */
 @SuppressWarnings("all")
-public class ReferringSite {
+public class AccessToken {
 
-    @SerializedName("referrer")
-    private String mReferrer;
+    @SerializedName("access_token")
+    private String mAccessToken;
+    @SerializedName("token_type")
+    private String mTokenType;
 
-    @SerializedName("count")
-    private int mCount;
-
-    @SerializedName("uniques")
-    private int mUniques;
-
-    public String getReferrer() {
-        return mReferrer;
+    public String getToken() {
+        return mAccessToken;
     }
 
-    public int getCount() {
-        return mCount;
+    public String getTokenType() {
+        return mTokenType;
     }
 
-    public int getUniques() {
-        return mUniques;
+    public void setTokenType(String tokenType) {
+        this.mTokenType = tokenType;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.mAccessToken = accessToken;
     }
 }
