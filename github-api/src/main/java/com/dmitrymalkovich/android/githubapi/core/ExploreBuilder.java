@@ -36,9 +36,6 @@ public class ExploreBuilder {
     private String mLanguage;
     private String mPeriod;
 
-    public ExploreBuilder() {
-    }
-
     public ExploreBuilder setLanguage(String language) {
         mLanguage = language;
         return this;

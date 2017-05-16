@@ -27,9 +27,6 @@ public class AuthenticationBuilder extends Service{
 
     private String mCode;
 
-    public AuthenticationBuilder() {
-    }
-
     public AuthenticationBuilder setCode(String code) {
         mCode = code;
         return this;

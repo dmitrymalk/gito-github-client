@@ -21,9 +21,6 @@ import java.io.IOException;
 
 public class UserService extends Service {
 
-    public UserService() {
-    }
-
     public UserService setToken(String token) {
         return (UserService) super.setToken(token);
     }

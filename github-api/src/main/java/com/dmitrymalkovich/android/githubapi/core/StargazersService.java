@@ -35,9 +35,6 @@ public class StargazersService extends Service {
     private String mPage;
     private long mDate;
 
-    public StargazersService() {
-    }
-
     public StargazersService setToken(String token) {
         return (StargazersService) super.setToken(token);
     }

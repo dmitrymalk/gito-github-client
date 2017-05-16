@@ -32,9 +32,6 @@ public class TrafficService extends Service {
     private String mRepositoryName;
     private String mPeriod;
 
-    public TrafficService() {
-    }
-
     public TrafficService setToken(String token) {
         return (TrafficService) super.setToken(token);
     }

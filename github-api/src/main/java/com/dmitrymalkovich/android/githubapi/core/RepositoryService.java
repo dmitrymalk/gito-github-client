@@ -24,9 +24,6 @@ import java.util.List;
 
 public class RepositoryService extends Service {
 
-    public RepositoryService() {
-    }
-
     public RepositoryService setToken(String token) {
         return (RepositoryService) super.setToken(token);
     }
