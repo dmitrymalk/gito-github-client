@@ -37,7 +37,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
-import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
+import com.dmitrymalkovich.android.githubanalytics.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -149,7 +149,7 @@ public class TrendingRepositoryFragment extends Fragment implements TrendingRepo
                 && mProgressBar.getVisibility() != View.VISIBLE && active) {
             mEmptyState.setVisibility(View.VISIBLE);
 
-            if (!ActivityUtils.isNetworkAvailable()) {
+            if (!Utils.isNetworkAvailable()) {
                 mEmptyStateTextView.setText(R.string.no_internet_connection);
             } else {
                 mEmptyStateTextView.setText(R.string.trending_empty_view_title);

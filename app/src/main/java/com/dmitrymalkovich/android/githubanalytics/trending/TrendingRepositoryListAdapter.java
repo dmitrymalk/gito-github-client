@@ -28,7 +28,7 @@ import com.bumptech.glide.Glide;
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
-import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
+import com.dmitrymalkovich.android.githubanalytics.CursorRecyclerViewAdapter;
 
 class TrendingRepositoryListAdapter extends CursorRecyclerViewAdapter<TrendingRepositoryListAdapter.ViewHolder> {
 

@@ -48,7 +48,7 @@ import com.dmitrymalkovich.android.githubanalytics.repositories.PublicRepository
 import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
 import com.dmitrymalkovich.android.githubanalytics.trending.TrendingRepositoryFragment;
 import com.dmitrymalkovich.android.githubanalytics.trending.TrendingRepositoryPresenter;
-import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
+import com.dmitrymalkovich.android.githubanalytics.Utils;
 import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 
@@ -150,11 +150,11 @@ public class NavigationViewActivity extends AppCompatActivity
                 } else if (id == R.id.nav_repositories) {
                     showRepositories();
                 } else if (id == R.id.nav_settings) {
-                    ActivityUtils.openSettings(NavigationViewActivity.this);
+                    Utils.openSettings(NavigationViewActivity.this);
                 } else if (id == R.id.nav_trending) {
                     showTrendingRepositories();
                 } else if (id == R.id.nav_feedback) {
-                    ActivityUtils.openFeedback(NavigationViewActivity.this);
+                    Utils.openFeedback(NavigationViewActivity.this);
                 } else if (id == R.id.nav_sign_out) {
                     signOut();
                 }
@@ -202,7 +202,7 @@ public class NavigationViewActivity extends AppCompatActivity
             dashboardFragment = (DashboardFragment) fragment;
         } else {
             dashboardFragment = DashboardFragment.newInstance();
-            ActivityUtils.replaceFragment(getSupportFragmentManager(),
+            Utils.replaceFragment(getSupportFragmentManager(),
                     dashboardFragment, R.id.content_navigation_view);
         }
         new DashboardPresenter(
@@ -222,7 +222,7 @@ public class NavigationViewActivity extends AppCompatActivity
             publicRepositoriesFragment = (PublicRepositoryFragment) fragment;
         } else {
             publicRepositoriesFragment = PublicRepositoryFragment.newInstance();
-            ActivityUtils.replaceFragment(getSupportFragmentManager(),
+            Utils.replaceFragment(getSupportFragmentManager(),
                     publicRepositoriesFragment, R.id.content_navigation_view);
         }
         new PublicRepositoryPresenter(
@@ -242,7 +242,7 @@ public class NavigationViewActivity extends AppCompatActivity
             trendingRepositoryFragment = (TrendingRepositoryFragment) fragment;
         } else {
             trendingRepositoryFragment = TrendingRepositoryFragment.newInstance();
-            ActivityUtils.replaceFragment(getSupportFragmentManager(),
+            Utils.replaceFragment(getSupportFragmentManager(),
                     trendingRepositoryFragment, R.id.content_navigation_view);
         }
         new TrendingRepositoryPresenter(

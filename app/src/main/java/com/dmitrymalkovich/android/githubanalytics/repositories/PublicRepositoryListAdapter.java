@@ -26,8 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
-import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
+import com.dmitrymalkovich.android.githubanalytics.CursorRecyclerViewAdapter;
+import com.dmitrymalkovich.android.githubanalytics.Utils;
 
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_DESCRIPTION;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_REPOSITORY_FORK;
@@ -93,7 +93,7 @@ class PublicRepositoryListAdapter extends CursorRecyclerViewAdapter<PublicReposi
                 ? View.VISIBLE : View.GONE);
         holder.languageView.setVisibility(holder.languageIconView.getVisibility() == View.VISIBLE
                 ? View.VISIBLE : View.GONE);
-        holder.languageIconView.setBackgroundDrawable(DrawableUtils.getColor(context, language));
+        holder.languageIconView.setBackgroundDrawable(Utils.getColor(context, language));
     }
 
     @SuppressWarnings("deprecation")

@@ -33,7 +33,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
+import com.dmitrymalkovich.android.githubanalytics.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -135,7 +135,7 @@ public class PublicRepositoryFragment extends Fragment implements PublicReposito
                 && this.mAdapter.getItemCount() == 0) {
             mEmptyStateView.setVisibility(View.VISIBLE);
 
-            if (!ActivityUtils.isNetworkAvailable()) {
+            if (!Utils.isNetworkAvailable()) {
                 mEmptyStateTextView.setText(R.string.no_internet_connection);
             } else {
                 mEmptyStateTextView.setText(R.string.repositories_empty_view_title);

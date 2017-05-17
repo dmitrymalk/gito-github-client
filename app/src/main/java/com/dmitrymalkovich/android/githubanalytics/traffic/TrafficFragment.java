@@ -42,9 +42,7 @@ import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.Cl
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
 import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
-import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
-import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
-import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
+import com.dmitrymalkovich.android.githubanalytics.Utils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -179,7 +177,7 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         if (mEmptyState != null) {
             mEmptyState.setVisibility(active ? View.VISIBLE : View.GONE);
 
-            if (!ActivityUtils.isNetworkAvailable()) {
+            if (!Utils.isNetworkAvailable()) {
                 mEmptyStateTextView.setText(R.string.no_internet_connection);
             } else {
                 mEmptyStateTextView.setText(R.string.dashboard_empty_view_title);
@@ -214,7 +212,7 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         mStarsTotalView.setText(stars);
         mTotalForksView.setText(forks);
         mLanguageView.setText(language);
-        mLanguageIconView.setBackgroundDrawable(DrawableUtils.getColor(getContext(), language));
+        mLanguageIconView.setBackgroundDrawable(Utils.getColor(getContext(), language));
         mLanguageIconView.setVisibility(mLanguageView.getText() != null && mLanguageView.getText().length() != 0 ? View.VISIBLE : View.GONE);
         mLanguageView.setVisibility(mLanguageIconView.getVisibility() == View.VISIBLE ? View.VISIBLE : View.GONE);
 
@@ -331,7 +329,7 @@ public class TrafficFragment extends Fragment implements TrafficContract.View {
         xAxis.setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return TimeUtils.humanReadable((long) value);
+                return Utils.humanReadable((long) value);
             }
 
             @Override

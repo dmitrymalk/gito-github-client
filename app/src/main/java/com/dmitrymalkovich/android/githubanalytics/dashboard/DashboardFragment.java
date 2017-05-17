@@ -34,7 +34,7 @@ import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.traffic.TrafficAdActivity;
-import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
+import com.dmitrymalkovich.android.githubanalytics.Utils;
 import com.dmitrymalkovich.android.githubanalytics.welcome.WelcomeActivity;
 
 import butterknife.BindView;
@@ -152,7 +152,7 @@ public class DashboardFragment extends Fragment implements DashboardContract.Vie
                 && this.mAdapter.getItemCount() == 0) {
             mEmptyStateView.setVisibility(View.VISIBLE);
 
-            if (!ActivityUtils.isNetworkAvailable()) {
+            if (!Utils.isNetworkAvailable()) {
                 mEmptyStateTextView.setText(R.string.no_internet_connection);
             } else {
                 mEmptyStateTextView.setText(R.string.dashboard_empty_view_title);

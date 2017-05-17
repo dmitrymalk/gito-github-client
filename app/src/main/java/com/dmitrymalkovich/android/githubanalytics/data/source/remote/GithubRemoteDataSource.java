@@ -23,8 +23,7 @@ import android.util.Log;
 
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubDataSource;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.GithubLocalDataSource;
-import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
-import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
+import com.dmitrymalkovich.android.githubanalytics.Utils;
 import com.dmitrymalkovich.android.githubapi.GitHubAPI;
 import com.dmitrymalkovich.android.githubapi.core.Service;
 import com.dmitrymalkovich.android.githubapi.core.data.AccessToken;
@@ -83,12 +82,12 @@ public class GithubRemoteDataSource implements GithubDataSource {
             if (e.getStatus() == 401) {
                 saveToken(null, null);
             }
-            if (ActivityUtils.isNetworkAvailable()) {
+            if (Utils.isNetworkAvailable()) {
                 FirebaseCrash.report(e);
             }
             return null;
         } catch (IOException e) {
-            if (ActivityUtils.isNetworkAvailable()) {
+            if (Utils.isNetworkAvailable()) {
                 FirebaseCrash.report(e);
             }
             return null;
@@ -245,7 +244,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             return views;
 
         } catch (IOException e) {
-            if (ActivityUtils.isNetworkAvailable()) {
+            if (Utils.isNetworkAvailable()) {
                 FirebaseCrash.report(e);
             }
             return null;
@@ -262,7 +261,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             mLocalDataSource.saveUser(user);
 
         } catch (IOException e) {
-            if (ActivityUtils.isNetworkAvailable()) {
+            if (Utils.isNetworkAvailable()) {
                 FirebaseCrash.report(e);
             }
         }
@@ -341,7 +340,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
             mLocalDataSource.saveReferringSites(repository.getId(), referringSites);
             return referringSites;
         } catch (IOException e) {
-            if (ActivityUtils.isNetworkAvailable()) {
+            if (Utils.isNetworkAvailable()) {
                 FirebaseCrash.report(e);
             }
             return null;
@@ -450,7 +449,7 @@ public class GithubRemoteDataSource implements GithubDataSource {
                             .setToken(getToken())
                             .getUser();
                 } catch (IOException e) {
-                    if (ActivityUtils.isNetworkAvailable()) {
+                    if (Utils.isNetworkAvailable()) {
                         FirebaseCrash.report(e);
                     }
                 }
@@ -494,12 +493,12 @@ public class GithubRemoteDataSource implements GithubDataSource {
                     .setTokenType(getTokenType())
                     .setRepository(repository)
                     .setPage(Service.Pagination.LAST_PAGE)
-                    .setDate(TimeUtils.twoWeeksAgo())
+                    .setDate(Utils.twoWeeksAgo())
                     .getStars();
             mLocalDataSource.saveStargazers(repository, stars);
             return stars;
         } catch (IOException e) {
-            if (ActivityUtils.isNetworkAvailable()) {
+            if (Utils.isNetworkAvailable()) {
                 FirebaseCrash.report(e);
             }
             return null;

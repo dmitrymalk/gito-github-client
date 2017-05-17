@@ -22,7 +22,7 @@ import android.support.v7.widget.Toolbar;
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.GithubRepository;
 import com.dmitrymalkovich.android.githubanalytics.settings.SettingsActivity;
-import com.dmitrymalkovich.android.githubanalytics.util.ActivityUtils;
+import com.dmitrymalkovich.android.githubanalytics.Utils;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -45,7 +45,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         if (welcomeFragment == null) {
             welcomeFragment = WelcomeFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
+            Utils.addFragmentToActivity(getSupportFragmentManager(),
                     welcomeFragment, R.id.contentFrame);
         }
 

@@ -26,8 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
-import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
-import com.dmitrymalkovich.android.githubanalytics.util.DrawableUtils;
+import com.dmitrymalkovich.android.githubanalytics.CursorRecyclerViewAdapter;
+import com.dmitrymalkovich.android.githubanalytics.Utils;
 
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_COUNT;
 import static com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract.RepositoryEntry.COL_CLONES_UNIQUES_TWO_WEEKS;
@@ -121,7 +121,7 @@ class DashboardListAdapter extends CursorRecyclerViewAdapter<DashboardListAdapte
         holder.totalForksView.setText(cursor.getString(COL_REPOSITORY_FORKS));
         String language = cursor.getString(COL_REPOSITORY_LANGUAGE);
         holder.languageView.setText(language);
-        holder.languageIconView.setBackgroundDrawable(DrawableUtils.getColor(context, language));
+        holder.languageIconView.setBackgroundDrawable(Utils.getColor(context, language));
         holder.languageIconView.setVisibility(holder.languageView.getText() != null
                 && holder.languageView.getText().length() != 0
                 ? View.VISIBLE : View.GONE);

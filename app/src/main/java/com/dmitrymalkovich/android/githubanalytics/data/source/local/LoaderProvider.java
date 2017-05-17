@@ -21,13 +21,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
+import com.dmitrymalkovich.android.githubanalytics.Utils;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ClonesContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.RepositoryContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.TrendingContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.UserContract;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ViewsContract;
-import com.dmitrymalkovich.android.githubanalytics.util.TimeUtils;
 
 public class LoaderProvider {
 
@@ -65,7 +65,7 @@ public class LoaderProvider {
                 ClonesContract.ClonesEntry.CLONES_COLUMNS,
                 ClonesContract.ClonesEntry.TABLE_NAME + "."
                         + ClonesContract.ClonesEntry.COLUMN_REPOSITORY_KEY + " = ? AND " +
-                        ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP + " >= " + TimeUtils.weekAgo(),
+                        ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP + " >= " + Utils.weekAgo(),
                 new String[]{String.valueOf(repositoryId)}, null
         );
     }
@@ -76,7 +76,7 @@ public class LoaderProvider {
                 ViewsContract.ViewsEntry.CONTENT_URI,
                 ViewsContract.ViewsEntry.VIEWS_COLUMNS,
                 ViewsContract.ViewsEntry.COLUMN_REPOSITORY_KEY + " = ? AND " +
-                        ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP + " >= " + TimeUtils.weekAgo(),
+                        ViewsContract.ViewsEntry.COLUMN_VIEWS_TIMESTAMP + " >= " + Utils.weekAgo(),
                 new String[]{String.valueOf(repositoryId)}, null
         );
     }

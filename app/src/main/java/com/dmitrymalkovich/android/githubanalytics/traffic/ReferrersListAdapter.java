@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.dmitrymalkovich.android.githubanalytics.R;
 import com.dmitrymalkovich.android.githubanalytics.data.source.local.contract.ReferrerContract;
-import com.dmitrymalkovich.android.githubanalytics.util.CursorRecyclerViewAdapter;
+import com.dmitrymalkovich.android.githubanalytics.CursorRecyclerViewAdapter;
 
 class ReferrersListAdapter extends CursorRecyclerViewAdapter<ReferrersListAdapter.ViewHolder> {
 
