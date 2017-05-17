@@ -1,7 +1,7 @@
 # Gito - GitHub Client
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e58cfe7096244fe6bd4b4f6c07a27f5e)](https://www.codacy.com/app/DmitryMalkovich/gito-github-client?utm_source=github.com&utm_medium=referral&utm_content=DmitryMalkovich/gito-github-client&utm_campaign=badger)
-[![Crates.io](https://img.shields.io/crates/l/rustc-serialize.svg?maxAge=2592000)]() [![Build Status](https://travis-ci.org/DmitryMalkovich/gito-github-client.svg?branch=master)](https://travis-ci.org/DmitryMalkovich/gito-github-client)
+[![Crates.io](https://img.shields.io/crates/l/rustc-serialize.svg?maxAge=2592000)]()
 
 <img width="25%" vspace="0" hspace="0" src="https://cloud.githubusercontent.com/assets/2931932/23332693/df76b13a-fb8e-11e6-9d5f-79edc6aa521c.png" />
 
@@ -11,9 +11,6 @@ The non-official GitHub mobile app helps you monitor stars and traffic of your p
 * See number visitors and clones of your repositories
 * Explore trending repositories 
 * No ads
-
-See the Google+ community to get early dev updates:
-https://plus.google.com/communities/106373382024164307474
 
 <img width="25%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/23332696/e3400c6c-fb8e-11e6-8235-f27a65ba5bc3.png" />	 <img width="25%" vspace="0" hspace="0"  src="https://cloud.githubusercontent.com/assets/2931932/23332698/e5639b6c-fb8e-11e6-9d34-102001ee263a.png" />
 
